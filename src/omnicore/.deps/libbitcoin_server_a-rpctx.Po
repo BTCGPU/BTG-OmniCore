@@ -1,5 +1,5 @@
 omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
- /usr/include/stdc-predef.h omnicore/rpctx.h univalue/include/univalue.h \
+ /usr/include/stdc-predef.h omnicore/rpctx.h rpc/server.h amount.h \
  /usr/lib/gcc/x86_64-linux-gnu/7/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -11,8 +11,18 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
- /usr/include/c++/7/string \
+ /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h rpc/protocol.h fs.h \
+ /usr/include/stdio.h /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/libio.h \
+ /usr/include/x86_64-linux-gnu/bits/_G_config.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/c++/7/string \
  /usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h \
  /usr/include/x86_64-linux-gnu/c++/7/bits/cpu_defines.h \
@@ -35,13 +45,8 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/c++/7/bits/postypes.h /usr/include/c++/7/cwchar \
  /usr/include/wchar.h /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
- /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h \
- /usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
- /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/wchar2.h /usr/include/c++/7/cstdint \
@@ -107,95 +112,25 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
  /usr/include/c++/7/bits/std_abs.h /usr/include/c++/7/cstdio \
- /usr/include/stdio.h /usr/include/x86_64-linux-gnu/bits/libio.h \
- /usr/include/x86_64-linux-gnu/bits/_G_config.h \
- /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
- /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
- /usr/include/x86_64-linux-gnu/bits/stdio.h \
- /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/c++/7/cerrno \
- /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
- /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
+ /usr/include/c++/7/cerrno /usr/include/errno.h \
+ /usr/include/x86_64-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
+ /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/c++/7/bits/functional_hash.h \
- /usr/include/c++/7/bits/basic_string.tcc /usr/include/c++/7/vector \
- /usr/include/c++/7/bits/stl_construct.h \
- /usr/include/c++/7/bits/stl_uninitialized.h \
- /usr/include/c++/7/bits/stl_vector.h \
- /usr/include/c++/7/bits/stl_bvector.h /usr/include/c++/7/bits/vector.tcc \
- /usr/include/c++/7/map /usr/include/c++/7/bits/stl_tree.h \
- /usr/include/c++/7/ext/aligned_buffer.h \
- /usr/include/c++/7/bits/stl_map.h /usr/include/c++/7/tuple \
- /usr/include/c++/7/utility /usr/include/c++/7/bits/stl_relops.h \
- /usr/include/c++/7/array /usr/include/c++/7/stdexcept \
- /usr/include/c++/7/bits/uses_allocator.h \
- /usr/include/c++/7/bits/invoke.h /usr/include/c++/7/bits/stl_multimap.h \
- /usr/include/c++/7/cassert /usr/include/assert.h \
- /usr/include/c++/7/sstream /usr/include/c++/7/istream \
- /usr/include/c++/7/ios /usr/include/c++/7/bits/ios_base.h \
- /usr/include/c++/7/bits/locale_classes.h \
- /usr/include/c++/7/bits/locale_classes.tcc \
- /usr/include/c++/7/system_error \
- /usr/include/x86_64-linux-gnu/c++/7/bits/error_constants.h \
- /usr/include/c++/7/streambuf /usr/include/c++/7/bits/streambuf.tcc \
- /usr/include/c++/7/bits/basic_ios.h \
- /usr/include/c++/7/bits/locale_facets.h /usr/include/c++/7/cwctype \
- /usr/include/wctype.h /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
- /usr/include/x86_64-linux-gnu/c++/7/bits/ctype_base.h \
- /usr/include/c++/7/bits/streambuf_iterator.h \
- /usr/include/x86_64-linux-gnu/c++/7/bits/ctype_inline.h \
- /usr/include/c++/7/bits/locale_facets.tcc \
- /usr/include/c++/7/bits/basic_ios.tcc /usr/include/c++/7/ostream \
- /usr/include/c++/7/bits/ostream.tcc /usr/include/c++/7/bits/istream.tcc \
- /usr/include/c++/7/bits/sstream.tcc omnicore/omnicore.h omnicore/log.h \
- util.h config/bitcoin-config.h compat.h \
- /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
- /usr/include/x86_64-linux-gnu/bits/fcntl.h \
- /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
- /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
- /usr/include/x86_64-linux-gnu/bits/fcntl2.h \
- /usr/include/x86_64-linux-gnu/sys/mman.h \
- /usr/include/x86_64-linux-gnu/bits/mman.h \
- /usr/include/x86_64-linux-gnu/bits/mman-linux.h \
- /usr/include/x86_64-linux-gnu/bits/mman-shared.h \
- /usr/include/x86_64-linux-gnu/sys/socket.h \
- /usr/include/x86_64-linux-gnu/bits/socket.h \
- /usr/include/x86_64-linux-gnu/bits/socket_type.h \
- /usr/include/x86_64-linux-gnu/bits/sockaddr.h \
- /usr/include/x86_64-linux-gnu/asm/socket.h \
- /usr/include/asm-generic/socket.h \
- /usr/include/x86_64-linux-gnu/asm/sockios.h \
- /usr/include/asm-generic/sockios.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
- /usr/include/x86_64-linux-gnu/bits/socket2.h /usr/include/net/if.h \
- /usr/include/netinet/in.h /usr/include/x86_64-linux-gnu/bits/in.h \
- /usr/include/netinet/tcp.h /usr/include/arpa/inet.h \
- /usr/include/ifaddrs.h \
- /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/limits.h \
- /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/syslimits.h \
- /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
- /usr/include/x86_64-linux-gnu/bits/local_lim.h \
- /usr/include/linux/limits.h \
- /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
- /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
- /usr/include/x86_64-linux-gnu/bits/uio_lim.h /usr/include/netdb.h \
- /usr/include/rpc/netdb.h \
- /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h \
- /usr/include/x86_64-linux-gnu/bits/netdb.h /usr/include/unistd.h \
- /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
- /usr/include/x86_64-linux-gnu/bits/environments.h \
- /usr/include/x86_64-linux-gnu/bits/confname.h \
- /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
- /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
- /usr/include/x86_64-linux-gnu/bits/unistd.h fs.h \
+ /usr/include/c++/7/bits/basic_string.tcc \
  /usr/include/boost/filesystem.hpp \
  /usr/include/boost/filesystem/config.hpp /usr/include/boost/config.hpp \
  /usr/include/boost/config/user.hpp \
  /usr/include/boost/config/detail/select_compiler_config.hpp \
  /usr/include/boost/config/compiler/gcc.hpp /usr/include/c++/7/cstddef \
  /usr/include/boost/config/detail/select_stdlib_config.hpp \
- /usr/include/boost/config/stdlib/libstdcpp3.hpp \
+ /usr/include/boost/config/stdlib/libstdcpp3.hpp /usr/include/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/x86_64-linux-gnu/bits/environments.h \
+ /usr/include/x86_64-linux-gnu/bits/confname.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd.h \
  /usr/include/boost/config/detail/select_platform_config.hpp \
  /usr/include/boost/config/platform/linux.hpp \
  /usr/include/boost/config/detail/posix_features.hpp \
@@ -236,16 +171,43 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/boost/predef/platform/windows_runtime.h \
  /usr/include/boost/predef/platform/ios.h \
  /usr/include/boost/predef/os/ios.h /usr/include/boost/cstdint.hpp \
- /usr/include/boost/assert.hpp /usr/include/boost/noncopyable.hpp \
- /usr/include/boost/core/noncopyable.hpp /usr/include/c++/7/functional \
- /usr/include/c++/7/bits/std_function.h /usr/include/c++/7/bits/refwrap.h \
- /usr/include/boost/cerrno.hpp /usr/include/boost/config/abi_prefix.hpp \
- /usr/include/boost/config/abi_suffix.hpp /usr/include/c++/7/list \
- /usr/include/c++/7/bits/stl_list.h \
- /usr/include/c++/7/bits/allocated_ptr.h /usr/include/c++/7/bits/list.tcc \
- /usr/include/c++/7/iterator /usr/include/c++/7/bits/stream_iterator.h \
- /usr/include/c++/7/locale /usr/include/c++/7/bits/locale_facets_nonio.h \
- /usr/include/c++/7/ctime \
+ /usr/include/boost/assert.hpp /usr/include/assert.h \
+ /usr/include/boost/noncopyable.hpp \
+ /usr/include/boost/core/noncopyable.hpp /usr/include/c++/7/ostream \
+ /usr/include/c++/7/ios /usr/include/c++/7/bits/ios_base.h \
+ /usr/include/c++/7/bits/locale_classes.h \
+ /usr/include/c++/7/bits/locale_classes.tcc \
+ /usr/include/c++/7/system_error \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/error_constants.h \
+ /usr/include/c++/7/stdexcept /usr/include/c++/7/streambuf \
+ /usr/include/c++/7/bits/streambuf.tcc \
+ /usr/include/c++/7/bits/basic_ios.h \
+ /usr/include/c++/7/bits/locale_facets.h /usr/include/c++/7/cwctype \
+ /usr/include/wctype.h /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/ctype_base.h \
+ /usr/include/c++/7/bits/streambuf_iterator.h \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/ctype_inline.h \
+ /usr/include/c++/7/bits/locale_facets.tcc \
+ /usr/include/c++/7/bits/basic_ios.tcc \
+ /usr/include/c++/7/bits/ostream.tcc /usr/include/c++/7/functional \
+ /usr/include/c++/7/tuple /usr/include/c++/7/utility \
+ /usr/include/c++/7/bits/stl_relops.h /usr/include/c++/7/array \
+ /usr/include/c++/7/bits/uses_allocator.h \
+ /usr/include/c++/7/bits/invoke.h /usr/include/c++/7/bits/std_function.h \
+ /usr/include/c++/7/bits/refwrap.h /usr/include/boost/cerrno.hpp \
+ /usr/include/boost/config/abi_prefix.hpp \
+ /usr/include/boost/config/abi_suffix.hpp /usr/include/c++/7/vector \
+ /usr/include/c++/7/bits/stl_construct.h \
+ /usr/include/c++/7/bits/stl_uninitialized.h \
+ /usr/include/c++/7/bits/stl_vector.h \
+ /usr/include/c++/7/bits/stl_bvector.h /usr/include/c++/7/bits/vector.tcc \
+ /usr/include/c++/7/list /usr/include/c++/7/bits/stl_list.h \
+ /usr/include/c++/7/bits/allocated_ptr.h \
+ /usr/include/c++/7/ext/aligned_buffer.h /usr/include/c++/7/bits/list.tcc \
+ /usr/include/c++/7/iterator /usr/include/c++/7/istream \
+ /usr/include/c++/7/bits/istream.tcc \
+ /usr/include/c++/7/bits/stream_iterator.h /usr/include/c++/7/locale \
+ /usr/include/c++/7/bits/locale_facets_nonio.h /usr/include/c++/7/ctime \
  /usr/include/x86_64-linux-gnu/c++/7/bits/time_members.h \
  /usr/include/x86_64-linux-gnu/c++/7/bits/messages_members.h \
  /usr/include/libintl.h /usr/include/c++/7/bits/codecvt.h \
@@ -253,7 +215,7 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/c++/7/bits/locale_conv.h \
  /usr/include/c++/7/bits/stringfwd.h /usr/include/c++/7/bits/allocator.h \
  /usr/include/c++/7/bits/codecvt.h /usr/include/c++/7/bits/unique_ptr.h \
- /usr/include/boost/system/system_error.hpp \
+ /usr/include/boost/system/system_error.hpp /usr/include/c++/7/cassert \
  /usr/include/boost/iterator/iterator_facade.hpp \
  /usr/include/boost/iterator.hpp \
  /usr/include/boost/iterator/interoperable.hpp \
@@ -607,106 +569,118 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/x86_64-linux-gnu/c++/7/bits/c++io.h \
  /usr/include/c++/7/bits/fstream.tcc \
  /usr/include/boost/filesystem/detail/utf8_codecvt_facet.hpp \
- /usr/include/boost/detail/utf8_codecvt_facet.hpp sync.h threadsafety.h \
- /usr/include/boost/thread/condition_variable.hpp \
- /usr/include/boost/thread/detail/platform.hpp \
- /usr/include/boost/config/requires_threads.hpp \
- /usr/include/boost/thread/pthread/condition_variable.hpp \
- /usr/include/boost/thread/pthread/timespec.hpp \
- /usr/include/boost/thread/detail/config.hpp \
- /usr/include/boost/thread/thread_time.hpp \
- /usr/include/boost/date_time/time_clock.hpp \
- /usr/include/boost/date_time/c_time.hpp \
- /usr/include/boost/date_time/compiler_config.hpp \
- /usr/include/boost/date_time/locale_config.hpp \
- /usr/include/x86_64-linux-gnu/sys/time.h \
- /usr/include/boost/date_time/microsec_time_clock.hpp \
- /usr/include/boost/date_time/filetime_functions.hpp \
- /usr/include/boost/date_time/posix_time/posix_time_types.hpp \
- /usr/include/boost/date_time/posix_time/ptime.hpp \
- /usr/include/boost/date_time/posix_time/posix_time_system.hpp \
- /usr/include/boost/date_time/posix_time/posix_time_config.hpp \
- /usr/include/boost/limits.hpp /usr/include/boost/config/no_tr1/cmath.hpp \
- /usr/include/c++/7/cmath /usr/include/math.h \
- /usr/include/x86_64-linux-gnu/bits/math-vector.h \
- /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
- /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
- /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
- /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
- /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
- /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
- /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
- /usr/include/x86_64-linux-gnu/bits/mathinline.h \
- /usr/include/boost/date_time/time_duration.hpp \
- /usr/include/boost/operators.hpp \
- /usr/include/boost/date_time/time_defs.hpp \
- /usr/include/boost/date_time/special_defs.hpp \
- /usr/include/boost/date_time/time_resolution_traits.hpp \
- /usr/include/boost/date_time/int_adapter.hpp \
- /usr/include/boost/date_time/gregorian/gregorian_types.hpp \
- /usr/include/boost/date_time/date.hpp \
- /usr/include/boost/date_time/year_month_day.hpp \
- /usr/include/boost/date_time/period.hpp \
- /usr/include/boost/date_time/gregorian/greg_calendar.hpp \
- /usr/include/boost/date_time/gregorian/greg_weekday.hpp \
- /usr/include/boost/date_time/constrained_value.hpp \
+ /usr/include/boost/detail/utf8_codecvt_facet.hpp /usr/include/c++/7/map \
+ /usr/include/c++/7/bits/stl_tree.h /usr/include/c++/7/bits/stl_map.h \
+ /usr/include/c++/7/bits/stl_multimap.h univalue/include/univalue.h \
+ /usr/include/c++/7/sstream /usr/include/c++/7/bits/sstream.tcc uint256.h \
+ crypto/common.h ../src/config/bitcoin-config.h /usr/include/sodium.h \
+ /usr/include/sodium/version.h /usr/include/sodium/export.h \
+ /usr/include/sodium/core.h /usr/include/sodium/crypto_aead_aes256gcm.h \
+ /usr/include/sodium/crypto_aead_chacha20poly1305.h \
+ /usr/include/sodium/crypto_aead_xchacha20poly1305.h \
+ /usr/include/sodium/crypto_auth.h \
+ /usr/include/sodium/crypto_auth_hmacsha512256.h \
+ /usr/include/sodium/crypto_auth_hmacsha512.h \
+ /usr/include/sodium/crypto_hash_sha512.h /usr/include/c++/7/stdlib.h \
+ /usr/include/sodium/crypto_auth_hmacsha256.h \
+ /usr/include/sodium/crypto_hash_sha256.h \
+ /usr/include/sodium/crypto_auth_hmacsha512.h \
+ /usr/include/sodium/crypto_auth_hmacsha512256.h \
+ /usr/include/sodium/crypto_box.h \
+ /usr/include/sodium/crypto_box_curve25519xsalsa20poly1305.h \
+ /usr/include/sodium/crypto_stream_xsalsa20.h \
+ /usr/include/sodium/crypto_box_curve25519xsalsa20poly1305.h \
+ /usr/include/sodium/crypto_core_hsalsa20.h \
+ /usr/include/sodium/crypto_core_hchacha20.h \
+ /usr/include/sodium/crypto_core_salsa20.h \
+ /usr/include/sodium/crypto_core_salsa2012.h \
+ /usr/include/sodium/crypto_core_salsa208.h \
+ /usr/include/sodium/crypto_generichash.h \
+ /usr/include/sodium/crypto_generichash_blake2b.h \
+ /usr/include/sodium/crypto_generichash_blake2b.h \
+ /usr/include/sodium/crypto_hash.h \
+ /usr/include/sodium/crypto_hash_sha256.h \
+ /usr/include/sodium/crypto_hash_sha512.h \
+ /usr/include/sodium/crypto_kdf.h \
+ /usr/include/sodium/crypto_kdf_blake2b.h \
+ /usr/include/sodium/crypto_kdf_blake2b.h /usr/include/sodium/crypto_kx.h \
+ /usr/include/sodium/crypto_onetimeauth.h \
+ /usr/include/sodium/crypto_onetimeauth_poly1305.h \
+ /usr/include/sodium/crypto_onetimeauth_poly1305.h \
+ /usr/include/sodium/crypto_pwhash.h \
+ /usr/include/sodium/crypto_pwhash_argon2i.h \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/syslimits.h \
+ /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+ /usr/include/linux/limits.h \
+ /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+ /usr/include/sodium/crypto_pwhash_argon2id.h \
+ /usr/include/sodium/crypto_pwhash_argon2i.h \
+ /usr/include/sodium/crypto_scalarmult.h \
+ /usr/include/sodium/crypto_scalarmult_curve25519.h \
+ /usr/include/sodium/crypto_scalarmult_curve25519.h \
+ /usr/include/sodium/crypto_secretbox.h \
+ /usr/include/sodium/crypto_secretbox_xsalsa20poly1305.h \
+ /usr/include/sodium/crypto_secretbox_xsalsa20poly1305.h \
+ /usr/include/sodium/crypto_secretstream_xchacha20poly1305.h \
+ /usr/include/sodium/crypto_aead_xchacha20poly1305.h \
+ /usr/include/sodium/crypto_stream_chacha20.h \
+ /usr/include/sodium/crypto_shorthash.h \
+ /usr/include/sodium/crypto_shorthash_siphash24.h \
+ /usr/include/sodium/crypto_shorthash_siphash24.h \
+ /usr/include/sodium/crypto_sign.h \
+ /usr/include/sodium/crypto_sign_ed25519.h \
+ /usr/include/sodium/crypto_sign_ed25519.h \
+ /usr/include/sodium/crypto_stream.h \
+ /usr/include/sodium/crypto_stream_chacha20.h \
+ /usr/include/sodium/crypto_stream_salsa20.h \
+ /usr/include/sodium/crypto_stream_xsalsa20.h \
+ /usr/include/sodium/crypto_verify_16.h \
+ /usr/include/sodium/crypto_verify_32.h \
+ /usr/include/sodium/crypto_verify_64.h /usr/include/sodium/randombytes.h \
+ /usr/include/sodium/randombytes_salsa20_random.h \
+ /usr/include/sodium/randombytes.h \
+ /usr/include/sodium/randombytes_sysrandom.h \
+ /usr/include/sodium/runtime.h /usr/include/sodium/utils.h \
+ /usr/include/sodium/crypto_box_curve25519xchacha20poly1305.h \
+ /usr/include/sodium/crypto_stream_xchacha20.h \
+ /usr/include/sodium/crypto_core_ed25519.h \
+ /usr/include/sodium/crypto_scalarmult_ed25519.h \
+ /usr/include/sodium/crypto_secretbox_xchacha20poly1305.h \
+ /usr/include/sodium/crypto_pwhash_scryptsalsa208sha256.h \
+ /usr/include/sodium/crypto_stream_salsa2012.h \
+ /usr/include/sodium/crypto_stream_salsa208.h \
+ /usr/include/sodium/crypto_stream_xchacha20.h compat/endian.h \
+ config/bitcoin-config.h compat/byteswap.h /usr/include/byteswap.h \
+ wallet/wallet.h policy/feerate.h serialize.h compat/endian.h \
+ /usr/include/c++/7/set /usr/include/c++/7/bits/stl_set.h \
+ /usr/include/c++/7/bits/stl_multiset.h prevector.h streams.h \
+ support/allocators/zeroafterfree.h support/cleanse.h serialize.h \
+ tinyformat.h /usr/include/c++/7/iostream ui_interface.h \
+ /usr/include/boost/signals2/last_value.hpp \
+ /usr/include/boost/core/no_exceptions_support.hpp \
+ /usr/include/boost/optional.hpp /usr/include/boost/optional/optional.hpp \
+ /usr/include/boost/core/explicit_operator_bool.hpp \
+ /usr/include/boost/core/swap.hpp \
+ /usr/include/boost/optional/bad_optional_access.hpp \
+ /usr/include/boost/type.hpp \
+ /usr/include/boost/type_traits/alignment_of.hpp \
+ /usr/include/boost/type_traits/conditional.hpp \
+ /usr/include/boost/type_traits/has_nothrow_constructor.hpp \
+ /usr/include/boost/type_traits/is_default_constructible.hpp \
+ /usr/include/boost/type_traits/type_with_alignment.hpp \
  /usr/include/boost/type_traits/is_base_of.hpp \
  /usr/include/boost/type_traits/is_base_and_derived.hpp \
- /usr/include/boost/date_time/date_defs.hpp \
- /usr/include/boost/date_time/gregorian/greg_day_of_year.hpp \
- /usr/include/boost/date_time/gregorian_calendar.hpp \
- /usr/include/boost/date_time/gregorian_calendar.ipp \
- /usr/include/boost/date_time/gregorian/greg_ymd.hpp \
- /usr/include/boost/date_time/gregorian/greg_day.hpp \
- /usr/include/boost/date_time/gregorian/greg_year.hpp \
- /usr/include/boost/date_time/gregorian/greg_month.hpp \
- /usr/include/boost/date_time/gregorian/greg_duration.hpp \
- /usr/include/boost/date_time/date_duration.hpp \
- /usr/include/boost/date_time/date_duration_types.hpp \
- /usr/include/boost/date_time/gregorian/greg_duration_types.hpp \
- /usr/include/boost/date_time/gregorian/greg_date.hpp \
- /usr/include/boost/date_time/adjust_functors.hpp \
- /usr/include/boost/date_time/wrapping_int.hpp \
- /usr/include/boost/date_time/date_generators.hpp \
- /usr/include/boost/date_time/date_clock_device.hpp \
- /usr/include/boost/date_time/date_iterator.hpp \
- /usr/include/boost/date_time/time_system_split.hpp \
- /usr/include/boost/date_time/time_system_counted.hpp \
- /usr/include/boost/date_time/time.hpp \
- /usr/include/boost/date_time/posix_time/date_duration_operators.hpp \
- /usr/include/boost/date_time/posix_time/posix_time_duration.hpp \
- /usr/include/boost/date_time/posix_time/time_period.hpp \
- /usr/include/boost/date_time/time_iterator.hpp \
- /usr/include/boost/date_time/dst_rules.hpp \
- /usr/include/boost/date_time/posix_time/conversion.hpp \
- /usr/include/boost/date_time/gregorian/conversion.hpp \
- /usr/include/boost/chrono/duration.hpp \
- /usr/include/boost/chrono/config.hpp \
- /usr/include/boost/chrono/detail/static_assert.hpp \
- /usr/include/c++/7/climits /usr/include/boost/mpl/logical.hpp \
- /usr/include/boost/ratio/ratio.hpp /usr/include/boost/ratio/config.hpp \
- /usr/include/boost/ratio/detail/mpl/abs.hpp \
- /usr/include/boost/mpl/integral_c.hpp \
- /usr/include/boost/mpl/integral_c_fwd.hpp \
- /usr/include/boost/ratio/detail/mpl/sign.hpp \
- /usr/include/boost/ratio/detail/mpl/gcd.hpp \
- /usr/include/boost/mpl/aux_/largest_int.hpp \
- /usr/include/boost/mpl/aux_/config/dependent_nttp.hpp \
- /usr/include/boost/ratio/detail/mpl/lcm.hpp \
- /usr/include/boost/integer_traits.hpp \
- /usr/include/boost/ratio/ratio_fwd.hpp \
- /usr/include/boost/ratio/detail/overflow_helpers.hpp \
- /usr/include/boost/type_traits/common_type.hpp \
- /usr/include/boost/type_traits/detail/mp_defer.hpp \
- /usr/include/boost/type_traits/conditional.hpp \
- /usr/include/boost/type_traits/is_unsigned.hpp \
- /usr/include/boost/chrono/detail/is_evenly_divisible_by.hpp \
- /usr/include/boost/thread/pthread/pthread_mutex_scoped_lock.hpp \
- /usr/include/boost/thread/pthread/thread_data.hpp \
- /usr/include/boost/thread/exceptions.hpp \
- /usr/include/boost/thread/lock_guard.hpp \
- /usr/include/boost/thread/detail/delete.hpp \
- /usr/include/boost/thread/detail/move.hpp \
+ /usr/include/boost/type_traits/is_constructible.hpp \
+ /usr/include/boost/type_traits/is_destructible.hpp \
+ /usr/include/boost/type_traits/is_nothrow_move_assignable.hpp \
+ /usr/include/boost/type_traits/has_trivial_move_assign.hpp \
+ /usr/include/boost/type_traits/is_assignable.hpp \
+ /usr/include/boost/type_traits/has_nothrow_assign.hpp \
+ /usr/include/boost/type_traits/is_nothrow_move_constructible.hpp \
  /usr/include/boost/move/utility.hpp \
  /usr/include/boost/move/detail/config_begin.hpp \
  /usr/include/boost/move/detail/workaround.hpp \
@@ -717,27 +691,16 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/boost/move/detail/meta_utils_core.hpp \
  /usr/include/boost/move/traits.hpp \
  /usr/include/boost/move/detail/type_traits.hpp \
- /usr/include/boost/thread/detail/lockable_wrapper.hpp \
- /usr/include/boost/thread/lock_options.hpp \
- /usr/include/boost/thread/lock_types.hpp \
- /usr/include/boost/thread/lockable_traits.hpp \
- /usr/include/boost/chrono/time_point.hpp \
- /usr/include/boost/thread/mutex.hpp \
- /usr/include/boost/thread/pthread/mutex.hpp \
- /usr/include/boost/core/ignore_unused.hpp \
- /usr/include/boost/thread/xtime.hpp \
- /usr/include/boost/chrono/system_clocks.hpp \
- /usr/include/boost/chrono/detail/system.hpp \
- /usr/include/boost/chrono/clock_string.hpp \
- /usr/include/boost/chrono/ceil.hpp \
- /usr/include/boost/thread/pthread/condition_variable_fwd.hpp \
- /usr/include/boost/thread/cv_status.hpp \
- /usr/include/boost/enable_shared_from_this.hpp \
- /usr/include/boost/smart_ptr/enable_shared_from_this.hpp \
- /usr/include/boost/smart_ptr/weak_ptr.hpp \
- /usr/include/boost/thread/recursive_mutex.hpp \
- /usr/include/boost/thread/pthread/recursive_mutex.hpp tinyformat.h \
- /usr/include/c++/7/iostream utiltime.h \
+ /usr/include/boost/none.hpp /usr/include/boost/none_t.hpp \
+ /usr/include/boost/utility/compare_pointees.hpp \
+ /usr/include/boost/optional/optional_fwd.hpp \
+ /usr/include/boost/optional/detail/optional_config.hpp \
+ /usr/include/boost/optional/detail/optional_factory_support.hpp \
+ /usr/include/boost/optional/detail/optional_aligned_storage.hpp \
+ /usr/include/boost/optional/detail/optional_reference_spec.hpp \
+ /usr/include/boost/optional/detail/optional_relops.hpp \
+ /usr/include/boost/optional/detail/optional_swap.hpp \
+ /usr/include/boost/signals2/expired_slot.hpp \
  /usr/include/boost/signals2/signal.hpp /usr/include/boost/function.hpp \
  /usr/include/boost/preprocessor/iterate.hpp \
  /usr/include/boost/preprocessor/iteration/iterate.hpp \
@@ -747,20 +710,16 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/boost/config/no_tr1/functional.hpp \
  /usr/include/boost/function/function_base.hpp \
  /usr/include/boost/integer.hpp /usr/include/boost/integer_fwd.hpp \
- /usr/include/boost/type_index.hpp \
+ /usr/include/c++/7/climits /usr/include/boost/limits.hpp \
+ /usr/include/boost/integer_traits.hpp /usr/include/boost/type_index.hpp \
  /usr/include/boost/type_index/stl_type_index.hpp \
  /usr/include/boost/type_index/type_index_facade.hpp \
  /usr/include/boost/type_traits/has_trivial_copy.hpp \
  /usr/include/boost/type_traits/is_copy_constructible.hpp \
- /usr/include/boost/type_traits/is_constructible.hpp \
- /usr/include/boost/type_traits/is_destructible.hpp \
- /usr/include/boost/type_traits/is_default_constructible.hpp \
  /usr/include/boost/type_traits/has_trivial_destructor.hpp \
  /usr/include/boost/type_traits/composite_traits.hpp \
  /usr/include/boost/type_traits/is_union.hpp /usr/include/boost/ref.hpp \
- /usr/include/boost/core/ref.hpp \
- /usr/include/boost/type_traits/alignment_of.hpp \
- /usr/include/boost/function_equal.hpp \
+ /usr/include/boost/core/ref.hpp /usr/include/boost/function_equal.hpp \
  /usr/include/boost/function/function_fwd.hpp \
  /usr/include/boost/mem_fn.hpp /usr/include/boost/bind/mem_fn.hpp \
  /usr/include/boost/get_pointer.hpp \
@@ -777,28 +736,24 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/boost/function/detail/maybe_include.hpp \
  /usr/include/boost/function/function_template.hpp \
  /usr/include/boost/detail/no_exceptions_support.hpp \
- /usr/include/boost/core/no_exceptions_support.hpp \
  /usr/include/boost/signals2/connection.hpp \
  /usr/include/boost/signals2/detail/auto_buffer.hpp \
  /usr/include/boost/iterator/reverse_iterator.hpp \
  /usr/include/boost/iterator/iterator_adaptor.hpp \
  /usr/include/boost/multi_index/detail/scope_guard.hpp \
- /usr/include/boost/swap.hpp /usr/include/boost/core/swap.hpp \
+ /usr/include/boost/swap.hpp \
  /usr/include/boost/type_traits/aligned_storage.hpp \
- /usr/include/boost/type_traits/type_with_alignment.hpp \
  /usr/include/boost/type_traits/has_nothrow_copy.hpp \
- /usr/include/boost/type_traits/has_nothrow_assign.hpp \
- /usr/include/boost/type_traits/is_assignable.hpp \
  /usr/include/boost/type_traits/has_trivial_assign.hpp \
  /usr/include/boost/type_traits/has_trivial_constructor.hpp \
  /usr/include/boost/signals2/detail/null_output_iterator.hpp \
  /usr/include/boost/function_output_iterator.hpp \
  /usr/include/boost/signals2/detail/unique_lock.hpp \
  /usr/include/boost/signals2/slot.hpp /usr/include/boost/bind.hpp \
- /usr/include/boost/bind/bind.hpp /usr/include/boost/type.hpp \
- /usr/include/boost/is_placeholder.hpp /usr/include/boost/bind/arg.hpp \
- /usr/include/boost/visit_each.hpp /usr/include/boost/core/is_same.hpp \
- /usr/include/boost/bind/storage.hpp /usr/include/boost/bind/bind_cc.hpp \
+ /usr/include/boost/bind/bind.hpp /usr/include/boost/is_placeholder.hpp \
+ /usr/include/boost/bind/arg.hpp /usr/include/boost/visit_each.hpp \
+ /usr/include/boost/core/is_same.hpp /usr/include/boost/bind/storage.hpp \
+ /usr/include/boost/bind/bind_cc.hpp \
  /usr/include/boost/bind/bind_mf_cc.hpp \
  /usr/include/boost/bind/bind_mf2_cc.hpp \
  /usr/include/boost/bind/placeholders.hpp \
@@ -808,11 +763,11 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/boost/signals2/detail/tracked_objects_visitor.hpp \
  /usr/include/boost/signals2/slot_base.hpp \
  /usr/include/boost/weak_ptr.hpp \
+ /usr/include/boost/smart_ptr/weak_ptr.hpp \
  /usr/include/boost/signals2/detail/foreign_ptr.hpp \
  /usr/include/boost/scoped_ptr.hpp \
  /usr/include/boost/smart_ptr/scoped_ptr.hpp \
  /usr/include/boost/utility/swap.hpp \
- /usr/include/boost/signals2/expired_slot.hpp \
  /usr/include/boost/variant/apply_visitor.hpp \
  /usr/include/boost/variant/detail/apply_visitor_unary.hpp \
  /usr/include/boost/variant/detail/generic_result_type.hpp \
@@ -835,7 +790,6 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/boost/detail/call_traits.hpp \
  /usr/include/boost/detail/reference_content.hpp \
  /usr/include/boost/variant/recursive_wrapper_fwd.hpp \
- /usr/include/boost/type_traits/is_nothrow_move_constructible.hpp \
  /usr/include/boost/variant/detail/move.hpp \
  /usr/include/boost/move/move.hpp /usr/include/boost/move/iterator.hpp \
  /usr/include/boost/move/detail/iterator_traits.hpp \
@@ -910,15 +864,13 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/boost/type_traits/is_stateless.hpp \
  /usr/include/boost/math/common_factor_ct.hpp \
  /usr/include/boost/integer/common_factor_ct.hpp \
- /usr/include/boost/type_traits/has_nothrow_constructor.hpp \
- /usr/include/boost/type_traits/is_nothrow_move_assignable.hpp \
- /usr/include/boost/type_traits/has_trivial_move_assign.hpp \
  /usr/include/boost/utility/declval.hpp /usr/include/boost/mpl/empty.hpp \
  /usr/include/boost/mpl/aux_/empty_impl.hpp \
  /usr/include/boost/mpl/find_if.hpp \
  /usr/include/boost/mpl/aux_/find_if_pred.hpp \
  /usr/include/boost/mpl/aux_/iter_apply.hpp \
  /usr/include/boost/mpl/iter_fold_if.hpp \
+ /usr/include/boost/mpl/logical.hpp \
  /usr/include/boost/mpl/aux_/iter_fold_if_impl.hpp \
  /usr/include/boost/mpl/aux_/preprocessed/gcc/iter_fold_if_impl.hpp \
  /usr/include/boost/mpl/fold.hpp \
@@ -943,6 +895,9 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/boost/mpl/aux_/joint_iter.hpp \
  /usr/include/boost/mpl/plus.hpp \
  /usr/include/boost/mpl/aux_/arithmetic_op.hpp \
+ /usr/include/boost/mpl/integral_c.hpp \
+ /usr/include/boost/mpl/integral_c_fwd.hpp \
+ /usr/include/boost/mpl/aux_/largest_int.hpp \
  /usr/include/boost/mpl/aux_/numeric_op.hpp \
  /usr/include/boost/mpl/numeric_cast.hpp /usr/include/boost/mpl/tag.hpp \
  /usr/include/boost/mpl/aux_/numeric_cast_utils.hpp \
@@ -982,18 +937,6 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/boost/signals2/detail/replace_slot_function.hpp \
  /usr/include/boost/signals2/detail/result_type_wrapper.hpp \
  /usr/include/boost/signals2/detail/slot_groups.hpp \
- /usr/include/boost/optional.hpp /usr/include/boost/optional/optional.hpp \
- /usr/include/boost/core/explicit_operator_bool.hpp \
- /usr/include/boost/optional/bad_optional_access.hpp \
- /usr/include/boost/none.hpp /usr/include/boost/none_t.hpp \
- /usr/include/boost/utility/compare_pointees.hpp \
- /usr/include/boost/optional/optional_fwd.hpp \
- /usr/include/boost/optional/detail/optional_config.hpp \
- /usr/include/boost/optional/detail/optional_factory_support.hpp \
- /usr/include/boost/optional/detail/optional_aligned_storage.hpp \
- /usr/include/boost/optional/detail/optional_reference_spec.hpp \
- /usr/include/boost/optional/detail/optional_relops.hpp \
- /usr/include/boost/optional/detail/optional_swap.hpp \
  /usr/include/boost/signals2/detail/slot_call_iterator.hpp \
  /usr/include/boost/signals2/optional_last_value.hpp \
  /usr/include/boost/signals2/mutex.hpp \
@@ -1002,96 +945,11 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/boost/preprocessor/control/expr_if.hpp \
  /usr/include/boost/signals2/detail/variadic_slot_invoker.hpp \
  /usr/include/boost/type_traits/function_traits.hpp \
- /usr/include/boost/signals2/detail/signal_template.hpp tinyformat.h \
- sync.h uint256.h crypto/common.h ../src/config/bitcoin-config.h \
- /usr/include/sodium.h /usr/include/sodium/version.h \
- /usr/include/sodium/export.h /usr/include/sodium/core.h \
- /usr/include/sodium/crypto_aead_aes256gcm.h \
- /usr/include/sodium/crypto_aead_chacha20poly1305.h \
- /usr/include/sodium/crypto_aead_xchacha20poly1305.h \
- /usr/include/sodium/crypto_auth.h \
- /usr/include/sodium/crypto_auth_hmacsha512256.h \
- /usr/include/sodium/crypto_auth_hmacsha512.h \
- /usr/include/sodium/crypto_hash_sha512.h /usr/include/c++/7/stdlib.h \
- /usr/include/sodium/crypto_auth_hmacsha256.h \
- /usr/include/sodium/crypto_hash_sha256.h \
- /usr/include/sodium/crypto_auth_hmacsha512.h \
- /usr/include/sodium/crypto_auth_hmacsha512256.h \
- /usr/include/sodium/crypto_box.h \
- /usr/include/sodium/crypto_box_curve25519xsalsa20poly1305.h \
- /usr/include/sodium/crypto_stream_xsalsa20.h \
- /usr/include/sodium/crypto_box_curve25519xsalsa20poly1305.h \
- /usr/include/sodium/crypto_core_hsalsa20.h \
- /usr/include/sodium/crypto_core_hchacha20.h \
- /usr/include/sodium/crypto_core_salsa20.h \
- /usr/include/sodium/crypto_core_salsa2012.h \
- /usr/include/sodium/crypto_core_salsa208.h \
- /usr/include/sodium/crypto_generichash.h \
- /usr/include/sodium/crypto_generichash_blake2b.h \
- /usr/include/sodium/crypto_generichash_blake2b.h \
- /usr/include/sodium/crypto_hash.h \
- /usr/include/sodium/crypto_hash_sha256.h \
- /usr/include/sodium/crypto_hash_sha512.h \
- /usr/include/sodium/crypto_kdf.h \
- /usr/include/sodium/crypto_kdf_blake2b.h \
- /usr/include/sodium/crypto_kdf_blake2b.h /usr/include/sodium/crypto_kx.h \
- /usr/include/sodium/crypto_onetimeauth.h \
- /usr/include/sodium/crypto_onetimeauth_poly1305.h \
- /usr/include/sodium/crypto_onetimeauth_poly1305.h \
- /usr/include/sodium/crypto_pwhash.h \
- /usr/include/sodium/crypto_pwhash_argon2i.h \
- /usr/include/sodium/crypto_pwhash_argon2id.h \
- /usr/include/sodium/crypto_pwhash_argon2i.h \
- /usr/include/sodium/crypto_scalarmult.h \
- /usr/include/sodium/crypto_scalarmult_curve25519.h \
- /usr/include/sodium/crypto_scalarmult_curve25519.h \
- /usr/include/sodium/crypto_secretbox.h \
- /usr/include/sodium/crypto_secretbox_xsalsa20poly1305.h \
- /usr/include/sodium/crypto_secretbox_xsalsa20poly1305.h \
- /usr/include/sodium/crypto_secretstream_xchacha20poly1305.h \
- /usr/include/sodium/crypto_aead_xchacha20poly1305.h \
- /usr/include/sodium/crypto_stream_chacha20.h \
- /usr/include/sodium/crypto_shorthash.h \
- /usr/include/sodium/crypto_shorthash_siphash24.h \
- /usr/include/sodium/crypto_shorthash_siphash24.h \
- /usr/include/sodium/crypto_sign.h \
- /usr/include/sodium/crypto_sign_ed25519.h \
- /usr/include/sodium/crypto_sign_ed25519.h \
- /usr/include/sodium/crypto_stream.h \
- /usr/include/sodium/crypto_stream_chacha20.h \
- /usr/include/sodium/crypto_stream_salsa20.h \
- /usr/include/sodium/crypto_stream_xsalsa20.h \
- /usr/include/sodium/crypto_verify_16.h \
- /usr/include/sodium/crypto_verify_32.h \
- /usr/include/sodium/crypto_verify_64.h /usr/include/sodium/randombytes.h \
- /usr/include/sodium/randombytes_salsa20_random.h \
- /usr/include/sodium/randombytes.h \
- /usr/include/sodium/randombytes_sysrandom.h \
- /usr/include/sodium/runtime.h /usr/include/sodium/utils.h \
- /usr/include/sodium/crypto_box_curve25519xchacha20poly1305.h \
- /usr/include/sodium/crypto_stream_xchacha20.h \
- /usr/include/sodium/crypto_core_ed25519.h \
- /usr/include/sodium/crypto_scalarmult_ed25519.h \
- /usr/include/sodium/crypto_secretbox_xchacha20poly1305.h \
- /usr/include/sodium/crypto_pwhash_scryptsalsa208sha256.h \
- /usr/include/sodium/crypto_stream_salsa2012.h \
- /usr/include/sodium/crypto_stream_salsa208.h \
- /usr/include/sodium/crypto_stream_xchacha20.h compat/endian.h \
- config/bitcoin-config.h compat/byteswap.h /usr/include/byteswap.h \
- leveldb/include/leveldb/status.h leveldb/include/leveldb/slice.h \
- primitives/transaction.h amount.h script/script.h crypto/common.h \
- prevector.h serialize.h compat/endian.h /usr/include/c++/7/set \
- /usr/include/c++/7/bits/stl_set.h /usr/include/c++/7/bits/stl_multiset.h \
- prevector.h /usr/include/c++/7/unordered_map \
- /usr/include/c++/7/bits/hashtable.h \
- /usr/include/c++/7/bits/hashtable_policy.h \
- /usr/include/c++/7/bits/unordered_map.h init.h rpc/server.h \
- rpc/protocol.h fs.h wallet/wallet.h policy/feerate.h streams.h \
- support/allocators/zeroafterfree.h support/cleanse.h serialize.h \
- ui_interface.h /usr/include/boost/signals2/last_value.hpp \
+ /usr/include/boost/signals2/detail/signal_template.hpp \
  utilstrencodings.h validationinterface.h primitives/transaction.h \
- script/ismine.h script/standard.h script/interpreter.h \
- script/script_error.h /usr/include/boost/variant.hpp \
+ script/script.h crypto/common.h prevector.h script/ismine.h \
+ script/standard.h script/interpreter.h script/script_error.h \
+ primitives/transaction.h /usr/include/boost/variant.hpp \
  /usr/include/boost/variant/recursive_variant.hpp \
  /usr/include/boost/variant/detail/enable_recursive.hpp \
  /usr/include/boost/variant/detail/substitute.hpp \
@@ -1106,15 +964,164 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/c++/7/mutex /usr/include/c++/7/chrono \
  /usr/include/c++/7/ratio /usr/include/c++/7/bits/parse_numbers.h \
  /usr/include/c++/7/bits/std_mutex.h script/script.h script/standard.h \
+ sync.h threadsafety.h /usr/include/boost/thread/condition_variable.hpp \
+ /usr/include/boost/thread/detail/platform.hpp \
+ /usr/include/boost/config/requires_threads.hpp \
+ /usr/include/boost/thread/pthread/condition_variable.hpp \
+ /usr/include/boost/thread/pthread/timespec.hpp \
+ /usr/include/boost/thread/detail/config.hpp \
+ /usr/include/boost/thread/thread_time.hpp \
+ /usr/include/boost/date_time/time_clock.hpp \
+ /usr/include/boost/date_time/c_time.hpp \
+ /usr/include/boost/date_time/compiler_config.hpp \
+ /usr/include/boost/date_time/locale_config.hpp \
+ /usr/include/x86_64-linux-gnu/sys/time.h \
+ /usr/include/boost/date_time/microsec_time_clock.hpp \
+ /usr/include/boost/date_time/filetime_functions.hpp \
+ /usr/include/boost/date_time/posix_time/posix_time_types.hpp \
+ /usr/include/boost/date_time/posix_time/ptime.hpp \
+ /usr/include/boost/date_time/posix_time/posix_time_system.hpp \
+ /usr/include/boost/date_time/posix_time/posix_time_config.hpp \
+ /usr/include/boost/config/no_tr1/cmath.hpp /usr/include/c++/7/cmath \
+ /usr/include/math.h /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+ /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+ /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+ /usr/include/x86_64-linux-gnu/bits/mathinline.h \
+ /usr/include/boost/date_time/time_duration.hpp \
+ /usr/include/boost/operators.hpp \
+ /usr/include/boost/date_time/time_defs.hpp \
+ /usr/include/boost/date_time/special_defs.hpp \
+ /usr/include/boost/date_time/time_resolution_traits.hpp \
+ /usr/include/boost/date_time/int_adapter.hpp \
+ /usr/include/boost/date_time/gregorian/gregorian_types.hpp \
+ /usr/include/boost/date_time/date.hpp \
+ /usr/include/boost/date_time/year_month_day.hpp \
+ /usr/include/boost/date_time/period.hpp \
+ /usr/include/boost/date_time/gregorian/greg_calendar.hpp \
+ /usr/include/boost/date_time/gregorian/greg_weekday.hpp \
+ /usr/include/boost/date_time/constrained_value.hpp \
+ /usr/include/boost/date_time/date_defs.hpp \
+ /usr/include/boost/date_time/gregorian/greg_day_of_year.hpp \
+ /usr/include/boost/date_time/gregorian_calendar.hpp \
+ /usr/include/boost/date_time/gregorian_calendar.ipp \
+ /usr/include/boost/date_time/gregorian/greg_ymd.hpp \
+ /usr/include/boost/date_time/gregorian/greg_day.hpp \
+ /usr/include/boost/date_time/gregorian/greg_year.hpp \
+ /usr/include/boost/date_time/gregorian/greg_month.hpp \
+ /usr/include/boost/date_time/gregorian/greg_duration.hpp \
+ /usr/include/boost/date_time/date_duration.hpp \
+ /usr/include/boost/date_time/date_duration_types.hpp \
+ /usr/include/boost/date_time/gregorian/greg_duration_types.hpp \
+ /usr/include/boost/date_time/gregorian/greg_date.hpp \
+ /usr/include/boost/date_time/adjust_functors.hpp \
+ /usr/include/boost/date_time/wrapping_int.hpp \
+ /usr/include/boost/date_time/date_generators.hpp \
+ /usr/include/boost/date_time/date_clock_device.hpp \
+ /usr/include/boost/date_time/date_iterator.hpp \
+ /usr/include/boost/date_time/time_system_split.hpp \
+ /usr/include/boost/date_time/time_system_counted.hpp \
+ /usr/include/boost/date_time/time.hpp \
+ /usr/include/boost/date_time/posix_time/date_duration_operators.hpp \
+ /usr/include/boost/date_time/posix_time/posix_time_duration.hpp \
+ /usr/include/boost/date_time/posix_time/time_period.hpp \
+ /usr/include/boost/date_time/time_iterator.hpp \
+ /usr/include/boost/date_time/dst_rules.hpp \
+ /usr/include/boost/date_time/posix_time/conversion.hpp \
+ /usr/include/boost/date_time/gregorian/conversion.hpp \
+ /usr/include/boost/chrono/duration.hpp \
+ /usr/include/boost/chrono/config.hpp \
+ /usr/include/boost/chrono/detail/static_assert.hpp \
+ /usr/include/boost/ratio/ratio.hpp /usr/include/boost/ratio/config.hpp \
+ /usr/include/boost/ratio/detail/mpl/abs.hpp \
+ /usr/include/boost/ratio/detail/mpl/sign.hpp \
+ /usr/include/boost/ratio/detail/mpl/gcd.hpp \
+ /usr/include/boost/mpl/aux_/config/dependent_nttp.hpp \
+ /usr/include/boost/ratio/detail/mpl/lcm.hpp \
+ /usr/include/boost/ratio/ratio_fwd.hpp \
+ /usr/include/boost/ratio/detail/overflow_helpers.hpp \
+ /usr/include/boost/type_traits/common_type.hpp \
+ /usr/include/boost/type_traits/detail/mp_defer.hpp \
+ /usr/include/boost/type_traits/is_unsigned.hpp \
+ /usr/include/boost/chrono/detail/is_evenly_divisible_by.hpp \
+ /usr/include/boost/thread/pthread/pthread_mutex_scoped_lock.hpp \
+ /usr/include/boost/thread/pthread/thread_data.hpp \
+ /usr/include/boost/thread/exceptions.hpp \
+ /usr/include/boost/thread/lock_guard.hpp \
+ /usr/include/boost/thread/detail/delete.hpp \
+ /usr/include/boost/thread/detail/move.hpp \
+ /usr/include/boost/thread/detail/lockable_wrapper.hpp \
+ /usr/include/boost/thread/lock_options.hpp \
+ /usr/include/boost/thread/lock_types.hpp \
+ /usr/include/boost/thread/lockable_traits.hpp \
+ /usr/include/boost/chrono/time_point.hpp \
+ /usr/include/boost/thread/mutex.hpp \
+ /usr/include/boost/thread/pthread/mutex.hpp \
+ /usr/include/boost/core/ignore_unused.hpp \
+ /usr/include/boost/thread/xtime.hpp \
+ /usr/include/boost/chrono/system_clocks.hpp \
+ /usr/include/boost/chrono/detail/system.hpp \
+ /usr/include/boost/chrono/clock_string.hpp \
+ /usr/include/boost/chrono/ceil.hpp \
+ /usr/include/boost/thread/pthread/condition_variable_fwd.hpp \
+ /usr/include/boost/thread/cv_status.hpp \
+ /usr/include/boost/enable_shared_from_this.hpp \
+ /usr/include/boost/smart_ptr/enable_shared_from_this.hpp \
+ /usr/include/boost/thread/recursive_mutex.hpp \
+ /usr/include/boost/thread/pthread/recursive_mutex.hpp \
  support/allocators/secure.h wallet/walletdb.h wallet/db.h \
- clientversion.h version.h /usr/include/db_cxx.h /usr/include/db.h \
- /usr/include/inttypes.h key.h wallet/rpcwallet.h
+ clientversion.h config/bitcoin-config.h sync.h version.h \
+ /usr/include/db_cxx.h /usr/include/db.h /usr/include/inttypes.h key.h \
+ wallet/rpcwallet.h omnicore/omnicore.h omnicore/log.h util.h compat.h \
+ /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
+ /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl2.h \
+ /usr/include/x86_64-linux-gnu/sys/mman.h \
+ /usr/include/x86_64-linux-gnu/bits/mman.h \
+ /usr/include/x86_64-linux-gnu/bits/mman-linux.h \
+ /usr/include/x86_64-linux-gnu/bits/mman-shared.h \
+ /usr/include/x86_64-linux-gnu/sys/socket.h \
+ /usr/include/x86_64-linux-gnu/bits/socket.h \
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h \
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h \
+ /usr/include/x86_64-linux-gnu/asm/socket.h \
+ /usr/include/asm-generic/socket.h \
+ /usr/include/x86_64-linux-gnu/asm/sockios.h \
+ /usr/include/asm-generic/sockios.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
+ /usr/include/x86_64-linux-gnu/bits/socket2.h /usr/include/net/if.h \
+ /usr/include/netinet/in.h /usr/include/x86_64-linux-gnu/bits/in.h \
+ /usr/include/netinet/tcp.h /usr/include/arpa/inet.h \
+ /usr/include/ifaddrs.h /usr/include/netdb.h /usr/include/rpc/netdb.h \
+ /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h \
+ /usr/include/x86_64-linux-gnu/bits/netdb.h fs.h tinyformat.h utiltime.h \
+ leveldb/include/leveldb/status.h leveldb/include/leveldb/slice.h \
+ /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
+ /usr/include/c++/7/bits/hashtable_policy.h \
+ /usr/include/c++/7/bits/unordered_map.h wallet/coincontrol.h \
+ policy/fees.h policy/feerate.h random.h crypto/chacha20.h \
+ consensus/validation.h consensus/consensus.h consensus/params.h \
+ primitives/block.h arith_uint256.h init.h net.h addrdb.h addrman.h \
+ netaddress.h protocol.h random.h timedata.h util.h amount.h bloom.h \
+ limitedmap.h policy/feerate.h primitives/block.h streams.h \
+ threadinterrupt.h /usr/include/c++/7/condition_variable \
+ /usr/include/c++/7/thread utilmoneystr.h
 
 /usr/include/stdc-predef.h:
 
 omnicore/rpctx.h:
 
-univalue/include/univalue.h:
+rpc/server.h:
+
+amount.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/7/include/stdint.h:
 
@@ -1143,6 +1150,34 @@ univalue/include/univalue.h:
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
+
+rpc/protocol.h:
+
+fs.h:
+
+/usr/include/stdio.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/FILE.h:
+
+/usr/include/x86_64-linux-gnu/bits/libio.h:
+
+/usr/include/x86_64-linux-gnu/bits/_G_config.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/sys_errlist.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:
 
 /usr/include/c++/7/string:
 
@@ -1202,19 +1237,9 @@ univalue/include/univalue.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h:
-
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/FILE.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
 
@@ -1374,20 +1399,6 @@ univalue/include/univalue.h:
 
 /usr/include/c++/7/cstdio:
 
-/usr/include/stdio.h:
-
-/usr/include/x86_64-linux-gnu/bits/libio.h:
-
-/usr/include/x86_64-linux-gnu/bits/_G_config.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
-
-/usr/include/x86_64-linux-gnu/bits/sys_errlist.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdio.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdio2.h:
-
 /usr/include/c++/7/cerrno:
 
 /usr/include/errno.h:
@@ -1406,204 +1417,6 @@ univalue/include/univalue.h:
 
 /usr/include/c++/7/bits/basic_string.tcc:
 
-/usr/include/c++/7/vector:
-
-/usr/include/c++/7/bits/stl_construct.h:
-
-/usr/include/c++/7/bits/stl_uninitialized.h:
-
-/usr/include/c++/7/bits/stl_vector.h:
-
-/usr/include/c++/7/bits/stl_bvector.h:
-
-/usr/include/c++/7/bits/vector.tcc:
-
-/usr/include/c++/7/map:
-
-/usr/include/c++/7/bits/stl_tree.h:
-
-/usr/include/c++/7/ext/aligned_buffer.h:
-
-/usr/include/c++/7/bits/stl_map.h:
-
-/usr/include/c++/7/tuple:
-
-/usr/include/c++/7/utility:
-
-/usr/include/c++/7/bits/stl_relops.h:
-
-/usr/include/c++/7/array:
-
-/usr/include/c++/7/stdexcept:
-
-/usr/include/c++/7/bits/uses_allocator.h:
-
-/usr/include/c++/7/bits/invoke.h:
-
-/usr/include/c++/7/bits/stl_multimap.h:
-
-/usr/include/c++/7/cassert:
-
-/usr/include/assert.h:
-
-/usr/include/c++/7/sstream:
-
-/usr/include/c++/7/istream:
-
-/usr/include/c++/7/ios:
-
-/usr/include/c++/7/bits/ios_base.h:
-
-/usr/include/c++/7/bits/locale_classes.h:
-
-/usr/include/c++/7/bits/locale_classes.tcc:
-
-/usr/include/c++/7/system_error:
-
-/usr/include/x86_64-linux-gnu/c++/7/bits/error_constants.h:
-
-/usr/include/c++/7/streambuf:
-
-/usr/include/c++/7/bits/streambuf.tcc:
-
-/usr/include/c++/7/bits/basic_ios.h:
-
-/usr/include/c++/7/bits/locale_facets.h:
-
-/usr/include/c++/7/cwctype:
-
-/usr/include/wctype.h:
-
-/usr/include/x86_64-linux-gnu/bits/wctype-wchar.h:
-
-/usr/include/x86_64-linux-gnu/c++/7/bits/ctype_base.h:
-
-/usr/include/c++/7/bits/streambuf_iterator.h:
-
-/usr/include/x86_64-linux-gnu/c++/7/bits/ctype_inline.h:
-
-/usr/include/c++/7/bits/locale_facets.tcc:
-
-/usr/include/c++/7/bits/basic_ios.tcc:
-
-/usr/include/c++/7/ostream:
-
-/usr/include/c++/7/bits/ostream.tcc:
-
-/usr/include/c++/7/bits/istream.tcc:
-
-/usr/include/c++/7/bits/sstream.tcc:
-
-omnicore/omnicore.h:
-
-omnicore/log.h:
-
-util.h:
-
-config/bitcoin-config.h:
-
-compat.h:
-
-/usr/include/x86_64-linux-gnu/sys/fcntl.h:
-
-/usr/include/fcntl.h:
-
-/usr/include/x86_64-linux-gnu/bits/fcntl.h:
-
-/usr/include/x86_64-linux-gnu/bits/fcntl-linux.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h:
-
-/usr/include/linux/falloc.h:
-
-/usr/include/x86_64-linux-gnu/bits/stat.h:
-
-/usr/include/x86_64-linux-gnu/bits/fcntl2.h:
-
-/usr/include/x86_64-linux-gnu/sys/mman.h:
-
-/usr/include/x86_64-linux-gnu/bits/mman.h:
-
-/usr/include/x86_64-linux-gnu/bits/mman-linux.h:
-
-/usr/include/x86_64-linux-gnu/bits/mman-shared.h:
-
-/usr/include/x86_64-linux-gnu/sys/socket.h:
-
-/usr/include/x86_64-linux-gnu/bits/socket.h:
-
-/usr/include/x86_64-linux-gnu/bits/socket_type.h:
-
-/usr/include/x86_64-linux-gnu/bits/sockaddr.h:
-
-/usr/include/x86_64-linux-gnu/asm/socket.h:
-
-/usr/include/asm-generic/socket.h:
-
-/usr/include/x86_64-linux-gnu/asm/sockios.h:
-
-/usr/include/asm-generic/sockios.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h:
-
-/usr/include/x86_64-linux-gnu/bits/socket2.h:
-
-/usr/include/net/if.h:
-
-/usr/include/netinet/in.h:
-
-/usr/include/x86_64-linux-gnu/bits/in.h:
-
-/usr/include/netinet/tcp.h:
-
-/usr/include/arpa/inet.h:
-
-/usr/include/ifaddrs.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/limits.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/syslimits.h:
-
-/usr/include/limits.h:
-
-/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
-
-/usr/include/x86_64-linux-gnu/bits/local_lim.h:
-
-/usr/include/linux/limits.h:
-
-/usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
-
-/usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
-
-/usr/include/x86_64-linux-gnu/bits/uio_lim.h:
-
-/usr/include/netdb.h:
-
-/usr/include/rpc/netdb.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h:
-
-/usr/include/x86_64-linux-gnu/bits/netdb.h:
-
-/usr/include/unistd.h:
-
-/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
-
-/usr/include/x86_64-linux-gnu/bits/environments.h:
-
-/usr/include/x86_64-linux-gnu/bits/confname.h:
-
-/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
-
-/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
-
-/usr/include/x86_64-linux-gnu/bits/unistd.h:
-
-fs.h:
-
 /usr/include/boost/filesystem.hpp:
 
 /usr/include/boost/filesystem/config.hpp:
@@ -1621,6 +1434,20 @@ fs.h:
 /usr/include/boost/config/detail/select_stdlib_config.hpp:
 
 /usr/include/boost/config/stdlib/libstdcpp3.hpp:
+
+/usr/include/unistd.h:
+
+/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
+
+/usr/include/x86_64-linux-gnu/bits/environments.h:
+
+/usr/include/x86_64-linux-gnu/bits/confname.h:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
+
+/usr/include/x86_64-linux-gnu/bits/unistd.h:
 
 /usr/include/boost/config/detail/select_platform_config.hpp:
 
@@ -1708,11 +1535,67 @@ fs.h:
 
 /usr/include/boost/assert.hpp:
 
+/usr/include/assert.h:
+
 /usr/include/boost/noncopyable.hpp:
 
 /usr/include/boost/core/noncopyable.hpp:
 
+/usr/include/c++/7/ostream:
+
+/usr/include/c++/7/ios:
+
+/usr/include/c++/7/bits/ios_base.h:
+
+/usr/include/c++/7/bits/locale_classes.h:
+
+/usr/include/c++/7/bits/locale_classes.tcc:
+
+/usr/include/c++/7/system_error:
+
+/usr/include/x86_64-linux-gnu/c++/7/bits/error_constants.h:
+
+/usr/include/c++/7/stdexcept:
+
+/usr/include/c++/7/streambuf:
+
+/usr/include/c++/7/bits/streambuf.tcc:
+
+/usr/include/c++/7/bits/basic_ios.h:
+
+/usr/include/c++/7/bits/locale_facets.h:
+
+/usr/include/c++/7/cwctype:
+
+/usr/include/wctype.h:
+
+/usr/include/x86_64-linux-gnu/bits/wctype-wchar.h:
+
+/usr/include/x86_64-linux-gnu/c++/7/bits/ctype_base.h:
+
+/usr/include/c++/7/bits/streambuf_iterator.h:
+
+/usr/include/x86_64-linux-gnu/c++/7/bits/ctype_inline.h:
+
+/usr/include/c++/7/bits/locale_facets.tcc:
+
+/usr/include/c++/7/bits/basic_ios.tcc:
+
+/usr/include/c++/7/bits/ostream.tcc:
+
 /usr/include/c++/7/functional:
+
+/usr/include/c++/7/tuple:
+
+/usr/include/c++/7/utility:
+
+/usr/include/c++/7/bits/stl_relops.h:
+
+/usr/include/c++/7/array:
+
+/usr/include/c++/7/bits/uses_allocator.h:
+
+/usr/include/c++/7/bits/invoke.h:
 
 /usr/include/c++/7/bits/std_function.h:
 
@@ -1724,15 +1607,33 @@ fs.h:
 
 /usr/include/boost/config/abi_suffix.hpp:
 
+/usr/include/c++/7/vector:
+
+/usr/include/c++/7/bits/stl_construct.h:
+
+/usr/include/c++/7/bits/stl_uninitialized.h:
+
+/usr/include/c++/7/bits/stl_vector.h:
+
+/usr/include/c++/7/bits/stl_bvector.h:
+
+/usr/include/c++/7/bits/vector.tcc:
+
 /usr/include/c++/7/list:
 
 /usr/include/c++/7/bits/stl_list.h:
 
 /usr/include/c++/7/bits/allocated_ptr.h:
 
+/usr/include/c++/7/ext/aligned_buffer.h:
+
 /usr/include/c++/7/bits/list.tcc:
 
 /usr/include/c++/7/iterator:
+
+/usr/include/c++/7/istream:
+
+/usr/include/c++/7/bits/istream.tcc:
 
 /usr/include/c++/7/bits/stream_iterator.h:
 
@@ -1763,6 +1664,8 @@ fs.h:
 /usr/include/c++/7/bits/unique_ptr.h:
 
 /usr/include/boost/system/system_error.hpp:
+
+/usr/include/c++/7/cassert:
 
 /usr/include/boost/iterator/iterator_facade.hpp:
 
@@ -2526,215 +2429,283 @@ fs.h:
 
 /usr/include/boost/detail/utf8_codecvt_facet.hpp:
 
-sync.h:
+/usr/include/c++/7/map:
 
-threadsafety.h:
+/usr/include/c++/7/bits/stl_tree.h:
 
-/usr/include/boost/thread/condition_variable.hpp:
+/usr/include/c++/7/bits/stl_map.h:
 
-/usr/include/boost/thread/detail/platform.hpp:
+/usr/include/c++/7/bits/stl_multimap.h:
 
-/usr/include/boost/config/requires_threads.hpp:
+univalue/include/univalue.h:
 
-/usr/include/boost/thread/pthread/condition_variable.hpp:
+/usr/include/c++/7/sstream:
 
-/usr/include/boost/thread/pthread/timespec.hpp:
+/usr/include/c++/7/bits/sstream.tcc:
 
-/usr/include/boost/thread/detail/config.hpp:
+uint256.h:
 
-/usr/include/boost/thread/thread_time.hpp:
+crypto/common.h:
 
-/usr/include/boost/date_time/time_clock.hpp:
+../src/config/bitcoin-config.h:
 
-/usr/include/boost/date_time/c_time.hpp:
+/usr/include/sodium.h:
 
-/usr/include/boost/date_time/compiler_config.hpp:
+/usr/include/sodium/version.h:
 
-/usr/include/boost/date_time/locale_config.hpp:
+/usr/include/sodium/export.h:
 
-/usr/include/x86_64-linux-gnu/sys/time.h:
+/usr/include/sodium/core.h:
 
-/usr/include/boost/date_time/microsec_time_clock.hpp:
+/usr/include/sodium/crypto_aead_aes256gcm.h:
 
-/usr/include/boost/date_time/filetime_functions.hpp:
+/usr/include/sodium/crypto_aead_chacha20poly1305.h:
 
-/usr/include/boost/date_time/posix_time/posix_time_types.hpp:
+/usr/include/sodium/crypto_aead_xchacha20poly1305.h:
 
-/usr/include/boost/date_time/posix_time/ptime.hpp:
+/usr/include/sodium/crypto_auth.h:
 
-/usr/include/boost/date_time/posix_time/posix_time_system.hpp:
+/usr/include/sodium/crypto_auth_hmacsha512256.h:
 
-/usr/include/boost/date_time/posix_time/posix_time_config.hpp:
+/usr/include/sodium/crypto_auth_hmacsha512.h:
 
-/usr/include/boost/limits.hpp:
+/usr/include/sodium/crypto_hash_sha512.h:
 
-/usr/include/boost/config/no_tr1/cmath.hpp:
+/usr/include/c++/7/stdlib.h:
 
-/usr/include/c++/7/cmath:
+/usr/include/sodium/crypto_auth_hmacsha256.h:
 
-/usr/include/math.h:
+/usr/include/sodium/crypto_hash_sha256.h:
 
-/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+/usr/include/sodium/crypto_auth_hmacsha512.h:
 
-/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+/usr/include/sodium/crypto_auth_hmacsha512256.h:
 
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+/usr/include/sodium/crypto_box.h:
 
-/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
+/usr/include/sodium/crypto_box_curve25519xsalsa20poly1305.h:
 
-/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
+/usr/include/sodium/crypto_stream_xsalsa20.h:
 
-/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
+/usr/include/sodium/crypto_box_curve25519xsalsa20poly1305.h:
 
-/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
+/usr/include/sodium/crypto_core_hsalsa20.h:
 
-/usr/include/x86_64-linux-gnu/bits/iscanonical.h:
+/usr/include/sodium/crypto_core_hchacha20.h:
 
-/usr/include/x86_64-linux-gnu/bits/mathinline.h:
+/usr/include/sodium/crypto_core_salsa20.h:
 
-/usr/include/boost/date_time/time_duration.hpp:
+/usr/include/sodium/crypto_core_salsa2012.h:
 
-/usr/include/boost/operators.hpp:
+/usr/include/sodium/crypto_core_salsa208.h:
 
-/usr/include/boost/date_time/time_defs.hpp:
+/usr/include/sodium/crypto_generichash.h:
 
-/usr/include/boost/date_time/special_defs.hpp:
+/usr/include/sodium/crypto_generichash_blake2b.h:
 
-/usr/include/boost/date_time/time_resolution_traits.hpp:
+/usr/include/sodium/crypto_generichash_blake2b.h:
 
-/usr/include/boost/date_time/int_adapter.hpp:
+/usr/include/sodium/crypto_hash.h:
 
-/usr/include/boost/date_time/gregorian/gregorian_types.hpp:
+/usr/include/sodium/crypto_hash_sha256.h:
 
-/usr/include/boost/date_time/date.hpp:
+/usr/include/sodium/crypto_hash_sha512.h:
 
-/usr/include/boost/date_time/year_month_day.hpp:
+/usr/include/sodium/crypto_kdf.h:
 
-/usr/include/boost/date_time/period.hpp:
+/usr/include/sodium/crypto_kdf_blake2b.h:
 
-/usr/include/boost/date_time/gregorian/greg_calendar.hpp:
+/usr/include/sodium/crypto_kdf_blake2b.h:
 
-/usr/include/boost/date_time/gregorian/greg_weekday.hpp:
+/usr/include/sodium/crypto_kx.h:
 
-/usr/include/boost/date_time/constrained_value.hpp:
+/usr/include/sodium/crypto_onetimeauth.h:
+
+/usr/include/sodium/crypto_onetimeauth_poly1305.h:
+
+/usr/include/sodium/crypto_onetimeauth_poly1305.h:
+
+/usr/include/sodium/crypto_pwhash.h:
+
+/usr/include/sodium/crypto_pwhash_argon2i.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/limits.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed/syslimits.h:
+
+/usr/include/limits.h:
+
+/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/local_lim.h:
+
+/usr/include/linux/limits.h:
+
+/usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/uio_lim.h:
+
+/usr/include/sodium/crypto_pwhash_argon2id.h:
+
+/usr/include/sodium/crypto_pwhash_argon2i.h:
+
+/usr/include/sodium/crypto_scalarmult.h:
+
+/usr/include/sodium/crypto_scalarmult_curve25519.h:
+
+/usr/include/sodium/crypto_scalarmult_curve25519.h:
+
+/usr/include/sodium/crypto_secretbox.h:
+
+/usr/include/sodium/crypto_secretbox_xsalsa20poly1305.h:
+
+/usr/include/sodium/crypto_secretbox_xsalsa20poly1305.h:
+
+/usr/include/sodium/crypto_secretstream_xchacha20poly1305.h:
+
+/usr/include/sodium/crypto_aead_xchacha20poly1305.h:
+
+/usr/include/sodium/crypto_stream_chacha20.h:
+
+/usr/include/sodium/crypto_shorthash.h:
+
+/usr/include/sodium/crypto_shorthash_siphash24.h:
+
+/usr/include/sodium/crypto_shorthash_siphash24.h:
+
+/usr/include/sodium/crypto_sign.h:
+
+/usr/include/sodium/crypto_sign_ed25519.h:
+
+/usr/include/sodium/crypto_sign_ed25519.h:
+
+/usr/include/sodium/crypto_stream.h:
+
+/usr/include/sodium/crypto_stream_chacha20.h:
+
+/usr/include/sodium/crypto_stream_salsa20.h:
+
+/usr/include/sodium/crypto_stream_xsalsa20.h:
+
+/usr/include/sodium/crypto_verify_16.h:
+
+/usr/include/sodium/crypto_verify_32.h:
+
+/usr/include/sodium/crypto_verify_64.h:
+
+/usr/include/sodium/randombytes.h:
+
+/usr/include/sodium/randombytes_salsa20_random.h:
+
+/usr/include/sodium/randombytes.h:
+
+/usr/include/sodium/randombytes_sysrandom.h:
+
+/usr/include/sodium/runtime.h:
+
+/usr/include/sodium/utils.h:
+
+/usr/include/sodium/crypto_box_curve25519xchacha20poly1305.h:
+
+/usr/include/sodium/crypto_stream_xchacha20.h:
+
+/usr/include/sodium/crypto_core_ed25519.h:
+
+/usr/include/sodium/crypto_scalarmult_ed25519.h:
+
+/usr/include/sodium/crypto_secretbox_xchacha20poly1305.h:
+
+/usr/include/sodium/crypto_pwhash_scryptsalsa208sha256.h:
+
+/usr/include/sodium/crypto_stream_salsa2012.h:
+
+/usr/include/sodium/crypto_stream_salsa208.h:
+
+/usr/include/sodium/crypto_stream_xchacha20.h:
+
+compat/endian.h:
+
+config/bitcoin-config.h:
+
+compat/byteswap.h:
+
+/usr/include/byteswap.h:
+
+wallet/wallet.h:
+
+policy/feerate.h:
+
+serialize.h:
+
+compat/endian.h:
+
+/usr/include/c++/7/set:
+
+/usr/include/c++/7/bits/stl_set.h:
+
+/usr/include/c++/7/bits/stl_multiset.h:
+
+prevector.h:
+
+streams.h:
+
+support/allocators/zeroafterfree.h:
+
+support/cleanse.h:
+
+serialize.h:
+
+tinyformat.h:
+
+/usr/include/c++/7/iostream:
+
+ui_interface.h:
+
+/usr/include/boost/signals2/last_value.hpp:
+
+/usr/include/boost/core/no_exceptions_support.hpp:
+
+/usr/include/boost/optional.hpp:
+
+/usr/include/boost/optional/optional.hpp:
+
+/usr/include/boost/core/explicit_operator_bool.hpp:
+
+/usr/include/boost/core/swap.hpp:
+
+/usr/include/boost/optional/bad_optional_access.hpp:
+
+/usr/include/boost/type.hpp:
+
+/usr/include/boost/type_traits/alignment_of.hpp:
+
+/usr/include/boost/type_traits/conditional.hpp:
+
+/usr/include/boost/type_traits/has_nothrow_constructor.hpp:
+
+/usr/include/boost/type_traits/is_default_constructible.hpp:
+
+/usr/include/boost/type_traits/type_with_alignment.hpp:
 
 /usr/include/boost/type_traits/is_base_of.hpp:
 
 /usr/include/boost/type_traits/is_base_and_derived.hpp:
 
-/usr/include/boost/date_time/date_defs.hpp:
+/usr/include/boost/type_traits/is_constructible.hpp:
 
-/usr/include/boost/date_time/gregorian/greg_day_of_year.hpp:
+/usr/include/boost/type_traits/is_destructible.hpp:
 
-/usr/include/boost/date_time/gregorian_calendar.hpp:
+/usr/include/boost/type_traits/is_nothrow_move_assignable.hpp:
 
-/usr/include/boost/date_time/gregorian_calendar.ipp:
+/usr/include/boost/type_traits/has_trivial_move_assign.hpp:
 
-/usr/include/boost/date_time/gregorian/greg_ymd.hpp:
+/usr/include/boost/type_traits/is_assignable.hpp:
 
-/usr/include/boost/date_time/gregorian/greg_day.hpp:
+/usr/include/boost/type_traits/has_nothrow_assign.hpp:
 
-/usr/include/boost/date_time/gregorian/greg_year.hpp:
-
-/usr/include/boost/date_time/gregorian/greg_month.hpp:
-
-/usr/include/boost/date_time/gregorian/greg_duration.hpp:
-
-/usr/include/boost/date_time/date_duration.hpp:
-
-/usr/include/boost/date_time/date_duration_types.hpp:
-
-/usr/include/boost/date_time/gregorian/greg_duration_types.hpp:
-
-/usr/include/boost/date_time/gregorian/greg_date.hpp:
-
-/usr/include/boost/date_time/adjust_functors.hpp:
-
-/usr/include/boost/date_time/wrapping_int.hpp:
-
-/usr/include/boost/date_time/date_generators.hpp:
-
-/usr/include/boost/date_time/date_clock_device.hpp:
-
-/usr/include/boost/date_time/date_iterator.hpp:
-
-/usr/include/boost/date_time/time_system_split.hpp:
-
-/usr/include/boost/date_time/time_system_counted.hpp:
-
-/usr/include/boost/date_time/time.hpp:
-
-/usr/include/boost/date_time/posix_time/date_duration_operators.hpp:
-
-/usr/include/boost/date_time/posix_time/posix_time_duration.hpp:
-
-/usr/include/boost/date_time/posix_time/time_period.hpp:
-
-/usr/include/boost/date_time/time_iterator.hpp:
-
-/usr/include/boost/date_time/dst_rules.hpp:
-
-/usr/include/boost/date_time/posix_time/conversion.hpp:
-
-/usr/include/boost/date_time/gregorian/conversion.hpp:
-
-/usr/include/boost/chrono/duration.hpp:
-
-/usr/include/boost/chrono/config.hpp:
-
-/usr/include/boost/chrono/detail/static_assert.hpp:
-
-/usr/include/c++/7/climits:
-
-/usr/include/boost/mpl/logical.hpp:
-
-/usr/include/boost/ratio/ratio.hpp:
-
-/usr/include/boost/ratio/config.hpp:
-
-/usr/include/boost/ratio/detail/mpl/abs.hpp:
-
-/usr/include/boost/mpl/integral_c.hpp:
-
-/usr/include/boost/mpl/integral_c_fwd.hpp:
-
-/usr/include/boost/ratio/detail/mpl/sign.hpp:
-
-/usr/include/boost/ratio/detail/mpl/gcd.hpp:
-
-/usr/include/boost/mpl/aux_/largest_int.hpp:
-
-/usr/include/boost/mpl/aux_/config/dependent_nttp.hpp:
-
-/usr/include/boost/ratio/detail/mpl/lcm.hpp:
-
-/usr/include/boost/integer_traits.hpp:
-
-/usr/include/boost/ratio/ratio_fwd.hpp:
-
-/usr/include/boost/ratio/detail/overflow_helpers.hpp:
-
-/usr/include/boost/type_traits/common_type.hpp:
-
-/usr/include/boost/type_traits/detail/mp_defer.hpp:
-
-/usr/include/boost/type_traits/conditional.hpp:
-
-/usr/include/boost/type_traits/is_unsigned.hpp:
-
-/usr/include/boost/chrono/detail/is_evenly_divisible_by.hpp:
-
-/usr/include/boost/thread/pthread/pthread_mutex_scoped_lock.hpp:
-
-/usr/include/boost/thread/pthread/thread_data.hpp:
-
-/usr/include/boost/thread/exceptions.hpp:
-
-/usr/include/boost/thread/lock_guard.hpp:
-
-/usr/include/boost/thread/detail/delete.hpp:
-
-/usr/include/boost/thread/detail/move.hpp:
+/usr/include/boost/type_traits/is_nothrow_move_constructible.hpp:
 
 /usr/include/boost/move/utility.hpp:
 
@@ -2756,51 +2727,27 @@ threadsafety.h:
 
 /usr/include/boost/move/detail/type_traits.hpp:
 
-/usr/include/boost/thread/detail/lockable_wrapper.hpp:
+/usr/include/boost/none.hpp:
 
-/usr/include/boost/thread/lock_options.hpp:
+/usr/include/boost/none_t.hpp:
 
-/usr/include/boost/thread/lock_types.hpp:
+/usr/include/boost/utility/compare_pointees.hpp:
 
-/usr/include/boost/thread/lockable_traits.hpp:
+/usr/include/boost/optional/optional_fwd.hpp:
 
-/usr/include/boost/chrono/time_point.hpp:
+/usr/include/boost/optional/detail/optional_config.hpp:
 
-/usr/include/boost/thread/mutex.hpp:
+/usr/include/boost/optional/detail/optional_factory_support.hpp:
 
-/usr/include/boost/thread/pthread/mutex.hpp:
+/usr/include/boost/optional/detail/optional_aligned_storage.hpp:
 
-/usr/include/boost/core/ignore_unused.hpp:
+/usr/include/boost/optional/detail/optional_reference_spec.hpp:
 
-/usr/include/boost/thread/xtime.hpp:
+/usr/include/boost/optional/detail/optional_relops.hpp:
 
-/usr/include/boost/chrono/system_clocks.hpp:
+/usr/include/boost/optional/detail/optional_swap.hpp:
 
-/usr/include/boost/chrono/detail/system.hpp:
-
-/usr/include/boost/chrono/clock_string.hpp:
-
-/usr/include/boost/chrono/ceil.hpp:
-
-/usr/include/boost/thread/pthread/condition_variable_fwd.hpp:
-
-/usr/include/boost/thread/cv_status.hpp:
-
-/usr/include/boost/enable_shared_from_this.hpp:
-
-/usr/include/boost/smart_ptr/enable_shared_from_this.hpp:
-
-/usr/include/boost/smart_ptr/weak_ptr.hpp:
-
-/usr/include/boost/thread/recursive_mutex.hpp:
-
-/usr/include/boost/thread/pthread/recursive_mutex.hpp:
-
-tinyformat.h:
-
-/usr/include/c++/7/iostream:
-
-utiltime.h:
+/usr/include/boost/signals2/expired_slot.hpp:
 
 /usr/include/boost/signals2/signal.hpp:
 
@@ -2824,6 +2771,12 @@ utiltime.h:
 
 /usr/include/boost/integer_fwd.hpp:
 
+/usr/include/c++/7/climits:
+
+/usr/include/boost/limits.hpp:
+
+/usr/include/boost/integer_traits.hpp:
+
 /usr/include/boost/type_index.hpp:
 
 /usr/include/boost/type_index/stl_type_index.hpp:
@@ -2834,12 +2787,6 @@ utiltime.h:
 
 /usr/include/boost/type_traits/is_copy_constructible.hpp:
 
-/usr/include/boost/type_traits/is_constructible.hpp:
-
-/usr/include/boost/type_traits/is_destructible.hpp:
-
-/usr/include/boost/type_traits/is_default_constructible.hpp:
-
 /usr/include/boost/type_traits/has_trivial_destructor.hpp:
 
 /usr/include/boost/type_traits/composite_traits.hpp:
@@ -2849,8 +2796,6 @@ utiltime.h:
 /usr/include/boost/ref.hpp:
 
 /usr/include/boost/core/ref.hpp:
-
-/usr/include/boost/type_traits/alignment_of.hpp:
 
 /usr/include/boost/function_equal.hpp:
 
@@ -2888,8 +2833,6 @@ utiltime.h:
 
 /usr/include/boost/detail/no_exceptions_support.hpp:
 
-/usr/include/boost/core/no_exceptions_support.hpp:
-
 /usr/include/boost/signals2/connection.hpp:
 
 /usr/include/boost/signals2/detail/auto_buffer.hpp:
@@ -2902,17 +2845,9 @@ utiltime.h:
 
 /usr/include/boost/swap.hpp:
 
-/usr/include/boost/core/swap.hpp:
-
 /usr/include/boost/type_traits/aligned_storage.hpp:
 
-/usr/include/boost/type_traits/type_with_alignment.hpp:
-
 /usr/include/boost/type_traits/has_nothrow_copy.hpp:
-
-/usr/include/boost/type_traits/has_nothrow_assign.hpp:
-
-/usr/include/boost/type_traits/is_assignable.hpp:
 
 /usr/include/boost/type_traits/has_trivial_assign.hpp:
 
@@ -2929,8 +2864,6 @@ utiltime.h:
 /usr/include/boost/bind.hpp:
 
 /usr/include/boost/bind/bind.hpp:
-
-/usr/include/boost/type.hpp:
 
 /usr/include/boost/is_placeholder.hpp:
 
@@ -2962,6 +2895,8 @@ utiltime.h:
 
 /usr/include/boost/weak_ptr.hpp:
 
+/usr/include/boost/smart_ptr/weak_ptr.hpp:
+
 /usr/include/boost/signals2/detail/foreign_ptr.hpp:
 
 /usr/include/boost/scoped_ptr.hpp:
@@ -2969,8 +2904,6 @@ utiltime.h:
 /usr/include/boost/smart_ptr/scoped_ptr.hpp:
 
 /usr/include/boost/utility/swap.hpp:
-
-/usr/include/boost/signals2/expired_slot.hpp:
 
 /usr/include/boost/variant/apply_visitor.hpp:
 
@@ -3015,8 +2948,6 @@ utiltime.h:
 /usr/include/boost/detail/reference_content.hpp:
 
 /usr/include/boost/variant/recursive_wrapper_fwd.hpp:
-
-/usr/include/boost/type_traits/is_nothrow_move_constructible.hpp:
 
 /usr/include/boost/variant/detail/move.hpp:
 
@@ -3174,12 +3105,6 @@ utiltime.h:
 
 /usr/include/boost/integer/common_factor_ct.hpp:
 
-/usr/include/boost/type_traits/has_nothrow_constructor.hpp:
-
-/usr/include/boost/type_traits/is_nothrow_move_assignable.hpp:
-
-/usr/include/boost/type_traits/has_trivial_move_assign.hpp:
-
 /usr/include/boost/utility/declval.hpp:
 
 /usr/include/boost/mpl/empty.hpp:
@@ -3193,6 +3118,8 @@ utiltime.h:
 /usr/include/boost/mpl/aux_/iter_apply.hpp:
 
 /usr/include/boost/mpl/iter_fold_if.hpp:
+
+/usr/include/boost/mpl/logical.hpp:
 
 /usr/include/boost/mpl/aux_/iter_fold_if_impl.hpp:
 
@@ -3243,6 +3170,12 @@ utiltime.h:
 /usr/include/boost/mpl/plus.hpp:
 
 /usr/include/boost/mpl/aux_/arithmetic_op.hpp:
+
+/usr/include/boost/mpl/integral_c.hpp:
+
+/usr/include/boost/mpl/integral_c_fwd.hpp:
+
+/usr/include/boost/mpl/aux_/largest_int.hpp:
 
 /usr/include/boost/mpl/aux_/numeric_op.hpp:
 
@@ -3332,34 +3265,6 @@ utiltime.h:
 
 /usr/include/boost/signals2/detail/slot_groups.hpp:
 
-/usr/include/boost/optional.hpp:
-
-/usr/include/boost/optional/optional.hpp:
-
-/usr/include/boost/core/explicit_operator_bool.hpp:
-
-/usr/include/boost/optional/bad_optional_access.hpp:
-
-/usr/include/boost/none.hpp:
-
-/usr/include/boost/none_t.hpp:
-
-/usr/include/boost/utility/compare_pointees.hpp:
-
-/usr/include/boost/optional/optional_fwd.hpp:
-
-/usr/include/boost/optional/detail/optional_config.hpp:
-
-/usr/include/boost/optional/detail/optional_factory_support.hpp:
-
-/usr/include/boost/optional/detail/optional_aligned_storage.hpp:
-
-/usr/include/boost/optional/detail/optional_reference_spec.hpp:
-
-/usr/include/boost/optional/detail/optional_relops.hpp:
-
-/usr/include/boost/optional/detail/optional_swap.hpp:
-
 /usr/include/boost/signals2/detail/slot_call_iterator.hpp:
 
 /usr/include/boost/signals2/optional_last_value.hpp:
@@ -3378,245 +3283,17 @@ utiltime.h:
 
 /usr/include/boost/signals2/detail/signal_template.hpp:
 
-tinyformat.h:
+utilstrencodings.h:
 
-sync.h:
-
-uint256.h:
-
-crypto/common.h:
-
-../src/config/bitcoin-config.h:
-
-/usr/include/sodium.h:
-
-/usr/include/sodium/version.h:
-
-/usr/include/sodium/export.h:
-
-/usr/include/sodium/core.h:
-
-/usr/include/sodium/crypto_aead_aes256gcm.h:
-
-/usr/include/sodium/crypto_aead_chacha20poly1305.h:
-
-/usr/include/sodium/crypto_aead_xchacha20poly1305.h:
-
-/usr/include/sodium/crypto_auth.h:
-
-/usr/include/sodium/crypto_auth_hmacsha512256.h:
-
-/usr/include/sodium/crypto_auth_hmacsha512.h:
-
-/usr/include/sodium/crypto_hash_sha512.h:
-
-/usr/include/c++/7/stdlib.h:
-
-/usr/include/sodium/crypto_auth_hmacsha256.h:
-
-/usr/include/sodium/crypto_hash_sha256.h:
-
-/usr/include/sodium/crypto_auth_hmacsha512.h:
-
-/usr/include/sodium/crypto_auth_hmacsha512256.h:
-
-/usr/include/sodium/crypto_box.h:
-
-/usr/include/sodium/crypto_box_curve25519xsalsa20poly1305.h:
-
-/usr/include/sodium/crypto_stream_xsalsa20.h:
-
-/usr/include/sodium/crypto_box_curve25519xsalsa20poly1305.h:
-
-/usr/include/sodium/crypto_core_hsalsa20.h:
-
-/usr/include/sodium/crypto_core_hchacha20.h:
-
-/usr/include/sodium/crypto_core_salsa20.h:
-
-/usr/include/sodium/crypto_core_salsa2012.h:
-
-/usr/include/sodium/crypto_core_salsa208.h:
-
-/usr/include/sodium/crypto_generichash.h:
-
-/usr/include/sodium/crypto_generichash_blake2b.h:
-
-/usr/include/sodium/crypto_generichash_blake2b.h:
-
-/usr/include/sodium/crypto_hash.h:
-
-/usr/include/sodium/crypto_hash_sha256.h:
-
-/usr/include/sodium/crypto_hash_sha512.h:
-
-/usr/include/sodium/crypto_kdf.h:
-
-/usr/include/sodium/crypto_kdf_blake2b.h:
-
-/usr/include/sodium/crypto_kdf_blake2b.h:
-
-/usr/include/sodium/crypto_kx.h:
-
-/usr/include/sodium/crypto_onetimeauth.h:
-
-/usr/include/sodium/crypto_onetimeauth_poly1305.h:
-
-/usr/include/sodium/crypto_onetimeauth_poly1305.h:
-
-/usr/include/sodium/crypto_pwhash.h:
-
-/usr/include/sodium/crypto_pwhash_argon2i.h:
-
-/usr/include/sodium/crypto_pwhash_argon2id.h:
-
-/usr/include/sodium/crypto_pwhash_argon2i.h:
-
-/usr/include/sodium/crypto_scalarmult.h:
-
-/usr/include/sodium/crypto_scalarmult_curve25519.h:
-
-/usr/include/sodium/crypto_scalarmult_curve25519.h:
-
-/usr/include/sodium/crypto_secretbox.h:
-
-/usr/include/sodium/crypto_secretbox_xsalsa20poly1305.h:
-
-/usr/include/sodium/crypto_secretbox_xsalsa20poly1305.h:
-
-/usr/include/sodium/crypto_secretstream_xchacha20poly1305.h:
-
-/usr/include/sodium/crypto_aead_xchacha20poly1305.h:
-
-/usr/include/sodium/crypto_stream_chacha20.h:
-
-/usr/include/sodium/crypto_shorthash.h:
-
-/usr/include/sodium/crypto_shorthash_siphash24.h:
-
-/usr/include/sodium/crypto_shorthash_siphash24.h:
-
-/usr/include/sodium/crypto_sign.h:
-
-/usr/include/sodium/crypto_sign_ed25519.h:
-
-/usr/include/sodium/crypto_sign_ed25519.h:
-
-/usr/include/sodium/crypto_stream.h:
-
-/usr/include/sodium/crypto_stream_chacha20.h:
-
-/usr/include/sodium/crypto_stream_salsa20.h:
-
-/usr/include/sodium/crypto_stream_xsalsa20.h:
-
-/usr/include/sodium/crypto_verify_16.h:
-
-/usr/include/sodium/crypto_verify_32.h:
-
-/usr/include/sodium/crypto_verify_64.h:
-
-/usr/include/sodium/randombytes.h:
-
-/usr/include/sodium/randombytes_salsa20_random.h:
-
-/usr/include/sodium/randombytes.h:
-
-/usr/include/sodium/randombytes_sysrandom.h:
-
-/usr/include/sodium/runtime.h:
-
-/usr/include/sodium/utils.h:
-
-/usr/include/sodium/crypto_box_curve25519xchacha20poly1305.h:
-
-/usr/include/sodium/crypto_stream_xchacha20.h:
-
-/usr/include/sodium/crypto_core_ed25519.h:
-
-/usr/include/sodium/crypto_scalarmult_ed25519.h:
-
-/usr/include/sodium/crypto_secretbox_xchacha20poly1305.h:
-
-/usr/include/sodium/crypto_pwhash_scryptsalsa208sha256.h:
-
-/usr/include/sodium/crypto_stream_salsa2012.h:
-
-/usr/include/sodium/crypto_stream_salsa208.h:
-
-/usr/include/sodium/crypto_stream_xchacha20.h:
-
-compat/endian.h:
-
-config/bitcoin-config.h:
-
-compat/byteswap.h:
-
-/usr/include/byteswap.h:
-
-leveldb/include/leveldb/status.h:
-
-leveldb/include/leveldb/slice.h:
+validationinterface.h:
 
 primitives/transaction.h:
-
-amount.h:
 
 script/script.h:
 
 crypto/common.h:
 
 prevector.h:
-
-serialize.h:
-
-compat/endian.h:
-
-/usr/include/c++/7/set:
-
-/usr/include/c++/7/bits/stl_set.h:
-
-/usr/include/c++/7/bits/stl_multiset.h:
-
-prevector.h:
-
-/usr/include/c++/7/unordered_map:
-
-/usr/include/c++/7/bits/hashtable.h:
-
-/usr/include/c++/7/bits/hashtable_policy.h:
-
-/usr/include/c++/7/bits/unordered_map.h:
-
-init.h:
-
-rpc/server.h:
-
-rpc/protocol.h:
-
-fs.h:
-
-wallet/wallet.h:
-
-policy/feerate.h:
-
-streams.h:
-
-support/allocators/zeroafterfree.h:
-
-support/cleanse.h:
-
-serialize.h:
-
-ui_interface.h:
-
-/usr/include/boost/signals2/last_value.hpp:
-
-utilstrencodings.h:
-
-validationinterface.h:
-
-primitives/transaction.h:
 
 script/ismine.h:
 
@@ -3625,6 +3302,8 @@ script/standard.h:
 script/interpreter.h:
 
 script/script_error.h:
+
+primitives/transaction.h:
 
 /usr/include/boost/variant.hpp:
 
@@ -3686,6 +3365,234 @@ script/script.h:
 
 script/standard.h:
 
+sync.h:
+
+threadsafety.h:
+
+/usr/include/boost/thread/condition_variable.hpp:
+
+/usr/include/boost/thread/detail/platform.hpp:
+
+/usr/include/boost/config/requires_threads.hpp:
+
+/usr/include/boost/thread/pthread/condition_variable.hpp:
+
+/usr/include/boost/thread/pthread/timespec.hpp:
+
+/usr/include/boost/thread/detail/config.hpp:
+
+/usr/include/boost/thread/thread_time.hpp:
+
+/usr/include/boost/date_time/time_clock.hpp:
+
+/usr/include/boost/date_time/c_time.hpp:
+
+/usr/include/boost/date_time/compiler_config.hpp:
+
+/usr/include/boost/date_time/locale_config.hpp:
+
+/usr/include/x86_64-linux-gnu/sys/time.h:
+
+/usr/include/boost/date_time/microsec_time_clock.hpp:
+
+/usr/include/boost/date_time/filetime_functions.hpp:
+
+/usr/include/boost/date_time/posix_time/posix_time_types.hpp:
+
+/usr/include/boost/date_time/posix_time/ptime.hpp:
+
+/usr/include/boost/date_time/posix_time/posix_time_system.hpp:
+
+/usr/include/boost/date_time/posix_time/posix_time_config.hpp:
+
+/usr/include/boost/config/no_tr1/cmath.hpp:
+
+/usr/include/c++/7/cmath:
+
+/usr/include/math.h:
+
+/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+
+/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
+
+/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
+
+/usr/include/x86_64-linux-gnu/bits/iscanonical.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathinline.h:
+
+/usr/include/boost/date_time/time_duration.hpp:
+
+/usr/include/boost/operators.hpp:
+
+/usr/include/boost/date_time/time_defs.hpp:
+
+/usr/include/boost/date_time/special_defs.hpp:
+
+/usr/include/boost/date_time/time_resolution_traits.hpp:
+
+/usr/include/boost/date_time/int_adapter.hpp:
+
+/usr/include/boost/date_time/gregorian/gregorian_types.hpp:
+
+/usr/include/boost/date_time/date.hpp:
+
+/usr/include/boost/date_time/year_month_day.hpp:
+
+/usr/include/boost/date_time/period.hpp:
+
+/usr/include/boost/date_time/gregorian/greg_calendar.hpp:
+
+/usr/include/boost/date_time/gregorian/greg_weekday.hpp:
+
+/usr/include/boost/date_time/constrained_value.hpp:
+
+/usr/include/boost/date_time/date_defs.hpp:
+
+/usr/include/boost/date_time/gregorian/greg_day_of_year.hpp:
+
+/usr/include/boost/date_time/gregorian_calendar.hpp:
+
+/usr/include/boost/date_time/gregorian_calendar.ipp:
+
+/usr/include/boost/date_time/gregorian/greg_ymd.hpp:
+
+/usr/include/boost/date_time/gregorian/greg_day.hpp:
+
+/usr/include/boost/date_time/gregorian/greg_year.hpp:
+
+/usr/include/boost/date_time/gregorian/greg_month.hpp:
+
+/usr/include/boost/date_time/gregorian/greg_duration.hpp:
+
+/usr/include/boost/date_time/date_duration.hpp:
+
+/usr/include/boost/date_time/date_duration_types.hpp:
+
+/usr/include/boost/date_time/gregorian/greg_duration_types.hpp:
+
+/usr/include/boost/date_time/gregorian/greg_date.hpp:
+
+/usr/include/boost/date_time/adjust_functors.hpp:
+
+/usr/include/boost/date_time/wrapping_int.hpp:
+
+/usr/include/boost/date_time/date_generators.hpp:
+
+/usr/include/boost/date_time/date_clock_device.hpp:
+
+/usr/include/boost/date_time/date_iterator.hpp:
+
+/usr/include/boost/date_time/time_system_split.hpp:
+
+/usr/include/boost/date_time/time_system_counted.hpp:
+
+/usr/include/boost/date_time/time.hpp:
+
+/usr/include/boost/date_time/posix_time/date_duration_operators.hpp:
+
+/usr/include/boost/date_time/posix_time/posix_time_duration.hpp:
+
+/usr/include/boost/date_time/posix_time/time_period.hpp:
+
+/usr/include/boost/date_time/time_iterator.hpp:
+
+/usr/include/boost/date_time/dst_rules.hpp:
+
+/usr/include/boost/date_time/posix_time/conversion.hpp:
+
+/usr/include/boost/date_time/gregorian/conversion.hpp:
+
+/usr/include/boost/chrono/duration.hpp:
+
+/usr/include/boost/chrono/config.hpp:
+
+/usr/include/boost/chrono/detail/static_assert.hpp:
+
+/usr/include/boost/ratio/ratio.hpp:
+
+/usr/include/boost/ratio/config.hpp:
+
+/usr/include/boost/ratio/detail/mpl/abs.hpp:
+
+/usr/include/boost/ratio/detail/mpl/sign.hpp:
+
+/usr/include/boost/ratio/detail/mpl/gcd.hpp:
+
+/usr/include/boost/mpl/aux_/config/dependent_nttp.hpp:
+
+/usr/include/boost/ratio/detail/mpl/lcm.hpp:
+
+/usr/include/boost/ratio/ratio_fwd.hpp:
+
+/usr/include/boost/ratio/detail/overflow_helpers.hpp:
+
+/usr/include/boost/type_traits/common_type.hpp:
+
+/usr/include/boost/type_traits/detail/mp_defer.hpp:
+
+/usr/include/boost/type_traits/is_unsigned.hpp:
+
+/usr/include/boost/chrono/detail/is_evenly_divisible_by.hpp:
+
+/usr/include/boost/thread/pthread/pthread_mutex_scoped_lock.hpp:
+
+/usr/include/boost/thread/pthread/thread_data.hpp:
+
+/usr/include/boost/thread/exceptions.hpp:
+
+/usr/include/boost/thread/lock_guard.hpp:
+
+/usr/include/boost/thread/detail/delete.hpp:
+
+/usr/include/boost/thread/detail/move.hpp:
+
+/usr/include/boost/thread/detail/lockable_wrapper.hpp:
+
+/usr/include/boost/thread/lock_options.hpp:
+
+/usr/include/boost/thread/lock_types.hpp:
+
+/usr/include/boost/thread/lockable_traits.hpp:
+
+/usr/include/boost/chrono/time_point.hpp:
+
+/usr/include/boost/thread/mutex.hpp:
+
+/usr/include/boost/thread/pthread/mutex.hpp:
+
+/usr/include/boost/core/ignore_unused.hpp:
+
+/usr/include/boost/thread/xtime.hpp:
+
+/usr/include/boost/chrono/system_clocks.hpp:
+
+/usr/include/boost/chrono/detail/system.hpp:
+
+/usr/include/boost/chrono/clock_string.hpp:
+
+/usr/include/boost/chrono/ceil.hpp:
+
+/usr/include/boost/thread/pthread/condition_variable_fwd.hpp:
+
+/usr/include/boost/thread/cv_status.hpp:
+
+/usr/include/boost/enable_shared_from_this.hpp:
+
+/usr/include/boost/smart_ptr/enable_shared_from_this.hpp:
+
+/usr/include/boost/thread/recursive_mutex.hpp:
+
+/usr/include/boost/thread/pthread/recursive_mutex.hpp:
+
 support/allocators/secure.h:
 
 wallet/walletdb.h:
@@ -3693,6 +3600,10 @@ wallet/walletdb.h:
 wallet/db.h:
 
 clientversion.h:
+
+config/bitcoin-config.h:
+
+sync.h:
 
 version.h:
 
@@ -3705,3 +3616,153 @@ version.h:
 key.h:
 
 wallet/rpcwallet.h:
+
+omnicore/omnicore.h:
+
+omnicore/log.h:
+
+util.h:
+
+compat.h:
+
+/usr/include/x86_64-linux-gnu/sys/fcntl.h:
+
+/usr/include/fcntl.h:
+
+/usr/include/x86_64-linux-gnu/bits/fcntl.h:
+
+/usr/include/x86_64-linux-gnu/bits/fcntl-linux.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h:
+
+/usr/include/linux/falloc.h:
+
+/usr/include/x86_64-linux-gnu/bits/stat.h:
+
+/usr/include/x86_64-linux-gnu/bits/fcntl2.h:
+
+/usr/include/x86_64-linux-gnu/sys/mman.h:
+
+/usr/include/x86_64-linux-gnu/bits/mman.h:
+
+/usr/include/x86_64-linux-gnu/bits/mman-linux.h:
+
+/usr/include/x86_64-linux-gnu/bits/mman-shared.h:
+
+/usr/include/x86_64-linux-gnu/sys/socket.h:
+
+/usr/include/x86_64-linux-gnu/bits/socket.h:
+
+/usr/include/x86_64-linux-gnu/bits/socket_type.h:
+
+/usr/include/x86_64-linux-gnu/bits/sockaddr.h:
+
+/usr/include/x86_64-linux-gnu/asm/socket.h:
+
+/usr/include/asm-generic/socket.h:
+
+/usr/include/x86_64-linux-gnu/asm/sockios.h:
+
+/usr/include/asm-generic/sockios.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h:
+
+/usr/include/x86_64-linux-gnu/bits/socket2.h:
+
+/usr/include/net/if.h:
+
+/usr/include/netinet/in.h:
+
+/usr/include/x86_64-linux-gnu/bits/in.h:
+
+/usr/include/netinet/tcp.h:
+
+/usr/include/arpa/inet.h:
+
+/usr/include/ifaddrs.h:
+
+/usr/include/netdb.h:
+
+/usr/include/rpc/netdb.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/netdb.h:
+
+fs.h:
+
+tinyformat.h:
+
+utiltime.h:
+
+leveldb/include/leveldb/status.h:
+
+leveldb/include/leveldb/slice.h:
+
+/usr/include/c++/7/unordered_map:
+
+/usr/include/c++/7/bits/hashtable.h:
+
+/usr/include/c++/7/bits/hashtable_policy.h:
+
+/usr/include/c++/7/bits/unordered_map.h:
+
+wallet/coincontrol.h:
+
+policy/fees.h:
+
+policy/feerate.h:
+
+random.h:
+
+crypto/chacha20.h:
+
+consensus/validation.h:
+
+consensus/consensus.h:
+
+consensus/params.h:
+
+primitives/block.h:
+
+arith_uint256.h:
+
+init.h:
+
+net.h:
+
+addrdb.h:
+
+addrman.h:
+
+netaddress.h:
+
+protocol.h:
+
+random.h:
+
+timedata.h:
+
+util.h:
+
+amount.h:
+
+bloom.h:
+
+limitedmap.h:
+
+policy/feerate.h:
+
+primitives/block.h:
+
+streams.h:
+
+threadinterrupt.h:
+
+/usr/include/c++/7/condition_variable:
+
+/usr/include/c++/7/thread:
+
+utilmoneystr.h:
