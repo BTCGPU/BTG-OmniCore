@@ -2219,8 +2219,8 @@ int mastercore_init()
     //     // nothing to do
     //     return 0;
     // }
-
-//     PrintToConsole("Initializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
+   PrintToConsole("Initializing Omni Core Gold\n");
+    // PrintToConsole("Initializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
 //
 //     PrintToLog("\nInitializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
 //     PrintToLog("Startup time: %s\n", DateTimeStrFormat("%Y-%m-%d %H:%M:%S", GetTime()));
@@ -2341,7 +2341,7 @@ int mastercore_init()
 //     }
 //
 //     // initial scan
-//     msc_initial_scan(nWaterlineBlock);
+    // msc_initial_scan(nWaterlineBlock);
 //
 //     // display Exodus balance
 //     int64_t exodus_balance = getMPbalance(exodus_address, OMNI_PROPERTY_MSC, BALANCE);

@@ -16,10 +16,13 @@
 // #include "omnicore/sp.h"
 // #include "omnicore/tx.h"
 
+#include "wallet/coincontrol.h"
+#include "consensus/validation.h"
 #include "init.h"
-// #include "main.h"
+#include "net.h"
 #include "rpc/server.h"
 #include "sync.h"
+#include "utilmoneystr.h"
 #ifdef ENABLE_WALLET
 #include "wallet/wallet.h"
 #endif
@@ -116,7 +119,7 @@ UniValue omni_send(const JSONRPCRequest& request)
     // std::vector<unsigned char> payload = CreatePayload_SimpleSend(propertyId, amount);
     //
     // // request the wallet build the transaction (and if needed commit it)
-    // uint256 txid;
+    uint256 txid;
     // std::string rawHex;
     // int result = WalletTxBuilder(fromAddress, toAddress, redeemAddress, referenceAmount, payload, txid, rawHex, autoCommit);
     //
@@ -128,7 +131,7 @@ UniValue omni_send(const JSONRPCRequest& request)
     //         return rawHex;
     //     } else {
     //         PendingAdd(txid, fromAddress, MSC_TYPE_SIMPLE_SEND, propertyId, amount);
-    //         return txid.GetHex();
+            return txid.GetHex();
     //     }
     // }
 }
@@ -1443,7 +1446,7 @@ static const CRPCCommand commands[] =
   //  ------------------------------------ ------------------------------- ------------------------------ ----------
 #ifdef ENABLE_WALLET
     // { "omni layer (transaction creation)", "omni_sendrawtx",               &omni_sendrawtx,               false },
-    { "omni layer (transaction creation)", "omni_send",                    &omni_send,                    false },
+    { "omni layer (transaction creation)", "omni_send",                    &omni_send,                    true, {} },
     // { "omni layer (transaction creation)", "omni_senddexsell",             &omni_senddexsell,             false },
     // { "omni layer (transaction creation)", "omni_senddexaccept",           &omni_senddexaccept,           false },
     // { "omni layer (transaction creation)", "omni_sendissuancecrowdsale",   &omni_sendissuancecrowdsale,   false },

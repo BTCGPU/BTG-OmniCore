@@ -7,6 +7,8 @@
 #include "rpc/protocol.h"
 #include "util.h"
 
+#include <cstdint>
+
 #include <set>
 #include <stdint.h>
 
@@ -145,7 +147,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "echojson", 9, "arg9" },
 
     /* Omni Core - transaction calls */
-    { "omni_send", 2, "arg2" },
+    { "omni_send", 2, "" },
 };
 
 class CRPCConvertTable
