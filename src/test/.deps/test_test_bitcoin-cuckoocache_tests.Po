@@ -858,8 +858,9 @@ test/test_test_bitcoin-cuckoocache_tests.o: test/cuckoocache_tests.cpp \
  config/bitcoin-config.h compat/byteswap.h /usr/include/byteswap.h \
  prevector.h serialize.h compat/endian.h /usr/include/c++/7/set \
  /usr/include/c++/7/bits/stl_set.h /usr/include/c++/7/bits/stl_multiset.h \
- prevector.h uint256.h crypto/common.h test/test_bitcoin.h \
- chainparamsbase.h fs.h /usr/include/boost/filesystem.hpp \
+ prevector.h uint256.h crypto/common.h policy/feerate.h \
+ consensus/consensus.h test/test_bitcoin.h chainparamsbase.h fs.h \
+ /usr/include/boost/filesystem.hpp \
  /usr/include/boost/filesystem/config.hpp \
  /usr/include/boost/system/api_config.hpp \
  /usr/include/boost/filesystem/path.hpp \
@@ -3468,6 +3469,10 @@ prevector.h:
 uint256.h:
 
 crypto/common.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 test/test_bitcoin.h:
 

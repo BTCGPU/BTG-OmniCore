@@ -251,7 +251,8 @@ zmq/libbitcoin_zmq_a-zmqnotificationinterface.o: \
  /usr/include/c++/7/bits/stl_vector.h \
  /usr/include/c++/7/bits/stl_bvector.h /usr/include/c++/7/bits/vector.tcc \
  prevector.h /usr/include/c++/7/climits uint256.h \
- /usr/include/c++/7/cstring crypto/common.h /usr/include/c++/7/list \
+ /usr/include/c++/7/cstring crypto/common.h policy/feerate.h \
+ consensus/consensus.h /usr/include/c++/7/list \
  /usr/include/c++/7/bits/stl_list.h /usr/include/c++/7/bits/list.tcc \
  zmq/zmqpublishnotifier.h zmq/zmqabstractnotifier.h zmq/zmqconfig.h \
  /usr/include/zmq.h primitives/block.h arith_uint256.h \
@@ -1736,6 +1737,10 @@ uint256.h:
 /usr/include/c++/7/cstring:
 
 crypto/common.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 /usr/include/c++/7/list:
 

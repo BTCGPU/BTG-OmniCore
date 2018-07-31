@@ -6,15 +6,15 @@
 
 #include "omnicore/rpctx.h"
 
-// #include "omnicore/createpayload.h"
+#include "omnicore/createpayload.h"
 // #include "omnicore/dex.h"
-// #include "omnicore/errors.h"
+#include "omnicore/errors.h"
 #include "omnicore/omnicore.h"
-// #include "omnicore/pending.h"
-// #include "omnicore/rpcrequirements.h"
-// #include "omnicore/rpcvalues.h"
-// #include "omnicore/sp.h"
-// #include "omnicore/tx.h"
+#include "omnicore/pending.h"
+#include "omnicore/rpcrequirements.h"
+#include "omnicore/rpcvalues.h"
+#include "omnicore/sp.h"
+#include "omnicore/tx.h"
 
 #include "wallet/coincontrol.h"
 #include "consensus/validation.h"
@@ -34,7 +34,7 @@
 #include <string>
 
 using std::runtime_error;
-// using namespace mastercore;
+using namespace mastercore;
 //
 // UniValue omni_sendrawtx(const UniValue& params, bool fHelp)
 // {
@@ -101,39 +101,40 @@ UniValue omni_send(const JSONRPCRequest& request)
             + HelpExampleCli("omni_send", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\" \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\" 1 \"100.0\"")
             // + HelpExampleRpc("omni_send", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\", \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\", 1, \"100.0\"")
         );
+    strprintf("Testing the prinft function <-------------------------------------\n");
+    // obtain parameters & info
+    std::string fromAddress = ParseAddress(request.params[0]);
+    std::string toAddress = ParseAddress(request.params[1]);
+    uint32_t propertyId = ParsePropertyId(request.params[2]);
+    // int64_t amount = ParseAmount(request.params[3], isPropertyDivisible(propertyId));
+    int64_t amount = ParseAmount(request.params[3], true);
+    std::string redeemAddress = (request.params.size() > 4 && !ParseText(request.params[4]).empty()) ? ParseAddress(request.params[4]): "";
+    int64_t referenceAmount = (request.params.size() > 5) ? ParseAmount(request.params[5], true): 0;
 
-    // // obtain parameters & info
-    // std::string fromAddress = ParseAddress(params[0]);
-    // std::string toAddress = ParseAddress(params[1]);
-    // uint32_t propertyId = ParsePropertyId(params[2]);
-    // int64_t amount = ParseAmount(params[3], isPropertyDivisible(propertyId));
-    // std::string redeemAddress = (params.size() > 4 && !ParseText(params[4]).empty()) ? ParseAddress(params[4]): "";
-    // int64_t referenceAmount = (params.size() > 5) ? ParseAmount(params[5], true): 0;
-    //
-    // // perform checks
+    // perform checks
     // RequireExistingProperty(propertyId);
     // RequireBalance(fromAddress, propertyId, amount);
     // RequireSaneReferenceAmount(referenceAmount);
-    //
-    // // create a payload for the transaction
-    // std::vector<unsigned char> payload = CreatePayload_SimpleSend(propertyId, amount);
-    //
-    // // request the wallet build the transaction (and if needed commit it)
+
+    // create a payload for the transaction
+    std::vector<unsigned char> payload = CreatePayload_SimpleSend(propertyId, amount);
+
+    // request the wallet build the transaction (and if needed commit it)
     uint256 txid;
-    // std::string rawHex;
-    // int result = WalletTxBuilder(fromAddress, toAddress, redeemAddress, referenceAmount, payload, txid, rawHex, autoCommit);
-    //
-    // // check error and return the txid (or raw hex depending on autocommit)
-    // if (result != 0) {
-    //     throw JSONRPCError(result, error_str(result));
-    // } else {
-    //     if (!autoCommit) {
-    //         return rawHex;
-    //     } else {
-    //         PendingAdd(txid, fromAddress, MSC_TYPE_SIMPLE_SEND, propertyId, amount);
+    std::string rawHex;
+    int result = WalletTxBuilder(fromAddress, toAddress, redeemAddress, referenceAmount, payload, txid, rawHex, autoCommit);
+
+    // check error and return the txid (or raw hex depending on autocommit)
+    if (result != 0) {
+        throw JSONRPCError(result, error_str(result));
+    } else {
+        if (!autoCommit) {
+            return rawHex;
+        } else {
+            // PendingAdd(txid, fromAddress, MSC_TYPE_SIMPLE_SEND, propertyId, amount);
             return txid.GetHex();
-    //     }
-    // }
+        }
+    }
 }
 //
 // UniValue omni_sendall(const UniValue& params, bool fHelp)

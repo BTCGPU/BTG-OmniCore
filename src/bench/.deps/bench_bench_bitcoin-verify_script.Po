@@ -263,8 +263,8 @@ bench/bench_bench_bitcoin-verify_script.o: bench/verify_script.cpp \
  /usr/include/c++/7/bits/std_mutex.h support/cleanse.h script/script.h \
  crypto/common.h prevector.h serialize.h /usr/include/c++/7/climits \
  script/sign.h script/interpreter.h script/script_error.h \
- primitives/transaction.h amount.h uint256.h streams.h \
- support/allocators/zeroafterfree.h
+ primitives/transaction.h amount.h uint256.h policy/feerate.h \
+ consensus/consensus.h streams.h support/allocators/zeroafterfree.h
 
 /usr/include/stdc-predef.h:
 
@@ -963,6 +963,10 @@ primitives/transaction.h:
 amount.h:
 
 uint256.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 streams.h:
 

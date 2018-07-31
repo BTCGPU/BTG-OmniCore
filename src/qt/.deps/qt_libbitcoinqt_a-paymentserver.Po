@@ -303,8 +303,8 @@ qt/qt_libbitcoinqt_a-paymentserver.o: qt/paymentserver.cpp \
  /usr/include/c++/7/bits/algorithmfwd.h \
  /usr/include/c++/7/bits/stl_heap.h \
  /usr/include/c++/7/bits/uniform_int_dist.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -1035,8 +1035,8 @@ qt/qt_libbitcoinqt_a-paymentserver.o: qt/paymentserver.cpp \
  /usr/include/qt4/QtGui/qprogressbar.h /usr/include/qt4/QtGui/QTableView \
  /usr/include/qt4/QtGui/qtableview.h /usr/include/qt4/QtGui/QLabel \
  /usr/include/qt4/QtGui/qlabel.h qt/optionsmodel.h chainparams.h \
- policy/policy.h consensus/consensus.h policy/feerate.h script/standard.h \
- ui_interface.h /usr/include/boost/signals2/last_value.hpp \
+ policy/policy.h policy/feerate.h script/standard.h ui_interface.h \
+ /usr/include/boost/signals2/last_value.hpp \
  /usr/include/boost/optional.hpp /usr/include/boost/optional/optional.hpp \
  /usr/include/boost/core/explicit_operator_bool.hpp \
  /usr/include/boost/core/swap.hpp \
@@ -1224,8 +1224,8 @@ qt/qt_libbitcoinqt_a-paymentserver.o: qt/paymentserver.cpp \
  /usr/include/boost/smart_ptr/enable_shared_from_this.hpp \
  /usr/include/boost/thread/recursive_mutex.hpp \
  /usr/include/boost/thread/pthread/recursive_mutex.hpp tinyformat.h \
- /usr/include/c++/7/iostream utiltime.h wallet/wallet.h policy/feerate.h \
- streams.h tinyformat.h utilstrencodings.h validationinterface.h \
+ /usr/include/c++/7/iostream utiltime.h wallet/wallet.h streams.h \
+ tinyformat.h utilstrencodings.h validationinterface.h \
  primitives/transaction.h script/ismine.h script/sign.h wallet/crypter.h \
  keystore.h wallet/walletdb.h wallet/db.h clientversion.h sync.h \
  /usr/include/db_cxx.h /usr/include/db.h /usr/include/inttypes.h key.h \
@@ -2041,6 +2041,10 @@ compat/endian.h:
 prevector.h:
 
 /usr/include/c++/7/climits:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 
@@ -3762,8 +3766,6 @@ chainparams.h:
 
 policy/policy.h:
 
-consensus/consensus.h:
-
 policy/feerate.h:
 
 script/standard.h:
@@ -4191,8 +4193,6 @@ tinyformat.h:
 utiltime.h:
 
 wallet/wallet.h:
-
-policy/feerate.h:
 
 streams.h:
 

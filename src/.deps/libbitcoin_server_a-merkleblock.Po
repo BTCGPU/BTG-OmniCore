@@ -251,9 +251,9 @@ libbitcoin_server_a-merkleblock.o: merkleblock.cpp \
  /usr/include/sodium/crypto_stream_xchacha20.h compat/endian.h \
  primitives/block.h arith_uint256.h primitives/transaction.h amount.h \
  script/script.h crypto/common.h prevector.h serialize.h \
- /usr/include/c++/7/climits uint256.h version.h bloom.h hash.h \
- crypto/ripemd160.h crypto/sha256.h version.h consensus/consensus.h \
- utilstrencodings.h
+ /usr/include/c++/7/climits uint256.h policy/feerate.h \
+ consensus/consensus.h version.h bloom.h hash.h crypto/ripemd160.h \
+ crypto/sha256.h version.h consensus/consensus.h utilstrencodings.h
 
 /usr/include/stdc-predef.h:
 
@@ -904,6 +904,10 @@ serialize.h:
 /usr/include/c++/7/climits:
 
 uint256.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 

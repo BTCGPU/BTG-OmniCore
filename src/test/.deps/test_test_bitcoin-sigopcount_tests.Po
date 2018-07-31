@@ -251,9 +251,9 @@ test/test_test_bitcoin-sigopcount_tests.o: test/sigopcount_tests.cpp \
  /usr/include/c++/7/bits/atomic_lockfree_defines.h \
  /usr/include/c++/7/backward/auto_ptr.h /usr/include/c++/7/set \
  /usr/include/c++/7/bits/stl_set.h /usr/include/c++/7/bits/stl_multiset.h \
- prevector.h /usr/include/c++/7/climits primitives/block.h \
- arith_uint256.h pubkey.h hash.h crypto/ripemd160.h crypto/sha256.h \
- serialize.h uint256.h version.h key.h pubkey.h \
+ prevector.h /usr/include/c++/7/climits policy/feerate.h \
+ primitives/block.h arith_uint256.h pubkey.h hash.h crypto/ripemd160.h \
+ crypto/sha256.h serialize.h uint256.h version.h key.h pubkey.h \
  support/allocators/secure.h support/lockedpool.h /usr/include/c++/7/list \
  /usr/include/c++/7/bits/stl_list.h /usr/include/c++/7/bits/list.tcc \
  /usr/include/c++/7/mutex /usr/include/c++/7/chrono \
@@ -2182,6 +2182,8 @@ compat/endian.h:
 prevector.h:
 
 /usr/include/c++/7/climits:
+
+policy/feerate.h:
 
 primitives/block.h:
 

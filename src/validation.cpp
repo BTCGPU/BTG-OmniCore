@@ -46,9 +46,17 @@
 #include <atomic>
 #include <sstream>
 
+#include <stdio.h>
+
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/join.hpp>
 #include <boost/thread.hpp>
+#include <boost/foreach.hpp>
+
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
+#include <boost/math/distributions/poisson.hpp>
+
 
 #if defined(NDEBUG)
 # error "Bitcoin cannot be compiled without assertions."
@@ -57,6 +65,8 @@
 /**
  * Global state
  */
+
+using namespace std;
 
 CCriticalSection cs_main;
 
@@ -94,6 +104,21 @@ static void CheckBlockIndex(const Consensus::Params& consensusParams);
 CScript COINBASE_FLAGS;
 
 const std::string strMessageMagic = "Bitcoin Gold Signed Message:\n";
+
+/*-------------------------- Omnicore G Port ---------------------------------*/
+//
+// Omni Core notification handlers
+//
+
+
+// int mastercore_handler_disc_begin(int nBlockNow, CBlockIndex const * pBlockIndex);
+// int mastercore_handler_disc_end(int nBlockNow, CBlockIndex const * pBlockIndex);
+// int mastercore_handler_block_begin(int nBlockNow, CBlockIndex const * pBlockIndex);
+// int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex, unsigned int);
+// int mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, CBlockIndex const * pBlockIndex);
+
+/*----------------------------------------------------------------------------*/
+
 
 // Internal stuff
 namespace {
@@ -159,6 +184,7 @@ namespace {
     /** Dirty block file entries. */
     std::set<int> setDirtyFileInfo;
 } // anon namespace
+
 
 CBlockIndex* FindForkInGlobalIndex(const CChain& chain, const CBlockLocator& locator)
 {
@@ -245,6 +271,14 @@ bool TestLockPointValidity(const LockPoints* lp)
     // LockPoints still valid
     return true;
 }
+
+/*-------------------------- Omnicore G Port ---------------------------------*/
+int GetHeight()
+{
+    LOCK(cs_main);
+    return chainActive.Height();
+}
+/*----------------------------------------------------------------------------*/
 
 bool CheckSequenceLocks(const CTransaction &tx, int flags, LockPoints* lp, bool useExistingLockPoints)
 {
@@ -2121,12 +2155,17 @@ bool static DisconnectTip(CValidationState& state, const CChainParams& chainpara
             disconnectpool->removeEntry(it);
         }
     }
-
+/*-------------------------- Omnicore G Port ---------------------------------*/
+    strprintf(" mastercore handler disc begin <----------------------------\n");
+    // mastercore_handler_disc_begin(GetHeight(), pindexDelete);
     // Update chainActive and related variables.
     UpdateTip(pindexDelete->pprev, chainparams);
     // Let wallets know transactions went from 1-confirmed to
     // 0-confirmed or conflicted:
     GetMainSignals().BlockDisconnected(pblock);
+
+    // mastercore_handler_disc_end(GetHeight(), pindexDelete);
+/*----------------------------------------------------------------------------*/
     return true;
 }
 
@@ -2247,11 +2286,41 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
         return false;
     int64_t nTime5 = GetTimeMicros(); nTimeChainState += nTime5 - nTime4;
     LogPrint(BCLog::BENCH, "  - Writing chainstate: %.2fms [%.2fs]\n", (nTime5 - nTime4) * 0.001, nTimeChainState * 0.000001);
+
+    /*-------------------------- Omnicore G Port ------------------------------*/
+
+    //! Omni Core: transaction position within the block
+    unsigned int nTxIdx = 0;
+    //! Omni Core: number of meta transactions found
+    unsigned int nNumMetaTxs = 0;
+
+    //! Omni Core: begin block connect notification
+    // LogPrint("Omni Core handler: block connect begin [height: %d]\n", GetHeight);
+
+    // mastercore_handler_block_begin(GetHeight(), pindexNew);
+
+    // list<CTransaction> txConflicted;
     // Remove conflicting transactions from the mempool.;
     mempool.removeForBlock(blockConnecting.vtx, pindexNew->nHeight);
     disconnectpool.removeForBlock(blockConnecting.vtx);
     // Update chainActive & related variables.
     UpdateTip(pindexNew, chainparams);
+
+    // Tell wallet about transactions that went from mempool
+    // to conflicted:
+    // BOOST_FOREACH(const CTransaction &tx, txConflicted) {
+      // SyncWithWallets(tx, pindexNew, NULL);
+    // }
+    // ... and about transactions that got confirmed:
+    // TODO: shared_ptr  pointers!!!
+    for(CTransactionRef tx : blockConnecting.vtx){
+          //! Omni Core: new confirmed transaction notification
+    // LogPrint(BCLog::OMNICORE, "Omni Core handler: new confirmed transaction [height: %d, idx: %u]\n", currentHeight, nTxIdx);
+    // if (mastercore_handler_tx(*(tx.get()), GetHeight(), nTxIdx++, pindexNew)) ++nNumMetaTxs;
+    }
+    // mastercore_handler_block_end(GetHeight(), pindexNew, nNumMetaTxs);
+
+    /*------------------------------------------------------------------------*/
 
     int64_t nTime6 = GetTimeMicros(); nTimePostConnect += nTime6 - nTime5; nTimeTotal += nTime6 - nTime1;
     LogPrint(BCLog::BENCH, "  - Connect postprocess: %.2fms [%.2fs]\n", (nTime6 - nTime5) * 0.001, nTimePostConnect * 0.000001);
@@ -2868,7 +2937,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
 
     // Check transactions
     for (const auto& tx : block.vtx)
-        if (!CheckTransaction(*tx, state, true))
+        if (!CheckTransaction(*tx, state, false))
             return state.Invalid(false, state.GetRejectCode(), state.GetRejectReason(),
                                  strprintf("Transaction check failed (tx hash %s) %s", tx->GetHash().ToString(), state.GetDebugMessage()));
 

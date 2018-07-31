@@ -769,8 +769,8 @@ qt/qt_libbitcoinqt_a-addresstablemodel.o: qt/addresstablemodel.cpp \
  config/bitcoin-config.h compat/byteswap.h primitives/block.h \
  arith_uint256.h primitives/transaction.h script/script.h crypto/common.h \
  prevector.h serialize.h compat/endian.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -1036,8 +1036,8 @@ qt/qt_libbitcoinqt_a-addresstablemodel.o: qt/addresstablemodel.cpp \
  /usr/include/openssl/pkcs7.h /usr/include/qt4/QtCore/QByteArray \
  /usr/include/qt4/QtCore/qbytearray.h /usr/include/qt4/QtCore/QList \
  /usr/include/qt4/QtCore/qlist.h qt/walletmodeltransaction.h \
- support/allocators/secure.h wallet/wallet.h policy/feerate.h streams.h \
- tinyformat.h /usr/include/c++/7/iostream /usr/include/c++/7/sstream \
+ support/allocators/secure.h wallet/wallet.h streams.h tinyformat.h \
+ /usr/include/c++/7/iostream /usr/include/c++/7/sstream \
  /usr/include/c++/7/bits/sstream.tcc ui_interface.h \
  /usr/include/boost/signals2/last_value.hpp \
  /usr/include/boost/optional.hpp /usr/include/boost/optional/optional.hpp \
@@ -3078,6 +3078,10 @@ prevector.h:
 
 /usr/include/c++/7/climits:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 version.h:
 
 protocol.h:
@@ -3715,8 +3719,6 @@ qt/walletmodeltransaction.h:
 support/allocators/secure.h:
 
 wallet/wallet.h:
-
-policy/feerate.h:
 
 streams.h:
 

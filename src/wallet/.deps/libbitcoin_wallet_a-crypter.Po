@@ -261,9 +261,10 @@ wallet/libbitcoin_wallet_a-crypter.o: wallet/crypter.cpp \
  crypto/common.h prevector.h serialize.h /usr/include/c++/7/climits \
  script/standard.h script/interpreter.h script/script_error.h \
  primitives/transaction.h amount.h script/script.h uint256.h \
- /usr/include/boost/variant.hpp /usr/include/boost/variant/variant.hpp \
- /usr/include/c++/7/cstddef /usr/include/boost/type_index.hpp \
- /usr/include/boost/config.hpp /usr/include/boost/config/user.hpp \
+ policy/feerate.h consensus/consensus.h /usr/include/boost/variant.hpp \
+ /usr/include/boost/variant/variant.hpp /usr/include/c++/7/cstddef \
+ /usr/include/boost/type_index.hpp /usr/include/boost/config.hpp \
+ /usr/include/boost/config/user.hpp \
  /usr/include/boost/config/detail/select_compiler_config.hpp \
  /usr/include/boost/config/compiler/gcc.hpp \
  /usr/include/boost/config/detail/select_stdlib_config.hpp \
@@ -1790,6 +1791,10 @@ amount.h:
 script/script.h:
 
 uint256.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 /usr/include/boost/variant.hpp:
 

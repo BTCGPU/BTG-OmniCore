@@ -303,8 +303,8 @@ qt/qt_libbitcoinqt_a-moc_sendcoinsentry.o: qt/moc_sendcoinsentry.cpp \
  /usr/include/c++/7/bits/algorithmfwd.h \
  /usr/include/c++/7/bits/stl_heap.h \
  /usr/include/c++/7/bits/uniform_int_dist.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -1576,6 +1576,10 @@ compat/endian.h:
 prevector.h:
 
 /usr/include/c++/7/climits:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 

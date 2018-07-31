@@ -803,8 +803,8 @@ qt/qt_libbitcoinqt_a-signverifymessagedialog.o: \
  config/bitcoin-config.h compat/byteswap.h primitives/block.h \
  arith_uint256.h primitives/transaction.h script/script.h crypto/common.h \
  prevector.h serialize.h compat/endian.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -1192,7 +1192,7 @@ qt/qt_libbitcoinqt_a-signverifymessagedialog.o: \
  /usr/include/boost/thread/recursive_mutex.hpp \
  /usr/include/boost/thread/pthread/recursive_mutex.hpp versionbits.h \
  chain.h arith_uint256.h pow.h tinyformat.h /usr/include/c++/7/iostream \
- wallet/wallet.h policy/feerate.h streams.h tinyformat.h ui_interface.h \
+ wallet/wallet.h streams.h tinyformat.h ui_interface.h \
  /usr/include/boost/signals2/last_value.hpp \
  /usr/include/boost/optional.hpp /usr/include/boost/optional/optional.hpp \
  /usr/include/boost/core/explicit_operator_bool.hpp \
@@ -3236,6 +3236,10 @@ prevector.h:
 
 /usr/include/c++/7/climits:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 version.h:
 
 protocol.h:
@@ -4159,8 +4163,6 @@ tinyformat.h:
 /usr/include/c++/7/iostream:
 
 wallet/wallet.h:
-
-policy/feerate.h:
 
 streams.h:
 

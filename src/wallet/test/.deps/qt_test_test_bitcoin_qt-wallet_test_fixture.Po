@@ -994,10 +994,11 @@ wallet/test/qt_test_test_bitcoin_qt-wallet_test_fixture.o: \
  /usr/include/boost/detail/atomic_undef_macros.hpp \
  /usr/include/boost/detail/atomic_redef_macros.hpp sync.h threadsafety.h \
  txdb.h coins.h primitives/transaction.h amount.h script/script.h \
- crypto/common.h prevector.h serialize.h uint256.h compressor.h \
- script/script.h core_memusage.h primitives/block.h arith_uint256.h \
- primitives/transaction.h version.h memusage.h indirectmap.h \
- /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
+ crypto/common.h prevector.h serialize.h uint256.h policy/feerate.h \
+ consensus/consensus.h compressor.h script/script.h core_memusage.h \
+ primitives/block.h arith_uint256.h primitives/transaction.h version.h \
+ memusage.h indirectmap.h /usr/include/c++/7/unordered_map \
+ /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
  /usr/include/c++/7/bits/unordered_map.h /usr/include/c++/7/unordered_set \
  /usr/include/c++/7/bits/unordered_set.h dbwrapper.h clientversion.h \
@@ -1392,10 +1393,10 @@ wallet/test/qt_test_test_bitcoin_qt-wallet_test_fixture.o: \
  /usr/include/boost/multi_index/sequenced_index_fwd.hpp rpc/server.h \
  rpc/protocol.h univalue/include/univalue.h wallet/db.h clientversion.h \
  streams.h sync.h /usr/include/db_cxx.h /usr/include/db.h \
- /usr/include/inttypes.h wallet/wallet.h policy/feerate.h tinyformat.h \
- ui_interface.h /usr/include/boost/signals2/last_value.hpp \
- utilstrencodings.h validationinterface.h script/ismine.h \
- script/standard.h script/interpreter.h script/script_error.h \
+ /usr/include/inttypes.h wallet/wallet.h tinyformat.h ui_interface.h \
+ /usr/include/boost/signals2/last_value.hpp utilstrencodings.h \
+ validationinterface.h script/ismine.h script/standard.h \
+ script/interpreter.h script/script_error.h \
  /usr/include/boost/variant.hpp \
  /usr/include/boost/variant/recursive_variant.hpp \
  /usr/include/boost/variant/detail/enable_recursive.hpp \
@@ -3699,6 +3700,10 @@ serialize.h:
 
 uint256.h:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 compressor.h:
 
 script/script.h:
@@ -4604,8 +4609,6 @@ sync.h:
 /usr/include/inttypes.h:
 
 wallet/wallet.h:
-
-policy/feerate.h:
 
 tinyformat.h:
 

@@ -246,7 +246,7 @@ UniValue CallRPC(const std::string& strMethod, const UniValue& params)
 #endif
 
     // Get credentials
-    std::string strRPCUserColonPass;
+    std::string strRPCUserColonPass; //TODO: locate the bug here (pass and user doesnt work)
     if (gArgs.GetArg("-rpcpassword", "") == "") {
         // Try fall back to cookie-based authentication if no password is provided
         if (!GetAuthCookie(&strRPCUserColonPass)) {

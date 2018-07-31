@@ -255,19 +255,19 @@ bench/bench_bench_bitcoin-ccoins_caching.o: bench/ccoins_caching.cpp \
  /usr/include/c++/7/vector /usr/include/c++/7/bits/stl_vector.h \
  /usr/include/c++/7/bits/stl_bvector.h /usr/include/c++/7/bits/vector.tcc \
  prevector.h /usr/include/c++/7/climits uint256.h \
- /usr/include/c++/7/cstring crypto/common.h compressor.h script/script.h \
- serialize.h core_memusage.h primitives/block.h arith_uint256.h \
+ /usr/include/c++/7/cstring crypto/common.h policy/feerate.h \
+ consensus/consensus.h compressor.h script/script.h serialize.h \
+ core_memusage.h primitives/block.h arith_uint256.h \
  primitives/transaction.h version.h memusage.h indirectmap.h \
  /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
  /usr/include/c++/7/bits/unordered_map.h /usr/include/c++/7/unordered_set \
  /usr/include/c++/7/bits/unordered_set.h hash.h crypto/ripemd160.h \
- crypto/sha256.h uint256.h version.h policy/policy.h \
- consensus/consensus.h policy/feerate.h script/interpreter.h \
- script/script_error.h script/standard.h /usr/include/boost/variant.hpp \
- /usr/include/boost/variant/variant.hpp /usr/include/c++/7/cstddef \
- /usr/include/boost/type_index.hpp /usr/include/boost/config.hpp \
- /usr/include/boost/config/user.hpp \
+ crypto/sha256.h uint256.h version.h policy/policy.h policy/feerate.h \
+ script/interpreter.h script/script_error.h script/standard.h \
+ /usr/include/boost/variant.hpp /usr/include/boost/variant/variant.hpp \
+ /usr/include/c++/7/cstddef /usr/include/boost/type_index.hpp \
+ /usr/include/boost/config.hpp /usr/include/boost/config/user.hpp \
  /usr/include/boost/config/detail/select_compiler_config.hpp \
  /usr/include/boost/config/compiler/gcc.hpp \
  /usr/include/boost/config/detail/select_stdlib_config.hpp \
@@ -1698,6 +1698,10 @@ uint256.h:
 
 crypto/common.h:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 compressor.h:
 
 script/script.h:
@@ -1741,8 +1745,6 @@ uint256.h:
 version.h:
 
 policy/policy.h:
-
-consensus/consensus.h:
 
 policy/feerate.h:
 

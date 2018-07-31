@@ -260,10 +260,10 @@ test/test_test_bitcoin-script_P2SH_tests.o: test/script_P2SH_tests.cpp \
  script/script.h crypto/common.h prevector.h serialize.h \
  /usr/include/c++/7/climits script/standard.h script/interpreter.h \
  script/script_error.h primitives/transaction.h amount.h script/script.h \
- uint256.h /usr/include/boost/variant.hpp \
- /usr/include/boost/variant/variant.hpp /usr/include/c++/7/cstddef \
- /usr/include/boost/type_index.hpp /usr/include/boost/config.hpp \
- /usr/include/boost/config/user.hpp \
+ uint256.h policy/feerate.h consensus/consensus.h \
+ /usr/include/boost/variant.hpp /usr/include/boost/variant/variant.hpp \
+ /usr/include/c++/7/cstddef /usr/include/boost/type_index.hpp \
+ /usr/include/boost/config.hpp /usr/include/boost/config/user.hpp \
  /usr/include/boost/config/detail/select_compiler_config.hpp \
  /usr/include/boost/config/compiler/gcc.hpp \
  /usr/include/boost/config/detail/select_stdlib_config.hpp \
@@ -1104,9 +1104,9 @@ test/test_test_bitcoin-script_P2SH_tests.o: test/script_P2SH_tests.cpp \
  /usr/include/x86_64-linux-gnu/bits/netdb.h policy/feerate.h \
  script/script_error.h versionbits.h chain.h arith_uint256.h pow.h \
  consensus/params.h tinyformat.h /usr/include/c++/7/iostream \
- policy/policy.h consensus/consensus.h policy/feerate.h script/standard.h \
- script/script_error.h script/sign.h script/ismine.h test/test_bitcoin.h \
- chainparamsbase.h fs.h pubkey.h random.h crypto/chacha20.h scheduler.h \
+ policy/policy.h policy/feerate.h script/standard.h script/script_error.h \
+ script/sign.h script/ismine.h test/test_bitcoin.h chainparamsbase.h fs.h \
+ pubkey.h random.h crypto/chacha20.h scheduler.h \
  /usr/include/boost/chrono/chrono.hpp /usr/include/boost/thread.hpp \
  /usr/include/boost/thread/thread.hpp \
  /usr/include/boost/thread/thread_only.hpp \
@@ -2230,6 +2230,10 @@ amount.h:
 script/script.h:
 
 uint256.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 /usr/include/boost/variant.hpp:
 
@@ -4106,8 +4110,6 @@ tinyformat.h:
 /usr/include/c++/7/iostream:
 
 policy/policy.h:
-
-consensus/consensus.h:
 
 policy/feerate.h:
 

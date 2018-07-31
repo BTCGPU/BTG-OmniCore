@@ -57,6 +57,13 @@ CCoinsMap::iterator CCoinsViewCache::FetchCoin(const COutPoint &outpoint) const 
     return ret;
 }
 
+const CTxOut &CCoinsViewCache::GetOutputFor(const CTxIn& input) const
+{
+    const Coin &coin = AccessCoin(input.prevout);
+       assert(!coin.IsSpent());
+       return coin.GetTxOut();
+}
+
 bool CCoinsViewCache::GetCoin(const COutPoint &outpoint, Coin &coin) const {
     CCoinsMap::const_iterator it = FetchCoin(outpoint);
     if (it != cacheCoins.end()) {

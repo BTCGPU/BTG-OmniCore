@@ -360,8 +360,8 @@ qt/test/qt_test_test_bitcoin_qt-wallettests.o: qt/test/wallettests.cpp \
  config/bitcoin-config.h compat/byteswap.h primitives/block.h \
  arith_uint256.h primitives/transaction.h script/script.h crypto/common.h \
  prevector.h serialize.h compat/endian.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -1555,14 +1555,13 @@ qt/test/qt_test_test_bitcoin_qt-wallettests.o: qt/test/wallettests.cpp \
  /usr/include/boost/multi_index/detail/seq_index_node.hpp \
  /usr/include/boost/multi_index/detail/seq_index_ops.hpp \
  /usr/include/boost/multi_index/sequenced_index_fwd.hpp validation.h \
- script/script_error.h versionbits.h wallet/wallet.h policy/feerate.h \
- streams.h tinyformat.h ui_interface.h \
- /usr/include/boost/signals2/last_value.hpp utilstrencodings.h \
- validationinterface.h script/ismine.h script/standard.h script/sign.h \
- wallet/crypter.h keystore.h wallet/walletdb.h wallet/db.h \
- clientversion.h sync.h /usr/include/db_cxx.h /usr/include/db.h \
- /usr/include/inttypes.h wallet/rpcwallet.h \
- /usr/include/qt4/QtGui/QAbstractButton \
+ script/script_error.h versionbits.h wallet/wallet.h streams.h \
+ tinyformat.h ui_interface.h /usr/include/boost/signals2/last_value.hpp \
+ utilstrencodings.h validationinterface.h script/ismine.h \
+ script/standard.h script/sign.h wallet/crypter.h keystore.h \
+ wallet/walletdb.h wallet/db.h clientversion.h sync.h \
+ /usr/include/db_cxx.h /usr/include/db.h /usr/include/inttypes.h \
+ wallet/rpcwallet.h /usr/include/qt4/QtGui/QAbstractButton \
  /usr/include/qt4/QtGui/qabstractbutton.h /usr/include/qt4/QtGui/QAction \
  /usr/include/qt4/QtGui/qaction.h /usr/include/qt4/QtGui/qactiongroup.h \
  /usr/include/qt4/QtGui/qaction.h /usr/include/qt4/QtGui/QApplication \
@@ -2533,6 +2532,10 @@ compat/endian.h:
 prevector.h:
 
 /usr/include/c++/7/climits:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 
@@ -5253,8 +5256,6 @@ script/script_error.h:
 versionbits.h:
 
 wallet/wallet.h:
-
-policy/feerate.h:
 
 streams.h:
 

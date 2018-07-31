@@ -250,8 +250,9 @@ libbitcoin_server_a-txmempool.o: txmempool.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/7/bits/stl_heap.h \
  /usr/include/c++/7/bits/uniform_int_dist.h /usr/include/c++/7/limits \
  prevector.h /usr/include/c++/7/climits uint256.h \
- /usr/include/c++/7/cstring crypto/common.h compressor.h script/script.h \
- serialize.h core_memusage.h primitives/block.h arith_uint256.h \
+ /usr/include/c++/7/cstring crypto/common.h policy/feerate.h \
+ consensus/consensus.h compressor.h script/script.h serialize.h \
+ core_memusage.h primitives/block.h arith_uint256.h \
  primitives/transaction.h version.h memusage.h indirectmap.h \
  /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
@@ -1212,7 +1213,7 @@ libbitcoin_server_a-txmempool.o: txmempool.cpp /usr/include/stdc-predef.h \
  /usr/include/boost/signals2/detail/variadic_slot_invoker.hpp \
  /usr/include/boost/signals2/detail/signal_template.hpp \
  consensus/consensus.h consensus/tx_verify.h consensus/validation.h \
- consensus/consensus.h consensus/params.h primitives/block.h validation.h \
+ consensus/params.h primitives/block.h validation.h \
  config/bitcoin-config.h fs.h /usr/include/boost/filesystem.hpp \
  /usr/include/boost/filesystem/config.hpp \
  /usr/include/boost/filesystem/path.hpp \
@@ -1932,6 +1933,10 @@ uint256.h:
 /usr/include/c++/7/cstring:
 
 crypto/common.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 compressor.h:
 
@@ -4020,8 +4025,6 @@ consensus/consensus.h:
 consensus/tx_verify.h:
 
 consensus/validation.h:
-
-consensus/consensus.h:
 
 consensus/params.h:
 

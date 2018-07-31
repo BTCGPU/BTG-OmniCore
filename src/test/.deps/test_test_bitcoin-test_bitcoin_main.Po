@@ -1085,9 +1085,10 @@ test/test_test_bitcoin-test_bitcoin_main.o: test/test_bitcoin_main.cpp \
  hash.h crypto/ripemd160.h crypto/sha256.h limitedmap.h policy/feerate.h \
  amount.h serialize.h primitives/block.h arith_uint256.h \
  primitives/transaction.h script/script.h crypto/common.h prevector.h \
- uint256.h version.h streams.h support/allocators/zeroafterfree.h \
- support/cleanse.h threadinterrupt.h /usr/include/c++/7/chrono \
- /usr/include/c++/7/ratio /usr/include/c++/7/bits/parse_numbers.h \
+ uint256.h policy/feerate.h consensus/consensus.h version.h streams.h \
+ support/allocators/zeroafterfree.h support/cleanse.h threadinterrupt.h \
+ /usr/include/c++/7/chrono /usr/include/c++/7/ratio \
+ /usr/include/c++/7/bits/parse_numbers.h \
  /usr/include/c++/7/condition_variable \
  /usr/include/c++/7/bits/std_mutex.h /usr/include/c++/7/mutex \
  /usr/include/c++/7/thread /usr/include/boost/test/unit_test.hpp \
@@ -3734,6 +3735,10 @@ crypto/common.h:
 prevector.h:
 
 uint256.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 

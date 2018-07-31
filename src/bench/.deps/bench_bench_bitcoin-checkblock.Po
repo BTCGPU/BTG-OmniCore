@@ -257,7 +257,8 @@ bench/bench_bench_bitcoin-checkblock.o: bench/checkblock.cpp \
  /usr/include/c++/7/bits/stl_heap.h \
  /usr/include/c++/7/bits/uniform_int_dist.h /usr/include/c++/7/set \
  /usr/include/c++/7/bits/stl_set.h /usr/include/c++/7/bits/stl_multiset.h \
- prevector.h /usr/include/c++/7/climits version.h protocol.h netaddress.h \
+ prevector.h /usr/include/c++/7/climits policy/feerate.h \
+ consensus/consensus.h version.h protocol.h netaddress.h \
  config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
@@ -826,8 +827,8 @@ bench/bench_bench_bitcoin-checkblock.o: bench/checkblock.cpp \
  /usr/include/boost/thread/pthread/recursive_mutex.hpp versionbits.h \
  chain.h arith_uint256.h pow.h tinyformat.h /usr/include/c++/7/iostream \
  streams.h support/allocators/zeroafterfree.h support/cleanse.h \
- consensus/validation.h consensus/consensus.h consensus/params.h \
- primitives/block.h bench/data/block413567.raw.h
+ consensus/validation.h consensus/params.h primitives/block.h \
+ bench/data/block413567.raw.h
 
 /usr/include/stdc-predef.h:
 
@@ -1490,6 +1491,10 @@ compat/endian.h:
 prevector.h:
 
 /usr/include/c++/7/climits:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 
@@ -2782,8 +2787,6 @@ support/allocators/zeroafterfree.h:
 support/cleanse.h:
 
 consensus/validation.h:
-
-consensus/consensus.h:
 
 consensus/params.h:
 

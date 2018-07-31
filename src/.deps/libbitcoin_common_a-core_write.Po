@@ -1,20 +1,12 @@
 libbitcoin_common_a-core_write.o: core_write.cpp \
- /usr/include/stdc-predef.h core_io.h amount.h \
- /usr/lib/gcc/x86_64-linux-gnu/7/include/stdint.h /usr/include/stdint.h \
- /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+ /usr/include/stdc-predef.h core_io.h amount.h /usr/include/c++/7/string \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
  /usr/include/x86_64-linux-gnu/bits/long-double.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
- /usr/include/x86_64-linux-gnu/bits/types.h \
- /usr/include/x86_64-linux-gnu/bits/typesizes.h \
- /usr/include/x86_64-linux-gnu/bits/wchar.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
- /usr/include/c++/7/string \
- /usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h \
- /usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h \
  /usr/include/x86_64-linux-gnu/c++/7/bits/cpu_defines.h \
  /usr/include/c++/7/bits/stringfwd.h /usr/include/c++/7/bits/memoryfwd.h \
  /usr/include/c++/7/bits/char_traits.h \
@@ -33,10 +25,13 @@ libbitcoin_common_a-core_write.o: core_write.cpp \
  /usr/include/c++/7/bits/ptr_traits.h /usr/include/c++/7/debug/debug.h \
  /usr/include/c++/7/bits/predefined_ops.h \
  /usr/include/c++/7/bits/postypes.h /usr/include/c++/7/cwchar \
- /usr/include/wchar.h /usr/include/x86_64-linux-gnu/bits/floatn.h \
+ /usr/include/wchar.h \
+ /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
  /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h \
  /usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
@@ -45,6 +40,11 @@ libbitcoin_common_a-core_write.o: core_write.cpp \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/wchar2.h /usr/include/c++/7/cstdint \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/stdint.h /usr/include/stdint.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/c++/7/bits/allocator.h \
  /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h \
  /usr/include/c++/7/ext/new_allocator.h /usr/include/c++/7/new \
@@ -253,8 +253,8 @@ libbitcoin_common_a-core_write.o: core_write.cpp \
  /usr/include/c++/7/bits/uniform_int_dist.h /usr/include/c++/7/limits \
  /usr/include/c++/7/set /usr/include/c++/7/bits/stl_set.h \
  /usr/include/c++/7/bits/stl_multiset.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -714,11 +714,10 @@ libbitcoin_common_a-core_write.o: core_write.cpp \
  /usr/include/boost/variant/visitor_ptr.hpp \
  /usr/include/boost/variant/bad_visit.hpp \
  support/allocators/zeroafterfree.h consensus/consensus.h \
- consensus/validation.h consensus/consensus.h consensus/params.h \
- primitives/block.h streams.h univalue/include/univalue.h \
- /usr/include/c++/7/cassert /usr/include/c++/7/sstream \
- /usr/include/c++/7/bits/sstream.tcc util.h fs.h \
- /usr/include/boost/filesystem.hpp \
+ consensus/validation.h consensus/params.h primitives/block.h streams.h \
+ univalue/include/univalue.h /usr/include/c++/7/cassert \
+ /usr/include/c++/7/sstream /usr/include/c++/7/bits/sstream.tcc util.h \
+ fs.h /usr/include/boost/filesystem.hpp \
  /usr/include/boost/filesystem/config.hpp \
  /usr/include/boost/system/api_config.hpp \
  /usr/include/boost/config/auto_link.hpp \
@@ -1111,11 +1110,11 @@ core_io.h:
 
 amount.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/7/include/stdint.h:
+/usr/include/c++/7/string:
 
-/usr/include/stdint.h:
+/usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h:
 
-/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+/usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h:
 
 /usr/include/features.h:
 
@@ -1128,22 +1127,6 @@ amount.h:
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
-
-/usr/include/x86_64-linux-gnu/bits/types.h:
-
-/usr/include/x86_64-linux-gnu/bits/typesizes.h:
-
-/usr/include/x86_64-linux-gnu/bits/wchar.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
-
-/usr/include/c++/7/string:
-
-/usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h:
-
-/usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h:
 
 /usr/include/x86_64-linux-gnu/c++/7/bits/cpu_defines.h:
 
@@ -1193,6 +1176,8 @@ amount.h:
 
 /usr/include/wchar.h:
 
+/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
@@ -1200,6 +1185,8 @@ amount.h:
 /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
@@ -1218,6 +1205,18 @@ amount.h:
 /usr/include/x86_64-linux-gnu/bits/wchar2.h:
 
 /usr/include/c++/7/cstdint:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include/stdint.h:
+
+/usr/include/stdint.h:
+
+/usr/include/x86_64-linux-gnu/bits/types.h:
+
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
 
 /usr/include/c++/7/bits/allocator.h:
 
@@ -1760,6 +1759,10 @@ compat/endian.h:
 prevector.h:
 
 /usr/include/c++/7/climits:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 
@@ -2792,8 +2795,6 @@ support/allocators/zeroafterfree.h:
 consensus/consensus.h:
 
 consensus/validation.h:
-
-consensus/consensus.h:
 
 consensus/params.h:
 

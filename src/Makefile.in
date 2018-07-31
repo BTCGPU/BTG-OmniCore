@@ -437,9 +437,33 @@ am_libbitcoin_server_a_OBJECTS = libbitcoin_server_a-addrdb.$(OBJEXT) \
 	libbitcoin_server_a-validation.$(OBJEXT) \
 	libbitcoin_server_a-validationinterface.$(OBJEXT) \
 	libbitcoin_server_a-versionbits.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-log.$(OBJEXT) \
 	omnicore/libbitcoin_server_a-omnicore.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-persistence.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-tally.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-activation.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-consensushash.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-convert.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-encoding.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-notifications.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-pending.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-rules.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-script.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-tx.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-utilsbitcoin.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-version.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-walletcache.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-rpcvalues.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-fetchwallettx.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-rpcrequirements.$(OBJEXT) \
 	omnicore/libbitcoin_server_a-rpctx.$(OBJEXT) \
-	omnicore/libbitcoin_server_a-log.$(OBJEXT) $(am__objects_4)
+	omnicore/libbitcoin_server_a-rpcpayload.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-parse_string.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-createpayload.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-varint.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-globals.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-utils.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-sp.$(OBJEXT) $(am__objects_4)
 libbitcoin_server_a_OBJECTS = $(am_libbitcoin_server_a_OBJECTS)
 libbitcoin_util_a_AR = $(AR) $(ARFLAGS)
 libbitcoin_util_a_LIBADD =
@@ -472,8 +496,20 @@ am__libbitcoin_util_a_SOURCES_DIST = support/lockedpool.cpp \
 	wallet/feebumper.h wallet/rpcwallet.h wallet/wallet.h \
 	wallet/walletdb.h warnings.h zmq/zmqabstractnotifier.h \
 	zmq/zmqconfig.h zmq/zmqnotificationinterface.h \
-	zmq/zmqpublishnotifier.h omnicore/omnicore.h omnicore/rpctx.h \
-	omnicore/log.h compat/glibc_compat.cpp
+	zmq/zmqpublishnotifier.h omnicore/log.h omnicore/omnicore.h \
+	omnicore/persistence.h omnicore/tally.h omnicore/activation.h \
+	omnicore/consensushash.h omnicore/convert.h \
+	omnicore/encoding.h omnicore/errors.h omnicore/notifications.h \
+	omnicore/pending.h omnicore/rules.h omnicore/script.h \
+	omnicore/tx.h omnicore/utilsbitcoin.h omnicore/version.h \
+	omnicore/walletcache.h omnicore/wallettxs.h \
+	omnicore/uint256_extensions.h omnicore/rpcrawtx.h \
+	omnicore/createtx.h omnicore/rpctxobject.h \
+	omnicore/rpcvalues.h omnicore/fetchwallettx.h \
+	omnicore/rpcrequirements.h omnicore/rpctx.h \
+	omnicore/rpcpayload.h omnicore/parse_string.h \
+	omnicore/createpayload.h omnicore/varint.h omnicore/sp.h \
+	omnicore/utils.h omnicore/globals.h compat/glibc_compat.cpp
 @GLIBC_BACK_COMPAT_TRUE@am__objects_5 = compat/libbitcoin_util_a-glibc_compat.$(OBJEXT)
 am_libbitcoin_util_a_OBJECTS =  \
 	support/libbitcoin_util_a-lockedpool.$(OBJEXT) \
@@ -1941,9 +1977,39 @@ BITCOIN_CORE_H = \
   zmq/zmqconfig.h\
   zmq/zmqnotificationinterface.h \
   zmq/zmqpublishnotifier.h \
-  omnicore/omnicore.h \
-	omnicore/rpctx.h\
-  omnicore/log.h
+	omnicore/log.h \
+	omnicore/omnicore.h \
+	omnicore/persistence.h \
+	omnicore/tally.h \
+	omnicore/activation.h \
+	omnicore/consensushash.h \
+	omnicore/convert.h \
+	omnicore/encoding.h \
+	omnicore/errors.h \
+	omnicore/notifications.h \
+	omnicore/pending.h \
+	omnicore/rules.h \
+	omnicore/script.h \
+	omnicore/tx.h \
+	omnicore/utilsbitcoin.h \
+	omnicore/version.h \
+	omnicore/walletcache.h \
+	omnicore/wallettxs.h \
+	omnicore/uint256_extensions.h \
+	omnicore/rpcrawtx.h \
+	omnicore/createtx.h \
+	omnicore/rpctxobject.h \
+	omnicore/rpcvalues.h \
+	omnicore/fetchwallettx.h \
+	omnicore/rpcrequirements.h \
+	omnicore/rpctx.h \
+	omnicore/rpcpayload.h\
+	omnicore/parse_string.h \
+	omnicore/createpayload.h \
+	omnicore/varint.h \
+	omnicore/sp.h \
+	omnicore/utils.h\
+	omnicore/globals.h
 
 
 # server: shared between bitcoind and bitcoin-qt
@@ -1987,9 +2053,33 @@ libbitcoin_server_a_SOURCES = \
   validation.cpp \
   validationinterface.cpp \
   versionbits.cpp \
-  omnicore/omnicore.cpp\
-	omnicore/rpctx.cpp\
-  omnicore/log.cpp\
+	omnicore/log.cpp \
+	omnicore/omnicore.cpp \
+	omnicore/persistence.cpp \
+	omnicore/tally.cpp \
+	omnicore/activation.cpp \
+	omnicore/consensushash.cpp \
+	omnicore/convert.cpp \
+	omnicore/encoding.cpp \
+	omnicore/notifications.cpp \
+	omnicore/pending.cpp \
+	omnicore/rules.cpp \
+	omnicore/script.cpp \
+	omnicore/tx.cpp \
+	omnicore/utilsbitcoin.cpp \
+	omnicore/version.cpp \
+	omnicore/walletcache.cpp \
+	omnicore/rpcvalues.cpp \
+	omnicore/fetchwallettx.cpp \
+	omnicore/rpcrequirements.cpp \
+	omnicore/rpctx.cpp \
+	omnicore/rpcpayload.cpp\
+	omnicore/parse_string.cpp \
+	omnicore/createpayload.cpp \
+	omnicore/varint.cpp \
+	omnicore/globals.cpp\
+	omnicore/utils.cpp\
+	omnicore/sp.cpp \
   $(BITCOIN_CORE_H)
 
 @ENABLE_ZMQ_TRUE@libbitcoin_zmq_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
@@ -3208,11 +3298,59 @@ omnicore/$(am__dirstamp):
 omnicore/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) omnicore/$(DEPDIR)
 	@: > omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-log.$(OBJEXT): omnicore/$(am__dirstamp) \
+	omnicore/$(DEPDIR)/$(am__dirstamp)
 omnicore/libbitcoin_server_a-omnicore.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-persistence.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-tally.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-activation.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-consensushash.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-convert.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-encoding.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-notifications.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-pending.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-rules.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-script.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-tx.$(OBJEXT): omnicore/$(am__dirstamp) \
+	omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-utilsbitcoin.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-version.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-walletcache.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-rpcvalues.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-fetchwallettx.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-rpcrequirements.$(OBJEXT):  \
 	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
 omnicore/libbitcoin_server_a-rpctx.$(OBJEXT):  \
 	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
-omnicore/libbitcoin_server_a-log.$(OBJEXT): omnicore/$(am__dirstamp) \
+omnicore/libbitcoin_server_a-rpcpayload.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-parse_string.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-createpayload.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-varint.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-globals.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-utils.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-sp.$(OBJEXT): omnicore/$(am__dirstamp) \
 	omnicore/$(DEPDIR)/$(am__dirstamp)
 
 libbitcoin_server.a: $(libbitcoin_server_a_OBJECTS) $(libbitcoin_server_a_DEPENDENCIES) $(EXTRA_libbitcoin_server_a_DEPENDENCIES) 
@@ -4074,9 +4212,33 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@leveldb/util/$(DEPDIR)/leveldb_libleveldb_a-logging.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@leveldb/util/$(DEPDIR)/leveldb_libleveldb_a-options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@leveldb/util/$(DEPDIR)/leveldb_libleveldb_a-status.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-activation.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-consensushash.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-convert.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-createpayload.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-encoding.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-fetchwallettx.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-log.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-notifications.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-omnicore.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-parse_string.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-pending.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-persistence.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-rpcpayload.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-rpcrequirements.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-rpctx.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-rpcvalues.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-rules.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-script.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-sp.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-tally.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-tx.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-utils.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-utilsbitcoin.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-varint.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-version.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-walletcache.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@policy/$(DEPDIR)/libbitcoin_common_a-feerate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@policy/$(DEPDIR)/libbitcoin_server_a-fees.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@policy/$(DEPDIR)/libbitcoin_server_a-policy.Po@am__quote@
@@ -5987,6 +6149,20 @@ libbitcoin_server_a-versionbits.obj: versionbits.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o libbitcoin_server_a-versionbits.obj `if test -f 'versionbits.cpp'; then $(CYGPATH_W) 'versionbits.cpp'; else $(CYGPATH_W) '$(srcdir)/versionbits.cpp'; fi`
 
+omnicore/libbitcoin_server_a-log.o: omnicore/log.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-log.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-log.Tpo -c -o omnicore/libbitcoin_server_a-log.o `test -f 'omnicore/log.cpp' || echo '$(srcdir)/'`omnicore/log.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-log.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-log.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/log.cpp' object='omnicore/libbitcoin_server_a-log.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-log.o `test -f 'omnicore/log.cpp' || echo '$(srcdir)/'`omnicore/log.cpp
+
+omnicore/libbitcoin_server_a-log.obj: omnicore/log.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-log.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-log.Tpo -c -o omnicore/libbitcoin_server_a-log.obj `if test -f 'omnicore/log.cpp'; then $(CYGPATH_W) 'omnicore/log.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/log.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-log.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-log.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/log.cpp' object='omnicore/libbitcoin_server_a-log.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-log.obj `if test -f 'omnicore/log.cpp'; then $(CYGPATH_W) 'omnicore/log.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/log.cpp'; fi`
+
 omnicore/libbitcoin_server_a-omnicore.o: omnicore/omnicore.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-omnicore.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-omnicore.Tpo -c -o omnicore/libbitcoin_server_a-omnicore.o `test -f 'omnicore/omnicore.cpp' || echo '$(srcdir)/'`omnicore/omnicore.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-omnicore.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-omnicore.Po
@@ -6000,6 +6176,244 @@ omnicore/libbitcoin_server_a-omnicore.obj: omnicore/omnicore.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/omnicore.cpp' object='omnicore/libbitcoin_server_a-omnicore.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-omnicore.obj `if test -f 'omnicore/omnicore.cpp'; then $(CYGPATH_W) 'omnicore/omnicore.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/omnicore.cpp'; fi`
+
+omnicore/libbitcoin_server_a-persistence.o: omnicore/persistence.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-persistence.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-persistence.Tpo -c -o omnicore/libbitcoin_server_a-persistence.o `test -f 'omnicore/persistence.cpp' || echo '$(srcdir)/'`omnicore/persistence.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-persistence.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-persistence.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/persistence.cpp' object='omnicore/libbitcoin_server_a-persistence.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-persistence.o `test -f 'omnicore/persistence.cpp' || echo '$(srcdir)/'`omnicore/persistence.cpp
+
+omnicore/libbitcoin_server_a-persistence.obj: omnicore/persistence.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-persistence.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-persistence.Tpo -c -o omnicore/libbitcoin_server_a-persistence.obj `if test -f 'omnicore/persistence.cpp'; then $(CYGPATH_W) 'omnicore/persistence.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/persistence.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-persistence.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-persistence.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/persistence.cpp' object='omnicore/libbitcoin_server_a-persistence.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-persistence.obj `if test -f 'omnicore/persistence.cpp'; then $(CYGPATH_W) 'omnicore/persistence.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/persistence.cpp'; fi`
+
+omnicore/libbitcoin_server_a-tally.o: omnicore/tally.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-tally.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-tally.Tpo -c -o omnicore/libbitcoin_server_a-tally.o `test -f 'omnicore/tally.cpp' || echo '$(srcdir)/'`omnicore/tally.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-tally.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-tally.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/tally.cpp' object='omnicore/libbitcoin_server_a-tally.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-tally.o `test -f 'omnicore/tally.cpp' || echo '$(srcdir)/'`omnicore/tally.cpp
+
+omnicore/libbitcoin_server_a-tally.obj: omnicore/tally.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-tally.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-tally.Tpo -c -o omnicore/libbitcoin_server_a-tally.obj `if test -f 'omnicore/tally.cpp'; then $(CYGPATH_W) 'omnicore/tally.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/tally.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-tally.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-tally.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/tally.cpp' object='omnicore/libbitcoin_server_a-tally.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-tally.obj `if test -f 'omnicore/tally.cpp'; then $(CYGPATH_W) 'omnicore/tally.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/tally.cpp'; fi`
+
+omnicore/libbitcoin_server_a-activation.o: omnicore/activation.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-activation.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-activation.Tpo -c -o omnicore/libbitcoin_server_a-activation.o `test -f 'omnicore/activation.cpp' || echo '$(srcdir)/'`omnicore/activation.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-activation.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-activation.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/activation.cpp' object='omnicore/libbitcoin_server_a-activation.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-activation.o `test -f 'omnicore/activation.cpp' || echo '$(srcdir)/'`omnicore/activation.cpp
+
+omnicore/libbitcoin_server_a-activation.obj: omnicore/activation.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-activation.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-activation.Tpo -c -o omnicore/libbitcoin_server_a-activation.obj `if test -f 'omnicore/activation.cpp'; then $(CYGPATH_W) 'omnicore/activation.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/activation.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-activation.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-activation.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/activation.cpp' object='omnicore/libbitcoin_server_a-activation.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-activation.obj `if test -f 'omnicore/activation.cpp'; then $(CYGPATH_W) 'omnicore/activation.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/activation.cpp'; fi`
+
+omnicore/libbitcoin_server_a-consensushash.o: omnicore/consensushash.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-consensushash.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-consensushash.Tpo -c -o omnicore/libbitcoin_server_a-consensushash.o `test -f 'omnicore/consensushash.cpp' || echo '$(srcdir)/'`omnicore/consensushash.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-consensushash.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-consensushash.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/consensushash.cpp' object='omnicore/libbitcoin_server_a-consensushash.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-consensushash.o `test -f 'omnicore/consensushash.cpp' || echo '$(srcdir)/'`omnicore/consensushash.cpp
+
+omnicore/libbitcoin_server_a-consensushash.obj: omnicore/consensushash.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-consensushash.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-consensushash.Tpo -c -o omnicore/libbitcoin_server_a-consensushash.obj `if test -f 'omnicore/consensushash.cpp'; then $(CYGPATH_W) 'omnicore/consensushash.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/consensushash.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-consensushash.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-consensushash.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/consensushash.cpp' object='omnicore/libbitcoin_server_a-consensushash.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-consensushash.obj `if test -f 'omnicore/consensushash.cpp'; then $(CYGPATH_W) 'omnicore/consensushash.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/consensushash.cpp'; fi`
+
+omnicore/libbitcoin_server_a-convert.o: omnicore/convert.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-convert.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-convert.Tpo -c -o omnicore/libbitcoin_server_a-convert.o `test -f 'omnicore/convert.cpp' || echo '$(srcdir)/'`omnicore/convert.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-convert.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-convert.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/convert.cpp' object='omnicore/libbitcoin_server_a-convert.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-convert.o `test -f 'omnicore/convert.cpp' || echo '$(srcdir)/'`omnicore/convert.cpp
+
+omnicore/libbitcoin_server_a-convert.obj: omnicore/convert.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-convert.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-convert.Tpo -c -o omnicore/libbitcoin_server_a-convert.obj `if test -f 'omnicore/convert.cpp'; then $(CYGPATH_W) 'omnicore/convert.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/convert.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-convert.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-convert.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/convert.cpp' object='omnicore/libbitcoin_server_a-convert.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-convert.obj `if test -f 'omnicore/convert.cpp'; then $(CYGPATH_W) 'omnicore/convert.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/convert.cpp'; fi`
+
+omnicore/libbitcoin_server_a-encoding.o: omnicore/encoding.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-encoding.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-encoding.Tpo -c -o omnicore/libbitcoin_server_a-encoding.o `test -f 'omnicore/encoding.cpp' || echo '$(srcdir)/'`omnicore/encoding.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-encoding.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-encoding.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/encoding.cpp' object='omnicore/libbitcoin_server_a-encoding.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-encoding.o `test -f 'omnicore/encoding.cpp' || echo '$(srcdir)/'`omnicore/encoding.cpp
+
+omnicore/libbitcoin_server_a-encoding.obj: omnicore/encoding.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-encoding.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-encoding.Tpo -c -o omnicore/libbitcoin_server_a-encoding.obj `if test -f 'omnicore/encoding.cpp'; then $(CYGPATH_W) 'omnicore/encoding.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/encoding.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-encoding.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-encoding.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/encoding.cpp' object='omnicore/libbitcoin_server_a-encoding.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-encoding.obj `if test -f 'omnicore/encoding.cpp'; then $(CYGPATH_W) 'omnicore/encoding.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/encoding.cpp'; fi`
+
+omnicore/libbitcoin_server_a-notifications.o: omnicore/notifications.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-notifications.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-notifications.Tpo -c -o omnicore/libbitcoin_server_a-notifications.o `test -f 'omnicore/notifications.cpp' || echo '$(srcdir)/'`omnicore/notifications.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-notifications.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-notifications.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/notifications.cpp' object='omnicore/libbitcoin_server_a-notifications.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-notifications.o `test -f 'omnicore/notifications.cpp' || echo '$(srcdir)/'`omnicore/notifications.cpp
+
+omnicore/libbitcoin_server_a-notifications.obj: omnicore/notifications.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-notifications.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-notifications.Tpo -c -o omnicore/libbitcoin_server_a-notifications.obj `if test -f 'omnicore/notifications.cpp'; then $(CYGPATH_W) 'omnicore/notifications.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/notifications.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-notifications.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-notifications.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/notifications.cpp' object='omnicore/libbitcoin_server_a-notifications.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-notifications.obj `if test -f 'omnicore/notifications.cpp'; then $(CYGPATH_W) 'omnicore/notifications.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/notifications.cpp'; fi`
+
+omnicore/libbitcoin_server_a-pending.o: omnicore/pending.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-pending.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-pending.Tpo -c -o omnicore/libbitcoin_server_a-pending.o `test -f 'omnicore/pending.cpp' || echo '$(srcdir)/'`omnicore/pending.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-pending.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-pending.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/pending.cpp' object='omnicore/libbitcoin_server_a-pending.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-pending.o `test -f 'omnicore/pending.cpp' || echo '$(srcdir)/'`omnicore/pending.cpp
+
+omnicore/libbitcoin_server_a-pending.obj: omnicore/pending.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-pending.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-pending.Tpo -c -o omnicore/libbitcoin_server_a-pending.obj `if test -f 'omnicore/pending.cpp'; then $(CYGPATH_W) 'omnicore/pending.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/pending.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-pending.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-pending.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/pending.cpp' object='omnicore/libbitcoin_server_a-pending.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-pending.obj `if test -f 'omnicore/pending.cpp'; then $(CYGPATH_W) 'omnicore/pending.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/pending.cpp'; fi`
+
+omnicore/libbitcoin_server_a-rules.o: omnicore/rules.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-rules.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-rules.Tpo -c -o omnicore/libbitcoin_server_a-rules.o `test -f 'omnicore/rules.cpp' || echo '$(srcdir)/'`omnicore/rules.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-rules.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-rules.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/rules.cpp' object='omnicore/libbitcoin_server_a-rules.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-rules.o `test -f 'omnicore/rules.cpp' || echo '$(srcdir)/'`omnicore/rules.cpp
+
+omnicore/libbitcoin_server_a-rules.obj: omnicore/rules.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-rules.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-rules.Tpo -c -o omnicore/libbitcoin_server_a-rules.obj `if test -f 'omnicore/rules.cpp'; then $(CYGPATH_W) 'omnicore/rules.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/rules.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-rules.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-rules.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/rules.cpp' object='omnicore/libbitcoin_server_a-rules.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-rules.obj `if test -f 'omnicore/rules.cpp'; then $(CYGPATH_W) 'omnicore/rules.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/rules.cpp'; fi`
+
+omnicore/libbitcoin_server_a-script.o: omnicore/script.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-script.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-script.Tpo -c -o omnicore/libbitcoin_server_a-script.o `test -f 'omnicore/script.cpp' || echo '$(srcdir)/'`omnicore/script.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-script.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-script.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/script.cpp' object='omnicore/libbitcoin_server_a-script.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-script.o `test -f 'omnicore/script.cpp' || echo '$(srcdir)/'`omnicore/script.cpp
+
+omnicore/libbitcoin_server_a-script.obj: omnicore/script.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-script.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-script.Tpo -c -o omnicore/libbitcoin_server_a-script.obj `if test -f 'omnicore/script.cpp'; then $(CYGPATH_W) 'omnicore/script.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/script.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-script.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-script.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/script.cpp' object='omnicore/libbitcoin_server_a-script.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-script.obj `if test -f 'omnicore/script.cpp'; then $(CYGPATH_W) 'omnicore/script.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/script.cpp'; fi`
+
+omnicore/libbitcoin_server_a-tx.o: omnicore/tx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-tx.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-tx.Tpo -c -o omnicore/libbitcoin_server_a-tx.o `test -f 'omnicore/tx.cpp' || echo '$(srcdir)/'`omnicore/tx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-tx.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-tx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/tx.cpp' object='omnicore/libbitcoin_server_a-tx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-tx.o `test -f 'omnicore/tx.cpp' || echo '$(srcdir)/'`omnicore/tx.cpp
+
+omnicore/libbitcoin_server_a-tx.obj: omnicore/tx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-tx.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-tx.Tpo -c -o omnicore/libbitcoin_server_a-tx.obj `if test -f 'omnicore/tx.cpp'; then $(CYGPATH_W) 'omnicore/tx.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/tx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-tx.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-tx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/tx.cpp' object='omnicore/libbitcoin_server_a-tx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-tx.obj `if test -f 'omnicore/tx.cpp'; then $(CYGPATH_W) 'omnicore/tx.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/tx.cpp'; fi`
+
+omnicore/libbitcoin_server_a-utilsbitcoin.o: omnicore/utilsbitcoin.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-utilsbitcoin.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-utilsbitcoin.Tpo -c -o omnicore/libbitcoin_server_a-utilsbitcoin.o `test -f 'omnicore/utilsbitcoin.cpp' || echo '$(srcdir)/'`omnicore/utilsbitcoin.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-utilsbitcoin.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-utilsbitcoin.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/utilsbitcoin.cpp' object='omnicore/libbitcoin_server_a-utilsbitcoin.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-utilsbitcoin.o `test -f 'omnicore/utilsbitcoin.cpp' || echo '$(srcdir)/'`omnicore/utilsbitcoin.cpp
+
+omnicore/libbitcoin_server_a-utilsbitcoin.obj: omnicore/utilsbitcoin.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-utilsbitcoin.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-utilsbitcoin.Tpo -c -o omnicore/libbitcoin_server_a-utilsbitcoin.obj `if test -f 'omnicore/utilsbitcoin.cpp'; then $(CYGPATH_W) 'omnicore/utilsbitcoin.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/utilsbitcoin.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-utilsbitcoin.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-utilsbitcoin.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/utilsbitcoin.cpp' object='omnicore/libbitcoin_server_a-utilsbitcoin.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-utilsbitcoin.obj `if test -f 'omnicore/utilsbitcoin.cpp'; then $(CYGPATH_W) 'omnicore/utilsbitcoin.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/utilsbitcoin.cpp'; fi`
+
+omnicore/libbitcoin_server_a-version.o: omnicore/version.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-version.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-version.Tpo -c -o omnicore/libbitcoin_server_a-version.o `test -f 'omnicore/version.cpp' || echo '$(srcdir)/'`omnicore/version.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-version.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-version.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/version.cpp' object='omnicore/libbitcoin_server_a-version.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-version.o `test -f 'omnicore/version.cpp' || echo '$(srcdir)/'`omnicore/version.cpp
+
+omnicore/libbitcoin_server_a-version.obj: omnicore/version.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-version.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-version.Tpo -c -o omnicore/libbitcoin_server_a-version.obj `if test -f 'omnicore/version.cpp'; then $(CYGPATH_W) 'omnicore/version.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/version.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-version.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-version.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/version.cpp' object='omnicore/libbitcoin_server_a-version.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-version.obj `if test -f 'omnicore/version.cpp'; then $(CYGPATH_W) 'omnicore/version.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/version.cpp'; fi`
+
+omnicore/libbitcoin_server_a-walletcache.o: omnicore/walletcache.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-walletcache.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-walletcache.Tpo -c -o omnicore/libbitcoin_server_a-walletcache.o `test -f 'omnicore/walletcache.cpp' || echo '$(srcdir)/'`omnicore/walletcache.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-walletcache.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-walletcache.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/walletcache.cpp' object='omnicore/libbitcoin_server_a-walletcache.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-walletcache.o `test -f 'omnicore/walletcache.cpp' || echo '$(srcdir)/'`omnicore/walletcache.cpp
+
+omnicore/libbitcoin_server_a-walletcache.obj: omnicore/walletcache.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-walletcache.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-walletcache.Tpo -c -o omnicore/libbitcoin_server_a-walletcache.obj `if test -f 'omnicore/walletcache.cpp'; then $(CYGPATH_W) 'omnicore/walletcache.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/walletcache.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-walletcache.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-walletcache.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/walletcache.cpp' object='omnicore/libbitcoin_server_a-walletcache.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-walletcache.obj `if test -f 'omnicore/walletcache.cpp'; then $(CYGPATH_W) 'omnicore/walletcache.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/walletcache.cpp'; fi`
+
+omnicore/libbitcoin_server_a-rpcvalues.o: omnicore/rpcvalues.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-rpcvalues.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-rpcvalues.Tpo -c -o omnicore/libbitcoin_server_a-rpcvalues.o `test -f 'omnicore/rpcvalues.cpp' || echo '$(srcdir)/'`omnicore/rpcvalues.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-rpcvalues.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-rpcvalues.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/rpcvalues.cpp' object='omnicore/libbitcoin_server_a-rpcvalues.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-rpcvalues.o `test -f 'omnicore/rpcvalues.cpp' || echo '$(srcdir)/'`omnicore/rpcvalues.cpp
+
+omnicore/libbitcoin_server_a-rpcvalues.obj: omnicore/rpcvalues.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-rpcvalues.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-rpcvalues.Tpo -c -o omnicore/libbitcoin_server_a-rpcvalues.obj `if test -f 'omnicore/rpcvalues.cpp'; then $(CYGPATH_W) 'omnicore/rpcvalues.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/rpcvalues.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-rpcvalues.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-rpcvalues.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/rpcvalues.cpp' object='omnicore/libbitcoin_server_a-rpcvalues.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-rpcvalues.obj `if test -f 'omnicore/rpcvalues.cpp'; then $(CYGPATH_W) 'omnicore/rpcvalues.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/rpcvalues.cpp'; fi`
+
+omnicore/libbitcoin_server_a-fetchwallettx.o: omnicore/fetchwallettx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-fetchwallettx.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-fetchwallettx.Tpo -c -o omnicore/libbitcoin_server_a-fetchwallettx.o `test -f 'omnicore/fetchwallettx.cpp' || echo '$(srcdir)/'`omnicore/fetchwallettx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-fetchwallettx.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-fetchwallettx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/fetchwallettx.cpp' object='omnicore/libbitcoin_server_a-fetchwallettx.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-fetchwallettx.o `test -f 'omnicore/fetchwallettx.cpp' || echo '$(srcdir)/'`omnicore/fetchwallettx.cpp
+
+omnicore/libbitcoin_server_a-fetchwallettx.obj: omnicore/fetchwallettx.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-fetchwallettx.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-fetchwallettx.Tpo -c -o omnicore/libbitcoin_server_a-fetchwallettx.obj `if test -f 'omnicore/fetchwallettx.cpp'; then $(CYGPATH_W) 'omnicore/fetchwallettx.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/fetchwallettx.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-fetchwallettx.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-fetchwallettx.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/fetchwallettx.cpp' object='omnicore/libbitcoin_server_a-fetchwallettx.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-fetchwallettx.obj `if test -f 'omnicore/fetchwallettx.cpp'; then $(CYGPATH_W) 'omnicore/fetchwallettx.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/fetchwallettx.cpp'; fi`
+
+omnicore/libbitcoin_server_a-rpcrequirements.o: omnicore/rpcrequirements.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-rpcrequirements.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-rpcrequirements.Tpo -c -o omnicore/libbitcoin_server_a-rpcrequirements.o `test -f 'omnicore/rpcrequirements.cpp' || echo '$(srcdir)/'`omnicore/rpcrequirements.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-rpcrequirements.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-rpcrequirements.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/rpcrequirements.cpp' object='omnicore/libbitcoin_server_a-rpcrequirements.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-rpcrequirements.o `test -f 'omnicore/rpcrequirements.cpp' || echo '$(srcdir)/'`omnicore/rpcrequirements.cpp
+
+omnicore/libbitcoin_server_a-rpcrequirements.obj: omnicore/rpcrequirements.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-rpcrequirements.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-rpcrequirements.Tpo -c -o omnicore/libbitcoin_server_a-rpcrequirements.obj `if test -f 'omnicore/rpcrequirements.cpp'; then $(CYGPATH_W) 'omnicore/rpcrequirements.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/rpcrequirements.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-rpcrequirements.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-rpcrequirements.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/rpcrequirements.cpp' object='omnicore/libbitcoin_server_a-rpcrequirements.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-rpcrequirements.obj `if test -f 'omnicore/rpcrequirements.cpp'; then $(CYGPATH_W) 'omnicore/rpcrequirements.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/rpcrequirements.cpp'; fi`
 
 omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-rpctx.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-rpctx.Tpo -c -o omnicore/libbitcoin_server_a-rpctx.o `test -f 'omnicore/rpctx.cpp' || echo '$(srcdir)/'`omnicore/rpctx.cpp
@@ -6015,19 +6429,103 @@ omnicore/libbitcoin_server_a-rpctx.obj: omnicore/rpctx.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-rpctx.obj `if test -f 'omnicore/rpctx.cpp'; then $(CYGPATH_W) 'omnicore/rpctx.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/rpctx.cpp'; fi`
 
-omnicore/libbitcoin_server_a-log.o: omnicore/log.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-log.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-log.Tpo -c -o omnicore/libbitcoin_server_a-log.o `test -f 'omnicore/log.cpp' || echo '$(srcdir)/'`omnicore/log.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-log.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-log.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/log.cpp' object='omnicore/libbitcoin_server_a-log.o' libtool=no @AMDEPBACKSLASH@
+omnicore/libbitcoin_server_a-rpcpayload.o: omnicore/rpcpayload.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-rpcpayload.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-rpcpayload.Tpo -c -o omnicore/libbitcoin_server_a-rpcpayload.o `test -f 'omnicore/rpcpayload.cpp' || echo '$(srcdir)/'`omnicore/rpcpayload.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-rpcpayload.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-rpcpayload.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/rpcpayload.cpp' object='omnicore/libbitcoin_server_a-rpcpayload.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-log.o `test -f 'omnicore/log.cpp' || echo '$(srcdir)/'`omnicore/log.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-rpcpayload.o `test -f 'omnicore/rpcpayload.cpp' || echo '$(srcdir)/'`omnicore/rpcpayload.cpp
 
-omnicore/libbitcoin_server_a-log.obj: omnicore/log.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-log.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-log.Tpo -c -o omnicore/libbitcoin_server_a-log.obj `if test -f 'omnicore/log.cpp'; then $(CYGPATH_W) 'omnicore/log.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/log.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-log.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-log.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/log.cpp' object='omnicore/libbitcoin_server_a-log.obj' libtool=no @AMDEPBACKSLASH@
+omnicore/libbitcoin_server_a-rpcpayload.obj: omnicore/rpcpayload.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-rpcpayload.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-rpcpayload.Tpo -c -o omnicore/libbitcoin_server_a-rpcpayload.obj `if test -f 'omnicore/rpcpayload.cpp'; then $(CYGPATH_W) 'omnicore/rpcpayload.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/rpcpayload.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-rpcpayload.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-rpcpayload.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/rpcpayload.cpp' object='omnicore/libbitcoin_server_a-rpcpayload.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-log.obj `if test -f 'omnicore/log.cpp'; then $(CYGPATH_W) 'omnicore/log.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/log.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-rpcpayload.obj `if test -f 'omnicore/rpcpayload.cpp'; then $(CYGPATH_W) 'omnicore/rpcpayload.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/rpcpayload.cpp'; fi`
+
+omnicore/libbitcoin_server_a-parse_string.o: omnicore/parse_string.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-parse_string.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-parse_string.Tpo -c -o omnicore/libbitcoin_server_a-parse_string.o `test -f 'omnicore/parse_string.cpp' || echo '$(srcdir)/'`omnicore/parse_string.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-parse_string.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-parse_string.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/parse_string.cpp' object='omnicore/libbitcoin_server_a-parse_string.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-parse_string.o `test -f 'omnicore/parse_string.cpp' || echo '$(srcdir)/'`omnicore/parse_string.cpp
+
+omnicore/libbitcoin_server_a-parse_string.obj: omnicore/parse_string.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-parse_string.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-parse_string.Tpo -c -o omnicore/libbitcoin_server_a-parse_string.obj `if test -f 'omnicore/parse_string.cpp'; then $(CYGPATH_W) 'omnicore/parse_string.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/parse_string.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-parse_string.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-parse_string.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/parse_string.cpp' object='omnicore/libbitcoin_server_a-parse_string.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-parse_string.obj `if test -f 'omnicore/parse_string.cpp'; then $(CYGPATH_W) 'omnicore/parse_string.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/parse_string.cpp'; fi`
+
+omnicore/libbitcoin_server_a-createpayload.o: omnicore/createpayload.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-createpayload.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-createpayload.Tpo -c -o omnicore/libbitcoin_server_a-createpayload.o `test -f 'omnicore/createpayload.cpp' || echo '$(srcdir)/'`omnicore/createpayload.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-createpayload.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-createpayload.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/createpayload.cpp' object='omnicore/libbitcoin_server_a-createpayload.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-createpayload.o `test -f 'omnicore/createpayload.cpp' || echo '$(srcdir)/'`omnicore/createpayload.cpp
+
+omnicore/libbitcoin_server_a-createpayload.obj: omnicore/createpayload.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-createpayload.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-createpayload.Tpo -c -o omnicore/libbitcoin_server_a-createpayload.obj `if test -f 'omnicore/createpayload.cpp'; then $(CYGPATH_W) 'omnicore/createpayload.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/createpayload.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-createpayload.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-createpayload.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/createpayload.cpp' object='omnicore/libbitcoin_server_a-createpayload.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-createpayload.obj `if test -f 'omnicore/createpayload.cpp'; then $(CYGPATH_W) 'omnicore/createpayload.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/createpayload.cpp'; fi`
+
+omnicore/libbitcoin_server_a-varint.o: omnicore/varint.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-varint.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-varint.Tpo -c -o omnicore/libbitcoin_server_a-varint.o `test -f 'omnicore/varint.cpp' || echo '$(srcdir)/'`omnicore/varint.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-varint.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-varint.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/varint.cpp' object='omnicore/libbitcoin_server_a-varint.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-varint.o `test -f 'omnicore/varint.cpp' || echo '$(srcdir)/'`omnicore/varint.cpp
+
+omnicore/libbitcoin_server_a-varint.obj: omnicore/varint.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-varint.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-varint.Tpo -c -o omnicore/libbitcoin_server_a-varint.obj `if test -f 'omnicore/varint.cpp'; then $(CYGPATH_W) 'omnicore/varint.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/varint.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-varint.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-varint.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/varint.cpp' object='omnicore/libbitcoin_server_a-varint.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-varint.obj `if test -f 'omnicore/varint.cpp'; then $(CYGPATH_W) 'omnicore/varint.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/varint.cpp'; fi`
+
+omnicore/libbitcoin_server_a-globals.o: omnicore/globals.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-globals.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Tpo -c -o omnicore/libbitcoin_server_a-globals.o `test -f 'omnicore/globals.cpp' || echo '$(srcdir)/'`omnicore/globals.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/globals.cpp' object='omnicore/libbitcoin_server_a-globals.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-globals.o `test -f 'omnicore/globals.cpp' || echo '$(srcdir)/'`omnicore/globals.cpp
+
+omnicore/libbitcoin_server_a-globals.obj: omnicore/globals.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-globals.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Tpo -c -o omnicore/libbitcoin_server_a-globals.obj `if test -f 'omnicore/globals.cpp'; then $(CYGPATH_W) 'omnicore/globals.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/globals.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/globals.cpp' object='omnicore/libbitcoin_server_a-globals.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-globals.obj `if test -f 'omnicore/globals.cpp'; then $(CYGPATH_W) 'omnicore/globals.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/globals.cpp'; fi`
+
+omnicore/libbitcoin_server_a-utils.o: omnicore/utils.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-utils.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-utils.Tpo -c -o omnicore/libbitcoin_server_a-utils.o `test -f 'omnicore/utils.cpp' || echo '$(srcdir)/'`omnicore/utils.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-utils.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-utils.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/utils.cpp' object='omnicore/libbitcoin_server_a-utils.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-utils.o `test -f 'omnicore/utils.cpp' || echo '$(srcdir)/'`omnicore/utils.cpp
+
+omnicore/libbitcoin_server_a-utils.obj: omnicore/utils.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-utils.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-utils.Tpo -c -o omnicore/libbitcoin_server_a-utils.obj `if test -f 'omnicore/utils.cpp'; then $(CYGPATH_W) 'omnicore/utils.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/utils.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-utils.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-utils.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/utils.cpp' object='omnicore/libbitcoin_server_a-utils.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-utils.obj `if test -f 'omnicore/utils.cpp'; then $(CYGPATH_W) 'omnicore/utils.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/utils.cpp'; fi`
+
+omnicore/libbitcoin_server_a-sp.o: omnicore/sp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-sp.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-sp.Tpo -c -o omnicore/libbitcoin_server_a-sp.o `test -f 'omnicore/sp.cpp' || echo '$(srcdir)/'`omnicore/sp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-sp.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-sp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/sp.cpp' object='omnicore/libbitcoin_server_a-sp.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-sp.o `test -f 'omnicore/sp.cpp' || echo '$(srcdir)/'`omnicore/sp.cpp
+
+omnicore/libbitcoin_server_a-sp.obj: omnicore/sp.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-sp.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-sp.Tpo -c -o omnicore/libbitcoin_server_a-sp.obj `if test -f 'omnicore/sp.cpp'; then $(CYGPATH_W) 'omnicore/sp.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/sp.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-sp.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-sp.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/sp.cpp' object='omnicore/libbitcoin_server_a-sp.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-sp.obj `if test -f 'omnicore/sp.cpp'; then $(CYGPATH_W) 'omnicore/sp.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/sp.cpp'; fi`
 
 support/libbitcoin_util_a-lockedpool.o: support/lockedpool.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_util_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_util_a_CXXFLAGS) $(CXXFLAGS) -MT support/libbitcoin_util_a-lockedpool.o -MD -MP -MF support/$(DEPDIR)/libbitcoin_util_a-lockedpool.Tpo -c -o support/libbitcoin_util_a-lockedpool.o `test -f 'support/lockedpool.cpp' || echo '$(srcdir)/'`support/lockedpool.cpp

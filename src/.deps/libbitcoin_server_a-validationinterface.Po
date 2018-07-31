@@ -250,7 +250,8 @@ libbitcoin_server_a-validationinterface.o: validationinterface.cpp \
  /usr/include/c++/7/bits/stl_vector.h \
  /usr/include/c++/7/bits/stl_bvector.h /usr/include/c++/7/bits/vector.tcc \
  prevector.h /usr/include/c++/7/climits uint256.h \
- /usr/include/c++/7/cstring crypto/common.h init.h scheduler.h \
+ /usr/include/c++/7/cstring crypto/common.h policy/feerate.h \
+ consensus/consensus.h init.h scheduler.h \
  /usr/include/boost/chrono/chrono.hpp \
  /usr/include/boost/chrono/duration.hpp \
  /usr/include/boost/chrono/config.hpp /usr/include/boost/config.hpp \
@@ -1846,6 +1847,10 @@ uint256.h:
 /usr/include/c++/7/cstring:
 
 crypto/common.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 init.h:
 

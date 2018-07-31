@@ -251,8 +251,8 @@ rpc/libbitcoin_server_a-mining.o: rpc/mining.cpp \
  /usr/include/c++/7/bits/uniform_int_dist.h /usr/include/c++/7/limits \
  /usr/include/c++/7/set /usr/include/c++/7/bits/stl_set.h \
  /usr/include/c++/7/bits/stl_multiset.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -714,12 +714,12 @@ rpc/libbitcoin_server_a-mining.o: rpc/mining.cpp \
  support/allocators/zeroafterfree.h chain.h arith_uint256.h pow.h \
  tinyformat.h /usr/include/c++/7/cassert /usr/include/c++/7/iostream \
  /usr/include/c++/7/sstream /usr/include/c++/7/bits/sstream.tcc \
- chainparams.h consensus/consensus.h consensus/params.h \
- consensus/validation.h primitives/block.h core_io.h amount.h \
- crypto/equihash.h crypto/sha256.h utilstrencodings.h \
- /usr/include/c++/7/functional /usr/include/c++/7/bits/std_function.h \
- crypto/equihash.tcc init.h validation.h coins.h primitives/transaction.h \
- compressor.h core_memusage.h memusage.h indirectmap.h \
+ chainparams.h consensus/params.h consensus/validation.h \
+ primitives/block.h core_io.h amount.h crypto/equihash.h crypto/sha256.h \
+ utilstrencodings.h /usr/include/c++/7/functional \
+ /usr/include/c++/7/bits/std_function.h crypto/equihash.tcc init.h \
+ validation.h coins.h primitives/transaction.h compressor.h \
+ core_memusage.h memusage.h indirectmap.h \
  /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
  /usr/include/c++/7/bits/unordered_map.h /usr/include/c++/7/unordered_set \
@@ -1951,6 +1951,10 @@ prevector.h:
 
 /usr/include/c++/7/climits:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 version.h:
 
 protocol.h:
@@ -2994,8 +2998,6 @@ tinyformat.h:
 /usr/include/c++/7/bits/sstream.tcc:
 
 chainparams.h:
-
-consensus/consensus.h:
 
 consensus/params.h:
 

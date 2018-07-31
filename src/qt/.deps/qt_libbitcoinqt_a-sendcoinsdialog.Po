@@ -303,8 +303,8 @@ qt/qt_libbitcoinqt_a-sendcoinsdialog.o: qt/sendcoinsdialog.cpp \
  /usr/include/c++/7/bits/algorithmfwd.h \
  /usr/include/c++/7/bits/stl_heap.h \
  /usr/include/c++/7/bits/uniform_int_dist.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -1085,8 +1085,8 @@ qt/qt_libbitcoinqt_a-sendcoinsdialog.o: qt/sendcoinsdialog.cpp \
  /usr/include/qt4/QtGui/qpixmap.h qt/sendcoinsentry.h \
  /usr/include/qt4/QtGui/QStackedWidget \
  /usr/include/qt4/QtGui/qstackedwidget.h chainparams.h \
- wallet/coincontrol.h policy/feerate.h policy/fees.h policy/feerate.h \
- random.h crypto/chacha20.h sync.h threadsafety.h \
+ wallet/coincontrol.h policy/fees.h policy/feerate.h random.h \
+ crypto/chacha20.h sync.h threadsafety.h \
  /usr/include/boost/thread/condition_variable.hpp \
  /usr/include/boost/thread/detail/platform.hpp \
  /usr/include/boost/config/requires_threads.hpp \
@@ -2240,6 +2240,10 @@ compat/endian.h:
 prevector.h:
 
 /usr/include/c++/7/climits:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 
@@ -4134,8 +4138,6 @@ qt/sendcoinsentry.h:
 chainparams.h:
 
 wallet/coincontrol.h:
-
-policy/feerate.h:
 
 policy/fees.h:
 

@@ -19,7 +19,7 @@
  * JSON-RPC protocol.  Bitcoin speaks version 1.0 for maximum compatibility,
  * but uses JSON-RPC 1.1/2.0 standards for parts of the 1.0 standard that were
  * unspecified (HTTP errors and contents of 'error').
- * 
+ *
  * 1.0 spec: http://json-rpc.org/wiki/specification
  * 1.2 spec: http://jsonrpc.org/historical/json-rpc-over-http.html
  */
@@ -69,7 +69,7 @@ static const std::string COOKIEAUTH_FILE = ".cookie";
 fs::path GetAuthCookieFile()
 {
     fs::path path(gArgs.GetArg("-rpccookiefile", COOKIEAUTH_FILE));
-    if (!path.is_complete()) path = GetDataDir() / path;
+    if (!path.is_complete()) path = GetDataDir(true) / path;
     return path;
 }
 
@@ -123,4 +123,3 @@ void DeleteAuthCookie()
         LogPrintf("%s: Unable to remove random auth cookie file: %s\n", __func__, e.what());
     }
 }
-

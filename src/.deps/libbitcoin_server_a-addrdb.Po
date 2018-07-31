@@ -1084,7 +1084,8 @@ libbitcoin_server_a-addrdb.o: addrdb.cpp /usr/include/stdc-predef.h \
  /usr/include/boost/signals2/detail/signal_template.hpp chainparams.h \
  chainparamsbase.h consensus/params.h uint256.h primitives/block.h \
  arith_uint256.h primitives/transaction.h amount.h script/script.h \
- crypto/common.h prevector.h serialize.h version.h clientversion.h hash.h \
+ crypto/common.h prevector.h serialize.h policy/feerate.h \
+ consensus/consensus.h version.h clientversion.h hash.h \
  crypto/ripemd160.h crypto/sha256.h streams.h \
  support/allocators/zeroafterfree.h support/cleanse.h
 
@@ -3571,6 +3572,10 @@ crypto/common.h:
 prevector.h:
 
 serialize.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 

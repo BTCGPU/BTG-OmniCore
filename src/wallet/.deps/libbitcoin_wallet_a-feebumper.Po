@@ -252,8 +252,8 @@ wallet/libbitcoin_wallet_a-feebumper.o: wallet/feebumper.cpp \
  /usr/include/c++/7/bits/atomic_lockfree_defines.h \
  /usr/include/c++/7/backward/auto_ptr.h /usr/include/c++/7/set \
  /usr/include/c++/7/bits/stl_set.h /usr/include/c++/7/bits/stl_multiset.h \
- prevector.h /usr/include/c++/7/climits primitives/block.h \
- arith_uint256.h wallet/coincontrol.h policy/feerate.h policy/fees.h \
+ prevector.h /usr/include/c++/7/climits policy/feerate.h \
+ primitives/block.h arith_uint256.h wallet/coincontrol.h policy/fees.h \
  policy/feerate.h random.h crypto/chacha20.h uint256.h sync.h \
  threadsafety.h /usr/include/boost/thread/condition_variable.hpp \
  /usr/include/boost/thread/detail/platform.hpp \
@@ -1946,13 +1946,13 @@ prevector.h:
 
 /usr/include/c++/7/climits:
 
+policy/feerate.h:
+
 primitives/block.h:
 
 arith_uint256.h:
 
 wallet/coincontrol.h:
-
-policy/feerate.h:
 
 policy/fees.h:
 

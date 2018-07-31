@@ -768,8 +768,8 @@ qt/qt_libbitcoinqt_a-transactiondesc.o: qt/transactiondesc.cpp \
  config/bitcoin-config.h compat/byteswap.h primitives/block.h \
  arith_uint256.h primitives/transaction.h script/script.h crypto/common.h \
  prevector.h serialize.h compat/endian.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -1036,8 +1036,8 @@ qt/qt_libbitcoinqt_a-transactiondesc.o: qt/transactiondesc.cpp \
  /usr/include/qt4/QtCore/qbytearray.h /usr/include/qt4/QtCore/QList \
  /usr/include/qt4/QtCore/qlist.h qt/walletmodel.h \
  qt/walletmodeltransaction.h support/allocators/secure.h \
- qt/transactionrecord.h consensus/consensus.h validation.h amount.h \
- coins.h primitives/transaction.h compressor.h core_memusage.h memusage.h \
+ qt/transactionrecord.h validation.h amount.h coins.h \
+ primitives/transaction.h compressor.h core_memusage.h memusage.h \
  indirectmap.h /usr/include/c++/7/unordered_map \
  /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
@@ -1233,11 +1233,10 @@ qt/qt_libbitcoinqt_a-transactiondesc.o: qt/transactiondesc.cpp \
  /usr/include/boost/type_traits/function_traits.hpp \
  /usr/include/boost/signals2/detail/signal_template.hpp wallet/db.h \
  clientversion.h streams.h sync.h /usr/include/db_cxx.h /usr/include/db.h \
- /usr/include/inttypes.h wallet/wallet.h policy/feerate.h tinyformat.h \
- ui_interface.h /usr/include/boost/signals2/last_value.hpp \
- utilstrencodings.h validationinterface.h script/ismine.h \
- script/standard.h script/sign.h wallet/crypter.h keystore.h \
- wallet/walletdb.h key.h wallet/rpcwallet.h
+ /usr/include/inttypes.h wallet/wallet.h tinyformat.h ui_interface.h \
+ /usr/include/boost/signals2/last_value.hpp utilstrencodings.h \
+ validationinterface.h script/ismine.h script/standard.h script/sign.h \
+ wallet/crypter.h keystore.h wallet/walletdb.h key.h wallet/rpcwallet.h
 
 /usr/include/stdc-predef.h:
 
@@ -3079,6 +3078,10 @@ prevector.h:
 
 /usr/include/c++/7/climits:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 version.h:
 
 protocol.h:
@@ -3719,8 +3722,6 @@ support/allocators/secure.h:
 
 qt/transactionrecord.h:
 
-consensus/consensus.h:
-
 validation.h:
 
 amount.h:
@@ -4196,8 +4197,6 @@ sync.h:
 /usr/include/inttypes.h:
 
 wallet/wallet.h:
-
-policy/feerate.h:
 
 tinyformat.h:
 

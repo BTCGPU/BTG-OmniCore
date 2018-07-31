@@ -1086,16 +1086,17 @@ libbitcoin_server_a-net_processing.o: net_processing.cpp \
  hash.h crypto/ripemd160.h crypto/sha256.h limitedmap.h policy/feerate.h \
  amount.h serialize.h primitives/block.h arith_uint256.h \
  primitives/transaction.h script/script.h crypto/common.h prevector.h \
- uint256.h version.h streams.h support/allocators/zeroafterfree.h \
- support/cleanse.h threadinterrupt.h /usr/include/c++/7/chrono \
- /usr/include/c++/7/ratio /usr/include/c++/7/bits/parse_numbers.h \
+ uint256.h policy/feerate.h consensus/consensus.h version.h streams.h \
+ support/allocators/zeroafterfree.h support/cleanse.h threadinterrupt.h \
+ /usr/include/c++/7/chrono /usr/include/c++/7/ratio \
+ /usr/include/c++/7/bits/parse_numbers.h \
  /usr/include/c++/7/condition_variable \
  /usr/include/c++/7/bits/std_mutex.h /usr/include/c++/7/mutex \
  /usr/include/c++/7/thread validationinterface.h primitives/transaction.h \
  arith_uint256.h blockencodings.h chainparams.h chainparamsbase.h \
- consensus/params.h consensus/validation.h consensus/consensus.h \
- consensus/params.h primitives/block.h init.h validation.h coins.h \
- compressor.h script/script.h core_memusage.h memusage.h indirectmap.h \
+ consensus/params.h consensus/validation.h consensus/params.h \
+ primitives/block.h init.h validation.h coins.h compressor.h \
+ script/script.h core_memusage.h memusage.h indirectmap.h \
  /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
  /usr/include/c++/7/bits/unordered_map.h /usr/include/c++/7/unordered_set \
@@ -3794,6 +3795,10 @@ prevector.h:
 
 uint256.h:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 version.h:
 
 streams.h:
@@ -3833,8 +3838,6 @@ chainparamsbase.h:
 consensus/params.h:
 
 consensus/validation.h:
-
-consensus/consensus.h:
 
 consensus/params.h:
 

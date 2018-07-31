@@ -251,8 +251,8 @@ rpc/libbitcoin_server_a-misc.o: rpc/misc.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/7/bits/uniform_int_dist.h /usr/include/c++/7/limits \
  /usr/include/c++/7/set /usr/include/c++/7/bits/stl_set.h \
  /usr/include/c++/7/bits/stl_multiset.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -1112,13 +1112,12 @@ rpc/libbitcoin_server_a-misc.o: rpc/misc.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/7/condition_variable /usr/include/c++/7/thread \
  netbase.h rpc/blockchain.h rpc/server.h rpc/protocol.h fs.h \
  univalue/include/univalue.h timedata.h util.h utilstrencodings.h \
- wallet/rpcwallet.h wallet/wallet.h policy/feerate.h streams.h \
- tinyformat.h ui_interface.h /usr/include/boost/signals2/last_value.hpp \
- validationinterface.h script/ismine.h script/standard.h script/sign.h \
- wallet/crypter.h keystore.h support/allocators/secure.h \
- wallet/walletdb.h wallet/db.h sync.h /usr/include/db_cxx.h \
- /usr/include/db.h /usr/include/inttypes.h key.h warnings.h \
- /usr/include/malloc.h
+ wallet/rpcwallet.h wallet/wallet.h streams.h tinyformat.h ui_interface.h \
+ /usr/include/boost/signals2/last_value.hpp validationinterface.h \
+ script/ismine.h script/standard.h script/sign.h wallet/crypter.h \
+ keystore.h support/allocators/secure.h wallet/walletdb.h wallet/db.h \
+ sync.h /usr/include/db_cxx.h /usr/include/db.h /usr/include/inttypes.h \
+ key.h warnings.h /usr/include/malloc.h
 
 /usr/include/stdc-predef.h:
 
@@ -1771,6 +1770,10 @@ compat/endian.h:
 prevector.h:
 
 /usr/include/c++/7/climits:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 
@@ -3751,8 +3754,6 @@ utilstrencodings.h:
 wallet/rpcwallet.h:
 
 wallet/wallet.h:
-
-policy/feerate.h:
 
 streams.h:
 
