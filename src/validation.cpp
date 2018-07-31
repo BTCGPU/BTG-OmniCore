@@ -111,11 +111,11 @@ const std::string strMessageMagic = "Bitcoin Gold Signed Message:\n";
 //
 
 
-int mastercore_handler_disc_begin(int nBlockNow, CBlockIndex const * pBlockIndex);
-int mastercore_handler_disc_end(int nBlockNow, CBlockIndex const * pBlockIndex);
-int mastercore_handler_block_begin(int nBlockNow, CBlockIndex const * pBlockIndex);
-int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex, unsigned int);
-int mastercore_handler_tx(CTransactionRef ptx, int nBlock, unsigned int idx, CBlockIndex const * pBlockIndex);
+// int mastercore_handler_disc_begin(int nBlockNow, CBlockIndex const * pBlockIndex);
+// int mastercore_handler_disc_end(int nBlockNow, CBlockIndex const * pBlockIndex);
+// int mastercore_handler_block_begin(int nBlockNow, CBlockIndex const * pBlockIndex);
+// int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex, unsigned int);
+// int mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, CBlockIndex const * pBlockIndex);
 
 /*----------------------------------------------------------------------------*/
 
@@ -2157,14 +2157,14 @@ bool static DisconnectTip(CValidationState& state, const CChainParams& chainpara
     }
 /*-------------------------- Omnicore G Port ---------------------------------*/
     strprintf(" mastercore handler disc begin <----------------------------\n");
-    mastercore_handler_disc_begin(GetHeight(), pindexDelete);
+    // mastercore_handler_disc_begin(GetHeight(), pindexDelete);
     // Update chainActive and related variables.
     UpdateTip(pindexDelete->pprev, chainparams);
     // Let wallets know transactions went from 1-confirmed to
     // 0-confirmed or conflicted:
     GetMainSignals().BlockDisconnected(pblock);
 
-    mastercore_handler_disc_end(GetHeight(), pindexDelete);
+    // mastercore_handler_disc_end(GetHeight(), pindexDelete);
 /*----------------------------------------------------------------------------*/
     return true;
 }
@@ -2296,7 +2296,9 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
 
     //! Omni Core: begin block connect notification
     // LogPrint("Omni Core handler: block connect begin [height: %d]\n", GetHeight);
-    mastercore_handler_block_begin(GetHeight(), pindexNew);
+
+    // mastercore_handler_block_begin(GetHeight(), pindexNew);
+
     // list<CTransaction> txConflicted;
     // Remove conflicting transactions from the mempool.;
     mempool.removeForBlock(blockConnecting.vtx, pindexNew->nHeight);
@@ -2311,14 +2313,12 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
     // }
     // ... and about transactions that got confirmed:
     // TODO: shared_ptr  pointers!!!
-    BOOST_FOREACH(CTransactionRef ptx, pblock->vtx) {
-    // SyncWithWallets(tx, pindexNew, pblock);
-
-     //! Omni Core: new confirmed transaction notification
-     strprintf("Omni Core handler: new confirmed transaction \n");
-     if (mastercore_handler_tx(ptx, GetHeight(), nTxIdx++, pindexNew)) ++nNumMetaTxs;
+    for(CTransactionRef tx : blockConnecting.vtx){
+          //! Omni Core: new confirmed transaction notification
+    // LogPrint(BCLog::OMNICORE, "Omni Core handler: new confirmed transaction [height: %d, idx: %u]\n", currentHeight, nTxIdx);
+    // if (mastercore_handler_tx(*(tx.get()), GetHeight(), nTxIdx++, pindexNew)) ++nNumMetaTxs;
     }
-    mastercore_handler_block_end(GetHeight(), pindexNew, nNumMetaTxs);
+    // mastercore_handler_block_end(GetHeight(), pindexNew, nNumMetaTxs);
 
     /*------------------------------------------------------------------------*/
 

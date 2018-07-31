@@ -303,8 +303,8 @@ qt/qt_libbitcoinqt_a-walletmodel.o: qt/walletmodel.cpp \
  /usr/include/c++/7/bits/algorithmfwd.h \
  /usr/include/c++/7/bits/stl_heap.h \
  /usr/include/c++/7/bits/uniform_int_dist.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -799,8 +799,8 @@ qt/qt_libbitcoinqt_a-walletmodel.o: qt/walletmodel.cpp \
  /usr/include/qt4/QtCore/qpair.h /usr/include/qt4/QtCore/QStringList \
  /usr/include/qt4/QtCore/qstringlist.h /usr/include/qt4/QtCore/qregexp.h \
  /usr/include/qt4/QtCore/qstringmatcher.h consensus/validation.h \
- consensus/consensus.h consensus/params.h primitives/block.h \
- qt/guiconstants.h qt/guiutil.h fs.h /usr/include/boost/filesystem.hpp \
+ consensus/params.h primitives/block.h qt/guiconstants.h qt/guiutil.h \
+ fs.h /usr/include/boost/filesystem.hpp \
  /usr/include/boost/filesystem/config.hpp \
  /usr/include/boost/system/api_config.hpp \
  /usr/include/boost/config/auto_link.hpp \
@@ -1425,13 +1425,12 @@ qt/qt_libbitcoinqt_a-walletmodel.o: qt/walletmodel.cpp \
  /usr/include/boost/multi_index/detail/seq_index_ops.hpp \
  /usr/include/boost/multi_index/sequenced_index_fwd.hpp ui_interface.h \
  /usr/include/boost/signals2/last_value.hpp util.h wallet/coincontrol.h \
- policy/feerate.h wallet/wallet.h streams.h tinyformat.h \
- utilstrencodings.h validationinterface.h script/ismine.h \
- script/standard.h script/sign.h wallet/crypter.h wallet/walletdb.h \
- wallet/db.h clientversion.h /usr/include/db_cxx.h /usr/include/db.h \
- /usr/include/inttypes.h key.h wallet/rpcwallet.h wallet/feebumper.h \
- /usr/include/qt4/QtCore/QDebug /usr/include/qt4/QtCore/qdebug.h \
- /usr/include/qt4/QtCore/qtextstream.h \
+ wallet/wallet.h streams.h tinyformat.h utilstrencodings.h \
+ validationinterface.h script/ismine.h script/standard.h script/sign.h \
+ wallet/crypter.h wallet/walletdb.h wallet/db.h clientversion.h \
+ /usr/include/db_cxx.h /usr/include/db.h /usr/include/inttypes.h key.h \
+ wallet/rpcwallet.h wallet/feebumper.h /usr/include/qt4/QtCore/QDebug \
+ /usr/include/qt4/QtCore/qdebug.h /usr/include/qt4/QtCore/qtextstream.h \
  /usr/include/qt4/QtCore/qcontiguouscache.h /usr/include/qt4/QtCore/QSet \
  /usr/include/qt4/QtCore/qset.h
 
@@ -2196,6 +2195,10 @@ compat/endian.h:
 prevector.h:
 
 /usr/include/c++/7/climits:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 
@@ -3348,8 +3351,6 @@ qt/addresstablemodel.h:
 /usr/include/qt4/QtCore/qstringmatcher.h:
 
 consensus/validation.h:
-
-consensus/consensus.h:
 
 consensus/params.h:
 
@@ -4830,8 +4831,6 @@ ui_interface.h:
 util.h:
 
 wallet/coincontrol.h:
-
-policy/feerate.h:
 
 wallet/wallet.h:
 

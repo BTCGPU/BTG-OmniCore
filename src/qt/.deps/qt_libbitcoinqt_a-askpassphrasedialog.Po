@@ -376,8 +376,8 @@ qt/qt_libbitcoinqt_a-askpassphrasedialog.o: qt/askpassphrasedialog.cpp \
  compat/byteswap.h primitives/block.h arith_uint256.h \
  primitives/transaction.h amount.h script/script.h crypto/common.h \
  prevector.h serialize.h compat/endian.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -1856,6 +1856,10 @@ compat/endian.h:
 prevector.h:
 
 /usr/include/c++/7/climits:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 

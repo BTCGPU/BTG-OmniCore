@@ -747,11 +747,11 @@ qt/qt_libbitcoinqt_a-optionsdialog.o: qt/optionsdialog.cpp \
  compat/byteswap.h /usr/include/byteswap.h prevector.h serialize.h \
  compat/endian.h /usr/include/c++/7/set /usr/include/c++/7/bits/stl_set.h \
  /usr/include/c++/7/bits/stl_multiset.h prevector.h \
- /usr/include/c++/7/climits uint256.h crypto/common.h compressor.h \
- script/script.h serialize.h core_memusage.h primitives/block.h \
- arith_uint256.h primitives/transaction.h version.h memusage.h \
- indirectmap.h /usr/include/c++/7/unordered_map \
- /usr/include/c++/7/bits/hashtable.h \
+ /usr/include/c++/7/climits uint256.h crypto/common.h policy/feerate.h \
+ consensus/consensus.h compressor.h script/script.h serialize.h \
+ core_memusage.h primitives/block.h arith_uint256.h \
+ primitives/transaction.h version.h memusage.h indirectmap.h \
+ /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
  /usr/include/c++/7/bits/unordered_map.h /usr/include/c++/7/unordered_set \
  /usr/include/c++/7/bits/unordered_set.h hash.h crypto/ripemd160.h \
@@ -1185,11 +1185,10 @@ qt/qt_libbitcoinqt_a-optionsdialog.o: qt/optionsdialog.cpp \
  utilstrencodings.h leveldb/include/leveldb/db.h \
  leveldb/include/leveldb/iterator.h leveldb/include/leveldb/slice.h \
  leveldb/include/leveldb/status.h leveldb/include/leveldb/options.h \
- leveldb/include/leveldb/write_batch.h wallet/wallet.h policy/feerate.h \
- streams.h tinyformat.h ui_interface.h \
- /usr/include/boost/signals2/last_value.hpp utilstrencodings.h \
- validationinterface.h script/ismine.h script/standard.h \
- script/interpreter.h script/script_error.h \
+ leveldb/include/leveldb/write_batch.h wallet/wallet.h streams.h \
+ tinyformat.h ui_interface.h /usr/include/boost/signals2/last_value.hpp \
+ utilstrencodings.h validationinterface.h script/ismine.h \
+ script/standard.h script/interpreter.h script/script_error.h \
  /usr/include/boost/variant.hpp \
  /usr/include/boost/variant/recursive_variant.hpp \
  /usr/include/boost/variant/detail/enable_recursive.hpp \
@@ -3059,6 +3058,10 @@ uint256.h:
 
 crypto/common.h:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 compressor.h:
 
 script/script.h:
@@ -4074,8 +4077,6 @@ leveldb/include/leveldb/options.h:
 leveldb/include/leveldb/write_batch.h:
 
 wallet/wallet.h:
-
-policy/feerate.h:
 
 streams.h:
 

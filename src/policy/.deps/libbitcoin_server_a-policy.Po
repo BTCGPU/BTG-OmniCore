@@ -50,53 +50,51 @@ policy/libbitcoin_server_a-policy.o: policy/policy.cpp \
  /usr/lib/gcc/x86_64-linux-gnu/7/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h policy/feerate.h \
- amount.h serialize.h compat/endian.h config/bitcoin-config.h \
- compat/byteswap.h /usr/include/byteswap.h /usr/include/c++/7/algorithm \
- /usr/include/c++/7/utility /usr/include/c++/7/bits/stl_relops.h \
- /usr/include/c++/7/bits/stl_pair.h /usr/include/c++/7/bits/move.h \
- /usr/include/c++/7/bits/concept_check.h /usr/include/c++/7/type_traits \
- /usr/include/c++/7/initializer_list \
+ amount.h /usr/include/c++/7/string /usr/include/c++/7/bits/stringfwd.h \
+ /usr/include/c++/7/bits/memoryfwd.h \
+ /usr/include/c++/7/bits/char_traits.h \
  /usr/include/c++/7/bits/stl_algobase.h \
  /usr/include/c++/7/bits/functexcept.h \
  /usr/include/c++/7/bits/exception_defines.h \
  /usr/include/c++/7/bits/cpp_type_traits.h \
  /usr/include/c++/7/ext/type_traits.h \
  /usr/include/c++/7/ext/numeric_traits.h \
+ /usr/include/c++/7/bits/stl_pair.h /usr/include/c++/7/bits/move.h \
+ /usr/include/c++/7/bits/concept_check.h /usr/include/c++/7/type_traits \
  /usr/include/c++/7/bits/stl_iterator_base_types.h \
  /usr/include/c++/7/bits/stl_iterator_base_funcs.h \
  /usr/include/c++/7/debug/assertions.h \
  /usr/include/c++/7/bits/stl_iterator.h \
  /usr/include/c++/7/bits/ptr_traits.h /usr/include/c++/7/debug/debug.h \
  /usr/include/c++/7/bits/predefined_ops.h \
- /usr/include/c++/7/bits/stl_algo.h \
- /usr/include/c++/7/bits/algorithmfwd.h \
- /usr/include/c++/7/bits/stl_heap.h /usr/include/c++/7/bits/stl_tempbuf.h \
- /usr/include/c++/7/bits/stl_construct.h /usr/include/c++/7/new \
- /usr/include/c++/7/exception /usr/include/c++/7/bits/exception.h \
- /usr/include/c++/7/bits/exception_ptr.h \
- /usr/include/c++/7/bits/cxxabi_init_exception.h \
- /usr/include/c++/7/typeinfo /usr/include/c++/7/bits/hash_bytes.h \
- /usr/include/c++/7/bits/nested_exception.h \
- /usr/include/c++/7/ext/alloc_traits.h \
- /usr/include/c++/7/bits/alloc_traits.h \
- /usr/include/c++/7/bits/memoryfwd.h \
- /usr/include/c++/7/bits/uniform_int_dist.h /usr/include/c++/7/limits \
- /usr/include/assert.h /usr/include/c++/7/ios /usr/include/c++/7/iosfwd \
- /usr/include/c++/7/bits/stringfwd.h /usr/include/c++/7/bits/postypes.h \
- /usr/include/c++/7/cwchar /usr/include/wchar.h \
- /usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h \
+ /usr/include/c++/7/bits/postypes.h /usr/include/c++/7/cwchar \
+ /usr/include/wchar.h /usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
- /usr/include/x86_64-linux-gnu/bits/wchar2.h \
- /usr/include/c++/7/bits/char_traits.h /usr/include/c++/7/cstdint \
+ /usr/include/x86_64-linux-gnu/bits/wchar2.h /usr/include/c++/7/cstdint \
+ /usr/include/c++/7/bits/allocator.h \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h \
+ /usr/include/c++/7/ext/new_allocator.h /usr/include/c++/7/new \
+ /usr/include/c++/7/exception /usr/include/c++/7/bits/exception.h \
+ /usr/include/c++/7/bits/exception_ptr.h \
+ /usr/include/c++/7/bits/cxxabi_init_exception.h \
+ /usr/include/c++/7/typeinfo /usr/include/c++/7/bits/hash_bytes.h \
+ /usr/include/c++/7/bits/nested_exception.h \
  /usr/include/c++/7/bits/localefwd.h \
  /usr/include/x86_64-linux-gnu/c++/7/bits/c++locale.h \
  /usr/include/c++/7/clocale /usr/include/locale.h \
- /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/7/cctype \
- /usr/include/ctype.h /usr/include/c++/7/bits/ios_base.h \
+ /usr/include/x86_64-linux-gnu/bits/locale.h /usr/include/c++/7/iosfwd \
+ /usr/include/c++/7/cctype /usr/include/ctype.h \
+ /usr/include/c++/7/bits/ostream_insert.h \
+ /usr/include/c++/7/bits/cxxabi_forced.h \
+ /usr/include/c++/7/bits/stl_function.h \
+ /usr/include/c++/7/backward/binders.h \
+ /usr/include/c++/7/bits/range_access.h \
+ /usr/include/c++/7/initializer_list \
+ /usr/include/c++/7/bits/basic_string.h \
  /usr/include/c++/7/ext/atomicity.h \
  /usr/include/x86_64-linux-gnu/c++/7/bits/gthr.h \
  /usr/include/x86_64-linux-gnu/c++/7/bits/gthr-default.h \
@@ -109,16 +107,8 @@ policy/libbitcoin_server_a-policy.o: policy/policy.cpp \
  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
  /usr/include/x86_64-linux-gnu/c++/7/bits/atomic_word.h \
- /usr/include/c++/7/bits/locale_classes.h /usr/include/c++/7/string \
- /usr/include/c++/7/bits/allocator.h \
- /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h \
- /usr/include/c++/7/ext/new_allocator.h \
- /usr/include/c++/7/bits/ostream_insert.h \
- /usr/include/c++/7/bits/cxxabi_forced.h \
- /usr/include/c++/7/bits/stl_function.h \
- /usr/include/c++/7/backward/binders.h \
- /usr/include/c++/7/bits/range_access.h \
- /usr/include/c++/7/bits/basic_string.h \
+ /usr/include/c++/7/ext/alloc_traits.h \
+ /usr/include/c++/7/bits/alloc_traits.h \
  /usr/include/c++/7/ext/string_conversions.h /usr/include/c++/7/cstdio \
  /usr/include/stdio.h /usr/include/x86_64-linux-gnu/bits/libio.h \
  /usr/include/x86_64-linux-gnu/bits/_G_config.h \
@@ -130,7 +120,17 @@ policy/libbitcoin_server_a-policy.o: policy/policy.cpp \
  /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/c++/7/bits/functional_hash.h \
- /usr/include/c++/7/bits/basic_string.tcc \
+ /usr/include/c++/7/bits/basic_string.tcc serialize.h compat/endian.h \
+ config/bitcoin-config.h compat/byteswap.h /usr/include/byteswap.h \
+ /usr/include/c++/7/algorithm /usr/include/c++/7/utility \
+ /usr/include/c++/7/bits/stl_relops.h /usr/include/c++/7/bits/stl_algo.h \
+ /usr/include/c++/7/bits/algorithmfwd.h \
+ /usr/include/c++/7/bits/stl_heap.h /usr/include/c++/7/bits/stl_tempbuf.h \
+ /usr/include/c++/7/bits/stl_construct.h \
+ /usr/include/c++/7/bits/uniform_int_dist.h /usr/include/c++/7/limits \
+ /usr/include/assert.h /usr/include/c++/7/ios \
+ /usr/include/c++/7/bits/ios_base.h \
+ /usr/include/c++/7/bits/locale_classes.h \
  /usr/include/c++/7/bits/locale_classes.tcc \
  /usr/include/c++/7/system_error \
  /usr/include/x86_64-linux-gnu/c++/7/bits/error_constants.h \
@@ -254,10 +254,11 @@ policy/libbitcoin_server_a-policy.o: policy/policy.cpp \
  /usr/include/sodium/crypto_stream_salsa208.h \
  /usr/include/sodium/crypto_stream_xchacha20.h compat/endian.h \
  prevector.h /usr/include/c++/7/climits uint256.h \
- /usr/include/c++/7/cstring crypto/common.h script/standard.h \
- /usr/include/boost/variant.hpp /usr/include/boost/variant/variant.hpp \
- /usr/include/c++/7/cstddef /usr/include/boost/type_index.hpp \
- /usr/include/boost/config.hpp /usr/include/boost/config/user.hpp \
+ /usr/include/c++/7/cstring crypto/common.h policy/feerate.h \
+ script/standard.h /usr/include/boost/variant.hpp \
+ /usr/include/boost/variant/variant.hpp /usr/include/c++/7/cstddef \
+ /usr/include/boost/type_index.hpp /usr/include/boost/config.hpp \
+ /usr/include/boost/config/user.hpp \
  /usr/include/boost/config/detail/select_compiler_config.hpp \
  /usr/include/boost/config/compiler/gcc.hpp \
  /usr/include/boost/config/detail/select_stdlib_config.hpp \
@@ -1224,31 +1225,13 @@ policy/feerate.h:
 
 amount.h:
 
-serialize.h:
+/usr/include/c++/7/string:
 
-compat/endian.h:
+/usr/include/c++/7/bits/stringfwd.h:
 
-config/bitcoin-config.h:
+/usr/include/c++/7/bits/memoryfwd.h:
 
-compat/byteswap.h:
-
-/usr/include/byteswap.h:
-
-/usr/include/c++/7/algorithm:
-
-/usr/include/c++/7/utility:
-
-/usr/include/c++/7/bits/stl_relops.h:
-
-/usr/include/c++/7/bits/stl_pair.h:
-
-/usr/include/c++/7/bits/move.h:
-
-/usr/include/c++/7/bits/concept_check.h:
-
-/usr/include/c++/7/type_traits:
-
-/usr/include/c++/7/initializer_list:
+/usr/include/c++/7/bits/char_traits.h:
 
 /usr/include/c++/7/bits/stl_algobase.h:
 
@@ -1261,6 +1244,14 @@ compat/byteswap.h:
 /usr/include/c++/7/ext/type_traits.h:
 
 /usr/include/c++/7/ext/numeric_traits.h:
+
+/usr/include/c++/7/bits/stl_pair.h:
+
+/usr/include/c++/7/bits/move.h:
+
+/usr/include/c++/7/bits/concept_check.h:
+
+/usr/include/c++/7/type_traits:
 
 /usr/include/c++/7/bits/stl_iterator_base_types.h:
 
@@ -1275,50 +1266,6 @@ compat/byteswap.h:
 /usr/include/c++/7/debug/debug.h:
 
 /usr/include/c++/7/bits/predefined_ops.h:
-
-/usr/include/c++/7/bits/stl_algo.h:
-
-/usr/include/c++/7/bits/algorithmfwd.h:
-
-/usr/include/c++/7/bits/stl_heap.h:
-
-/usr/include/c++/7/bits/stl_tempbuf.h:
-
-/usr/include/c++/7/bits/stl_construct.h:
-
-/usr/include/c++/7/new:
-
-/usr/include/c++/7/exception:
-
-/usr/include/c++/7/bits/exception.h:
-
-/usr/include/c++/7/bits/exception_ptr.h:
-
-/usr/include/c++/7/bits/cxxabi_init_exception.h:
-
-/usr/include/c++/7/typeinfo:
-
-/usr/include/c++/7/bits/hash_bytes.h:
-
-/usr/include/c++/7/bits/nested_exception.h:
-
-/usr/include/c++/7/ext/alloc_traits.h:
-
-/usr/include/c++/7/bits/alloc_traits.h:
-
-/usr/include/c++/7/bits/memoryfwd.h:
-
-/usr/include/c++/7/bits/uniform_int_dist.h:
-
-/usr/include/c++/7/limits:
-
-/usr/include/assert.h:
-
-/usr/include/c++/7/ios:
-
-/usr/include/c++/7/iosfwd:
-
-/usr/include/c++/7/bits/stringfwd.h:
 
 /usr/include/c++/7/bits/postypes.h:
 
@@ -1340,9 +1287,29 @@ compat/byteswap.h:
 
 /usr/include/x86_64-linux-gnu/bits/wchar2.h:
 
-/usr/include/c++/7/bits/char_traits.h:
-
 /usr/include/c++/7/cstdint:
+
+/usr/include/c++/7/bits/allocator.h:
+
+/usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:
+
+/usr/include/c++/7/ext/new_allocator.h:
+
+/usr/include/c++/7/new:
+
+/usr/include/c++/7/exception:
+
+/usr/include/c++/7/bits/exception.h:
+
+/usr/include/c++/7/bits/exception_ptr.h:
+
+/usr/include/c++/7/bits/cxxabi_init_exception.h:
+
+/usr/include/c++/7/typeinfo:
+
+/usr/include/c++/7/bits/hash_bytes.h:
+
+/usr/include/c++/7/bits/nested_exception.h:
 
 /usr/include/c++/7/bits/localefwd.h:
 
@@ -1354,11 +1321,25 @@ compat/byteswap.h:
 
 /usr/include/x86_64-linux-gnu/bits/locale.h:
 
+/usr/include/c++/7/iosfwd:
+
 /usr/include/c++/7/cctype:
 
 /usr/include/ctype.h:
 
-/usr/include/c++/7/bits/ios_base.h:
+/usr/include/c++/7/bits/ostream_insert.h:
+
+/usr/include/c++/7/bits/cxxabi_forced.h:
+
+/usr/include/c++/7/bits/stl_function.h:
+
+/usr/include/c++/7/backward/binders.h:
+
+/usr/include/c++/7/bits/range_access.h:
+
+/usr/include/c++/7/initializer_list:
+
+/usr/include/c++/7/bits/basic_string.h:
 
 /usr/include/c++/7/ext/atomicity.h:
 
@@ -1388,27 +1369,9 @@ compat/byteswap.h:
 
 /usr/include/x86_64-linux-gnu/c++/7/bits/atomic_word.h:
 
-/usr/include/c++/7/bits/locale_classes.h:
+/usr/include/c++/7/ext/alloc_traits.h:
 
-/usr/include/c++/7/string:
-
-/usr/include/c++/7/bits/allocator.h:
-
-/usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h:
-
-/usr/include/c++/7/ext/new_allocator.h:
-
-/usr/include/c++/7/bits/ostream_insert.h:
-
-/usr/include/c++/7/bits/cxxabi_forced.h:
-
-/usr/include/c++/7/bits/stl_function.h:
-
-/usr/include/c++/7/backward/binders.h:
-
-/usr/include/c++/7/bits/range_access.h:
-
-/usr/include/c++/7/bits/basic_string.h:
+/usr/include/c++/7/bits/alloc_traits.h:
 
 /usr/include/c++/7/ext/string_conversions.h:
 
@@ -1445,6 +1408,44 @@ compat/byteswap.h:
 /usr/include/c++/7/bits/functional_hash.h:
 
 /usr/include/c++/7/bits/basic_string.tcc:
+
+serialize.h:
+
+compat/endian.h:
+
+config/bitcoin-config.h:
+
+compat/byteswap.h:
+
+/usr/include/byteswap.h:
+
+/usr/include/c++/7/algorithm:
+
+/usr/include/c++/7/utility:
+
+/usr/include/c++/7/bits/stl_relops.h:
+
+/usr/include/c++/7/bits/stl_algo.h:
+
+/usr/include/c++/7/bits/algorithmfwd.h:
+
+/usr/include/c++/7/bits/stl_heap.h:
+
+/usr/include/c++/7/bits/stl_tempbuf.h:
+
+/usr/include/c++/7/bits/stl_construct.h:
+
+/usr/include/c++/7/bits/uniform_int_dist.h:
+
+/usr/include/c++/7/limits:
+
+/usr/include/assert.h:
+
+/usr/include/c++/7/ios:
+
+/usr/include/c++/7/bits/ios_base.h:
+
+/usr/include/c++/7/bits/locale_classes.h:
 
 /usr/include/c++/7/bits/locale_classes.tcc:
 
@@ -1755,6 +1756,8 @@ uint256.h:
 /usr/include/c++/7/cstring:
 
 crypto/common.h:
+
+policy/feerate.h:
 
 script/standard.h:
 

@@ -848,8 +848,9 @@ test/test_test_bitcoin-bip32_tests.o: test/bip32_tests.cpp \
  primitives/block.h arith_uint256.h primitives/transaction.h amount.h \
  script/script.h crypto/common.h prevector.h serialize.h compat/endian.h \
  /usr/include/c++/7/set /usr/include/c++/7/bits/stl_set.h \
- /usr/include/c++/7/bits/stl_multiset.h prevector.h version.h protocol.h \
- netaddress.h config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/bits/stl_multiset.h prevector.h policy/feerate.h \
+ consensus/consensus.h version.h protocol.h netaddress.h \
+ config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -3460,6 +3461,10 @@ compat/endian.h:
 /usr/include/c++/7/bits/stl_multiset.h:
 
 prevector.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 

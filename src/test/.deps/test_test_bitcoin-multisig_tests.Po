@@ -260,10 +260,10 @@ test/test_test_bitcoin-multisig_tests.o: test/multisig_tests.cpp \
  script/script.h crypto/common.h prevector.h serialize.h \
  /usr/include/c++/7/climits script/standard.h script/interpreter.h \
  script/script_error.h primitives/transaction.h amount.h script/script.h \
- uint256.h /usr/include/boost/variant.hpp \
- /usr/include/boost/variant/variant.hpp /usr/include/c++/7/cstddef \
- /usr/include/boost/type_index.hpp /usr/include/boost/config.hpp \
- /usr/include/boost/config/user.hpp \
+ uint256.h policy/feerate.h consensus/consensus.h \
+ /usr/include/boost/variant.hpp /usr/include/boost/variant/variant.hpp \
+ /usr/include/c++/7/cstddef /usr/include/boost/type_index.hpp \
+ /usr/include/boost/config.hpp /usr/include/boost/config/user.hpp \
  /usr/include/boost/config/detail/select_compiler_config.hpp \
  /usr/include/boost/config/compiler/gcc.hpp \
  /usr/include/boost/config/detail/select_stdlib_config.hpp \
@@ -1036,9 +1036,9 @@ test/test_test_bitcoin-multisig_tests.o: test/multisig_tests.cpp \
  /usr/include/boost/signals2/detail/variadic_slot_invoker.hpp \
  /usr/include/boost/type_traits/function_traits.hpp \
  /usr/include/boost/signals2/detail/signal_template.hpp policy/policy.h \
- consensus/consensus.h policy/feerate.h script/standard.h \
- script/script_error.h script/sign.h script/ismine.h test/test_bitcoin.h \
- chainparamsbase.h fs.h /usr/include/boost/filesystem.hpp \
+ policy/feerate.h script/standard.h script/script_error.h script/sign.h \
+ script/ismine.h test/test_bitcoin.h chainparamsbase.h fs.h \
+ /usr/include/boost/filesystem.hpp \
  /usr/include/boost/filesystem/config.hpp \
  /usr/include/boost/filesystem/path.hpp \
  /usr/include/boost/filesystem/path_traits.hpp /usr/include/c++/7/locale \
@@ -2222,6 +2222,10 @@ amount.h:
 script/script.h:
 
 uint256.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 /usr/include/boost/variant.hpp:
 
@@ -3888,8 +3892,6 @@ threadsafety.h:
 /usr/include/boost/signals2/detail/signal_template.hpp:
 
 policy/policy.h:
-
-consensus/consensus.h:
 
 policy/feerate.h:
 

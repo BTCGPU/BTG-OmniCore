@@ -998,10 +998,11 @@ test/test_test_bitcoin-crypto_tests.o: test/crypto_tests.cpp \
  /usr/include/boost/detail/atomic_undef_macros.hpp \
  /usr/include/boost/detail/atomic_redef_macros.hpp sync.h threadsafety.h \
  txdb.h coins.h primitives/transaction.h amount.h script/script.h \
- crypto/common.h prevector.h serialize.h uint256.h compressor.h \
- script/script.h core_memusage.h primitives/block.h arith_uint256.h \
- primitives/transaction.h version.h memusage.h indirectmap.h \
- /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
+ crypto/common.h prevector.h serialize.h uint256.h policy/feerate.h \
+ consensus/consensus.h compressor.h script/script.h core_memusage.h \
+ primitives/block.h arith_uint256.h primitives/transaction.h version.h \
+ memusage.h indirectmap.h /usr/include/c++/7/unordered_map \
+ /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
  /usr/include/c++/7/bits/unordered_map.h /usr/include/c++/7/unordered_set \
  /usr/include/c++/7/bits/unordered_set.h dbwrapper.h clientversion.h \
@@ -3840,6 +3841,10 @@ prevector.h:
 serialize.h:
 
 uint256.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 compressor.h:
 

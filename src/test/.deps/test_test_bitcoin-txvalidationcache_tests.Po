@@ -252,10 +252,10 @@ test/test_test_bitcoin-txvalidationcache_tests.o: \
  /usr/include/c++/7/bits/atomic_lockfree_defines.h \
  /usr/include/c++/7/backward/auto_ptr.h /usr/include/c++/7/set \
  /usr/include/c++/7/bits/stl_set.h /usr/include/c++/7/bits/stl_multiset.h \
- prevector.h /usr/include/c++/7/climits primitives/block.h \
- arith_uint256.h key.h pubkey.h hash.h crypto/ripemd160.h crypto/sha256.h \
- serialize.h uint256.h version.h support/allocators/secure.h \
- support/lockedpool.h /usr/include/c++/7/list \
+ prevector.h /usr/include/c++/7/climits policy/feerate.h \
+ primitives/block.h arith_uint256.h key.h pubkey.h hash.h \
+ crypto/ripemd160.h crypto/sha256.h serialize.h uint256.h version.h \
+ support/allocators/secure.h support/lockedpool.h /usr/include/c++/7/list \
  /usr/include/c++/7/bits/stl_list.h /usr/include/c++/7/bits/list.tcc \
  /usr/include/c++/7/mutex /usr/include/c++/7/chrono \
  /usr/include/c++/7/ratio /usr/include/c++/7/ctime \
@@ -2181,6 +2181,8 @@ compat/endian.h:
 prevector.h:
 
 /usr/include/c++/7/climits:
+
+policy/feerate.h:
 
 primitives/block.h:
 

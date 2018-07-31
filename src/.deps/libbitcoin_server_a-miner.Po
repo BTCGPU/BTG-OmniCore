@@ -251,10 +251,10 @@ libbitcoin_server_a-miner.o: miner.cpp /usr/include/stdc-predef.h miner.h \
  /usr/include/c++/7/backward/auto_ptr.h /usr/include/c++/7/set \
  /usr/include/c++/7/bits/stl_set.h /usr/include/c++/7/bits/stl_multiset.h \
  prevector.h /usr/include/c++/7/climits uint256.h crypto/common.h \
- version.h txmempool.h amount.h coins.h primitives/transaction.h \
- compressor.h script/script.h serialize.h core_memusage.h memusage.h \
- indirectmap.h /usr/include/c++/7/unordered_map \
- /usr/include/c++/7/bits/hashtable.h \
+ policy/feerate.h consensus/consensus.h version.h txmempool.h amount.h \
+ coins.h primitives/transaction.h compressor.h script/script.h \
+ serialize.h core_memusage.h memusage.h indirectmap.h \
+ /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
  /usr/include/c++/7/bits/unordered_map.h /usr/include/c++/7/unordered_set \
  /usr/include/c++/7/bits/unordered_set.h hash.h crypto/ripemd160.h \
@@ -1242,8 +1242,8 @@ libbitcoin_server_a-miner.o: miner.cpp /usr/include/stdc-predef.h miner.h \
  /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h \
  /usr/include/x86_64-linux-gnu/bits/netdb.h consensus/consensus.h \
  consensus/tx_verify.h consensus/merkle.h primitives/block.h \
- consensus/validation.h consensus/consensus.h consensus/params.h \
- validation.h fs.h /usr/include/boost/filesystem.hpp \
+ consensus/validation.h consensus/params.h validation.h fs.h \
+ /usr/include/boost/filesystem.hpp \
  /usr/include/boost/filesystem/config.hpp \
  /usr/include/boost/filesystem/path.hpp \
  /usr/include/boost/filesystem/path_traits.hpp /usr/include/c++/7/locale \
@@ -1941,6 +1941,10 @@ prevector.h:
 uint256.h:
 
 crypto/common.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 
@@ -4125,8 +4129,6 @@ consensus/merkle.h:
 primitives/block.h:
 
 consensus/validation.h:
-
-consensus/consensus.h:
 
 consensus/params.h:
 

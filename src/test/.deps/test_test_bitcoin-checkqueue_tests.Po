@@ -1082,8 +1082,9 @@ test/test_test_bitcoin-checkqueue_tests.o: test/checkqueue_tests.cpp \
  config/bitcoin-config.h compat/byteswap.h /usr/include/byteswap.h \
  prevector.h serialize.h compat/endian.h /usr/include/c++/7/set \
  /usr/include/c++/7/bits/stl_set.h /usr/include/c++/7/bits/stl_multiset.h \
- prevector.h uint256.h crypto/common.h compressor.h script/script.h \
- serialize.h core_memusage.h primitives/block.h arith_uint256.h \
+ prevector.h uint256.h crypto/common.h policy/feerate.h \
+ consensus/consensus.h compressor.h script/script.h serialize.h \
+ core_memusage.h primitives/block.h arith_uint256.h \
  primitives/transaction.h version.h memusage.h indirectmap.h \
  /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
@@ -3984,6 +3985,10 @@ prevector.h:
 uint256.h:
 
 crypto/common.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 compressor.h:
 

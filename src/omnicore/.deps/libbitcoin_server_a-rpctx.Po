@@ -1,30 +1,13 @@
 omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/stdc-predef.h omnicore/rpctx.h rpc/server.h amount.h \
- /usr/lib/gcc/x86_64-linux-gnu/7/include/stdint.h /usr/include/stdint.h \
- /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+ /usr/include/c++/7/string \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h \
+ /usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
  /usr/include/x86_64-linux-gnu/bits/long-double.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
- /usr/include/x86_64-linux-gnu/bits/types.h \
- /usr/include/x86_64-linux-gnu/bits/typesizes.h \
- /usr/include/x86_64-linux-gnu/bits/wchar.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h rpc/protocol.h fs.h \
- /usr/include/stdio.h /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h \
- /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
- /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
- /usr/include/x86_64-linux-gnu/bits/libio.h \
- /usr/include/x86_64-linux-gnu/bits/_G_config.h \
- /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
- /usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h \
- /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
- /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
- /usr/include/x86_64-linux-gnu/bits/stdio.h \
- /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/c++/7/string \
- /usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h \
- /usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h \
  /usr/include/x86_64-linux-gnu/c++/7/bits/cpu_defines.h \
  /usr/include/c++/7/bits/stringfwd.h /usr/include/c++/7/bits/memoryfwd.h \
  /usr/include/c++/7/bits/char_traits.h \
@@ -43,13 +26,26 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/c++/7/bits/ptr_traits.h /usr/include/c++/7/debug/debug.h \
  /usr/include/c++/7/bits/predefined_ops.h \
  /usr/include/c++/7/bits/postypes.h /usr/include/c++/7/cwchar \
- /usr/include/wchar.h /usr/include/x86_64-linux-gnu/bits/floatn.h \
+ /usr/include/wchar.h \
+ /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+ /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/types/wint_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/wchar2.h /usr/include/c++/7/cstdint \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/stdint.h /usr/include/stdint.h \
+ /usr/include/x86_64-linux-gnu/bits/types.h \
+ /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/c++/7/bits/allocator.h \
  /usr/include/x86_64-linux-gnu/c++/7/bits/c++allocator.h \
  /usr/include/c++/7/ext/new_allocator.h /usr/include/c++/7/new \
@@ -112,12 +108,17 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib.h \
  /usr/include/c++/7/bits/std_abs.h /usr/include/c++/7/cstdio \
- /usr/include/c++/7/cerrno /usr/include/errno.h \
- /usr/include/x86_64-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
- /usr/include/x86_64-linux-gnu/asm/errno.h \
+ /usr/include/stdio.h /usr/include/x86_64-linux-gnu/bits/libio.h \
+ /usr/include/x86_64-linux-gnu/bits/_G_config.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/c++/7/cerrno \
+ /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
+ /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/c++/7/bits/functional_hash.h \
- /usr/include/c++/7/bits/basic_string.tcc \
+ /usr/include/c++/7/bits/basic_string.tcc rpc/protocol.h fs.h \
  /usr/include/boost/filesystem.hpp \
  /usr/include/boost/filesystem/config.hpp /usr/include/boost/config.hpp \
  /usr/include/boost/config/user.hpp \
@@ -947,9 +948,10 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/boost/type_traits/function_traits.hpp \
  /usr/include/boost/signals2/detail/signal_template.hpp \
  utilstrencodings.h validationinterface.h primitives/transaction.h \
- script/script.h crypto/common.h prevector.h script/ismine.h \
- script/standard.h script/interpreter.h script/script_error.h \
- primitives/transaction.h /usr/include/boost/variant.hpp \
+ script/script.h crypto/common.h prevector.h consensus/consensus.h \
+ script/ismine.h script/standard.h script/interpreter.h \
+ script/script_error.h primitives/transaction.h \
+ /usr/include/boost/variant.hpp \
  /usr/include/boost/variant/recursive_variant.hpp \
  /usr/include/boost/variant/detail/enable_recursive.hpp \
  /usr/include/boost/variant/detail/substitute.hpp \
@@ -1076,7 +1078,8 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  support/allocators/secure.h wallet/walletdb.h wallet/db.h \
  clientversion.h config/bitcoin-config.h sync.h version.h \
  /usr/include/db_cxx.h /usr/include/db.h /usr/include/inttypes.h key.h \
- wallet/rpcwallet.h omnicore/omnicore.h omnicore/log.h util.h compat.h \
+ wallet/rpcwallet.h omnicore/createpayload.h omnicore/errors.h \
+ omnicore/omnicore.h omnicore/log.h util.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -1103,12 +1106,18 @@ omnicore/libbitcoin_server_a-rpctx.o: omnicore/rpctx.cpp \
  /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h \
  /usr/include/x86_64-linux-gnu/bits/netdb.h fs.h tinyformat.h utiltime.h \
- leveldb/include/leveldb/status.h leveldb/include/leveldb/slice.h \
- /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
+ omnicore/persistence.h leveldb/include/leveldb/db.h \
+ leveldb/include/leveldb/iterator.h leveldb/include/leveldb/slice.h \
+ leveldb/include/leveldb/status.h leveldb/include/leveldb/options.h \
+ omnicore/tally.h /usr/include/c++/7/unordered_map \
+ /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
- /usr/include/c++/7/bits/unordered_map.h wallet/coincontrol.h \
- policy/fees.h policy/feerate.h random.h crypto/chacha20.h \
- consensus/validation.h consensus/consensus.h consensus/params.h \
+ /usr/include/c++/7/bits/unordered_map.h omnicore/pending.h \
+ omnicore/rpcrequirements.h omnicore/rpcvalues.h omnicore/sp.h \
+ /usr/include/openssl/sha.h /usr/include/openssl/e_os2.h \
+ /usr/include/x86_64-linux-gnu/openssl/opensslconf.h omnicore/tx.h \
+ wallet/coincontrol.h policy/fees.h policy/feerate.h random.h \
+ crypto/chacha20.h consensus/validation.h consensus/params.h \
  primitives/block.h arith_uint256.h init.h net.h addrdb.h addrman.h \
  netaddress.h protocol.h random.h timedata.h util.h amount.h bloom.h \
  limitedmap.h policy/feerate.h primitives/block.h streams.h \
@@ -1123,11 +1132,11 @@ rpc/server.h:
 
 amount.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/7/include/stdint.h:
+/usr/include/c++/7/string:
 
-/usr/include/stdint.h:
+/usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h:
 
-/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+/usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h:
 
 /usr/include/features.h:
 
@@ -1140,50 +1149,6 @@ amount.h:
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
-
-/usr/include/x86_64-linux-gnu/bits/types.h:
-
-/usr/include/x86_64-linux-gnu/bits/typesizes.h:
-
-/usr/include/x86_64-linux-gnu/bits/wchar.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
-
-rpc/protocol.h:
-
-fs.h:
-
-/usr/include/stdio.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/FILE.h:
-
-/usr/include/x86_64-linux-gnu/bits/libio.h:
-
-/usr/include/x86_64-linux-gnu/bits/_G_config.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
-
-/usr/include/x86_64-linux-gnu/bits/sys_errlist.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdio.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdio2.h:
-
-/usr/include/c++/7/string:
-
-/usr/include/x86_64-linux-gnu/c++/7/bits/c++config.h:
-
-/usr/include/x86_64-linux-gnu/c++/7/bits/os_defines.h:
 
 /usr/include/x86_64-linux-gnu/c++/7/bits/cpu_defines.h:
 
@@ -1233,13 +1198,27 @@ fs.h:
 
 /usr/include/wchar.h:
 
+/usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
 
+/usr/lib/gcc/x86_64-linux-gnu/7/include/stddef.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include/stdarg.h:
+
+/usr/include/x86_64-linux-gnu/bits/wchar.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/FILE.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/locale_t.h:
 
@@ -1248,6 +1227,18 @@ fs.h:
 /usr/include/x86_64-linux-gnu/bits/wchar2.h:
 
 /usr/include/c++/7/cstdint:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include/stdint.h:
+
+/usr/include/stdint.h:
+
+/usr/include/x86_64-linux-gnu/bits/types.h:
+
+/usr/include/x86_64-linux-gnu/bits/typesizes.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
 
 /usr/include/c++/7/bits/allocator.h:
 
@@ -1399,6 +1390,20 @@ fs.h:
 
 /usr/include/c++/7/cstdio:
 
+/usr/include/stdio.h:
+
+/usr/include/x86_64-linux-gnu/bits/libio.h:
+
+/usr/include/x86_64-linux-gnu/bits/_G_config.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
+
+/usr/include/x86_64-linux-gnu/bits/sys_errlist.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:
+
 /usr/include/c++/7/cerrno:
 
 /usr/include/errno.h:
@@ -1416,6 +1421,10 @@ fs.h:
 /usr/include/c++/7/bits/functional_hash.h:
 
 /usr/include/c++/7/bits/basic_string.tcc:
+
+rpc/protocol.h:
+
+fs.h:
 
 /usr/include/boost/filesystem.hpp:
 
@@ -3295,6 +3304,8 @@ crypto/common.h:
 
 prevector.h:
 
+consensus/consensus.h:
+
 script/ismine.h:
 
 script/standard.h:
@@ -3617,6 +3628,10 @@ key.h:
 
 wallet/rpcwallet.h:
 
+omnicore/createpayload.h:
+
+omnicore/errors.h:
+
 omnicore/omnicore.h:
 
 omnicore/log.h:
@@ -3697,9 +3712,19 @@ tinyformat.h:
 
 utiltime.h:
 
-leveldb/include/leveldb/status.h:
+omnicore/persistence.h:
+
+leveldb/include/leveldb/db.h:
+
+leveldb/include/leveldb/iterator.h:
 
 leveldb/include/leveldb/slice.h:
+
+leveldb/include/leveldb/status.h:
+
+leveldb/include/leveldb/options.h:
+
+omnicore/tally.h:
 
 /usr/include/c++/7/unordered_map:
 
@@ -3708,6 +3733,22 @@ leveldb/include/leveldb/slice.h:
 /usr/include/c++/7/bits/hashtable_policy.h:
 
 /usr/include/c++/7/bits/unordered_map.h:
+
+omnicore/pending.h:
+
+omnicore/rpcrequirements.h:
+
+omnicore/rpcvalues.h:
+
+omnicore/sp.h:
+
+/usr/include/openssl/sha.h:
+
+/usr/include/openssl/e_os2.h:
+
+/usr/include/x86_64-linux-gnu/openssl/opensslconf.h:
+
+omnicore/tx.h:
 
 wallet/coincontrol.h:
 
@@ -3720,8 +3761,6 @@ random.h:
 crypto/chacha20.h:
 
 consensus/validation.h:
-
-consensus/consensus.h:
 
 consensus/params.h:
 

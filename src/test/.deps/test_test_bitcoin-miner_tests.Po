@@ -251,8 +251,8 @@ test/test_test_bitcoin-miner_tests.o: test/miner_tests.cpp \
  /usr/include/c++/7/bits/uniform_int_dist.h /usr/include/c++/7/limits \
  /usr/include/c++/7/set /usr/include/c++/7/bits/stl_set.h \
  /usr/include/c++/7/bits/stl_multiset.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -291,10 +291,9 @@ test/test_test_bitcoin-miner_tests.o: test/miner_tests.cpp \
  /usr/include/c++/7/bits/hashtable_policy.h \
  /usr/include/c++/7/bits/unordered_map.h /usr/include/c++/7/unordered_set \
  /usr/include/c++/7/bits/unordered_set.h hash.h crypto/ripemd160.h \
- crypto/sha256.h consensus/consensus.h consensus/merkle.h \
- primitives/block.h consensus/tx_verify.h consensus/validation.h \
- consensus/params.h validation.h amount.h coins.h fs.h \
- /usr/include/boost/filesystem.hpp \
+ crypto/sha256.h consensus/merkle.h primitives/block.h \
+ consensus/tx_verify.h consensus/validation.h consensus/params.h \
+ validation.h amount.h coins.h fs.h /usr/include/boost/filesystem.hpp \
  /usr/include/boost/filesystem/config.hpp /usr/include/boost/config.hpp \
  /usr/include/boost/config/user.hpp \
  /usr/include/boost/config/detail/select_compiler_config.hpp \
@@ -2183,6 +2182,10 @@ prevector.h:
 
 /usr/include/c++/7/climits:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 version.h:
 
 protocol.h:
@@ -2310,8 +2313,6 @@ hash.h:
 crypto/ripemd160.h:
 
 crypto/sha256.h:
-
-consensus/consensus.h:
 
 consensus/merkle.h:
 

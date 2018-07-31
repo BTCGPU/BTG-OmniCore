@@ -304,8 +304,8 @@ qt/qt_libbitcoinqt_a-walletmodeltransaction.o: \
  /usr/include/c++/7/bits/algorithmfwd.h \
  /usr/include/c++/7/bits/stl_heap.h \
  /usr/include/c++/7/bits/uniform_int_dist.h prevector.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -790,11 +790,11 @@ qt/qt_libbitcoinqt_a-walletmodeltransaction.o: \
  /usr/include/qt4/QtCore/QObject /usr/include/qt4/QtCore/qobject.h \
  /usr/include/qt4/QtCore/qobjectdefs.h /usr/include/qt4/QtCore/qstring.h \
  /usr/include/qt4/QtCore/qlist.h /usr/include/qt4/QtCore/qscopedpointer.h \
- policy/policy.h consensus/consensus.h policy/feerate.h script/standard.h \
- wallet/wallet.h policy/feerate.h streams.h tinyformat.h \
- /usr/include/c++/7/cassert /usr/include/c++/7/iostream \
- /usr/include/c++/7/sstream /usr/include/c++/7/bits/sstream.tcc \
- ui_interface.h /usr/include/boost/signals2/last_value.hpp \
+ policy/policy.h policy/feerate.h script/standard.h wallet/wallet.h \
+ streams.h tinyformat.h /usr/include/c++/7/cassert \
+ /usr/include/c++/7/iostream /usr/include/c++/7/sstream \
+ /usr/include/c++/7/bits/sstream.tcc ui_interface.h \
+ /usr/include/boost/signals2/last_value.hpp \
  /usr/include/boost/optional.hpp /usr/include/boost/optional/optional.hpp \
  /usr/include/boost/core/explicit_operator_bool.hpp \
  /usr/include/boost/core/swap.hpp \
@@ -1948,6 +1948,10 @@ prevector.h:
 
 /usr/include/c++/7/climits:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 version.h:
 
 protocol.h:
@@ -3068,15 +3072,11 @@ support/allocators/secure.h:
 
 policy/policy.h:
 
-consensus/consensus.h:
-
 policy/feerate.h:
 
 script/standard.h:
 
 wallet/wallet.h:
-
-policy/feerate.h:
 
 streams.h:
 

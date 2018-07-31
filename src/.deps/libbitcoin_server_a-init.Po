@@ -1078,9 +1078,9 @@ libbitcoin_server_a-init.o: init.cpp /usr/include/stdc-predef.h \
  /usr/include/boost/signals2/detail/signal_template.hpp amount.h chain.h \
  arith_uint256.h primitives/block.h arith_uint256.h \
  primitives/transaction.h amount.h script/script.h crypto/common.h \
- prevector.h serialize.h uint256.h version.h pow.h consensus/params.h \
- chainparams.h chainparamsbase.h checkpoints.h compat/sanity.h \
- consensus/validation.h consensus/consensus.h consensus/params.h \
+ prevector.h serialize.h uint256.h policy/feerate.h consensus/consensus.h \
+ version.h pow.h consensus/params.h chainparams.h chainparamsbase.h \
+ checkpoints.h compat/sanity.h consensus/validation.h consensus/params.h \
  primitives/block.h httpserver.h httprpc.h key.h pubkey.h hash.h \
  crypto/ripemd160.h crypto/sha256.h support/allocators/secure.h \
  support/lockedpool.h /usr/include/c++/7/mutex /usr/include/c++/7/chrono \
@@ -1406,11 +1406,11 @@ libbitcoin_server_a-init.o: init.cpp /usr/include/stdc-predef.h \
  leveldb/include/leveldb/status.h leveldb/include/leveldb/options.h \
  leveldb/include/leveldb/write_batch.h torcontrol.h ui_interface.h \
  /usr/include/boost/signals2/last_value.hpp utilmoneystr.h \
- wallet/wallet.h policy/feerate.h streams.h tinyformat.h ui_interface.h \
- utilstrencodings.h validationinterface.h script/ismine.h script/sign.h \
- wallet/crypter.h keystore.h key.h pubkey.h script/script.h \
- script/standard.h sync.h support/allocators/secure.h wallet/walletdb.h \
- wallet/db.h clientversion.h /usr/include/db_cxx.h /usr/include/db.h \
+ wallet/wallet.h streams.h tinyformat.h ui_interface.h utilstrencodings.h \
+ validationinterface.h script/ismine.h script/sign.h wallet/crypter.h \
+ keystore.h key.h pubkey.h script/script.h script/standard.h sync.h \
+ support/allocators/secure.h wallet/walletdb.h wallet/db.h \
+ clientversion.h /usr/include/db_cxx.h /usr/include/db.h \
  /usr/include/inttypes.h key.h wallet/rpcwallet.h warnings.h \
  /usr/include/signal.h /usr/include/x86_64-linux-gnu/bits/signum.h \
  /usr/include/x86_64-linux-gnu/bits/signum-generic.h \
@@ -4013,6 +4013,10 @@ serialize.h:
 
 uint256.h:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 version.h:
 
 pow.h:
@@ -4028,8 +4032,6 @@ checkpoints.h:
 compat/sanity.h:
 
 consensus/validation.h:
-
-consensus/consensus.h:
 
 consensus/params.h:
 
@@ -4812,8 +4814,6 @@ ui_interface.h:
 utilmoneystr.h:
 
 wallet/wallet.h:
-
-policy/feerate.h:
 
 streams.h:
 

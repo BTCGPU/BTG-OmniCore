@@ -252,13 +252,13 @@ primitives/libbitcoin_common_a-block.o: primitives/block.cpp \
  /usr/include/c++/7/backward/auto_ptr.h /usr/include/c++/7/set \
  /usr/include/c++/7/bits/stl_set.h /usr/include/c++/7/bits/stl_multiset.h \
  prevector.h /usr/include/c++/7/climits uint256.h crypto/common.h \
- version.h hash.h crypto/ripemd160.h crypto/sha256.h serialize.h \
- uint256.h version.h tinyformat.h /usr/include/c++/7/cassert \
- /usr/include/c++/7/iostream /usr/include/c++/7/sstream \
- /usr/include/c++/7/bits/sstream.tcc utilstrencodings.h chainparams.h \
- chainparamsbase.h consensus/params.h primitives/block.h protocol.h \
- netaddress.h config/bitcoin-config.h compat.h \
- /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
+ policy/feerate.h consensus/consensus.h version.h hash.h \
+ crypto/ripemd160.h crypto/sha256.h serialize.h uint256.h version.h \
+ tinyformat.h /usr/include/c++/7/cassert /usr/include/c++/7/iostream \
+ /usr/include/c++/7/sstream /usr/include/c++/7/bits/sstream.tcc \
+ utilstrencodings.h chainparams.h chainparamsbase.h consensus/params.h \
+ primitives/block.h protocol.h netaddress.h config/bitcoin-config.h \
+ compat.h /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
@@ -934,6 +934,10 @@ prevector.h:
 uint256.h:
 
 crypto/common.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 

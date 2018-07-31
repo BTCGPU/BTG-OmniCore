@@ -252,8 +252,8 @@ libbitcoin_server_a-blockencodings.o: blockencodings.cpp \
  /usr/include/c++/7/backward/auto_ptr.h /usr/include/c++/7/set \
  /usr/include/c++/7/bits/stl_set.h /usr/include/c++/7/bits/stl_multiset.h \
  prevector.h /usr/include/c++/7/climits uint256.h crypto/common.h \
- version.h consensus/consensus.h consensus/validation.h \
- consensus/consensus.h consensus/params.h primitives/block.h \
+ policy/feerate.h consensus/consensus.h version.h consensus/consensus.h \
+ consensus/validation.h consensus/params.h primitives/block.h \
  chainparams.h chainparamsbase.h consensus/params.h protocol.h \
  netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
@@ -1924,13 +1924,15 @@ uint256.h:
 
 crypto/common.h:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 version.h:
 
 consensus/consensus.h:
 
 consensus/validation.h:
-
-consensus/consensus.h:
 
 consensus/params.h:
 

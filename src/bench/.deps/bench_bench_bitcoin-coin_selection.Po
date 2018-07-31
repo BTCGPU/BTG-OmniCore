@@ -903,8 +903,9 @@ bench/bench_bench_bitcoin-coin_selection.o: bench/coin_selection.cpp \
  /usr/include/sodium/crypto_stream_salsa2012.h \
  /usr/include/sodium/crypto_stream_salsa208.h \
  /usr/include/sodium/crypto_stream_xchacha20.h compat/endian.h \
- prevector.h uint256.h crypto/common.h script/ismine.h script/standard.h \
- script/interpreter.h script/script_error.h primitives/transaction.h \
+ prevector.h uint256.h crypto/common.h consensus/consensus.h \
+ script/ismine.h script/standard.h script/interpreter.h \
+ script/script_error.h primitives/transaction.h \
  /usr/include/boost/variant.hpp \
  /usr/include/boost/variant/recursive_variant.hpp \
  /usr/include/boost/variant/detail/enable_recursive.hpp \
@@ -3143,6 +3144,8 @@ prevector.h:
 uint256.h:
 
 crypto/common.h:
+
+consensus/consensus.h:
 
 script/ismine.h:
 

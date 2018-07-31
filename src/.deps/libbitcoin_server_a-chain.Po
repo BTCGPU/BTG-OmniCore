@@ -252,9 +252,10 @@ libbitcoin_server_a-chain.o: chain.cpp /usr/include/stdc-predef.h chain.h \
  /usr/include/c++/7/backward/auto_ptr.h /usr/include/c++/7/set \
  /usr/include/c++/7/bits/stl_set.h /usr/include/c++/7/bits/stl_multiset.h \
  prevector.h /usr/include/c++/7/climits uint256.h crypto/common.h \
- version.h pow.h consensus/params.h tinyformat.h \
- /usr/include/c++/7/cassert /usr/include/c++/7/iostream \
- /usr/include/c++/7/sstream /usr/include/c++/7/bits/sstream.tcc uint256.h
+ policy/feerate.h consensus/consensus.h version.h pow.h \
+ consensus/params.h tinyformat.h /usr/include/c++/7/cassert \
+ /usr/include/c++/7/iostream /usr/include/c++/7/sstream \
+ /usr/include/c++/7/bits/sstream.tcc uint256.h
 
 /usr/include/stdc-predef.h:
 
@@ -903,6 +904,10 @@ prevector.h:
 uint256.h:
 
 crypto/common.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 

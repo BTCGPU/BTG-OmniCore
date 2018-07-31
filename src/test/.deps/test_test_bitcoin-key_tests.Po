@@ -260,8 +260,8 @@ test/test_test_bitcoin-key_tests.o: test/key_tests.cpp \
  chainparams.h chainparamsbase.h consensus/params.h uint256.h \
  primitives/block.h arith_uint256.h primitives/transaction.h amount.h \
  script/script.h crypto/common.h prevector.h serialize.h \
- /usr/include/c++/7/climits version.h protocol.h netaddress.h \
- config/bitcoin-config.h compat.h \
+ /usr/include/c++/7/climits policy/feerate.h consensus/consensus.h \
+ version.h protocol.h netaddress.h config/bitcoin-config.h compat.h \
  /usr/include/x86_64-linux-gnu/sys/fcntl.h /usr/include/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
@@ -2225,6 +2225,10 @@ prevector.h:
 serialize.h:
 
 /usr/include/c++/7/climits:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 

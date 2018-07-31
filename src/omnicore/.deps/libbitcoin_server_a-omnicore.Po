@@ -1005,10 +1005,13 @@ omnicore/libbitcoin_server_a-omnicore.o: omnicore/omnicore.cpp \
  /usr/include/boost/signals2/detail/variadic_slot_invoker.hpp \
  /usr/include/boost/type_traits/function_traits.hpp \
  /usr/include/boost/signals2/detail/signal_template.hpp tinyformat.h \
- sync.h uint256.h crypto/common.h ../src/config/bitcoin-config.h \
- /usr/include/sodium.h /usr/include/sodium/version.h \
- /usr/include/sodium/export.h /usr/include/sodium/core.h \
- /usr/include/sodium/crypto_aead_aes256gcm.h \
+ omnicore/persistence.h leveldb/include/leveldb/db.h \
+ leveldb/include/leveldb/iterator.h leveldb/include/leveldb/slice.h \
+ leveldb/include/leveldb/status.h leveldb/include/leveldb/options.h \
+ omnicore/tally.h sync.h uint256.h crypto/common.h \
+ ../src/config/bitcoin-config.h /usr/include/sodium.h \
+ /usr/include/sodium/version.h /usr/include/sodium/export.h \
+ /usr/include/sodium/core.h /usr/include/sodium/crypto_aead_aes256gcm.h \
  /usr/include/sodium/crypto_aead_chacha20poly1305.h \
  /usr/include/sodium/crypto_aead_xchacha20poly1305.h \
  /usr/include/sodium/crypto_auth.h \
@@ -1080,22 +1083,18 @@ omnicore/libbitcoin_server_a-omnicore.o: omnicore/omnicore.cpp \
  /usr/include/sodium/crypto_stream_salsa208.h \
  /usr/include/sodium/crypto_stream_xchacha20.h compat/endian.h \
  config/bitcoin-config.h compat/byteswap.h /usr/include/byteswap.h \
- univalue/include/univalue.h leveldb/include/leveldb/status.h \
- leveldb/include/leveldb/slice.h primitives/transaction.h amount.h \
+ univalue/include/univalue.h primitives/transaction.h amount.h \
  script/script.h crypto/common.h prevector.h serialize.h compat/endian.h \
  /usr/include/c++/7/set /usr/include/c++/7/bits/stl_set.h \
- /usr/include/c++/7/bits/stl_multiset.h prevector.h \
- /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
+ /usr/include/c++/7/bits/stl_multiset.h prevector.h policy/feerate.h \
+ consensus/consensus.h /usr/include/c++/7/unordered_map \
+ /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
- /usr/include/c++/7/bits/unordered_map.h base58.h chainparams.h \
- chainparamsbase.h consensus/params.h primitives/block.h arith_uint256.h \
- version.h protocol.h netaddress.h serialize.h uint256.h version.h key.h \
- pubkey.h hash.h crypto/ripemd160.h crypto/sha256.h \
- support/allocators/secure.h support/lockedpool.h \
- /usr/include/c++/7/mutex /usr/include/c++/7/chrono \
- /usr/include/c++/7/ratio /usr/include/c++/7/bits/parse_numbers.h \
- /usr/include/c++/7/bits/std_mutex.h support/cleanse.h script/script.h \
- script/standard.h script/interpreter.h script/script_error.h \
+ /usr/include/c++/7/bits/unordered_map.h omnicore/activation.h \
+ omnicore/consensushash.h omnicore/convert.h omnicore/encoding.h \
+ omnicore/errors.h omnicore/fees.h omnicore/notifications.h \
+ omnicore/pending.h omnicore/rules.h omnicore/script.h script/standard.h \
+ script/interpreter.h script/script_error.h \
  /usr/include/boost/variant.hpp \
  /usr/include/boost/variant/recursive_variant.hpp \
  /usr/include/boost/variant/detail/enable_recursive.hpp \
@@ -1105,18 +1104,31 @@ omnicore/libbitcoin_server_a-omnicore.o: omnicore/omnicore.cpp \
  /usr/include/boost/mpl/equal.hpp /usr/include/boost/variant/get.hpp \
  /usr/include/boost/variant/detail/element_index.hpp \
  /usr/include/boost/variant/visitor_ptr.hpp \
- /usr/include/boost/variant/bad_visit.hpp \
- support/allocators/zeroafterfree.h chainparams.h coins.h \
- primitives/transaction.h compressor.h core_memusage.h memusage.h \
- indirectmap.h /usr/include/c++/7/unordered_set \
- /usr/include/c++/7/bits/unordered_set.h core_io.h amount.h init.h \
- primitives/block.h script/standard.h ui_interface.h \
- /usr/include/boost/signals2/last_value.hpp utilstrencodings.h utiltime.h \
- script/ismine.h wallet/wallet.h policy/feerate.h streams.h \
- validationinterface.h script/sign.h wallet/crypter.h keystore.h \
- support/allocators/secure.h wallet/walletdb.h wallet/db.h \
+ /usr/include/boost/variant/bad_visit.hpp omnicore/seedblocks.h \
+ omnicore/sp.h /usr/include/openssl/sha.h /usr/include/openssl/e_os2.h \
+ /usr/include/x86_64-linux-gnu/openssl/opensslconf.h omnicore/tx.h \
+ utilstrencodings.h omnicore/utils.h omnicore/utilsbitcoin.h \
+ omnicore/version.h omnicore/walletcache.h omnicore/wallettxs.h base58.h \
+ chainparams.h chainparamsbase.h consensus/params.h primitives/block.h \
+ arith_uint256.h version.h protocol.h netaddress.h serialize.h uint256.h \
+ version.h key.h pubkey.h hash.h crypto/ripemd160.h crypto/sha256.h \
+ support/allocators/secure.h support/lockedpool.h \
+ /usr/include/c++/7/mutex /usr/include/c++/7/chrono \
+ /usr/include/c++/7/ratio /usr/include/c++/7/bits/parse_numbers.h \
+ /usr/include/c++/7/bits/std_mutex.h support/cleanse.h script/script.h \
+ script/standard.h support/allocators/zeroafterfree.h chainparams.h \
+ wallet/coincontrol.h policy/fees.h policy/feerate.h random.h \
+ crypto/chacha20.h wallet/wallet.h streams.h ui_interface.h \
+ /usr/include/boost/signals2/last_value.hpp validationinterface.h \
+ primitives/transaction.h script/ismine.h script/sign.h wallet/crypter.h \
+ keystore.h support/allocators/secure.h wallet/walletdb.h wallet/db.h \
  clientversion.h fs.h /usr/include/db_cxx.h /usr/include/db.h \
- /usr/include/inttypes.h key.h wallet/rpcwallet.h \
+ /usr/include/inttypes.h key.h wallet/rpcwallet.h coins.h compressor.h \
+ core_memusage.h memusage.h indirectmap.h \
+ /usr/include/c++/7/unordered_set /usr/include/c++/7/bits/unordered_set.h \
+ core_io.h amount.h init.h validation.h coins.h policy/feerate.h \
+ script/script_error.h versionbits.h chain.h arith_uint256.h pow.h \
+ primitives/block.h utiltime.h consensus/validation.h consensus/params.h \
  /usr/include/boost/algorithm/string.hpp \
  /usr/include/boost/algorithm/string/std_containers_traits.hpp \
  /usr/include/boost/algorithm/string/std/string_traits.hpp \
@@ -1334,11 +1346,7 @@ omnicore/libbitcoin_server_a-omnicore.o: omnicore/omnicore.cpp \
  /usr/include/boost/predef/detail/endian_compat.h \
  /usr/include/boost/math/special_functions/fpclassify.hpp \
  /usr/include/boost/math/tools/real_cast.hpp \
- /usr/include/boost/detail/basic_pointerbuf.hpp \
- /usr/include/openssl/sha.h /usr/include/openssl/e_os2.h \
- /usr/include/x86_64-linux-gnu/openssl/opensslconf.h \
- leveldb/include/leveldb/db.h leveldb/include/leveldb/iterator.h \
- leveldb/include/leveldb/options.h
+ /usr/include/boost/detail/basic_pointerbuf.hpp
 
 /usr/include/stdc-predef.h:
 
@@ -3606,6 +3614,20 @@ utiltime.h:
 
 tinyformat.h:
 
+omnicore/persistence.h:
+
+leveldb/include/leveldb/db.h:
+
+leveldb/include/leveldb/iterator.h:
+
+leveldb/include/leveldb/slice.h:
+
+leveldb/include/leveldb/status.h:
+
+leveldb/include/leveldb/options.h:
+
+omnicore/tally.h:
+
 sync.h:
 
 uint256.h:
@@ -3782,10 +3804,6 @@ compat/byteswap.h:
 
 univalue/include/univalue.h:
 
-leveldb/include/leveldb/status.h:
-
-leveldb/include/leveldb/slice.h:
-
 primitives/transaction.h:
 
 amount.h:
@@ -3808,6 +3826,10 @@ compat/endian.h:
 
 prevector.h:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 /usr/include/c++/7/unordered_map:
 
 /usr/include/c++/7/bits/hashtable.h:
@@ -3815,6 +3837,78 @@ prevector.h:
 /usr/include/c++/7/bits/hashtable_policy.h:
 
 /usr/include/c++/7/bits/unordered_map.h:
+
+omnicore/activation.h:
+
+omnicore/consensushash.h:
+
+omnicore/convert.h:
+
+omnicore/encoding.h:
+
+omnicore/errors.h:
+
+omnicore/fees.h:
+
+omnicore/notifications.h:
+
+omnicore/pending.h:
+
+omnicore/rules.h:
+
+omnicore/script.h:
+
+script/standard.h:
+
+script/interpreter.h:
+
+script/script_error.h:
+
+/usr/include/boost/variant.hpp:
+
+/usr/include/boost/variant/recursive_variant.hpp:
+
+/usr/include/boost/variant/detail/enable_recursive.hpp:
+
+/usr/include/boost/variant/detail/substitute.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessor/repeat.hpp:
+
+/usr/include/boost/variant/recursive_wrapper.hpp:
+
+/usr/include/boost/mpl/equal.hpp:
+
+/usr/include/boost/variant/get.hpp:
+
+/usr/include/boost/variant/detail/element_index.hpp:
+
+/usr/include/boost/variant/visitor_ptr.hpp:
+
+/usr/include/boost/variant/bad_visit.hpp:
+
+omnicore/seedblocks.h:
+
+omnicore/sp.h:
+
+/usr/include/openssl/sha.h:
+
+/usr/include/openssl/e_os2.h:
+
+/usr/include/x86_64-linux-gnu/openssl/opensslconf.h:
+
+omnicore/tx.h:
+
+utilstrencodings.h:
+
+omnicore/utils.h:
+
+omnicore/utilsbitcoin.h:
+
+omnicore/version.h:
+
+omnicore/walletcache.h:
+
+omnicore/wallettxs.h:
 
 base58.h:
 
@@ -3870,79 +3964,33 @@ script/script.h:
 
 script/standard.h:
 
-script/interpreter.h:
-
-script/script_error.h:
-
-/usr/include/boost/variant.hpp:
-
-/usr/include/boost/variant/recursive_variant.hpp:
-
-/usr/include/boost/variant/detail/enable_recursive.hpp:
-
-/usr/include/boost/variant/detail/substitute.hpp:
-
-/usr/include/boost/mpl/aux_/preprocessor/repeat.hpp:
-
-/usr/include/boost/variant/recursive_wrapper.hpp:
-
-/usr/include/boost/mpl/equal.hpp:
-
-/usr/include/boost/variant/get.hpp:
-
-/usr/include/boost/variant/detail/element_index.hpp:
-
-/usr/include/boost/variant/visitor_ptr.hpp:
-
-/usr/include/boost/variant/bad_visit.hpp:
-
 support/allocators/zeroafterfree.h:
 
 chainparams.h:
 
-coins.h:
+wallet/coincontrol.h:
 
-primitives/transaction.h:
+policy/fees.h:
 
-compressor.h:
+policy/feerate.h:
 
-core_memusage.h:
+random.h:
 
-memusage.h:
+crypto/chacha20.h:
 
-indirectmap.h:
+wallet/wallet.h:
 
-/usr/include/c++/7/unordered_set:
-
-/usr/include/c++/7/bits/unordered_set.h:
-
-core_io.h:
-
-amount.h:
-
-init.h:
-
-primitives/block.h:
-
-script/standard.h:
+streams.h:
 
 ui_interface.h:
 
 /usr/include/boost/signals2/last_value.hpp:
 
-utilstrencodings.h:
+validationinterface.h:
 
-utiltime.h:
+primitives/transaction.h:
 
 script/ismine.h:
-
-wallet/wallet.h:
-
-policy/feerate.h:
-
-streams.h:
-
-validationinterface.h:
 
 script/sign.h:
 
@@ -3969,6 +4017,50 @@ fs.h:
 key.h:
 
 wallet/rpcwallet.h:
+
+coins.h:
+
+compressor.h:
+
+core_memusage.h:
+
+memusage.h:
+
+indirectmap.h:
+
+/usr/include/c++/7/unordered_set:
+
+/usr/include/c++/7/bits/unordered_set.h:
+
+core_io.h:
+
+amount.h:
+
+init.h:
+
+validation.h:
+
+coins.h:
+
+policy/feerate.h:
+
+script/script_error.h:
+
+versionbits.h:
+
+chain.h:
+
+arith_uint256.h:
+
+pow.h:
+
+primitives/block.h:
+
+utiltime.h:
+
+consensus/validation.h:
+
+consensus/params.h:
 
 /usr/include/boost/algorithm/string.hpp:
 
@@ -4423,15 +4515,3 @@ wallet/rpcwallet.h:
 /usr/include/boost/math/tools/real_cast.hpp:
 
 /usr/include/boost/detail/basic_pointerbuf.hpp:
-
-/usr/include/openssl/sha.h:
-
-/usr/include/openssl/e_os2.h:
-
-/usr/include/x86_64-linux-gnu/openssl/opensslconf.h:
-
-leveldb/include/leveldb/db.h:
-
-leveldb/include/leveldb/iterator.h:
-
-leveldb/include/leveldb/options.h:

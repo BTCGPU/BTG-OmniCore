@@ -287,8 +287,9 @@ qt/test/qt_test_test_bitcoin_qt-rpcnestedtests.o: \
  /usr/include/c++/7/vector /usr/include/c++/7/bits/stl_vector.h \
  /usr/include/c++/7/bits/stl_bvector.h /usr/include/c++/7/bits/vector.tcc \
  prevector.h /usr/include/c++/7/climits uint256.h \
- /usr/include/c++/7/cstring crypto/common.h compressor.h script/script.h \
- serialize.h core_memusage.h primitives/block.h arith_uint256.h \
+ /usr/include/c++/7/cstring crypto/common.h policy/feerate.h \
+ consensus/consensus.h compressor.h script/script.h serialize.h \
+ core_memusage.h primitives/block.h arith_uint256.h \
  primitives/transaction.h version.h memusage.h indirectmap.h \
  /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
@@ -1310,12 +1311,11 @@ qt/test/qt_test_test_bitcoin_qt-rpcnestedtests.o: \
  /usr/include/boost/multi_index/detail/seq_index_ops.hpp \
  /usr/include/boost/multi_index/sequenced_index_fwd.hpp chainparams.h \
  chainparamsbase.h protocol.h netaddress.h consensus/validation.h \
- consensus/consensus.h consensus/params.h primitives/block.h fs.h \
- validation.h script/script_error.h versionbits.h rpc/register.h \
- rpc/server.h rpc/protocol.h univalue/include/univalue.h qt/rpcconsole.h \
- qt/guiutil.h /usr/include/qt4/QtCore/QEvent \
- /usr/include/qt4/QtCore/qcoreevent.h /usr/include/qt4/QtGui/QHeaderView \
- /usr/include/qt4/QtGui/qheaderview.h \
+ consensus/params.h primitives/block.h fs.h validation.h \
+ script/script_error.h versionbits.h rpc/register.h rpc/server.h \
+ rpc/protocol.h univalue/include/univalue.h qt/rpcconsole.h qt/guiutil.h \
+ /usr/include/qt4/QtCore/QEvent /usr/include/qt4/QtCore/qcoreevent.h \
+ /usr/include/qt4/QtGui/QHeaderView /usr/include/qt4/QtGui/qheaderview.h \
  /usr/include/qt4/QtGui/qabstractitemview.h \
  /usr/include/qt4/QtGui/qabstractscrollarea.h \
  /usr/include/qt4/QtGui/qframe.h /usr/include/qt4/QtGui/qwidget.h \
@@ -2225,6 +2225,10 @@ uint256.h:
 /usr/include/c++/7/cstring:
 
 crypto/common.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 compressor.h:
 
@@ -4501,8 +4505,6 @@ protocol.h:
 netaddress.h:
 
 consensus/validation.h:
-
-consensus/consensus.h:
 
 consensus/params.h:
 

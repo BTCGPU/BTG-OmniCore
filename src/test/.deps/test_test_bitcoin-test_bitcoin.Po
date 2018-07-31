@@ -993,10 +993,11 @@ test/test_test_bitcoin-test_bitcoin.o: test/test_bitcoin.cpp \
  /usr/include/boost/detail/atomic_undef_macros.hpp \
  /usr/include/boost/detail/atomic_redef_macros.hpp sync.h threadsafety.h \
  txdb.h coins.h primitives/transaction.h amount.h script/script.h \
- crypto/common.h prevector.h serialize.h uint256.h compressor.h \
- script/script.h core_memusage.h primitives/block.h arith_uint256.h \
- primitives/transaction.h version.h memusage.h indirectmap.h \
- /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
+ crypto/common.h prevector.h serialize.h uint256.h policy/feerate.h \
+ consensus/consensus.h compressor.h script/script.h core_memusage.h \
+ primitives/block.h arith_uint256.h primitives/transaction.h version.h \
+ memusage.h indirectmap.h /usr/include/c++/7/unordered_map \
+ /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
  /usr/include/c++/7/bits/unordered_map.h /usr/include/c++/7/unordered_set \
  /usr/include/c++/7/bits/unordered_set.h dbwrapper.h clientversion.h \
@@ -1389,11 +1390,11 @@ test/test_test_bitcoin-test_bitcoin.o: test/test_bitcoin.cpp \
  /usr/include/boost/multi_index/detail/seq_index_node.hpp \
  /usr/include/boost/multi_index/detail/seq_index_ops.hpp \
  /usr/include/boost/multi_index/sequenced_index_fwd.hpp chainparams.h \
- chainparamsbase.h protocol.h netaddress.h consensus/consensus.h \
- consensus/validation.h consensus/params.h primitives/block.h \
- crypto/sha256.h validation.h script/script_error.h versionbits.h miner.h \
- txmempool.h net_processing.h net.h addrdb.h addrman.h timedata.h bloom.h \
- limitedmap.h threadinterrupt.h /usr/include/c++/7/condition_variable \
+ chainparamsbase.h protocol.h netaddress.h consensus/validation.h \
+ consensus/params.h primitives/block.h crypto/sha256.h validation.h \
+ script/script_error.h versionbits.h miner.h txmempool.h net_processing.h \
+ net.h addrdb.h addrman.h timedata.h bloom.h limitedmap.h \
+ threadinterrupt.h /usr/include/c++/7/condition_variable \
  /usr/include/c++/7/thread validationinterface.h ui_interface.h \
  /usr/include/boost/signals2/last_value.hpp rpc/server.h rpc/protocol.h \
  univalue/include/univalue.h rpc/register.h script/sigcache.h \
@@ -3687,6 +3688,10 @@ serialize.h:
 
 uint256.h:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 compressor.h:
 
 script/script.h:
@@ -4578,8 +4583,6 @@ chainparamsbase.h:
 protocol.h:
 
 netaddress.h:
-
-consensus/consensus.h:
 
 consensus/validation.h:
 

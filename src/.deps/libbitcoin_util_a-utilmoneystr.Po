@@ -251,10 +251,10 @@ libbitcoin_util_a-utilmoneystr.o: utilmoneystr.cpp \
  /usr/include/c++/7/vector /usr/include/c++/7/bits/stl_vector.h \
  /usr/include/c++/7/bits/stl_bvector.h /usr/include/c++/7/bits/vector.tcc \
  prevector.h /usr/include/c++/7/climits uint256.h \
- /usr/include/c++/7/cstring crypto/common.h tinyformat.h \
- /usr/include/c++/7/cassert /usr/include/c++/7/iostream \
- /usr/include/c++/7/sstream /usr/include/c++/7/bits/sstream.tcc \
- utilstrencodings.h
+ /usr/include/c++/7/cstring crypto/common.h policy/feerate.h \
+ consensus/consensus.h tinyformat.h /usr/include/c++/7/cassert \
+ /usr/include/c++/7/iostream /usr/include/c++/7/sstream \
+ /usr/include/c++/7/bits/sstream.tcc utilstrencodings.h
 
 /usr/include/stdc-predef.h:
 
@@ -899,6 +899,10 @@ uint256.h:
 /usr/include/c++/7/cstring:
 
 crypto/common.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 tinyformat.h:
 

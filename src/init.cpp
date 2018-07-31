@@ -91,9 +91,9 @@ static CZMQNotificationInterface* pzmqNotificationInterface = nullptr;
 static const char* FEE_ESTIMATES_FILENAME="fee_estimates.dat";
 
 /*-------------------------- Omnicore G Port ---------------------------------*/
-extern int mastercore_init();
-extern int mastercore_shutdown();
-extern int CheckWalletUpdate(bool forceUpdate = false);
+// extern int mastercore_init();
+// extern int mastercore_shutdown();
+// extern int CheckWalletUpdate(bool forceUpdate = false);
 
 /*----------------------------------------------------------------------------*/
 
@@ -259,7 +259,7 @@ void Shutdown()
     }
 #endif
 /*-------------------------- Omnicore G Port ---------------------------------*/
-    mastercore_shutdown();
+    // mastercore_shutdown();
 /*----------------------------------------------------------------------------*/
 #if ENABLE_ZMQ
     if (pzmqNotificationInterface) {
@@ -1035,7 +1035,7 @@ bool AppInitParameterInteraction()
     RegisterAllCoreRPCCommands(tableRPC);
 #ifdef ENABLE_WALLET
     RegisterWalletRPCCommands(tableRPC);
-    RegisterOmniTransactionCreationRPCCommands(tableRPC);
+    // RegisterOmniTransactionCreationRPCCommands(tableRPC);
 #endif
 
     nConnectTimeout = gArgs.GetArg("-timeout", DEFAULT_CONNECT_TIMEOUT);
@@ -1582,45 +1582,45 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     fFeeEstimatesInitialized = true;
 
     // ********************************************************* Step 7.5: load Omni Core G
-
-       if (!fTxIndex) {
-           // ask the user if they would like us to modify their config file for them
-           std::string msg = _("Disabled transaction index detected.\n\n"
-                               "Omni Core G requires an enabled transaction index. To enable "
-                               "transaction indexing, please use the \"-txindex\" option as "
-                               "command line argument or add \"txindex=1\" to your client "
-                               "configuration file within your data directory.\n\n"
-                               "Configuration file"); // allow translation of main text body while still allowing differing config file string
-           msg += ": " + GetConfigFile(gArgs.GetArg("-conf", BITCOIN_CONF_FILENAME)).string() + "\n\n";
-           msg += _("Would you like Omni Core G to attempt to update your configuration file accordingly?");
-           bool fRet = uiInterface.ThreadSafeMessageBox(msg, "", CClientUIInterface::MSG_INFORMATION | CClientUIInterface::BTN_OK | CClientUIInterface::MODAL | CClientUIInterface::BTN_ABORT);
-           if (fRet) {
-               // add txindex=1 to config file in GetConfigFile()
-               boost::filesystem::path configPathInfo = GetConfigFile(gArgs.GetArg("-conf", BITCOIN_CONF_FILENAME)).string();
-               FILE *fp = fopen(configPathInfo.string().c_str(), "at");
-               if (!fp) {
-                   std::string failMsg = _("Unable to update configuration file at");
-                   failMsg += ":\n" + GetConfigFile(gArgs.GetArg("-conf", BITCOIN_CONF_FILENAME)).string() + "\n\n";
-                   failMsg += _("The file may be write protected or you may not have the required permissions to edit it.\n");
-                   failMsg += _("Please add txindex=1 to your configuration file manually.\n\nOmni Core G will now shutdown.");
-                   return InitError(failMsg);
-               }
-               fprintf(fp, "\ntxindex=1\n");
-               fflush(fp);
-               fclose(fp);
-               std::string strUpdated = _(
-                       "Your configuration file has been updated.\n\n"
-                       "Omni Core G will now shutdown - please restart the client for your new configuration to take effect.");
-               uiInterface.ThreadSafeMessageBox(strUpdated, "", CClientUIInterface::MSG_INFORMATION | CClientUIInterface::BTN_OK | CClientUIInterface::MODAL);
-               return false;
-           } else {
-               return InitError(_("Please add txindex=1 to your configuration file manually.\n\nOmni Core G will now shutdown."));
-           }
-       }
-
-       uiInterface.InitMessage(_("Parsing Omni Core G transactions..."));
-
-       mastercore_init();
+       //
+       // if (fTxIndex) {
+       //     // ask the user if they would like us to modify their config file for them
+       //     std::string msg = _("Disabled transaction index detected.\n\n"
+       //                         "Omni Core G requires an enabled transaction index. To enable "
+       //                         "transaction indexing, please use the \"-txindex\" option as "
+       //                         "command line argument or add \"txindex=1\" to your client "
+       //                         "configuration file within your data directory.\n\n"
+       //                         "Configuration file"); // allow translation of main text body while still allowing differing config file string
+       //     msg += ": " + GetConfigFile(gArgs.GetArg("-conf", BITCOIN_CONF_FILENAME)).string() + "\n\n";
+       //     msg += _("Would you like Omni Core G to attempt to update your configuration file accordingly?");
+       //     bool fRet = uiInterface.ThreadSafeMessageBox(msg, "", CClientUIInterface::MSG_INFORMATION | CClientUIInterface::BTN_OK | CClientUIInterface::MODAL | CClientUIInterface::BTN_ABORT);
+       //     if (fRet) {
+       //         // add txindex=1 to config file in GetConfigFile()
+       //         boost::filesystem::path configPathInfo = GetConfigFile(gArgs.GetArg("-conf", BITCOIN_CONF_FILENAME)).string();
+       //         FILE *fp = fopen(configPathInfo.string().c_str(), "at");
+       //         if (!fp) {
+       //             std::string failMsg = _("Unable to update configuration file at");
+       //             failMsg += ":\n" + GetConfigFile(gArgs.GetArg("-conf", BITCOIN_CONF_FILENAME)).string() + "\n\n";
+       //             failMsg += _("The file may be write protected or you may not have the required permissions to edit it.\n");
+       //             failMsg += _("Please add txindex=1 to your configuration file manually.\n\nOmni Core G will now shutdown.");
+       //             return InitError(failMsg);
+       //         }
+       //         fprintf(fp, "\ntxindex=1\n");
+       //         fflush(fp);
+       //         fclose(fp);
+       //         std::string strUpdated = _(
+       //                 "Your configuration file has been updated.\n\n"
+       //                 "Omni Core G will now shutdown - please restart the client for your new configuration to take effect.");
+       //         uiInterface.ThreadSafeMessageBox(strUpdated, "", CClientUIInterface::MSG_INFORMATION | CClientUIInterface::BTN_OK | CClientUIInterface::MODAL);
+       //         return false;
+       //     } else {
+       //         return InitError(_("Please add txindex=1 to your configuration file manually.\n\nOmni Core G will now shutdown."));
+       //     }
+       // }
+       //
+       // uiInterface.InitMessage(_("Parsing Omni Core G transactions..."));
+       //
+       // mastercore_init();
 
     // ********************************************************* Step 8: load wallet
 #ifdef ENABLE_WALLET
@@ -1630,7 +1630,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     LogPrintf("No wallet support compiled in!\n");
 #endif
     // Omni Core G code should be initialized and wallet should now be loaded, perform an initial population
-    CheckWalletUpdate();
+    // CheckWalletUpdate();
 
     // ********************************************************* Step 9: data directory maintenance
 

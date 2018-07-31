@@ -1081,10 +1081,11 @@ test/test_test_bitcoin-util_tests.o: test/util_tests.cpp \
  config/bitcoin-config.h compat/byteswap.h /usr/include/byteswap.h \
  prevector.h serialize.h compat/endian.h /usr/include/c++/7/set \
  /usr/include/c++/7/bits/stl_set.h /usr/include/c++/7/bits/stl_multiset.h \
- prevector.h uint256.h crypto/common.h sync.h utilstrencodings.h \
- utilmoneystr.h amount.h test/test_bitcoin.h chainparamsbase.h fs.h key.h \
- pubkey.h hash.h crypto/ripemd160.h crypto/sha256.h serialize.h uint256.h \
- version.h support/allocators/secure.h support/lockedpool.h \
+ prevector.h uint256.h crypto/common.h policy/feerate.h \
+ consensus/consensus.h sync.h utilstrencodings.h utilmoneystr.h amount.h \
+ test/test_bitcoin.h chainparamsbase.h fs.h key.h pubkey.h hash.h \
+ crypto/ripemd160.h crypto/sha256.h serialize.h uint256.h version.h \
+ support/allocators/secure.h support/lockedpool.h \
  /usr/include/c++/7/mutex /usr/include/c++/7/chrono \
  /usr/include/c++/7/ratio /usr/include/c++/7/bits/parse_numbers.h \
  /usr/include/c++/7/bits/std_mutex.h support/cleanse.h pubkey.h random.h \
@@ -3975,6 +3976,10 @@ prevector.h:
 uint256.h:
 
 crypto/common.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 sync.h:
 

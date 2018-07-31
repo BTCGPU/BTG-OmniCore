@@ -252,10 +252,11 @@ test/test_test_bitcoin-versionbits_tests.o: test/versionbits_tests.cpp \
  /usr/include/c++/7/backward/auto_ptr.h /usr/include/c++/7/set \
  /usr/include/c++/7/bits/stl_set.h /usr/include/c++/7/bits/stl_multiset.h \
  prevector.h /usr/include/c++/7/climits uint256.h crypto/common.h \
- version.h pow.h consensus/params.h tinyformat.h \
- /usr/include/c++/7/cassert /usr/include/c++/7/iostream \
- /usr/include/c++/7/sstream /usr/include/c++/7/bits/sstream.tcc uint256.h \
- versionbits.h chain.h test/test_bitcoin.h chainparamsbase.h fs.h \
+ policy/feerate.h consensus/consensus.h version.h pow.h \
+ consensus/params.h tinyformat.h /usr/include/c++/7/cassert \
+ /usr/include/c++/7/iostream /usr/include/c++/7/sstream \
+ /usr/include/c++/7/bits/sstream.tcc uint256.h versionbits.h chain.h \
+ test/test_bitcoin.h chainparamsbase.h fs.h \
  /usr/include/boost/filesystem.hpp \
  /usr/include/boost/filesystem/config.hpp /usr/include/boost/config.hpp \
  /usr/include/boost/config/user.hpp \
@@ -2170,6 +2171,10 @@ prevector.h:
 uint256.h:
 
 crypto/common.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 version.h:
 
