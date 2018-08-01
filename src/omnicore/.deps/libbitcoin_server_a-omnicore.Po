@@ -1129,7 +1129,9 @@ omnicore/libbitcoin_server_a-omnicore.o: omnicore/omnicore.cpp \
  core_io.h amount.h init.h validation.h coins.h policy/feerate.h \
  script/script_error.h versionbits.h chain.h arith_uint256.h pow.h \
  primitives/block.h utiltime.h consensus/validation.h consensus/params.h \
- /usr/include/boost/algorithm/string.hpp \
+ net.h addrdb.h addrman.h random.h timedata.h util.h bloom.h limitedmap.h \
+ streams.h threadinterrupt.h /usr/include/c++/7/condition_variable \
+ /usr/include/c++/7/thread /usr/include/boost/algorithm/string.hpp \
  /usr/include/boost/algorithm/string/std_containers_traits.hpp \
  /usr/include/boost/algorithm/string/std/string_traits.hpp \
  /usr/include/boost/algorithm/string/yes_no_type.hpp \
@@ -4061,6 +4063,30 @@ utiltime.h:
 consensus/validation.h:
 
 consensus/params.h:
+
+net.h:
+
+addrdb.h:
+
+addrman.h:
+
+random.h:
+
+timedata.h:
+
+util.h:
+
+bloom.h:
+
+limitedmap.h:
+
+streams.h:
+
+threadinterrupt.h:
+
+/usr/include/c++/7/condition_variable:
+
+/usr/include/c++/7/thread:
 
 /usr/include/boost/algorithm/string.hpp:
 
