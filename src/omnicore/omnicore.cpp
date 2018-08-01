@@ -51,6 +51,7 @@
 #include "wallet/wallet.h"
 #include "validation.h"
 #include "consensus/validation.h"
+#include "net.h" // for g_connman.get()
 #endif
 
 #include <univalue.h>
@@ -2510,6 +2511,7 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
 
     // Prepare the transaction - first setup some vars
     CCoinControl coinControl;
+    const CCoinControl coinControl1 = (const CCoinControl) coinControl;
     CWalletTx wtxNew;
     CAmount nFeeRet = 0;  // change to new class CAmount
     int nChangePosInOut = -1;
@@ -2521,7 +2523,7 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     CBitcoinAddress addr = CBitcoinAddress(senderAddress);
     coinControl.destChange = addr.Get();
 
-    // Select the inputs
+    // Select the inputs  TODO: make SelectCoins function works!!!
     // if (0 > SelectCoins(senderAddress, coinControl, referenceAmount)) { return MP_INPUTS_INVALID; }
 
     // Encode the data outputs
@@ -2529,9 +2531,9 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
         case OMNI_CLASS_B: { // declaring vars in a switch here so use an expicit code block
             CPubKey redeemingPubKey;
             const std::string& sAddress = redemptionAddress.empty() ? senderAddress : redemptionAddress;
-            // if (!AddressToPubKey(sAddress, redeemingPubKey)) {
-            //     return MP_REDEMP_BAD_VALIDATION;
-            // }
+            if (!AddressToPubKey(sAddress, redeemingPubKey)) {
+                return MP_REDEMP_BAD_VALIDATION;
+            }
             if (!OmniCore_Encode_ClassB(senderAddress,redeemingPubKey,data,vecSend)) { return MP_ENCODING_ERROR; }
         break; }
         case OMNI_CLASS_C:
@@ -2547,19 +2549,20 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
 
     // Now we have what we need to pass to the wallet to create the transaction, perform some checks first
 
-    // if (!coinControl.HasSelected()) return MP_ERR_INPUTSELECT_FAIL;
+    if (!coinControl.HasSelected()) return MP_ERR_INPUTSELECT_FAIL;
 
     std::vector<CRecipient> vecRecipients;
     for (size_t i = 0; i < vecSend.size(); ++i) {
         const std::pair<CScript, int64_t>& vec = vecSend[i];
-        CRecipient recipient = {vec.first, vec.second, false};
+        CRecipient recipient = {vec.first, CAmount(vec.second), false};
         vecRecipients.push_back(recipient);
     }
 
     // Ask the wallet to create the transaction (note mining fee determined by Bitcoin Core params)
-    if (!pwalletMain->CreateTransaction(vecRecipients, wtxNew, reserveKey, nFeeRet, nChangePosInOut, strFailReason, coinControl)) {
+    if (!pwalletMain->CreateTransaction(vecRecipients, wtxNew, reserveKey, nFeeRet, nChangePosInOut, strFailReason, coinControl1)) {
         PrintToLog("%s: ERROR: wallet transaction creation failed: %s\n", __func__, strFailReason);
-        return MP_ERR_CREATE_TX;
+        PrintToConsole("ERROR: wallet transaction creation failed: %s\n", strFailReason);
+        // return MP_ERR_CREATE_TX;
     }
 
     // If this request is only to create, but not commit the transaction then display it and exit
@@ -2569,7 +2572,9 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     } else {
         // Commit the transaction to the wallet and broadcast)
         // PrintToLog("%s: %s; nFeeRet = %d\n", __func__, wtxNew.ToString(), nFeeRet);
-        // if (!pwalletMain->CommitTransaction(wtxNew, reserveKey)) return MP_ERR_COMMIT_TX;
+        PrintToConsole("Checkpoint ...\n");
+        CValidationState state;
+        if (!pwalletMain->CommitTransaction(wtxNew, reserveKey,g_connman.get(),state)) return MP_ERR_COMMIT_TX;
         txid = wtxNew.GetHash();
         return 0;
     }

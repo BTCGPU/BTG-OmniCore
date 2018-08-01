@@ -388,7 +388,7 @@ static void InterpretNegativeSetting(std::string& strKey, std::string& strValue)
 void ArgsManager::ParseParameters(int argc, const char* const argv[])
 {
     LOCK(cs_args);
-    // mapArgs.clear();
+     mapArgs.clear();
     mapMultiArgs.clear();
 
     for (int i = 1; i < argc; i++)
@@ -416,7 +416,7 @@ void ArgsManager::ParseParameters(int argc, const char* const argv[])
             str = str.substr(1);
         InterpretNegativeSetting(str, strValue);
 
-        // mapArgs[str] = strValue;
+        mapArgs[str] = strValue;
         mapMultiArgs[str].push_back(strValue);
     }
 }
@@ -617,9 +617,9 @@ void ArgsManager::ReadConfigFileInternal(const std::string& confPath) {
                 std::string strValue = it->value[0];
                 InterpretNegativeSetting(strKey, strValue);
 
-                // if (mapArgs.count(strKey) == 0) {
-                //     mapArgs[strKey] = strValue;
-                // }
+                if (mapArgs.count(strKey) == 0) {
+                    mapArgs[strKey] = strValue;
+                }
 
                 mapMultiArgs[strKey].push_back(strValue);
             }

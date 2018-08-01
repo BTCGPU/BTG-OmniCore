@@ -56,7 +56,7 @@ CCoinsMap::iterator CCoinsViewCache::FetchCoin(const COutPoint &outpoint) const 
     cachedCoinsUsage += ret->second.coin.DynamicMemoryUsage();
     return ret;
 }
-
+  // TODO: Check this function !!!
 const CTxOut &CCoinsViewCache::GetOutputFor(const CTxIn& input) const
 {
     const Coin &coin = AccessCoin(input.prevout);
