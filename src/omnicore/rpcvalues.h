@@ -31,6 +31,7 @@ uint8_t ParseIssuerBonus(const UniValue& value);
 uint8_t ParseMetaDExAction(const UniValue& value);
 CTransaction ParseTransaction(const UniValue& value);
 CMutableTransaction ParseMutableTransaction(const UniValue& value);
+CMutableTransaction Parse_Mutable_Transaction(const UniValue& value);
 CPubKey ParsePubKeyOrAddress(const UniValue& value);
 uint32_t ParseOutputIndex(const UniValue& value);
 /** Parses previous transaction outputs. */

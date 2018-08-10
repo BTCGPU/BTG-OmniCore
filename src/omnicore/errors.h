@@ -7,6 +7,7 @@
 
 enum MPRPCErrorCode
 {
+
     //INTERNAL_1packet
     MP_INSUF_FUNDS_BPENDI =         -1,     // balance before pending
     MP_INSUF_FUNDS_APENDI =         -2,     // balance after pending
@@ -24,6 +25,9 @@ enum MPRPCErrorCode
     MP_ERR_INPUTSELECT_FAIL =       -206,
     MP_ERR_CREATE_TX =              -211,
     MP_ERR_COMMIT_TX =              -213,
+
+    // just for test (and fun!)
+    MP_CHECKPOINT         =         -666,
 
     //gettransaction_MP, listtransactions_MP
     MP_TX_NOT_FOUND =               -3331,  // No information available about transaction. (GetTransaction failed)
@@ -336,7 +340,9 @@ inline std::string error_str(int ec) {
       case PKT_ERROR_TOKENS -50:
           ec_str = "Address is already frozen";
           break;
-
+      case MP_CHECKPOINT:
+          ec_str = "Test Checkpoint";
+          break;
       default:
           ec_str = "Unknown error";
   }

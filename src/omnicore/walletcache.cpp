@@ -54,26 +54,26 @@ void WalletTXIDCacheAdd(const uint256& hash)
  */
 void WalletTXIDCacheInit()
 {
-    if (msc_debug_walletcache) PrintToLog("WALLETTXIDCACHE: WalletTXIDCacheInit requested\n");
-#ifdef ENABLE_WALLET
-    LOCK(cs_tally);
-
-    std::list<CAccountingEntry> acentries;
-    // CWallet::TxItems txOrdered = vpwallets->wtxOrdered;
-
-    // Iterate through the wallet, checking if each transaction is Omni (via levelDB)
-    // for (CWallet::TxItems::reverse_iterator it = txOrdered.rbegin(); it != txOrdered.rend(); ++it) {
-    //     const CWalletTx* pwtx = it->second.first;
-    //     if (pwtx != NULL) {
-    //         // get the hash of the transaction and check leveldb to see if this is an Omni tx, if so add to cache
-    //         const uint256& hash = pwtx->GetHash();
-    //         if (p_txlistdb->exists(hash)) {
-    //             walletTXIDCache.push_back(hash);
-    //             if (msc_debug_walletcache) PrintToLog("WALLETTXIDCACHE: Adding tx to txid cache : %s\n", hash.GetHex());
-    //         }
-    //     }
-    // }
-#endif
+//     if (msc_debug_walletcache) PrintToLog("WALLETTXIDCACHE: WalletTXIDCacheInit requested\n");
+// #ifdef ENABLE_WALLET
+//     LOCK(cs_tally);
+//
+//     std::list<CAccountingEntry> acentries;
+//     CWallet::TxItems txOrdered = vpwallets->wtxOrdered;
+//
+//     Iterate through the wallet, checking if each transaction is Omni (via levelDB)
+//     for (CWallet::TxItems::reverse_iterator it = txOrdered.rbegin(); it != txOrdered.rend(); ++it) {
+//         const CWalletTx* pwtx = it->second.first;
+//         if (pwtx != NULL) {
+//             // get the hash of the transaction and check leveldb to see if this is an Omni tx, if so add to cache
+//             const uint256& hash = pwtx->GetHash();
+//             if (p_txlistdb->exists(hash)) {
+//                 walletTXIDCache.push_back(hash);
+//                 if (msc_debug_walletcache) PrintToLog("WALLETTXIDCACHE: Adding tx to txid cache : %s\n", hash.GetHex());
+//             }
+//         }
+//     }
+// #endif
 }
 
 /**

@@ -1126,10 +1126,10 @@ omnicore/libbitcoin_server_a-omnicore.o: omnicore/omnicore.cpp \
  /usr/include/inttypes.h key.h wallet/rpcwallet.h coins.h compressor.h \
  core_memusage.h memusage.h indirectmap.h \
  /usr/include/c++/7/unordered_set /usr/include/c++/7/bits/unordered_set.h \
- core_io.h amount.h init.h validation.h coins.h policy/feerate.h \
- script/script_error.h versionbits.h chain.h arith_uint256.h pow.h \
- primitives/block.h utiltime.h consensus/validation.h consensus/params.h \
- net.h addrdb.h addrman.h random.h timedata.h util.h bloom.h limitedmap.h \
+ core_io.h amount.h init.h primitives/block.h utiltime.h validation.h \
+ coins.h policy/feerate.h script/script_error.h versionbits.h chain.h \
+ arith_uint256.h pow.h consensus/validation.h consensus/params.h net.h \
+ addrdb.h addrman.h random.h timedata.h util.h bloom.h limitedmap.h \
  streams.h threadinterrupt.h /usr/include/c++/7/condition_variable \
  /usr/include/c++/7/thread /usr/include/boost/algorithm/string.hpp \
  /usr/include/boost/algorithm/string/std_containers_traits.hpp \
@@ -4040,6 +4040,10 @@ amount.h:
 
 init.h:
 
+primitives/block.h:
+
+utiltime.h:
+
 validation.h:
 
 coins.h:
@@ -4055,10 +4059,6 @@ chain.h:
 arith_uint256.h:
 
 pow.h:
-
-primitives/block.h:
-
-utiltime.h:
 
 consensus/validation.h:
 

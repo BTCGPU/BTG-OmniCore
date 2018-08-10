@@ -41,7 +41,7 @@ static inline void RegisterAllCoreRPCCommands(CRPCTable &t)
     // RegisterOmniDataRetrievalRPCCommands(t);
     RegisterOmniTransactionCreationRPCCommands(t);
     RegisterOmniPayloadCreationRPCCommands(t);
-    // RegisterOmniRawTransactionRPCCommands(t);
+    RegisterOmniRawTransactionRPCCommands(t);
 }
 
 #endif

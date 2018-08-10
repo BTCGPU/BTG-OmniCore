@@ -29,7 +29,7 @@
 #include <utility>
 #include <vector>
 
-typedef CWallet* CWalletRef;
+typedef CWallet *CWalletRef;
 extern std::vector<CWalletRef> vpwallets;
 
 /**
@@ -475,6 +475,10 @@ public:
     bool RelayWalletTransaction(CConnman* connman);
 
     std::set<uint256> GetConflicts() const;
+    /*--------------------------Omni Core G Port -----------------------------*/
+    const CTransaction& getTx() const{ return *(tx.get()); }
+
+    /*------------------------------------------------------------------------*/
 };
 
 

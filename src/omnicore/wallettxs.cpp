@@ -8,7 +8,6 @@
 
 #include "amount.h"
 #include "base58.h"
-// #include "coincontrol.h"
 #include "init.h"
 #include "validation.h"
 #include "pubkey.h"
@@ -17,9 +16,11 @@
 #include "txmempool.h"
 #include "uint256.h"
 #include "utilstrencodings.h"
+#include "errors.h"
 #ifdef ENABLE_WALLET
 #include "script/ismine.h"
 #include "wallet/wallet.h"
+#include "wallet/coincontrol.h"
 #endif
 
 #include <stdint.h>
@@ -37,6 +38,10 @@ bool AddressToPubKey(const std::string& key, CPubKey& pubKey)
 #ifdef ENABLE_WALLET
     // Case 1: Bitcoin address and the key is in the wallet
     CBitcoinAddress address(key);
+    CWalletRef pwalletMain = NULL;
+	  if (vpwallets.size() > 0){
+		   pwalletMain = vpwallets[0];
+    }
     if (pwalletMain && address.IsValid()) {
         CKeyID keyID;
         if (!address.GetKeyID(keyID)) {
@@ -130,6 +135,11 @@ std::string GetAddressLabel(const std::string& address)
 {
     std::string addressLabel;
 #ifdef ENABLE_WALLET
+    CWalletRef pwalletMain = NULL;
+    if (vpwallets.size() > 0){
+        pwalletMain = vpwallets[0];
+
+    }
     if (pwalletMain) {
         LOCK(pwalletMain->cs_wallet);
 
@@ -149,6 +159,10 @@ std::string GetAddressLabel(const std::string& address)
 int IsMyAddress(const std::string& address)
 {
 #ifdef ENABLE_WALLET
+    CWalletRef pwalletMain = NULL;
+    if (vpwallets.size() > 0){
+       pwalletMain = vpwallets[0];
+    }
     if (pwalletMain) {
         // TODO: resolve deadlock caused cs_tally, cs_wallet
         // LOCK(pwalletMain->cs_wallet);
@@ -171,8 +185,16 @@ static int64_t GetEstimatedFeePerKb()
     int64_t nFee = 50000; // 0.0005 BTC;
 
 #ifdef ENABLE_WALLET
+    CWalletRef pwalletMain = NULL;
+    if (vpwallets.size() > 0){
+        pwalletMain = vpwallets[0];
+    }
+    FeeCalculation feeCalc;
+    const CBlockPolicyEstimator estimator;
+    const CCoinControl coin_control;
+
     if (pwalletMain) {
-        nFee = pwalletMain->GetMinimumFee(1000, nTxConfirmTarget, mempool);
+        nFee = pwalletMain->GetMinimumFee(1000,coin_control, mempool, estimator, &feeCalc);
     }
 #endif
 
@@ -208,18 +230,24 @@ int64_t SelectCoins(const std::string& fromAddress, CCoinControl& coinControl, i
     // total output funds collected
     int64_t nTotal = 0;
 
-#ifdef ENABLE_WALLET
+    #ifdef ENABLE_WALLET
+    CWalletRef pwalletMain = NULL;
+    if (vpwallets.size() > 0){
+        pwalletMain = vpwallets[0];
+    }
     if (NULL == pwalletMain) {
-        return 0;
+      return 0;
     }
 
     // select coins to cover up to 20 kB max. transaction size
     int64_t nMax = 20 * GetEstimatedFeePerKb();
+    // int64_t nMax = 1;
 
     // if referenceamount is set it is needed to be accounted for here too
     if (0 < additional) nMax += additional;
 
     int nHeight = GetHeight();
+
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
     // iterate over the wallet
@@ -234,8 +262,9 @@ int64_t SelectCoins(const std::string& fromAddress, CCoinControl& coinControl, i
             continue;
         }
 
-        for (unsigned int n = 0; n < wtx.vout.size(); n++) {
-            const CTxOut& txOut = wtx.vout[n];
+        // const CTransaction &tmpTx = wtx.getTx();  // TODO: study this (wormhole)
+        for (unsigned int n = 0; n < wtx.tx->vout.size(); n++) {
+            const CTxOut& txOut = wtx.tx->vout[n];
 
             CTxDestination dest;
             if (!CheckInput(txOut, nHeight, dest)) {
@@ -247,12 +276,12 @@ int64_t SelectCoins(const std::string& fromAddress, CCoinControl& coinControl, i
             if (pwalletMain->IsSpent(txid, n)) {
                 continue;
             }
-            if (txOut.nValue < GetEconomicThreshold(txOut)) {
-                if (msc_debug_tokens)
-                    PrintToLog("%s: output value below economic threshold: %s:%d, value: %d\n",
-                            __func__, txid.GetHex(), n, txOut.nValue);
-                continue;
-            }
+            // if (txOut.nValue < GetEconomicThreshold(txOut)) {
+            //     if (msc_debug_tokens)
+            //         PrintToLog("%s: output value below economic threshold: %s:%d, value: %d\n",
+            //                 __func__, txid.GetHex(), n, txOut.nValue);
+            //     continue;
+            // }
 
             std::string sAddress = CBitcoinAddress(dest).ToString();
             if (msc_debug_tokens)
@@ -260,9 +289,10 @@ int64_t SelectCoins(const std::string& fromAddress, CCoinControl& coinControl, i
 
             // only use funds from the sender's address
             if (fromAddress == sAddress) {
+              // if (true) {
                 COutPoint outpoint(txid, n);
                 coinControl.Select(outpoint);
-
+                if (true) return MP_CHECKPOINT;
                 nTotal += txOut.nValue;
 
                 if (nMax <= nTotal) break;

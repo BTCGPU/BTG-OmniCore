@@ -91,9 +91,9 @@ static CZMQNotificationInterface* pzmqNotificationInterface = nullptr;
 static const char* FEE_ESTIMATES_FILENAME="fee_estimates.dat";
 
 /*-------------------------- Omnicore G Port ---------------------------------*/
-// extern int mastercore_init();
-// extern int mastercore_shutdown();
-// extern int CheckWalletUpdate(bool forceUpdate = false);
+extern int mastercore_init();
+extern int mastercore_shutdown();
+extern int CheckWalletUpdate(bool forceUpdate = false);
 
 /*----------------------------------------------------------------------------*/
 
@@ -1035,7 +1035,7 @@ bool AppInitParameterInteraction()
     RegisterAllCoreRPCCommands(tableRPC);
 #ifdef ENABLE_WALLET
     RegisterWalletRPCCommands(tableRPC);
-    RegisterOmniTransactionCreationRPCCommands(tableRPC);
+    // RegisterOmniTransactionCreationRPCCommands(tableRPC);
 #endif
 
     nConnectTimeout = gArgs.GetArg("-timeout", DEFAULT_CONNECT_TIMEOUT);
