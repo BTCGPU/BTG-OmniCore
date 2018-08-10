@@ -92,40 +92,40 @@ extern std::atomic<bool> fReopenOmniCoreLog;
  * The log file can be specified via startup option "--omnilogfile=/path/to/omnicore.log",
  * and if none is provided, then the client's datadir is used as default location.
  */
-// static boost::filesystem::path GetLogPath()
-// {
-//     boost::filesystem::path pathLogFile;
-//     std::string strLogPath = GetArg("-omnilogfile", "");
-//
-//     if (!strLogPath.empty()) {
-//         pathLogFile = boost::filesystem::path(strLogPath);
-//         TryCreateDirectory(pathLogFile.parent_path());
-//     } else {
-//         pathLogFile = GetDataDir() / LOG_FILENAME;
-//     }
-//
-//     return pathLogFile;
-// }
+static boost::filesystem::path GetLogPath()
+{
+    boost::filesystem::path pathLogFile;
+    std::string strLogPath = GetArg("-omnilogfile", "");
+
+    if (!strLogPath.empty()) {
+        pathLogFile = boost::filesystem::path(strLogPath);
+        TryCreateDirectories(pathLogFile.parent_path());
+    } else {
+        pathLogFile = GetDataDir() / LOG_FILENAME;
+    }
+
+    return pathLogFile;
+}
 
 /**
  * Opens debug log file.
  */
-// static void DebugLogInit()
-// {
-//     assert(fileout == NULL);
-//     assert(mutexDebugLog == NULL);
-//
-//     boost::filesystem::path pathDebug = GetLogPath();
-//     fileout = fopen(pathDebug.string().c_str(), "a");
-//
-//     if (fileout) {
-//         setbuf(fileout, NULL); // Unbuffered
-//     } else {
-//         PrintToConsole("Failed to open debug log file: %s\n", pathDebug.string());
-//     }
-//
-//     mutexDebugLog = new boost::mutex();
-// }
+static void DebugLogInit()
+{
+    assert(fileout == NULL);
+    assert(mutexDebugLog == NULL);
+
+    boost::filesystem::path pathDebug = GetLogPath();
+    fileout = fopen(pathDebug.string().c_str(), "a");
+
+    if (fileout) {
+        setbuf(fileout, NULL); // Unbuffered
+    } else {
+        PrintToConsole("Failed to open debug log file: %s\n", pathDebug.string());
+    }
+
+    mutexDebugLog = new boost::mutex();
+}
 
 /**
  * @return The current timestamp in the format: 2009-01-03 18:15:05
@@ -147,45 +147,45 @@ static std::string GetTimestamp()
  * @param str[in]  The message to log
  * @return The total number of characters written
  */
-// int LogFilePrint(const std::string& str)
-// {
-//     int ret = 0; // Number of characters written
-//     if (fPrintToConsole) {
-//         // Print to console
-//         ret = ConsolePrint(str);
-//     }
-//     else if (fPrintToDebugLog && AreBaseParamsConfigured()) {
-//         static bool fStartedNewLine = true;
-//         boost::call_once(&DebugLogInit, debugLogInitFlag);
-//
-//         if (fileout == NULL) {
-//             return ret;
-//         }
-//         boost::mutex::scoped_lock scoped_lock(*mutexDebugLog);
-//
-//         // Reopen the log file, if requested
-//         if (fReopenOmniCoreLog) {
-//             fReopenOmniCoreLog = false;
-//             boost::filesystem::path pathDebug = GetLogPath();
-//             if (freopen(pathDebug.string().c_str(), "a", fileout) != NULL) {
-//                 setbuf(fileout, NULL); // Unbuffered
-//             }
-//         }
-//
-//         // Printing log timestamps can be useful for profiling
-//         if (fLogTimestamps && fStartedNewLine) {
-//             ret += fprintf(fileout, "%s ", GetTimestamp().c_str());
-//         }
-//         if (!str.empty() && str[str.size()-1] == '\n') {
-//             fStartedNewLine = true;
-//         } else {
-//             fStartedNewLine = false;
-//         }
-//         ret += fwrite(str.data(), 1, str.size(), fileout);
-//     }
-//
-//     return ret;
-// }
+int LogFilePrint(const std::string& str)
+{
+    int ret = 0; // Number of characters written
+    if (fPrintToConsole) {
+        // Print to console
+        ret = ConsolePrint(str);
+    }
+    else if (fPrintToDebugLog && false) {
+        static bool fStartedNewLine = true;
+        boost::call_once(&DebugLogInit, debugLogInitFlag);
+
+        if (fileout == NULL) {
+            return ret;
+        }
+        boost::mutex::scoped_lock scoped_lock(*mutexDebugLog);
+
+        // Reopen the log file, if requested
+        if (fReopenOmniCoreLog) {
+            fReopenOmniCoreLog = false;
+            boost::filesystem::path pathDebug = GetLogPath();
+            if (freopen(pathDebug.string().c_str(), "a", fileout) != NULL) {
+                setbuf(fileout, NULL); // Unbuffered
+            }
+        }
+
+        // Printing log timestamps can be useful for profiling
+        if (fLogTimestamps && fStartedNewLine) {
+            ret += fprintf(fileout, "%s ", GetTimestamp().c_str());
+        }
+        if (!str.empty() && str[str.size()-1] == '\n') {
+            fStartedNewLine = true;
+        } else {
+            fStartedNewLine = false;
+        }
+        ret += fwrite(str.data(), 1, str.size(), fileout);
+    }
+
+    return ret;
+}
 
 /**
  * Prints to the standard output, usually the console.

@@ -10,6 +10,7 @@
 #include "script/script.h"
 #include "script/standard.h"
 #include "uint256.h"
+#include "amount.h"
 
 #include <stdint.h>
 #include <string>
@@ -93,7 +94,7 @@ TxBuilder& TxBuilder::addChange(const CTxDestination& destination, const CCoinsV
         it = transaction.vout.begin() + position;
     }
 
-    CTxOut txOutput(txChange, scriptPubKey);
+    CTxOut txOutput(CAmount(txChange), scriptPubKey);
     transaction.vout.insert(it, txOutput);
 
     return *this;
@@ -136,6 +137,7 @@ OmniTxBuilder& OmniTxBuilder::addReference(const std::string& destination, int64
 
     int64_t minValue = GetDustThreshold(scriptPubKey);
     value = std::max(minValue, value);
+    CAmount val = CAmount(value);
 
     return (OmniTxBuilder&) TxBuilder::addOutput(scriptPubKey, value);
 }
@@ -175,13 +177,12 @@ OmniTxBuilder& OmniTxBuilder::addChange(const std::string& destination, const CC
 /** Adds previous transaction outputs to coins view. */
 void InputsToView(const std::vector<PrevTxsEntry>& prevTxs, CCoinsViewCache& view)
 {
-    for (std::vector<PrevTxsEntry>::const_iterator it = prevTxs.begin(); it != prevTxs.end(); ++it) {
-        CCoinsModifier coins = view.ModifyCoins(it->outPoint.hash);
-        if ((size_t) it->outPoint.n >= coins->vout.size()) {
-            coins->vout.resize(it->outPoint.n+1);
-        }
-        coins->vout[it->outPoint.n].scriptPubKey = it->txOut.scriptPubKey;
-        coins->vout[it->outPoint.n].nValue = it->txOut.nValue;
-    }
+    // for (std::vector<PrevTxsEntry>::const_iterator it = prevTxs.begin(); it != prevTxs.end(); ++it) {
+    //     CCoinsModifier coins = view.ModifyCoins(it->outPoint.hash);
+    //     if ((size_t) it->outPoint.n >= coins->vout.size()) {
+    //         coins->vout.resize(it->outPoint.n+1);
+    //     }
+    //     coins->vout[it->outPoint.n].scriptPubKey = it->txOut.scriptPubKey;
+    //     coins->vout[it->outPoint.n].nValue = it->txOut.nValue;
+    // }
 }
-

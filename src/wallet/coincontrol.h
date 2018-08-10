@@ -32,6 +32,15 @@ public:
     //! Fee estimation mode to control arguments to estimateSmartFee
     FeeEstimateMode m_fee_mode;
 
+    /*------------------------ Omni Core G port ------------------------------*/
+    //Minimum absolute fee (not per kilobyte)
+    CAmount nMinimumTotalFee;
+    //! Override estimated feerate
+    CFeeRate nFeeRate;
+    //! Override the default confirmation target, 0 = use default
+    int nConfirmTarget;
+    /*------------------------------------------------------------------------*/
+
     CCoinControl()
     {
         SetNull();
@@ -48,6 +57,10 @@ public:
         m_confirm_target.reset();
         signalRbf = fWalletRbf;
         m_fee_mode = FeeEstimateMode::UNSET;
+
+        nMinimumTotalFee = CAmount(0);
+        nFeeRate = CFeeRate(CAmount(0));
+        nConfirmTarget = 0;
     }
 
     bool HasSelected() const

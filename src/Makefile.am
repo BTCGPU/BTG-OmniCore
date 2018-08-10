@@ -202,6 +202,8 @@ BITCOIN_CORE_H = \
 	omnicore/varint.h \
 	omnicore/sp.h \
 	omnicore/utils.h\
+	omnicore/rpcrawtx.h \
+  omnicore/createtx.h\
 	omnicore/globals.h
 
 obj/build.h: FORCE
@@ -266,6 +268,7 @@ libbitcoin_server_a_SOURCES = \
 	omnicore/tx.cpp \
 	omnicore/utilsbitcoin.cpp \
 	omnicore/version.cpp \
+	omnicore/wallettxs.cpp \
 	omnicore/walletcache.cpp \
 	omnicore/rpcvalues.cpp \
 	omnicore/fetchwallettx.cpp \
@@ -278,6 +281,8 @@ libbitcoin_server_a_SOURCES = \
 	omnicore/globals.cpp\
 	omnicore/utils.cpp\
 	omnicore/sp.cpp \
+	omnicore/rpcrawtx.cpp \
+	omnicore/createtx.cpp\
   $(BITCOIN_CORE_H)
 
 if ENABLE_ZMQ

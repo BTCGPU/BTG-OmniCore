@@ -22,7 +22,7 @@
 #include "omnicore/seedblocks.h"
 #include "omnicore/sp.h"
 #include "omnicore/tally.h"
-#include "omnicore/tx.h"  // troubles with compile tx.cpp and tx.h
+#include "omnicore/tx.h"
 #include "omnicore/utils.h"
 #include "omnicore/utilsbitcoin.h"
 #include "omnicore/version.h"
@@ -34,7 +34,6 @@
 #include "coins.h"
 #include "core_io.h"
 #include "init.h"
-#include "validation.h"
 #include "primitives/block.h"
 #include "primitives/transaction.h"
 #include "script/script.h"
@@ -2223,7 +2222,7 @@ int mastercore_init()
     //     // nothing to do
     //     return 0;
     // }
-   PrintToConsole("Initializing Omni Core Gold\n");
+   strprintf(_("Initializing Omni Core Gold\n"));
     // PrintToConsole("Initializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
 //
 //     PrintToLog("\nInitializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
@@ -2415,12 +2414,13 @@ int mastercore_shutdown()
 //  */
 bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const CBlockIndex* pBlockIndex)
 {
-       PrintToConsole(" INSIDE mastercore_handle_tx omnicore.cpp <----------------------------\n");
-//     LOCK(cs_tally);
+
+       strprintf("INSIDE mastercore_handle_tx omnicore.cpp <----------------------------\n");
+       LOCK(cs_tally);
 //
-//     if (!mastercoreInitialized) {
-//         mastercore_init();
-//     }
+    if (!mastercoreInitialized) {
+        mastercore_init();
+    }
 //
 //     // clear pending, if any
 //     // NOTE1: Every incoming TX is checked, not just MP-ones because:
@@ -2430,24 +2430,25 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
 //
 //     // we do not care about parsing blocks prior to our waterline (empty blockchain defense)
 //     if (nBlock < nWaterlineBlock) return false;
-//     int64_t nBlockTime = pBlockIndex->GetBlockTime();
+    int64_t nBlockTime = pBlockIndex->GetBlockTime();
 //
-    // CMPTransaction mp_obj;
-    // mp_obj.unlockLogic();
+    CMPTransaction mp_obj;
+    mp_obj.unlockLogic();
 //
 //     bool fFoundTx = false;
-    // int pop_ret = parseTransaction(false, tx, nBlock, idx, mp_obj, nBlockTime);
+    int pop_ret = parseTransaction(false, tx, nBlock, idx, mp_obj, nBlockTime);
 //
-//     if (pop_ret >= 0) {
-//         assert(mp_obj.getEncodingClass() != NO_MARKER);
-//         assert(mp_obj.getSender().empty() == false);
-//
+    if (pop_ret >= 0) {
+
+        assert(mp_obj.getEncodingClass() != NO_MARKER);
+        assert(mp_obj.getSender().empty() == false);
+        // if (true) return MP_CHECKPOINT;
 //         // extra iteration of the outputs for every transaction, not needed on mainnet after Exodus closed
 //         const CConsensusParams& params = ConsensusParams();
 //         if (isNonMainNet() || nBlock <= params.LAST_EXODUS_BLOCK) {
 //             fFoundTx |= HandleExodusPurchase(tx, nBlock, mp_obj.getSender(), nBlockTime);
-//         }
-//     }
+           // }
+    }
 //
 //     if (pop_ret > 0) {
 //         assert(mp_obj.getEncodingClass() == OMNI_CLASS_A);
@@ -2455,20 +2456,20 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
 //
 //         fFoundTx |= HandleDExPayments(tx, nBlock, mp_obj.getSender());
 //     }
-//
-//     if (0 == pop_ret) {
-//         int interp_ret = mp_obj.interpretPacket();
-//         if (interp_ret) PrintToLog("!!! interpretPacket() returned %d !!!\n", interp_ret);
-//
-//         // Only structurally valid transactions get recorded in levelDB
-//         // PKT_ERROR - 2 = interpret_Transaction failed, structurally invalid payload
-//         if (interp_ret != PKT_ERROR - 2) {
-//             bool bValid = (0 <= interp_ret);
-//             p_txlistdb->recordTX(tx.GetHash(), bValid, nBlock, mp_obj.getType(), mp_obj.getNewAmount());
-//             p_OmniTXDB->RecordTransaction(tx.GetHash(), idx, interp_ret);
-//         }
+
+    if (0 == pop_ret) {
+        // int interp_ret = mp_obj.interpretPacket();
+        // if (interp_ret) PrintToLog("!!! interpretPacket() returned %d !!!\n", interp_ret);
+        if (true) return MP_CHECKPOINT;
+        // Only structurally valid transactions get recorded in levelDB
+        // PKT_ERROR - 2 = interpret_Transaction failed, structurally invalid payload
+        // if (interp_ret != PKT_ERROR - 2) {
+        //     bool bValid = (0 <= interp_ret);
+        //     p_txlistdb->recordTX(tx.GetHash(), bValid, nBlock, mp_obj.getType(), mp_obj.getNewAmount());
+        //     p_OmniTXDB->RecordTransaction(tx.GetHash(), idx, interp_ret);
+        // }
 //         fFoundTx |= (interp_ret == 0);
-//     }
+    }
 //
 //     if (fFoundTx && msc_debug_consensus_hash_every_transaction) {
 //         uint256 consensusHash = GetConsensusHash();
@@ -2484,34 +2485,38 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
 //  * @param nDataSize The length of the payload
 //  * @return True, if Class C is enabled and the payload is small enough
 //  */
-// bool mastercore::UseEncodingClassC(size_t nDataSize)
-// {
-//     size_t nTotalSize = nDataSize + GetOmMarker().size(); // Marker "omni"
-//     bool fDataEnabled = GetBoolArg("-datacarrier", true);
-//     int nBlockNow = GetHeight();
-//     if (!IsAllowedOutputType(TX_NULL_DATA, nBlockNow)) {
-//         fDataEnabled = false;
-//     }
-//     return nTotalSize <= nMaxDatacarrierBytes && fDataEnabled;
-// }
+bool mastercore::UseEncodingClassC(size_t nDataSize)
+{
+    size_t nTotalSize = nDataSize + GetOmMarker().size(); // Marker "omni"
+    bool fDataEnabled = GetBoolArg("-datacarrier", true);
+    int nBlockNow = GetHeight();
+    if (!IsAllowedOutputType(TX_NULL_DATA, nBlockNow)) {
+        fDataEnabled = false;
+    }
+    return nTotalSize <= nMaxDatacarrierBytes && fDataEnabled;
+}
 //
 // This function requests the wallet create an Omni transaction using the supplied parameters and payload
 int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::string& receiverAddress, const std::string& redemptionAddress,
         int64_t referenceAmount, const std::vector<unsigned char>& data, uint256& txid, std::string& rawHex, bool commit)
 {
+    PrintToLog("INSIDE WalletTxBuilder function <----------------------------\n");
     #ifdef ENABLE_WALLET
     CWalletRef pwalletMain = NULL;
     if (vpwallets.size() > 0){
       pwalletMain = vpwallets[0];
     }
 
+    if (pwalletMain == NULL) return MP_ERR_WALLET_ACCESS;
+
+
     // Determine the class to send the transaction via - default is Class C
     int omniTxClass = OMNI_CLASS_C;
     // if (!UseEncodingClassC(data.size())) omniTxClass = OMNI_CLASS_B;
 
     // Prepare the transaction - first setup some vars
+    // const CCoinControl coinControl1 = (const CCoinControl) coinControl;
     CCoinControl coinControl;
-    const CCoinControl coinControl1 = (const CCoinControl) coinControl;
     CWalletTx wtxNew;
     CAmount nFeeRet = 0;  // change to new class CAmount
     int nChangePosInOut = -1;
@@ -2522,20 +2527,22 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     // Next, we set the change address to the sender
     CBitcoinAddress addr = CBitcoinAddress(senderAddress);
     coinControl.destChange = addr.Get();
+    coinControl.fOverrideFeeRate = true;
+    CCoinControl const coinControl1 = coinControl;
 
     // Select the inputs  TODO: make SelectCoins function works!!!
-    // if (0 > SelectCoins(senderAddress, coinControl, referenceAmount)) { return MP_INPUTS_INVALID; }
+    if (0 > SelectCoins(senderAddress, coinControl, referenceAmount)) { return MP_INPUTS_INVALID; }
 
     // Encode the data outputs
     switch(omniTxClass) {
-        case OMNI_CLASS_B: { // declaring vars in a switch here so use an expicit code block
-            CPubKey redeemingPubKey;
-            const std::string& sAddress = redemptionAddress.empty() ? senderAddress : redemptionAddress;
-            if (!AddressToPubKey(sAddress, redeemingPubKey)) {
-                return MP_REDEMP_BAD_VALIDATION;
-            }
-            if (!OmniCore_Encode_ClassB(senderAddress,redeemingPubKey,data,vecSend)) { return MP_ENCODING_ERROR; }
-        break; }
+        // case OMNI_CLASS_B: { // declaring vars in a switch here so use an expicit code block
+        //     CPubKey redeemingPubKey;
+        //     const std::string& sAddress = redemptionAddress.empty() ? senderAddress : redemptionAddress;
+        //     if (!AddressToPubKey(sAddress, redeemingPubKey)) {
+        //         return MP_REDEMP_BAD_VALIDATION;
+        //     }
+        //     if (!OmniCore_Encode_ClassB(senderAddress,redeemingPubKey,data,vecSend)) { return MP_ENCODING_ERROR; }
+        // break; }
         case OMNI_CLASS_C:
             if(!OmniCore_Encode_ClassC(data,vecSend)) { return MP_ENCODING_ERROR; }
         break;
@@ -2549,6 +2556,7 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
 
     // Now we have what we need to pass to the wallet to create the transaction, perform some checks first
 
+    // if (true) return MP_CHECKPOINT;
     if (!coinControl.HasSelected()) return MP_ERR_INPUTSELECT_FAIL;
 
     std::vector<CRecipient> vecRecipients;
@@ -2561,8 +2569,7 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     // Ask the wallet to create the transaction (note mining fee determined by Bitcoin Core params)
     if (!pwalletMain->CreateTransaction(vecRecipients, wtxNew, reserveKey, nFeeRet, nChangePosInOut, strFailReason, coinControl1)) {
         PrintToLog("%s: ERROR: wallet transaction creation failed: %s\n", __func__, strFailReason);
-        PrintToConsole("ERROR: wallet transaction creation failed: %s\n", strFailReason);
-        // return MP_ERR_CREATE_TX;
+        return MP_ERR_CREATE_TX;
     }
 
     // If this request is only to create, but not commit the transaction then display it and exit
@@ -4062,7 +4069,7 @@ int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex,
 //
 int mastercore_handler_disc_begin(int nBlockNow, CBlockIndex const * pBlockIndex)
 {
-       LogPrintf("INSIDE MASTERCORE HANDLER DISC BEGIN FUNCTION \n");
+       strprintf("INSIDE MASTERCORE HANDLER DISC BEGIN FUNCTION \n");
     LOCK(cs_tally);
 
     reorgRecoveryMode = 1;
@@ -4072,7 +4079,7 @@ int mastercore_handler_disc_begin(int nBlockNow, CBlockIndex const * pBlockIndex
 //
 int mastercore_handler_disc_end(int nBlockNow, CBlockIndex const * pBlockIndex)
 {
-       LogPrintf("INSIDE MASTERCORE HANDLER DISC END FUNCTION \n");
+       strprintf("INSIDE MASTERCORE HANDLER DISC END FUNCTION \n");
 //     LOCK(cs_tally);
 //
     return 0;

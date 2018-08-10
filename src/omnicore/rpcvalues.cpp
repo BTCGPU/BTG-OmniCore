@@ -177,9 +177,9 @@ CTransaction ParseTransaction(const UniValue& value)
     if (value.isNull() || value.get_str().empty()) {
         return tx;
     }
-    // if (!DecodeHexTx(tx, value.get_str())) {
-    //     throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Transaction deserialization failed");
-    // }
+//     if (!DecodeHexTx(tx, value.get_str())) {
+//         throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Transaction deserialization failed");
+//     }
     return tx;
 }
 
@@ -189,12 +189,21 @@ CMutableTransaction ParseMutableTransaction(const UniValue& value)
     return CMutableTransaction(tx);
 }
 
+CMutableTransaction Parse_Mutable_Transaction(const UniValue& value)
+{
+    CMutableTransaction tx;
+    if (value.isNull() || value.get_str().empty()) {
+        DecodeHexTx(tx,value.get_str(),true);
+    }
+    return tx;
+}
+
 CPubKey ParsePubKeyOrAddress(const UniValue& value)
 {
     CPubKey pubKey;
-    // if (!mastercore::AddressToPubKey(value.get_str(), pubKey)) {
-    //     throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid redemption key or address");
-    // }
+    if (!mastercore::AddressToPubKey(value.get_str(), pubKey)) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid redemption key or address");
+    }
     return pubKey;
 }
 
@@ -214,26 +223,26 @@ std::vector<PrevTxsEntry> ParsePrevTxs(const UniValue& value)
 
     std::vector<PrevTxsEntry> prevTxsParsed;
     prevTxsParsed.reserve(prevTxs.size());
-    //
-    // for (size_t i = 0; i < prevTxs.size(); ++i) {
-    //     const UniValue& p = prevTxs[i];
-    //     if (p.type() != UniValue::VOBJ) {
-    //         throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "expected object with {\"txid\",\"vout\",\"scriptPubKey\",\"value\":n.nnnnnnnn}");
-    //     }
-    //     UniValue prevOut = p.get_obj();
-    //
-    //     uint256 txid = ParseHashO(prevOut, "txid");
-    //     UniValue outputIndex = find_value(prevOut, "vout");
-    //     UniValue outputValue = find_value(prevOut, "value");
-    //     std::vector<unsigned char> pkData(ParseHexO(prevOut, "scriptPubKey"));
-    //
-    //     uint32_t nOut = ParseOutputIndex(outputIndex);
-    //     int64_t nValue = AmountFromValue(outputValue);
-    //     CScript scriptPubKey(pkData.begin(), pkData.end());
-    //
-    //     PrevTxsEntry entry(txid, nOut, nValue, scriptPubKey);
-    //     prevTxsParsed.push_back(entry);
-    // }
+    
+    for (size_t i = 0; i < prevTxs.size(); ++i) {
+        const UniValue& p = prevTxs[i];
+        if (p.type() != UniValue::VOBJ) {
+            throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "expected object with {\"txid\",\"vout\",\"scriptPubKey\",\"value\":n.nnnnnnnn}");
+        }
+        UniValue prevOut = p.get_obj();
+
+        uint256 txid = ParseHashO(prevOut, "txid");
+        UniValue outputIndex = find_value(prevOut, "vout");
+        UniValue outputValue = find_value(prevOut, "value");
+        std::vector<unsigned char> pkData(ParseHexO(prevOut, "scriptPubKey"));
+
+        uint32_t nOut = ParseOutputIndex(outputIndex);
+        int64_t nValue = AmountFromValue(outputValue);
+        CScript scriptPubKey(pkData.begin(), pkData.end());
+
+        PrevTxsEntry entry(txid, nOut, nValue, scriptPubKey);
+        prevTxsParsed.push_back(entry);
+    }
 
     return prevTxsParsed;
 }

@@ -111,11 +111,11 @@ const std::string strMessageMagic = "Bitcoin Gold Signed Message:\n";
 //
 
 
-// int mastercore_handler_disc_begin(int nBlockNow, CBlockIndex const * pBlockIndex);
-// int mastercore_handler_disc_end(int nBlockNow, CBlockIndex const * pBlockIndex);
-// int mastercore_handler_block_begin(int nBlockNow, CBlockIndex const * pBlockIndex);
-// int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex, unsigned int);
-// int mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, CBlockIndex const * pBlockIndex);
+int mastercore_handler_disc_begin(int nBlockNow, CBlockIndex const * pBlockIndex);
+int mastercore_handler_disc_end(int nBlockNow, CBlockIndex const * pBlockIndex);
+int mastercore_handler_block_begin(int nBlockNow, CBlockIndex const * pBlockIndex);
+int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex, unsigned int);
+int mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, CBlockIndex const * pBlockIndex);
 
 /*----------------------------------------------------------------------------*/
 
@@ -624,12 +624,12 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
         }
 
         // Check for non-standard pay-to-script-hash in inputs
-        if (fRequireStandard && !AreInputsStandard(tx, view))
-            return state.Invalid(false, REJECT_NONSTANDARD, "bad-txns-nonstandard-inputs");
+        // if (fRequireStandard && !AreInputsStandard(tx, view))
+        //     return state.Invalid(false, REJECT_NONSTANDARD, "bad-txns-nonstandard-inputs");
 
         // Check for non-standard witness in P2WSH
-        if (tx.HasWitness() && fRequireStandard && !IsWitnessStandard(tx, view))
-            return state.DoS(0, false, REJECT_NONSTANDARD, "bad-witness-nonstandard", true);
+        // if (tx.HasWitness() && fRequireStandard && !IsWitnessStandard(tx, view))
+        //     return state.DoS(0, false, REJECT_NONSTANDARD, "bad-witness-nonstandard", true);
 
         int64_t nSigOpsCost = GetTransactionSigOpCost(tx, view, STANDARD_SCRIPT_VERIFY_FLAGS);
 
@@ -2156,15 +2156,14 @@ bool static DisconnectTip(CValidationState& state, const CChainParams& chainpara
         }
     }
 /*-------------------------- Omnicore G Port ---------------------------------*/
-    strprintf(" mastercore handler disc begin <----------------------------\n");
-    // mastercore_handler_disc_begin(GetHeight(), pindexDelete);
+    mastercore_handler_disc_begin(GetHeight(), pindexDelete);
     // Update chainActive and related variables.
     UpdateTip(pindexDelete->pprev, chainparams);
     // Let wallets know transactions went from 1-confirmed to
     // 0-confirmed or conflicted:
     GetMainSignals().BlockDisconnected(pblock);
 
-    // mastercore_handler_disc_end(GetHeight(), pindexDelete);
+    mastercore_handler_disc_end(GetHeight(), pindexDelete);
 /*----------------------------------------------------------------------------*/
     return true;
 }
@@ -2297,9 +2296,9 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
     //! Omni Core: begin block connect notification
     // LogPrint("Omni Core handler: block connect begin [height: %d]\n", GetHeight);
 
-    // mastercore_handler_block_begin(GetHeight(), pindexNew);
+    mastercore_handler_block_begin(GetHeight(), pindexNew);
 
-    // list<CTransaction> txConflicted;
+    list<CTransaction> txConflicted;
     // Remove conflicting transactions from the mempool.;
     mempool.removeForBlock(blockConnecting.vtx, pindexNew->nHeight);
     disconnectpool.removeForBlock(blockConnecting.vtx);
@@ -2309,16 +2308,17 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
     // Tell wallet about transactions that went from mempool
     // to conflicted:
     // BOOST_FOREACH(const CTransaction &tx, txConflicted) {
-      // SyncWithWallets(tx, pindexNew, NULL);
+    //   SyncWithWallets(tx, pindexNew, NULL);
     // }
     // ... and about transactions that got confirmed:
     // TODO: shared_ptr  pointers!!!
     for(CTransactionRef tx : blockConnecting.vtx){
           //! Omni Core: new confirmed transaction notification
+    LogPrint(BCLog::BENCH, "Omni Core handler: new confirmed transaction [height: %d, idx: %u]\n", GetHeight(), nTxIdx);
     // LogPrint(BCLog::OMNICORE, "Omni Core handler: new confirmed transaction [height: %d, idx: %u]\n", currentHeight, nTxIdx);
-    // if (mastercore_handler_tx(*(tx.get()), GetHeight(), nTxIdx++, pindexNew)) ++nNumMetaTxs;
+    if (mastercore_handler_tx(*(tx.get()), GetHeight(), nTxIdx++, pindexNew)) ++nNumMetaTxs;
     }
-    // mastercore_handler_block_end(GetHeight(), pindexNew, nNumMetaTxs);
+    mastercore_handler_block_end(GetHeight(), pindexNew, nNumMetaTxs);
 
     /*------------------------------------------------------------------------*/
 
