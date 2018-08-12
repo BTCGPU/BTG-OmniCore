@@ -1,5 +1,5 @@
 # Betelgeuse (alpha) integration/staging tree
-Betelgeuse project is another effort to expand the use of smart properties, tokens and smart contracts on top of public blockchains (in this case Bitcoin Gold). Is based on OmniLayer protocol. Note: It's beggining stage.
+Betelgeuse project is another effort to expand the use of smart properties, tokens and smart contracts on top of public blockchains (in this case Bitcoin Gold). It's based on OmniLayer protocol. Note: It's beggining stage.
 
 
 # Omni Layer
