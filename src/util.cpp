@@ -388,7 +388,7 @@ static void InterpretNegativeSetting(std::string& strKey, std::string& strValue)
 void ArgsManager::ParseParameters(int argc, const char* const argv[])
 {
     LOCK(cs_args);
-     mapArgs.clear();
+    mapArgs.clear();
     mapMultiArgs.clear();
 
     for (int i = 1; i < argc; i++)
@@ -927,41 +927,4 @@ std::string CopyrightHolders(const std::string& strPrefix)
 int64_t GetStartupTime()
 {
     return nStartupTime;
-}
-
-std::string GetArg(const std::string& strArg, const std::string& strDefault)
-{
-    // if (mapArgs.count(strArg))
-    //     return mapArgs[strArg];
-    return strDefault;
-}
-
-int64_t GetArg(const std::string& strArg, int64_t nDefault)
-{
-    // if (mapArgs.count(strArg))
-    //     return atoi64(mapArgs[strArg]);
-    return nDefault;
-}
-
-bool GetBoolArg(const std::string& strArg, bool fDefault)
-{
-    // if (mapArgs.count(strArg))
-    //     return InterpretBool(mapArgs[strArg]);
-    return fDefault;
-}
-
-bool SoftSetArg(const std::string& strArg, const std::string& strValue)
-{
-    // if (mapArgs.count(strArg))
-    //     return false;
-    // mapArgs[strArg] = strValue;
-    return true;
-}
-
-bool SoftSetBoolArg(const std::string& strArg, bool fValue)
-{
-    if (fValue)
-        return SoftSetArg(strArg, std::string("1"));
-    else
-        return SoftSetArg(strArg, std::string("0"));
 }

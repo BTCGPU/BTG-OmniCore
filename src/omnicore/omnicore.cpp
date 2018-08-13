@@ -695,9 +695,9 @@ int mastercore::GetEncodingClass(const CTransaction& tx, int nBlock)
     }
 
     // Examine everything when not on mainnet
-    if (isNonMainNet()) {
-        examineClosely = true;
-    }
+    // if (isNonMainNet()) {
+    //     examineClosely = true;
+    // }
 
     if (!examineClosely) return NO_MARKER;
 
@@ -748,7 +748,8 @@ int mastercore::GetEncodingClass(const CTransaction& tx, int nBlock)
     }
 
     if (hasOpReturn) {
-        return OMNI_CLASS_C;
+        if (true) return MP_CHECKPOINT;
+        // return OMNI_CLASS_C;
     }
     if (hasExodus && hasMultisig) {
         return OMNI_CLASS_B;
@@ -828,7 +829,8 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
     mp_tx.Set(wtx.GetHash(), nBlock, idx, nTime);
 
     // ### CLASS IDENTIFICATION AND MARKER CHECK ###
-    int omniClass = GetEncodingClass(wtx, nBlock);
+    // int omniClass = GetEncodingClass(wtx, nBlock);
+    int omniClass = OMNI_CLASS_C;
 
     if (omniClass == NO_MARKER) {
         return -1; // No Exodus/Omni marker, thus not a valid Omni transaction
@@ -854,7 +856,7 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
     //     return -101;
     // }
 
-    assert(view.HaveInputs(wtx));
+    // assert(view.HaveInputs(wtx));
 
     if (omniClass != OMNI_CLASS_C)
     {
@@ -906,7 +908,7 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
             const CTxIn& txIn = wtx.vin[vin_n];
             const CTxOut& txOut = view.GetOutputFor(txIn);
 
-            assert(!txOut.IsNull());
+            // assert(!txOut.IsNull());
 
             txnouttype whichType;
             if (!GetOutputType(txOut.scriptPubKey, whichType)) {
@@ -2435,7 +2437,7 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
     CMPTransaction mp_obj;
     mp_obj.unlockLogic();
 //
-//     bool fFoundTx = false;
+    bool fFoundTx = false;
     int pop_ret = parseTransaction(false, tx, nBlock, idx, mp_obj, nBlockTime);
 //
     if (pop_ret >= 0) {
@@ -2458,9 +2460,8 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
 //     }
 
     if (0 == pop_ret) {
-        // int interp_ret = mp_obj.interpretPacket();
+        int interp_ret = mp_obj.interpretPacket();
         // if (interp_ret) PrintToLog("!!! interpretPacket() returned %d !!!\n", interp_ret);
-        if (true) return MP_CHECKPOINT;
         // Only structurally valid transactions get recorded in levelDB
         // PKT_ERROR - 2 = interpret_Transaction failed, structurally invalid payload
         // if (interp_ret != PKT_ERROR - 2) {
@@ -2468,15 +2469,15 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
         //     p_txlistdb->recordTX(tx.GetHash(), bValid, nBlock, mp_obj.getType(), mp_obj.getNewAmount());
         //     p_OmniTXDB->RecordTransaction(tx.GetHash(), idx, interp_ret);
         // }
-//         fFoundTx |= (interp_ret == 0);
+        fFoundTx |= (interp_ret == 0);
     }
 //
 //     if (fFoundTx && msc_debug_consensus_hash_every_transaction) {
 //         uint256 consensusHash = GetConsensusHash();
 //         PrintToLog("Consensus hash for transaction %s: %s\n", tx.GetHash().GetHex(), consensusHash.GetHex());
 //     }
-       return true;
-//     return fFoundTx;
+
+    return fFoundTx;
 }
 //
 // /**
@@ -2488,7 +2489,7 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
 bool mastercore::UseEncodingClassC(size_t nDataSize)
 {
     size_t nTotalSize = nDataSize + GetOmMarker().size(); // Marker "omni"
-    bool fDataEnabled = GetBoolArg("-datacarrier", true);
+    bool fDataEnabled = gArgs.GetBoolArg("-datacarrier", true);
     int nBlockNow = GetHeight();
     if (!IsAllowedOutputType(TX_NULL_DATA, nBlockNow)) {
         fDataEnabled = false;

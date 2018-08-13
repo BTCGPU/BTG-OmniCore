@@ -54,7 +54,8 @@ TxBuilder& TxBuilder::addInput(const uint256& txid, uint32_t nOut)
 /** Adds an output to the transaction. */
 TxBuilder& TxBuilder::addOutput(const CScript& scriptPubKey, int64_t value)
 {
-    CTxOut txOutput(value, scriptPubKey);
+    CAmount val = CAmount(value);
+    CTxOut txOutput(val, scriptPubKey);
     transaction.vout.push_back(txOutput);
 
     return *this;
@@ -137,7 +138,6 @@ OmniTxBuilder& OmniTxBuilder::addReference(const std::string& destination, int64
 
     int64_t minValue = GetDustThreshold(scriptPubKey);
     value = std::max(minValue, value);
-    CAmount val = CAmount(value);
 
     return (OmniTxBuilder&) TxBuilder::addOutput(scriptPubKey, value);
 }
@@ -175,14 +175,25 @@ OmniTxBuilder& OmniTxBuilder::addChange(const std::string& destination, const CC
 }
 
 /** Adds previous transaction outputs to coins view. */
+// void InputsToView(const std::vector<PrevTxsEntry>& prevTxs, CCoinsViewCache& view)
+// {
+//     for (std::vector<PrevTxsEntry>::const_iterator it = prevTxs.begin(); it != prevTxs.end(); ++it) {
+//         CCoinsModifier coins = view.ModifyCoins(it->outPoint.hash);
+//         if ((size_t) it->outPoint.n >= coins->vout.size()) {
+//             coins->vout.resize(it->outPoint.n+1);
+//         }
+//         coins->vout[it->outPoint.n].scriptPubKey = it->txOut.scriptPubKey;
+//         coins->vout[it->outPoint.n].nValue = it->txOut.nValue;
+//     }
+// }
+
+
+/** Adds previous transaction outputs to coins view. */
 void InputsToView(const std::vector<PrevTxsEntry>& prevTxs, CCoinsViewCache& view)
 {
-    // for (std::vector<PrevTxsEntry>::const_iterator it = prevTxs.begin(); it != prevTxs.end(); ++it) {
-    //     CCoinsModifier coins = view.ModifyCoins(it->outPoint.hash);
-    //     if ((size_t) it->outPoint.n >= coins->vout.size()) {
-    //         coins->vout.resize(it->outPoint.n+1);
-    //     }
-    //     coins->vout[it->outPoint.n].scriptPubKey = it->txOut.scriptPubKey;
-    //     coins->vout[it->outPoint.n].nValue = it->txOut.nValue;
-    // }
+    for (std::vector<PrevTxsEntry>::const_iterator it = prevTxs.begin(); it != prevTxs.end(); ++it) {
+	const Coin alreadyCoin = AccessByTxid(view, it->outPoint.hash);
+	Coin newCoin(it->txOut, alreadyCoin.nHeight, alreadyCoin.IsCoinBase());
+	view.AddCoin(it->outPoint, std::move(newCoin), false);
+    }
 }
