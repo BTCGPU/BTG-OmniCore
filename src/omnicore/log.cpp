@@ -86,6 +86,7 @@ static FILE* fileout = NULL;
 static boost::mutex* mutexDebugLog = NULL;
 /** Flag to indicate, whether the Omni Core log file should be reopened. */
 extern std::atomic<bool> fReopenOmniCoreLog;
+
 /**
  * Returns path for debug log file.
  *
@@ -95,7 +96,7 @@ extern std::atomic<bool> fReopenOmniCoreLog;
 static boost::filesystem::path GetLogPath()
 {
     boost::filesystem::path pathLogFile;
-    std::string strLogPath = GetArg("-omnilogfile", "");
+    std::string strLogPath = gArgs.GetArg("-omnilogfile", "");
 
     if (!strLogPath.empty()) {
         pathLogFile = boost::filesystem::path(strLogPath);

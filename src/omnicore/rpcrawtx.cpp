@@ -255,7 +255,7 @@ UniValue omni_createrawtx_reference(const JSONRPCRequest& request)
     return EncodeHexTx(tx);
 }
 
-UniValue omni_createrawtx_change(const JSONRPCRequest& request) //TODO: See what is wrong with this RPC (using signrawtransacion rpc fails: too high fees)
+UniValue omni_createrawtx_change(const JSONRPCRequest& request)
 {
     if (request.params.size() < 4 || request.params.size() > 5)
         throw std::runtime_error(

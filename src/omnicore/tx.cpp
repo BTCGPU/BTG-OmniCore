@@ -183,35 +183,35 @@ bool CMPTransaction::interpret_Transaction()
 }
 
 /** Version and type */
-// bool CMPTransaction::interpret_TransactionType()
-// {
-//     if (pkt_size < 4) {
-//         return false;
-//     }
-//     uint16_t txVersion = 0;
-//     uint16_t txType = 0;
-//     memcpy(&txVersion, &pkt[0], 2);
-//     swapByteOrder16(txVersion);
-//     memcpy(&txType, &pkt[2], 2);
-//     swapByteOrder16(txType);
-//     version = txVersion;
-//     type = txType;
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t------------------------------\n");
-//         PrintToLog("\t         version: %d, class %s\n", txVersion, intToClass(encodingClass));
-//         PrintToLog("\t            type: %d (%s)\n", txType, strTransactionType(txType));
-//     }
-//
-//     return true;
-// }
+bool CMPTransaction::interpret_TransactionType()
+{
+    if (pkt_size < 4) {
+        return false;
+    }
+    uint16_t txVersion = 0;
+    uint16_t txType = 0;
+    memcpy(&txVersion, &pkt[0], 2);
+    swapByteOrder16(txVersion);
+    memcpy(&txType, &pkt[2], 2);
+    swapByteOrder16(txType);
+    version = txVersion;
+    type = txType;
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t------------------------------\n");
+        PrintToLog("\t         version: %d, class %s\n", txVersion, intToClass(encodingClass));
+        PrintToLog("\t            type: %d (%s)\n", txType, strTransactionType(txType));
+    }
+
+    return true;
+}
 
 /** Tx 1 */
 bool CMPTransaction::interpret_SimpleSend()
 {
-    if (pkt_size < 16) {
-        return false;
-    }
+    // if (pkt_size < 16) {
+    //     return false;
+    // }
     memcpy(&property, &pkt[4], 4);
     swapByteOrder32(property);
     memcpy(&nValue, &pkt[8], 8);
@@ -850,10 +850,10 @@ int CMPTransaction::interpretPacket()
 
     LOCK(cs_tally);
 
-    if (isAddressFrozen(sender, property)) {
-        PrintToLog("%s(): REJECTED: address %s is frozen for property %d\n", __func__, sender, property);
-        return (PKT_ERROR -3);
-    }
+    // if (isAddressFrozen(sender, property)) {
+    //     PrintToLog("%s(): REJECTED: address %s is frozen for property %d\n", __func__, sender, property);
+    //     return (PKT_ERROR -3);
+    // }
 
     switch (type) {
         case MSC_TYPE_SIMPLE_SEND:
@@ -1011,50 +1011,50 @@ int CMPTransaction::interpretPacket()
 /** Tx 0 */
 int CMPTransaction::logicMath_SimpleSend()
 {
-    if (!IsTransactionTypeAllowed(block, property, type, version)) {
-        PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
-                __func__,
-                type,
-                version,
-                property,
-                block);
-        return (PKT_ERROR_SEND -22);
-    }
-
-    if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
-        PrintToLog("%s(): rejected: value out of range or zero: %d", __func__, nValue);
-        return (PKT_ERROR_SEND -23);
-    }
-
-    if (!IsPropertyIdValid(property)) {
-        PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
-        return (PKT_ERROR_SEND -24);
-    }
-
-    int64_t nBalance = getMPbalance(sender, property, BALANCE);
-    if (nBalance < (int64_t) nValue) {
-        PrintToLog("%s(): rejected: sender %s has insufficient balance of property %d [%s < %s]\n",
-                __func__,
-                sender,
-                property,
-                FormatMP(property, nBalance),
-                FormatMP(property, nValue));
-        return (PKT_ERROR_SEND -25);
-    }
-
-    // ------------------------------------------
-
-    // Special case: if can't find the receiver -- assume send to self!
-    if (receiver.empty()) {
-        receiver = sender;
-    }
+    // if (!IsTransactionTypeAllowed(block, property, type, version)) {
+    //     PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
+    //             __func__,
+    //             type,
+    //             version,
+    //             property,
+    //             block);
+    //     return (PKT_ERROR_SEND -22);
+    // }
+    //
+    // if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
+    //     PrintToLog("%s(): rejected: value out of range or zero: %d", __func__, nValue);
+    //     return (PKT_ERROR_SEND -23);
+    // }
+    //
+    // if (!IsPropertyIdValid(property)) {
+    //     PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
+    //     return (PKT_ERROR_SEND -24);
+    // }
+    //
+    // int64_t nBalance = getMPbalance(sender, property, BALANCE);
+    // if (nBalance < (int64_t) nValue) {
+    //     PrintToLog("%s(): rejected: sender %s has insufficient balance of property %d [%s < %s]\n",
+    //             __func__,
+    //             sender,
+    //             property,
+    //             FormatMP(property, nBalance),
+    //             FormatMP(property, nValue));
+    //     return (PKT_ERROR_SEND -25);
+    // }
+    //
+    // // ------------------------------------------
+    //
+    // // Special case: if can't find the receiver -- assume send to self!
+    // if (receiver.empty()) {
+    //     receiver = sender;
+    // }
 
     // Move the tokens
-    assert(update_tally_map(sender, property, -nValue, BALANCE));
+    // assert(update_tally_map(sender, property, -nValue, BALANCE));
     assert(update_tally_map(receiver, property, nValue, BALANCE));
 
     // Is there an active crowdsale running from this recepient?
-    logicHelper_CrowdsaleParticipation();
+    // logicHelper_CrowdsaleParticipation();
 
     return 0;
 }

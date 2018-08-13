@@ -155,6 +155,9 @@ static const CRPCConvertParam vRPCConvertParams[] =
     /* Omni Core - transaction calls */
     { "omni_send", 2, "" },
     { "omni_createpayload_simplesend", 0, "" },
+
+      /* Omni Core - retrieve data calls */
+    { "omni_getbalance", 1, "" },
 };
 
 class CRPCConvertTable

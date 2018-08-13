@@ -193,6 +193,7 @@ BITCOIN_CORE_H = \
 	omnicore/createtx.h \
 	omnicore/rpctxobject.h \
 	omnicore/rpcvalues.h \
+	omnicore/rpc.h \
 	omnicore/fetchwallettx.h \
 	omnicore/rpcrequirements.h \
 	omnicore/rpctx.h \
@@ -249,6 +250,7 @@ libbitcoin_server_a_SOURCES = \
   torcontrol.cpp \
   txdb.cpp \
   txmempool.cpp \
+	util.cpp \
   ui_interface.cpp \
   validation.cpp \
   validationinterface.cpp \
@@ -274,6 +276,7 @@ libbitcoin_server_a_SOURCES = \
 	omnicore/fetchwallettx.cpp \
 	omnicore/rpcrequirements.cpp \
 	omnicore/rpctx.cpp \
+	omnicore/rpc.cpp \
 	omnicore/rpcpayload.cpp\
 	omnicore/parse_string.cpp \
 	omnicore/createpayload.cpp \

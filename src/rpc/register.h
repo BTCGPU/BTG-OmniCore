@@ -38,7 +38,7 @@ static inline void RegisterAllCoreRPCCommands(CRPCTable &t)
     RegisterRawTransactionRPCCommands(t);
 
     /* Omni Core RPCs: */
-    // RegisterOmniDataRetrievalRPCCommands(t);
+    RegisterOmniDataRetrievalRPCCommands(t);
     RegisterOmniTransactionCreationRPCCommands(t);
     RegisterOmniPayloadCreationRPCCommands(t);
     RegisterOmniRawTransactionRPCCommands(t);
