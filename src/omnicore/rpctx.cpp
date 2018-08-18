@@ -32,6 +32,7 @@
 #include <stdint.h>
 #include <stdexcept>
 #include <string>
+#include <stdio.h>
 
 using std::runtime_error;
 using namespace mastercore;
@@ -101,7 +102,7 @@ UniValue omni_send(const JSONRPCRequest& request)
             + HelpExampleCli("omni_send", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\" \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\" 1 \"100.0\"")
             // + HelpExampleRpc("omni_send", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\", \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\", 1, \"100.0\"")
         );
-  
+
     // obtain parameters & info
     std::string fromAddress = ParseAddress(request.params[0]);
     std::string toAddress = ParseAddress(request.params[1]);
@@ -135,6 +136,7 @@ UniValue omni_send(const JSONRPCRequest& request)
             return txid.GetHex();
         }
     }
+
 }
 //
 // UniValue omni_sendall(const UniValue& params, bool fHelp)

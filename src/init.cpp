@@ -259,7 +259,7 @@ void Shutdown()
     }
 #endif
 /*-------------------------- Omnicore G Port ---------------------------------*/
-    // mastercore_shutdown();
+    mastercore_shutdown();
 /*----------------------------------------------------------------------------*/
 #if ENABLE_ZMQ
     if (pzmqNotificationInterface) {
@@ -1036,7 +1036,6 @@ bool AppInitParameterInteraction()
     RegisterAllCoreRPCCommands(tableRPC);
 #ifdef ENABLE_WALLET
     RegisterWalletRPCCommands(tableRPC);
-    // RegisterOmniTransactionCreationRPCCommands(tableRPC);
 #endif
 
     nConnectTimeout = gArgs.GetArg("-timeout", DEFAULT_CONNECT_TIMEOUT);
@@ -1621,7 +1620,8 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
        //
        // uiInterface.InitMessage(_("Parsing Omni Core G transactions..."));
        //
-       // mastercore_init();
+
+       mastercore_init();
 
     // ********************************************************* Step 8: load wallet
 #ifdef ENABLE_WALLET
@@ -1631,7 +1631,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
     LogPrintf("No wallet support compiled in!\n");
 #endif
     // Omni Core G code should be initialized and wallet should now be loaded, perform an initial population
-    // CheckWalletUpdate();
+    CheckWalletUpdate();
 
     // ********************************************************* Step 9: data directory maintenance
 

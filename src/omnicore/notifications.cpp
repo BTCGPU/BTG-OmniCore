@@ -36,7 +36,7 @@ void DeleteAlerts(const std::string& sender)
             PrintToLog("Removing deleted alert (from:%s type:%d expiry:%d message:%s)\n", alert.alert_sender,
                 alert.alert_type, alert.alert_expiry, alert.alert_message);
             it = currentOmniAlerts.erase(it);
-            // uiInterface.OmniStateChanged();
+            uiInterface.OmniStateChanged();
         } else {
             it++;
         }
@@ -51,7 +51,7 @@ void DeleteAlerts(const std::string& sender)
 void ClearAlerts()
 {
     currentOmniAlerts.clear();
-    // uiInterface.OmniStateChanged();
+    uiInterface.OmniStateChanged();
 }
 
 /**
@@ -101,20 +101,20 @@ bool CheckAlertAuthorization(const std::string& sender)
 
     // Add manually whitelisted sources
     // if (gArgs.count("-omnialertallowsender")) {
-        // const std::vector<std::string>& sources = mapMultiArgs["-omnialertallowsender"];
-        //
-        // for (std::vector<std::string>::const_iterator it = sources.begin(); it != sources.end(); ++it) {
-        //     whitelisted.insert(*it);
-        // }
+    //     const std::vector<std::string>& sources = mapMultiArgs["-omnialertallowsender"];
+    //
+    //     for (std::vector<std::string>::const_iterator it = sources.begin(); it != sources.end(); ++it) {
+    //         whitelisted.insert(*it);
+    //     }
     // }
 
     // Remove manually ignored sources
     // if (gArgs.count("-omnialertignoresender")) {
-        // const std::vector<std::string>& sources = mapMultiArgs["-omnialertignoresender"];
-        //
-        // for (std::vector<std::string>::const_iterator it = sources.begin(); it != sources.end(); ++it) {
-        //     whitelisted.erase(*it);
-        // }
+    //     const std::vector<std::string>& sources = mapMultiArgs["-omnialertignoresender"];
+    //
+    //     for (std::vector<std::string>::const_iterator it = sources.begin(); it != sources.end(); ++it) {
+    //         whitelisted.erase(*it);
+    //     }
     // }
 
     bool fAuthorized = (whitelisted.count(sender) ||
@@ -146,50 +146,50 @@ std::vector<std::string> GetOmniCoreAlertMessages()
 /**
  * Expires any alerts that need expiring.
  */
-bool CheckExpiredAlerts(unsigned int curBlock, uint64_t curTime)
-{
-    for (std::vector<AlertData>::iterator it = currentOmniAlerts.begin(); it != currentOmniAlerts.end(); ) {
-        AlertData alert = *it;
-        switch (alert.alert_type) {
-            case ALERT_BLOCK_EXPIRY:
-                if (curBlock >= alert.alert_expiry) {
-                    PrintToLog("Expiring alert (from %s: type:%d expiry:%d message:%s)\n", alert.alert_sender,
-                        alert.alert_type, alert.alert_expiry, alert.alert_message);
-                    it = currentOmniAlerts.erase(it);
-                    // uiInterface.OmniStateChanged();
-                } else {
-                    it++;
-                }
-            break;
-            case ALERT_BLOCKTIME_EXPIRY:
-                if (curTime > alert.alert_expiry) {
-                    PrintToLog("Expiring alert (from %s: type:%d expiry:%d message:%s)\n", alert.alert_sender,
-                        alert.alert_type, alert.alert_expiry, alert.alert_message);
-                    it = currentOmniAlerts.erase(it);
-                    // uiInterface.OmniStateChanged();
-                } else {
-                    it++;
-                }
-            break;
-            case ALERT_CLIENT_VERSION_EXPIRY:
-                if (OMNICORE_VERSION > alert.alert_expiry) {
-                    PrintToLog("Expiring alert (form: %s type:%d expiry:%d message:%s)\n", alert.alert_sender,
-                        alert.alert_type, alert.alert_expiry, alert.alert_message);
-                    it = currentOmniAlerts.erase(it);
-                    // uiInterface.OmniStateChanged();
-                } else {
-                    it++;
-                }
-            break;
-            default: // unrecognized alert type
-                    PrintToLog("Removing invalid alert (from:%s type:%d expiry:%d message:%s)\n", alert.alert_sender,
-                        alert.alert_type, alert.alert_expiry, alert.alert_message);
-                    it = currentOmniAlerts.erase(it);
-                    // uiInterface.OmniStateChanged();
-            break;
-        }
-    }
-    return true;
-}
+// bool CheckExpiredAlerts(unsigned int curBlock, uint64_t curTime)
+// {
+//     for (std::vector<AlertData>::iterator it = currentOmniAlerts.begin(); it != currentOmniAlerts.end(); ) {
+//         AlertData alert = *it;
+//         switch (alert.alert_type) {
+//             case ALERT_BLOCK_EXPIRY:
+//                 if (curBlock >= alert.alert_expiry) {
+//                     PrintToLog("Expiring alert (from %s: type:%d expiry:%d message:%s)\n", alert.alert_sender,
+//                         alert.alert_type, alert.alert_expiry, alert.alert_message);
+//                     it = currentOmniAlerts.erase(it);
+//                     uiInterface.OmniStateChanged();
+//                 } else {
+//                     it++;
+//                 }
+//             break;
+//             case ALERT_BLOCKTIME_EXPIRY:
+//                 if (curTime > alert.alert_expiry) {
+//                     PrintToLog("Expiring alert (from %s: type:%d expiry:%d message:%s)\n", alert.alert_sender,
+//                         alert.alert_type, alert.alert_expiry, alert.alert_message);
+//                     it = currentOmniAlerts.erase(it);
+//                     uiInterface.OmniStateChanged();
+//                 } else {
+//                     it++;
+//                 }
+//             break;
+//             case ALERT_CLIENT_VERSION_EXPIRY:
+//                 if (OMNICORE_VERSION > alert.alert_expiry) {
+//                     PrintToLog("Expiring alert (form: %s type:%d expiry:%d message:%s)\n", alert.alert_sender,
+//                         alert.alert_type, alert.alert_expiry, alert.alert_message);
+//                     it = currentOmniAlerts.erase(it);
+//                     uiInterface.OmniStateChanged();
+//                 } else {
+//                     it++;
+//                 }
+//             break;
+//             default: // unrecognized alert type
+//                     PrintToLog("Removing invalid alert (from:%s type:%d expiry:%d message:%s)\n", alert.alert_sender,
+//                         alert.alert_type, alert.alert_expiry, alert.alert_message);
+//                     it = currentOmniAlerts.erase(it);
+//                     uiInterface.OmniStateChanged();
+//             break;
+//         }
+//     }
+//     return true;
+// }
 
 } // namespace mastercore
