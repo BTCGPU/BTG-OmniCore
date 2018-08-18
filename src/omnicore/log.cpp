@@ -93,13 +93,13 @@ extern std::atomic<bool> fReopenOmniCoreLog;
  * The log file can be specified via startup option "--omnilogfile=/path/to/omnicore.log",
  * and if none is provided, then the client's datadir is used as default location.
  */
-static boost::filesystem::path GetLogPath()
+static fs::path GetLogPath()
 {
-    boost::filesystem::path pathLogFile;
+    fs::path pathLogFile;
     std::string strLogPath = gArgs.GetArg("-omnilogfile", "");
 
     if (!strLogPath.empty()) {
-        pathLogFile = boost::filesystem::path(strLogPath);
+        pathLogFile = fs::path(strLogPath);
         TryCreateDirectories(pathLogFile.parent_path());
     } else {
         pathLogFile = GetDataDir() / LOG_FILENAME;
@@ -172,6 +172,7 @@ int LogFilePrint(const std::string& str)
                 setbuf(fileout, NULL); // Unbuffered
             }
         }
+
 
         // Printing log timestamps can be useful for profiling
         if (fLogTimestamps && fStartedNewLine) {

@@ -178,7 +178,6 @@ void Interrupt(boost::thread_group& threadGroup)
 void Shutdown()
 {
     LogPrintf("%s: In progress...\n", __func__);
-    printf("Shutdown in progress...\n");
     static CCriticalSection cs_Shutdown;
     TRY_LOCK(cs_Shutdown, lockShutdown);
     if (!lockShutdown)
@@ -1620,7 +1619,7 @@ bool AppInitMain(boost::thread_group& threadGroup, CScheduler& scheduler)
        //
        // uiInterface.InitMessage(_("Parsing Omni Core G transactions..."));
        //
-       LogPrintf("mastercore_init() working!\n");
+
        mastercore_init();
 
     // ********************************************************* Step 8: load wallet

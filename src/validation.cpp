@@ -2314,7 +2314,7 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
     // TODO: shared_ptr  pointers!!!
     for(CTransactionRef tx : blockConnecting.vtx){
           //! Omni Core: new confirmed transaction notification
-    LogPrint(BCLog::BENCH, "Omni Core handler: new confirmed transaction [height: %d, idx: %u]\n", GetHeight(), nTxIdx);
+    // LogPrint(BCLog::BENCH, "Omni Core handler: new confirmed transaction [height: %d, idx: %u]\n", GetHeight(), nTxIdx);
     // LogPrint(BCLog::OMNICORE, "Omni Core handler: new confirmed transaction [height: %d, idx: %u]\n", currentHeight, nTxIdx);
     if (mastercore_handler_tx(*(tx.get()), GetHeight(), nTxIdx++, pindexNew)) ++nNumMetaTxs;
     }

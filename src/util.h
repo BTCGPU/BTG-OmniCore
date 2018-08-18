@@ -27,7 +27,9 @@
 #include <string>
 #include <vector>
 
+#include <boost/filesystem/path.hpp>
 #include <boost/signals2/signal.hpp>
+#include <boost/thread/exceptions.hpp>
 
 // Application startup time (used for uptime calculation)
 int64_t GetStartupTime();
@@ -52,6 +54,9 @@ extern bool fLogTimeMicros;
 extern bool fLogIPs;
 extern std::atomic<bool> fReopenDebugLog;
 extern CTranslationInterface translationInterface;
+
+/** Flag to indicate, whether the Omni Core log file should be reopened. */
+extern std::atomic<bool> fReopenOmniCoreLog;
 
 extern const char * const BITCOIN_CONF_FILENAME;
 extern const char * const BITCOIN_PID_FILENAME;
