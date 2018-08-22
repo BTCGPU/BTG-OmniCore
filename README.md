@@ -1,3 +1,13 @@
+# Betelgeuse (alpha) integration/staging tree	
+
+ Betelgeuse project is another effort to expand the use of smart properties, tokens and smart contracts on top of public blockchains (in this case Bitcoin Gold). Is based on OmniLayer protocol. Note: It's beggining stage.	
+ 
+ 
+ # Omni Layer	
+ 
+ The Omni Layer is a communications protocol that uses the Bitcoin block chain to enable features such as smart contracts, user currencies and decentralized peer-to-peer exchanges. A common analogy that is used to describe the relation of the Omni Layer to Bitcoin is that of HTTP to TCP/IP: HTTP, like the Omni Layer, is the application layer to the more fundamental transport and internet layer of TCP/IP, like Bitcoin. http://www.omnilayer.org
+
+
 # Bitcoin Gold
 
 [![Build Status](https://travis-ci.org/BTCGPU/BTCGPU.svg?branch=master)](https://travis-ci.org/BTCGPU/BTCGPU)
