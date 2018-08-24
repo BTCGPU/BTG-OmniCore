@@ -909,12 +909,12 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
                   const string lineOut = strprintf("RETURN -108\n");
                   saveToLog(lineOut);
                 return -108;
-            }
-            if (!IsAllowedInputType(whichType, nBlock)) {
-                const string lineOut = strprintf("RETURN -109\n");
-                saveToLog(lineOut);
-                return -109;
-            }
+            }     //TODO: Check this condition later!
+            // if (!IsAllowedInputType(whichType, nBlock)) {
+            //     const string lineOut = strprintf("RETURN -109\n");
+            //     saveToLog(lineOut);
+            //     return -109;
+            // }
             const string lineOut8 = strprintf("checkpoint luego de los ifs\n");
             saveToLog(lineOut8);
             CTxDestination source;
@@ -1090,7 +1090,7 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
     //
     // // ### SET MP TX INFO ###
     // if (msc_debug_verbose) PrintToLog("single_pkt: %s\n", HexStr(single_pkt, packet_size + single_pkt));
-    // mp_tx.Set(strSender, strReference, 0, wtx.GetHash(), nBlock, idx, (unsigned char *)&single_pkt, packet_size, omniClass, (inAll-outAll));
+    mp_tx.Set(strSender, strReference, 0, wtx.GetHash(), nBlock, idx, (unsigned char *)&single_pkt, packet_size, omniClass, (inAll-outAll));
     //
     // // TODO: the following is a bit aweful
     // // Provide a hint for DEx payments
@@ -2308,18 +2308,20 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
 //         fFoundTx |= HandleDExPayments(tx, nBlock, mp_obj.getSender());
 //     }
 
-    // if (0 == pop_ret) {
-        // int interp_ret = mp_obj.interpretPacket();
-        // if (interp_ret) PrintToLog("!!! interpretPacket() returned %d !!!\n", interp_ret);
-        // Only structurally valid transactions get recorded in levelDB
-        // PKT_ERROR - 2 = interpret_Transaction failed, structurally invalid payload
+    if (0 == pop_ret) {
+        int interp_ret = mp_obj.interpretPacket();
+        if (interp_ret) PrintToLog("!!! interpretPacket() returned %d !!!\n", interp_ret);
+        const string lineOut8 = strprintf("!!! interpretPacket() returned %d !!!\n", interp_ret);
+        saveToLog(lineOut8);
+      //  Only structurally valid transactions get recorded in levelDB
+      //  PKT_ERROR - 2 = interpret_Transaction failed, structurally invalid payload
         // if (interp_ret != PKT_ERROR - 2) {
         //     bool bValid = (0 <= interp_ret);
         //     p_txlistdb->recordTX(tx.GetHash(), bValid, nBlock, mp_obj.getType(), mp_obj.getNewAmount());
         //     p_OmniTXDB->RecordTransaction(tx.GetHash(), idx, interp_ret);
         // }
-        // fFoundTx |= (interp_ret == 0);
-    // }
+        fFoundTx |= (interp_ret == 0);
+    }
 //
 //     if (fFoundTx && msc_debug_consensus_hash_every_transaction) {
 //         uint256 consensusHash = GetConsensusHash();
@@ -2351,6 +2353,8 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
         int64_t referenceAmount, const std::vector<unsigned char>& data, uint256& txid, std::string& rawHex, bool commit)
 {
     PrintToLog("INSIDE WalletTxBuilder function <----------------------------\n");
+    const string lineOut8 = strprintf("INSIDE WalletTxBuilder function <----------------------------\n");
+    saveToLog(lineOut8);
     #ifdef ENABLE_WALLET
     CWalletRef pwalletMain = NULL;
     if (vpwallets.size() > 0){
@@ -2379,10 +2383,12 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     coinControl.destChange = addr.Get();
     coinControl.fOverrideFeeRate = true;
     CCoinControl const coinControl1 = coinControl;
-
+    const string lineOut9 = strprintf("First Checkpoint\n");
+    saveToLog(lineOut9);
     // Select the inputs  TODO: make SelectCoins function works!!!
     if (0 > SelectCoins(senderAddress, coinControl, referenceAmount)) { return MP_INPUTS_INVALID; }
-
+    const string lineOut10 = strprintf("Second Checkpoint\n");
+    saveToLog(lineOut10);
     // Encode the data outputs
     switch(omniTxClass) {
         // case OMNI_CLASS_B: { // declaring vars in a switch here so use an expicit code block
@@ -2395,7 +2401,7 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
         // break; }
         case OMNI_CLASS_C:
             if(!OmniCore_Encode_ClassC(data,vecSend)) { return MP_ENCODING_ERROR; }
-        break;
+            break;
     }
 
     // Then add a paytopubkeyhash output for the recipient (if needed) - note we do this last as we want this to be the highest vout
@@ -2405,8 +2411,8 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     }
 
     // Now we have what we need to pass to the wallet to create the transaction, perform some checks first
-
-    // if (true) return MP_CHECKPOINT;
+    const string lineOut12 = strprintf("3rd Checkpoint\n");
+    saveToLog(lineOut12);
     if (!coinControl.HasSelected()) return MP_ERR_INPUTSELECT_FAIL;
 
     std::vector<CRecipient> vecRecipients;
@@ -2415,10 +2421,13 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
         CRecipient recipient = {vec.first, CAmount(vec.second), false};
         vecRecipients.push_back(recipient);
     }
-
+    const string lineOut13 = strprintf("4th Checkpoint\n");
+    saveToLog(lineOut13);
     // Ask the wallet to create the transaction (note mining fee determined by Bitcoin Core params)
     if (!pwalletMain->CreateTransaction(vecRecipients, wtxNew, reserveKey, nFeeRet, nChangePosInOut, strFailReason, coinControl1)) {
         PrintToLog("%s: ERROR: wallet transaction creation failed: %s\n", __func__, strFailReason);
+        const string lineOut14 = strprintf("ERROR: wallet transaction creation failed\n");
+        saveToLog(lineOut14);
         return MP_ERR_CREATE_TX;
     }
 
@@ -2429,7 +2438,8 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     } else {
         // Commit the transaction to the wallet and broadcast)
         // PrintToLog("%s: %s; nFeeRet = %d\n", __func__, wtxNew.ToString(), nFeeRet);
-        PrintToConsole("Checkpoint ...\n");
+        const string lineOut14= strprintf("5to Checkpoint\n");
+        saveToLog(lineOut14);
         CValidationState state;
         if (!pwalletMain->CommitTransaction(wtxNew, reserveKey,g_connman.get(),state)) return MP_ERR_COMMIT_TX;
         txid = wtxNew.GetHash();

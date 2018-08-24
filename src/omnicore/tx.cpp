@@ -197,6 +197,9 @@ bool CMPTransaction::interpret_TransactionType()
     version = txVersion;
     type = txType;
 
+    const string lineOut = strprintf("!!! inside interpret_TransactionType, type: %d , version: %d\n",type,version);
+    saveToLog(lineOut);
+
     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
         PrintToLog("\t------------------------------\n");
         PrintToLog("\t         version: %d, class %s\n", txVersion, intToClass(encodingClass));
@@ -222,7 +225,8 @@ bool CMPTransaction::interpret_SimpleSend()
         PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
         PrintToLog("\t           value: %s\n", FormatMP(property, nValue));
     }
-
+    const string lineOut = strprintf("!!! inside interpret Simple Send, value: %d , propertyId: %d\n",nValue,property);
+    saveToLog(lineOut);
     return true;
 }
 
