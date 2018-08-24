@@ -1408,7 +1408,12 @@ wallet/libbitcoin_wallet_a-wallet.o: wallet/wallet.cpp \
  /usr/include/boost/smart_ptr/allocate_shared_array.hpp \
  /usr/include/boost/detail/atomic_undef_macros.hpp \
  /usr/include/boost/detail/atomic_redef_macros.hpp timedata.h util.h \
- utilmoneystr.h /usr/include/boost/algorithm/string/replace.hpp \
+ utilmoneystr.h omnicore/omnicore.h omnicore/log.h omnicore/persistence.h \
+ leveldb/include/leveldb/db.h leveldb/include/leveldb/iterator.h \
+ leveldb/include/leveldb/slice.h leveldb/include/leveldb/status.h \
+ leveldb/include/leveldb/options.h omnicore/tally.h \
+ univalue/include/univalue.h \
+ /usr/include/boost/algorithm/string/replace.hpp \
  /usr/include/boost/algorithm/string/config.hpp \
  /usr/include/boost/range/iterator_range_core.hpp \
  /usr/include/boost/range/functions.hpp \
@@ -4760,6 +4765,26 @@ timedata.h:
 util.h:
 
 utilmoneystr.h:
+
+omnicore/omnicore.h:
+
+omnicore/log.h:
+
+omnicore/persistence.h:
+
+leveldb/include/leveldb/db.h:
+
+leveldb/include/leveldb/iterator.h:
+
+leveldb/include/leveldb/slice.h:
+
+leveldb/include/leveldb/status.h:
+
+leveldb/include/leveldb/options.h:
+
+omnicore/tally.h:
+
+univalue/include/univalue.h:
 
 /usr/include/boost/algorithm/string/replace.hpp:
 

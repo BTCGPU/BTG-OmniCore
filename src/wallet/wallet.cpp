@@ -30,6 +30,7 @@
 #include "util.h"
 #include "ui_interface.h"
 #include "utilmoneystr.h"
+#include "omnicore/omnicore.h"
 
 #include <assert.h>
 
@@ -2620,7 +2621,9 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
     {
         if (nValue < 0 || recipient.nAmount < 0)
         {
-            strFailReason = _("Transaction amounts must not be negative");
+            // strFailReason = _("Transaction amounts must not be negative");
+            strFailReason = "Transaction amounts must not be negative";
+            saveToLog(strFailReason);
             return false;
         }
         nValue += recipient.nAmount;
@@ -2630,7 +2633,9 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
     }
     if (vecSend.empty())
     {
-        strFailReason = _("Transaction must have at least one recipient");
+        // strFailReason = _("Transaction must have at least one recipient");
+        strFailReason = "Transaction must have at least one recipient";
+        saveToLog(strFailReason);
         return false;
     }
 
@@ -2701,7 +2706,9 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
                 ret = reservekey.GetReservedKey(vchPubKey, true);
                 if (!ret)
                 {
-                    strFailReason = _("Keypool ran out, please call keypoolrefill first");
+                    // strFailReason = _("Keypool ran out, please call keypoolrefill first");
+                    strFailReason = "Keypool ran out, please call keypoolrefill first";
+                    saveToLog(strFailReason);
                     return false;
                 }
 
@@ -2746,14 +2753,22 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
                     {
                         if (recipient.fSubtractFeeFromAmount && nFeeRet > 0)
                         {
-                            if (txout.nValue < 0)
-                                strFailReason = _("The transaction amount is too small to pay the fee");
-                            else
-                                strFailReason = _("The transaction amount is too small to send after the fee has been deducted");
+                            if (txout.nValue < 0) {
+                                // strFailReason = _("The transaction amount is too small to pay the fee");
+                                strFailReason = "The transaction amount is too small to pay the fee";
+                                saveToLog(strFailReason);
+                            }else {
+                                // strFailReason = _("The transaction amount is too small to send after the fee has been deducted");
+                                strFailReason = "The transaction amount is too small to send after the fee has been deducted";
+                                saveToLog(strFailReason);
+                             }
                         }
-                        else
-                            strFailReason = _("Transaction amount too small");
-                        return false;
+                        else {   //TODO: check this
+                            // strFailReason = _("Transaction amount too small");
+                        //     strFailReason = "Transaction amount too small";
+                        //     saveToLog(strFailReason);
+                        // return false;
+                        }
                     }
                     txNew.vout.push_back(txout);
                 }
@@ -2764,7 +2779,9 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
                     setCoins.clear();
                     if (!SelectCoins(vAvailableCoins, nValueToSelect, setCoins, nValueIn, &coin_control))
                     {
-                        strFailReason = _("Insufficient funds");
+                        // strFailReason = _("Insufficient funds");
+                        strFailReason = "Insufficient funds";
+                        saveToLog(strFailReason);
                         return false;
                     }
                 }
@@ -2792,7 +2809,9 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
                         }
                         else if ((unsigned int)nChangePosInOut > txNew.vout.size())
                         {
-                            strFailReason = _("Change index out of range");
+                            // strFailReason = _("Change index out of range");
+                            strFailReason = "Change index out of range";
+                            saveToLog(strFailReason);
                             return false;
                         }
 
@@ -2820,7 +2839,9 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
 
                 // Fill in dummy signatures for fee calculation.
                 if (!DummySignTx(txNew, setCoins)) {
-                    strFailReason = _("Signing transaction failed");
+                    // strFailReason = _("Signing transaction failed");
+                    // strFailReason = "Signing transaction failed";
+                    // saveToLog(strFailReason);
                     return false;
                 }
 
@@ -2838,7 +2859,9 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
                 // because we must be at the maximum allowed fee.
                 if (nFeeNeeded < ::minRelayTxFee.GetFee(nBytes))
                 {
-                    strFailReason = _("Transaction too large for fee policy");
+                    // strFailReason = _("Transaction too large for fee policy");
+                    // strFailReason = "Transaction too large for fee policy";
+                    // saveToLog(strFailReason);
                     return false;
                 }
 
@@ -2878,7 +2901,9 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
                     // fee to pay for the new output and still meet nFeeNeeded
                     // Or we should have just subtracted fee from recipients and
                     // nFeeNeeded should not have changed
-                    strFailReason = _("Transaction fee and change calculation failed");
+                    // strFailReason = _("Transaction fee and change calculation failed");
+                    strFailReason = "Transaction fee and change calculation failed";
+                    saveToLog(strFailReason);
                     return false;
                 }
 
@@ -2919,7 +2944,9 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
 
                 if (!ProduceSignature(TransactionSignatureCreator(this, &txNewConst, nIn, coin.txout.nValue, SIGHASH_ALL | SIGHASH_FORKID), scriptPubKey, sigdata))
                 {
-                    strFailReason = _("Signing transaction failed");
+                    // strFailReason = _("Signing transaction failed");
+                    strFailReason = "Signing transaction failed";
+                    saveToLog(strFailReason);
                     return false;
                 } else {
                     UpdateTransaction(txNew, nIn, sigdata);
@@ -2935,7 +2962,9 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
         // Limit size
         if (GetTransactionWeight(wtxNew) >= MAX_STANDARD_TX_WEIGHT)
         {
-            strFailReason = _("Transaction too large");
+            // strFailReason = _("Transaction too large");
+            strFailReason = "Transaction too large";
+            saveToLog(strFailReason);
             return false;
         }
     }
@@ -2951,7 +2980,9 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
         size_t nLimitDescendantSize = gArgs.GetArg("-limitdescendantsize", DEFAULT_DESCENDANT_SIZE_LIMIT)*1000;
         std::string errString;
         if (!mempool.CalculateMemPoolAncestors(entry, setAncestors, nLimitAncestors, nLimitAncestorSize, nLimitDescendants, nLimitDescendantSize, errString)) {
-            strFailReason = _("Transaction has too long of a mempool chain");
+            // strFailReason = _("Transaction has too long of a mempool chain");
+            strFailReason = "Transaction has too long of a mempool chain";
+            saveToLog(strFailReason);
             return false;
         }
     }

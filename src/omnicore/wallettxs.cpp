@@ -289,10 +289,8 @@ int64_t SelectCoins(const std::string& fromAddress, CCoinControl& coinControl, i
 
             // only use funds from the sender's address
             if (fromAddress == sAddress) {
-              // if (true) {
                 COutPoint outpoint(txid, n);
                 coinControl.Select(outpoint);
-                if (true) return MP_CHECKPOINT;
                 nTotal += txOut.nValue;
 
                 if (nMax <= nTotal) break;
