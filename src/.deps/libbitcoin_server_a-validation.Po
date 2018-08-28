@@ -1298,6 +1298,8 @@ libbitcoin_server_a-validation.o: validation.cpp \
  leveldb/include/leveldb/options.h leveldb/include/leveldb/write_batch.h \
  txmempool.h ui_interface.h /usr/include/boost/signals2/last_value.hpp \
  undo.h utilmoneystr.h validationinterface.h warnings.h \
+ omnicore/omnicore.h omnicore/log.h util.h tinyformat.h \
+ omnicore/persistence.h omnicore/tally.h univalue/include/univalue.h \
  /usr/include/boost/algorithm/string/replace.hpp \
  /usr/include/boost/algorithm/string/config.hpp \
  /usr/include/boost/range/iterator_range_core.hpp \
@@ -4614,6 +4616,20 @@ utilmoneystr.h:
 validationinterface.h:
 
 warnings.h:
+
+omnicore/omnicore.h:
+
+omnicore/log.h:
+
+util.h:
+
+tinyformat.h:
+
+omnicore/persistence.h:
+
+omnicore/tally.h:
+
+univalue/include/univalue.h:
 
 /usr/include/boost/algorithm/string/replace.hpp:
 

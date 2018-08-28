@@ -96,7 +96,6 @@ using std::vector;
 using namespace mastercore;
 
 CCriticalSection cs_tally;
-//
 static string exodus_address = "1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P";
 
 static const string exodus_mainnet = "1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P";
@@ -801,6 +800,7 @@ static bool FillTxInputCache(const CTransaction& tx)
     for (std::vector<CTxIn>::const_iterator it = tx.vin.begin(); it != tx.vin.end(); ++it) {
         const CTxIn& txIn = *it;
         unsigned int nOut = txIn.prevout.n;
+        // TODO: WORK WITH COINS.H  (CCoinsModifier Class and CoinViewCache Class)
         // CCoinsModifier coins = view.ModifyCoins(txIn.prevout.hash);
 
         if (view.HaveCoin(txIn.prevout)){
@@ -837,6 +837,8 @@ static bool FillTxInputCache(const CTransaction& tx)
 // // RETURNS: 0 if parsed a MP TX
 // // RETURNS: < 0 if a non-MP-TX or invalid
 // // RETURNS: >0 if 1 or more payments have been made
+
+ // TODO: check each of the conditions, starting for FillTxInputCache function. (In testnet it doesnt work properly!)
 static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, unsigned int idx, CMPTransaction& mp_tx, unsigned int nTime)
 {
     assert(bRPConly == mp_tx.isRpcOnly());
@@ -890,7 +892,8 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
         // {
             unsigned int vin_n = 0; // the first input
             // if (msc_debug_vin) PrintToLog("vin=%d:%s\n", vin_n, ScriptToAsmStr(wtx.vin[vin_n].scriptSig));
-
+            const string lineOut16 = strprintf("vin=%d:%s\n", vin_n, ScriptToAsmStr(wtx.vin[vin_n].scriptSig));
+            saveToLog(lineOut16);
             const CTxIn& txIn = wtx.vin[vin_n];
             const CTxOut& txOut = view.GetOutputFor(txIn); // TODO: fix this !!!!
 
@@ -2372,7 +2375,7 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     // const CCoinControl coinControl1 = (const CCoinControl) coinControl;
     CCoinControl coinControl;
     CWalletTx wtxNew;
-    CAmount nFeeRet = 0;  // change to new class CAmount
+    CAmount nFeeRet;  // change to new class CAmount
     int nChangePosInOut = -1;
     std::string strFailReason;
     std::vector<std::pair<CScript, int64_t> > vecSend;
@@ -2381,8 +2384,9 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     // Next, we set the change address to the sender
     CBitcoinAddress addr = CBitcoinAddress(senderAddress);
     coinControl.destChange = addr.Get();
-    coinControl.fOverrideFeeRate = true;
-    CCoinControl const coinControl1 = coinControl;
+    coinControl.fAllowOtherInputs = true;
+    // coinControl.fOverrideFeeRate = true;
+    // CCoinControl const coinControl1 = coinControl;
     const string lineOut9 = strprintf("First Checkpoint\n");
     saveToLog(lineOut9);
     // Select the inputs  TODO: make SelectCoins function works!!!
@@ -2407,7 +2411,12 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     // Then add a paytopubkeyhash output for the recipient (if needed) - note we do this last as we want this to be the highest vout
     if (!receiverAddress.empty()) {
         CScript scriptPubKey = GetScriptForDestination(CBitcoinAddress(receiverAddress).Get());
-        vecSend.push_back(std::make_pair(scriptPubKey, 0 < referenceAmount ? referenceAmount : GetDustThreshold(scriptPubKey)));
+        // vecSend.push_back(std::make_pair(scriptPubKey, 0 < referenceAmount ? referenceAmount : GetDustThreshold(scriptPubKey)));
+        vecSend.push_back(std::make_pair(scriptPubKey, 0 < referenceAmount ? referenceAmount : 500000));
+        const string lineOut1 = strprintf("GetDustThreshold: %d\n",GetDustThreshold(scriptPubKey));
+        saveToLog(lineOut1);
+        const string lineOut2 = strprintf("referenceAmount :%d\n",referenceAmount);
+        saveToLog(lineOut2);
     }
 
     // Now we have what we need to pass to the wallet to create the transaction, perform some checks first
@@ -2424,7 +2433,7 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     const string lineOut13 = strprintf("4th Checkpoint\n");
     saveToLog(lineOut13);
     // Ask the wallet to create the transaction (note mining fee determined by Bitcoin Core params)
-    if (!pwalletMain->CreateTransaction(vecRecipients, wtxNew, reserveKey, nFeeRet, nChangePosInOut, strFailReason, coinControl1)) {
+    if (!pwalletMain->CreateTransaction(vecRecipients, wtxNew, reserveKey, nFeeRet, nChangePosInOut, strFailReason, coinControl, true)) {
         PrintToLog("%s: ERROR: wallet transaction creation failed: %s\n", __func__, strFailReason);
         const string lineOut14 = strprintf("ERROR: wallet transaction creation failed\n");
         saveToLog(lineOut14);
