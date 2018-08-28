@@ -2765,8 +2765,8 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
                         }
                         else {   //TODO: check this
                             // strFailReason = _("Transaction amount too small");
-                        //     strFailReason = "Transaction amount too small";
-                        //     saveToLog(strFailReason);
+                            strFailReason = "Transaction amount too small";
+                            saveToLog(strFailReason);
                         // return false;
                         }
                     }
@@ -3006,6 +3006,8 @@ bool CWallet::CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey, CCon
     {
         LOCK2(cs_main, cs_wallet);
         LogPrintf("CommitTransaction:\n%s", wtxNew.tx->ToString());
+        const string lineOut = strprintf("CommitTransaction:\n%s", wtxNew.tx->ToString());
+        saveToLog(lineOut);
         {
             // Take key pair from key pool so it won't be used again
             reservekey.KeepKey();
@@ -3029,10 +3031,18 @@ bool CWallet::CommitTransaction(CWalletTx& wtxNew, CReserveKey& reservekey, CCon
         if (fBroadcastTransactions)
         {
             // Broadcast
+            const string lineOut = strprintf("Inside Broadcast!\n");
+            saveToLog(lineOut);
             if (!wtxNew.AcceptToMemoryPool(maxTxFee, state)) {
                 LogPrintf("CommitTransaction(): Transaction cannot be broadcast immediately, %s\n", state.GetRejectReason());
+                const string lineOut1 = strprintf("CommitTransaction(): Transaction cannot be broadcast immediately, %s\n", state.GetRejectReason());
+                saveToLog(lineOut1);
+                const string lineOut2 = strprintf("maxTxFee: %d\n", maxTxFee);
+                saveToLog(lineOut2);
                 // TODO: if we expect the failure to be long term or permanent, instead delete wtx from the wallet and return failure.
             } else {
+                const string lineOut2 = strprintf("To RelayWalletTransaction function\n");
+                saveToLog(lineOut2);
                 wtxNew.RelayWalletTransaction(connman);
             }
         }

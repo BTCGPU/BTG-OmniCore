@@ -241,7 +241,6 @@ int64_t SelectCoins(const std::string& fromAddress, CCoinControl& coinControl, i
 
     // select coins to cover up to 20 kB max. transaction size
     int64_t nMax = 20 * GetEstimatedFeePerKb();
-    // int64_t nMax = 1;
 
     // if referenceamount is set it is needed to be accounted for here too
     if (0 < additional) nMax += additional;
@@ -262,7 +261,7 @@ int64_t SelectCoins(const std::string& fromAddress, CCoinControl& coinControl, i
             continue;
         }
 
-        // const CTransaction &tmpTx = wtx.getTx();  // TODO: study this (wormhole)
+        // const CTransaction &tmpTx = wtx.getTx();  // TODO: study this
         for (unsigned int n = 0; n < wtx.tx->vout.size(); n++) {
             const CTxOut& txOut = wtx.tx->vout[n];
 
@@ -276,12 +275,12 @@ int64_t SelectCoins(const std::string& fromAddress, CCoinControl& coinControl, i
             if (pwalletMain->IsSpent(txid, n)) {
                 continue;
             }
-            // if (txOut.nValue < GetEconomicThreshold(txOut)) {
-            //     if (msc_debug_tokens)
-            //         PrintToLog("%s: output value below economic threshold: %s:%d, value: %d\n",
-            //                 __func__, txid.GetHex(), n, txOut.nValue);
-            //     continue;
-            // }
+            if (txOut.nValue < GetEconomicThreshold(txOut)) {
+                // if (msc_debug_tokens)
+                //     PrintToLog("%s: output value below economic threshold: %s:%d, value: %d\n",
+                //             __func__, txid.GetHex(), n, txOut.nValue);
+                continue;
+            }
 
             std::string sAddress = CBitcoinAddress(dest).ToString();
             if (msc_debug_tokens)
@@ -300,7 +299,8 @@ int64_t SelectCoins(const std::string& fromAddress, CCoinControl& coinControl, i
         if (nMax <= nTotal) break;
     }
 #endif
-
+    const string lineOut1 = strprintf("Total for transaction (satoshis): %d\n",nTotal);
+    saveToLog(lineOut1);
     return nTotal;
 }
 
