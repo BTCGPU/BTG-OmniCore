@@ -68,7 +68,7 @@ using namespace mastercore;
 //         case MP_BLOCK_NOT_IN_CHAIN:
 //             throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Transaction not part of the active chain");
 //         case MP_CROWDSALE_WITHOUT_PROPERTY:
-//             throw JSONRPCError(RPC_INTERNAL_ERROR, "Potential database corruption: 
+//             throw JSONRPCError(RPC_INTERNAL_ERROR, "Potential database corruption:
 //                                                   \"Crowdsale Purchase\" without valid property identifier");
 //         case MP_INVALID_TX_IN_DB_FOUND:
 //             throw JSONRPCError(RPC_INTERNAL_ERROR, "Potential database corruption: Invalid transaction found");
@@ -78,15 +78,15 @@ using namespace mastercore;
 //     throw JSONRPCError(RPC_INTERNAL_ERROR, "Generic transaction population failure");
 // }
 //
-// void PropertyToJSON(const CMPSPInfo::Entry& sProperty, UniValue& property_obj)
-// {
-//     property_obj.push_back(Pair("name", sProperty.name));
-//     property_obj.push_back(Pair("category", sProperty.category));
-//     property_obj.push_back(Pair("subcategory", sProperty.subcategory));
-//     property_obj.push_back(Pair("data", sProperty.data));
-//     property_obj.push_back(Pair("url", sProperty.url));
-//     property_obj.push_back(Pair("divisible", sProperty.isDivisible()));
-// }
+void PropertyToJSON(const CMPSPInfo::Entry& sProperty, UniValue& property_obj)
+{
+    property_obj.push_back(Pair("name", sProperty.name));
+    property_obj.push_back(Pair("category", sProperty.category));
+    property_obj.push_back(Pair("subcategory", sProperty.subcategory));
+    property_obj.push_back(Pair("data", sProperty.data));
+    property_obj.push_back(Pair("url", sProperty.url));
+    property_obj.push_back(Pair("divisible", sProperty.isDivisible()));
+}
 //
 // // void MetaDexObjectToJSON(const CMPMetaDEx& obj, UniValue& metadex_obj)
 // // {
@@ -943,60 +943,59 @@ UniValue omni_getbalance(const JSONRPCRequest& request)
 //     return response;
 // }
 //
-// UniValue omni_listproperties(const UniValue& params, bool fHelp)
-// {
-//     if (fHelp)
-//         throw runtime_error(
-//             "omni_listproperties\n"
-//             "\nLists all tokens or smart properties.\n"
-//             "\nResult:\n"
-//             "[                                (array of JSON objects)\n"
-//             "  {\n"
-//             "    \"propertyid\" : n,                (number) the identifier of the tokens\n"
-//             "    \"name\" : \"name\",                 (string) the name of the tokens\n"
-//             "    \"category\" : \"category\",         (string) the category used for the tokens\n"
-//             "    \"subcategory\" : \"subcategory\",   (string) the subcategory used for the tokens\n"
-//             "    \"data\" : \"information\",          (string) additional information or a description\n"
-//             "    \"url\" : \"uri\",                   (string) an URI, for example pointing to a website\n"
-//             "    \"divisible\" : true|false         (boolean) whether the tokens are divisible\n"
-//             "  },\n"
-//             "  ...\n"
-//             "]\n"
-//             "\nExamples:\n"
-//             + HelpExampleCli("omni_listproperties", "")
-//             + HelpExampleRpc("omni_listproperties", "")
-//         );
-//
-//     UniValue response(UniValue::VARR);
-//
-//     LOCK(cs_tally);
-//
-//     uint32_t nextSPID = _my_sps->peekNextSPID(1);
-//     for (uint32_t propertyId = 1; propertyId < nextSPID; propertyId++) {
-//         CMPSPInfo::Entry sp;
-//         if (_my_sps->getSP(propertyId, sp)) {
-//             UniValue propertyObj(UniValue::VOBJ);
-//             propertyObj.push_back(Pair("propertyid", (uint64_t) propertyId));
-//             PropertyToJSON(sp, propertyObj); // name, category, subcategory, data, url, divisible
-//
-//             response.push_back(propertyObj);
-//         }
-//     }
-//
-//     uint32_t nextTestSPID = _my_sps->peekNextSPID(2);
-//     for (uint32_t propertyId = TEST_ECO_PROPERTY_1; propertyId < nextTestSPID; propertyId++) {
-//         CMPSPInfo::Entry sp;
-//         if (_my_sps->getSP(propertyId, sp)) {
-//             UniValue propertyObj(UniValue::VOBJ);
-//             propertyObj.push_back(Pair("propertyid", (uint64_t) propertyId));
-//             PropertyToJSON(sp, propertyObj); // name, category, subcategory, data, url, divisible
-//
-//             response.push_back(propertyObj);
-//         }
-//     }
-//
-//     return response;
-// }
+UniValue omni_listproperties(const JSONRPCRequest& request)
+{
+    // if (fHelp)
+    //     throw runtime_error(
+    //         "omni_listproperties\n"
+    //         "\nLists all tokens or smart properties.\n"
+    //         "\nResult:\n"
+    //         "[                                (array of JSON objects)\n"
+    //         "  {\n"
+    //         "    \"propertyid\" : n,                (number) the identifier of the tokens\n"
+    //         "    \"name\" : \"name\",                 (string) the name of the tokens\n"
+    //         "    \"category\" : \"category\",         (string) the category used for the tokens\n"
+    //         "    \"subcategory\" : \"subcategory\",   (string) the subcategory used for the tokens\n"
+    //         "    \"data\" : \"information\",          (string) additional information or a description\n"
+    //         "    \"url\" : \"uri\",                   (string) an URI, for example pointing to a website\n"
+    //         "    \"divisible\" : true|false         (boolean) whether the tokens are divisible\n"
+    //         "  },\n"
+    //         "  ...\n"
+    //         "]\n"
+    //         "\nExamples:\n"
+    //         + HelpExampleCli("omni_listproperties", "")
+    //         + HelpExampleRpc("omni_listproperties", "")
+    //     );
+
+    UniValue response(UniValue::VARR);
+
+    LOCK(cs_tally);
+
+    uint32_t nextSPID = _my_sps->peekNextSPID(1);
+    for (uint32_t propertyId = 1; propertyId < nextSPID; propertyId++) {
+        CMPSPInfo::Entry sp;
+        if (_my_sps->getSP(propertyId, sp)) {
+            UniValue propertyObj(UniValue::VOBJ);
+            propertyObj.push_back(Pair("propertyid", (uint64_t) propertyId));
+            PropertyToJSON(sp, propertyObj); // name, category, subcategory, data, url, divisible
+            response.push_back(propertyObj);
+        }
+    }
+
+    // uint32_t nextTestSPID = _my_sps->peekNextSPID(2);
+    // for (uint32_t propertyId = TEST_ECO_PROPERTY_1; propertyId < nextTestSPID; propertyId++) {
+    //     CMPSPInfo::Entry sp;
+    //     if (_my_sps->getSP(propertyId, sp)) {
+    //         UniValue propertyObj(UniValue::VOBJ);
+    //         propertyObj.push_back(Pair("propertyid", (uint64_t) propertyId));
+    //         PropertyToJSON(sp, propertyObj); // name, category, subcategory, data, url, divisible
+    //
+    //         response.push_back(propertyObj);
+    //     }
+    // }
+
+    return response;
+}
 //
 // UniValue omni_getcrowdsale(const UniValue& params, bool fHelp)
 // {
@@ -2219,7 +2218,7 @@ static const CRPCCommand commands[] =
     { "omni layer (data retrieval)", "omni_getbalance",                &omni_getbalance,                 false },
     // { "omni layer (data retrieval)", "omni_gettransaction",            &omni_gettransaction,             false },
     // { "omni layer (data retrieval)", "omni_getproperty",               &omni_getproperty,                false },
-    // { "omni layer (data retrieval)", "omni_listproperties",            &omni_listproperties,             false },
+    { "omni layer (data retrieval)", "omni_listproperties",            &omni_listproperties,             false },
     // { "omni layer (data retrieval)", "omni_getcrowdsale",              &omni_getcrowdsale,               false },
     // { "omni layer (data retrieval)", "omni_getgrants",                 &omni_getgrants,                  false },
     // { "omni layer (data retrieval)", "omni_getactivedexsells",         &omni_getactivedexsells,          false },
