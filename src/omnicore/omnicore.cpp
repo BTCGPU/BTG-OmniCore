@@ -2067,41 +2067,41 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
 //  */
 int mastercore_init()
 {
-    // LOCK(cs_tally);
-    //
+    LOCK(cs_tally);
+
     // if (mastercoreInitialized) {
     //     // nothing to do
     //     return 0;
     // }
    strprintf(_("Initializing Omni Core Gold\n"));
-    // PrintToConsole("Initializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
-//
-//     PrintToLog("\nInitializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
-//     PrintToLog("Startup time: %s\n", DateTimeStrFormat("%Y-%m-%d %H:%M:%S", GetTime()));
-//
-//     InitDebugLogLevels();
-//     ShrinkDebugLog();
-//
-//     if (isNonMainNet()) {
-//         exodus_address = exodus_testnet;
-//     }
-//
-//     // check for --autocommit option and set transaction commit flag accordingly
-//     if (!GetBoolArg("-autocommit", true)) {
-//         PrintToLog("Process was started with --autocommit set to false. "
-//                 "Created Omni transactions will not be committed to wallet or broadcast.\n");
-//         autoCommit = false;
-//     }
-//
-//     // check for --startclean option and delete MP_ folders if present
-//     bool startClean = false;
-//     if (GetBoolArg("-startclean", false)) {
-//         PrintToLog("Process was started with --startclean option, attempting to clear persistence files..\n");
-//         try {
+    PrintToConsole("Initializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
+
+    PrintToLog("\nInitializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
+    PrintToLog("Startup time: %s\n", DateTimeStrFormat("%Y-%m-%d %H:%M:%S", GetTime()));
+
+    // InitDebugLogLevels();
+    // ShrinkDebugLog();
+
+    if (isNonMainNet()) {
+        exodus_address = exodus_testnet;
+    }
+
+    // check for --autocommit option and set transaction commit flag accordingly
+    // if (!gArgs.GetBoolArg("-autocommit", true)) {
+    //     PrintToLog("Process was started with --autocommit set to false. "
+    //             "Created Omni transactions will not be committed to wallet or broadcast.\n");
+    //     autoCommit = false;
+    // }
+
+    // check for --startclean option and delete MP_ folders if present
+    bool startClean = false;
+    if (gArgs.GetBoolArg("-startclean", false)) {
+        PrintToLog("Process was started with --startclean option, attempting to clear persistence files..\n");
+        try {
 //             boost::filesystem::path persistPath = GetDataDir() / "MP_persist";
 //             boost::filesystem::path txlistPath = GetDataDir() / "MP_txlist";
 //             boost::filesystem::path tradePath = GetDataDir() / "MP_tradelist";
-//             boost::filesystem::path spPath = GetDataDir() / "MP_spinfo";
+            boost::filesystem::path spPath = GetDataDir() / "MP_spinfo";
 //             boost::filesystem::path stoPath = GetDataDir() / "MP_stolist";
 //             boost::filesystem::path omniTXDBPath = GetDataDir() / "Omni_TXDB";
 //             boost::filesystem::path feesPath = GetDataDir() / "OMNI_feecache";
@@ -2114,31 +2114,32 @@ int mastercore_init()
 //             if (boost::filesystem::exists(omniTXDBPath)) boost::filesystem::remove_all(omniTXDBPath);
 //             if (boost::filesystem::exists(feesPath)) boost::filesystem::remove_all(feesPath);
 //             if (boost::filesystem::exists(feeHistoryPath)) boost::filesystem::remove_all(feeHistoryPath);
-//             PrintToLog("Success clearing persistence files in datadir %s\n", GetDataDir().string());
-//             startClean = true;
-//         } catch (const boost::filesystem::filesystem_error& e) {
-//             PrintToLog("Failed to delete persistence folders: %s\n", e.what());
-//             PrintToConsole("Failed to delete persistence folders: %s\n", e.what());
-//         }
-//     }
+            PrintToLog("Success clearing persistence files in datadir %s\n", GetDataDir().string());
+            startClean = true;
+        } catch (const boost::filesystem::filesystem_error& e) {
+            PrintToLog("Failed to delete persistence folders: %s\n", e.what());
+            const string lineOut = strprintf("Failed to delete persistence folders: %s\n", e.what());
+            saveToLog(lineOut);
+        }
+    }
 //
 //     t_tradelistdb = new CMPTradeList(GetDataDir() / "MP_tradelist", fReindex);
 //     s_stolistdb = new CMPSTOList(GetDataDir() / "MP_stolist", fReindex);
 //     p_txlistdb = new CMPTxList(GetDataDir() / "MP_txlist", fReindex);
-//     _my_sps = new CMPSPInfo(GetDataDir() / "MP_spinfo", fReindex);
+    _my_sps = new CMPSPInfo(GetDataDir() / "MP_spinfo", fReindex);
 //     p_OmniTXDB = new COmniTransactionDB(GetDataDir() / "Omni_TXDB", fReindex);
 //     p_feecache = new COmniFeeCache(GetDataDir() / "OMNI_feecache", fReindex);
 //     p_feehistory = new COmniFeeHistory(GetDataDir() / "OMNI_feehistory", fReindex);
 //
-//     MPPersistencePath = GetDataDir() / "MP_persist";
-//     TryCreateDirectory(MPPersistencePath);
-//
-//     bool wrongDBVersion = (p_txlistdb->getDBVersion() != DB_VERSION);
-//
-//     ++mastercoreInitialized;
-//
-//     nWaterlineBlock = load_most_relevant_state();
-//     bool noPreviousState = (nWaterlineBlock <= 0);
+    // MPPersistencePath = GetDataDir() / "MP_persist";
+    // TryCreateDirectory(MPPersistencePath);
+
+    // bool wrongDBVersion = (p_txlistdb->getDBVersion() != DB_VERSION);
+
+    ++mastercoreInitialized;
+
+    // nWaterlineBlock = load_most_relevant_state();
+    bool noPreviousState = (nWaterlineBlock <= 0);
 //
 //     if (startClean) {
 //         assert(p_txlistdb->setDBVersion() == DB_VERSION); // new set of databases, set DB version

@@ -71,17 +71,17 @@ CMPSPInfo::CMPSPInfo(const boost::filesystem::path& path, bool fWipe)
     implied_omni.num_tokens = 700000;
     implied_omni.category = "N/A";
     implied_omni.subcategory = "N/A";
-    implied_omni.name = "Omni";
-    implied_omni.url = "http://www.omnilayer.org";
-    implied_omni.data = "Omni serve as the binding between Bitcoin, smart properties and contracts created on the Omni Layer.";
+    implied_omni.name = "Betelgeuse";
+    implied_omni.url = "http://www.betelgeuse.org";
+    implied_omni.data = "The native and first token of OmniLayer Protocol, builded on top of Bitcoin Gold.";
     implied_tomni.issuer = ExodusAddress().ToString();
     implied_tomni.prop_type = MSC_PROPERTY_TYPE_DIVISIBLE;
     implied_tomni.num_tokens = 700000;
     implied_tomni.category = "N/A";
     implied_tomni.subcategory = "N/A";
-    implied_tomni.name = "Test Omni";
-    implied_tomni.url = "http://www.omnilayer.org";
-    implied_tomni.data = "Test Omni serve as the binding between Bitcoin, smart properties and contracts created on the Omni Layer.";
+    implied_tomni.name = "Test Betelgeuse";
+    implied_tomni.url = "http://www.betelgeuse.org";
+    implied_tomni.data = "The native and first  test token of OmniLayer Protocol, builded on top of Bitcoin Gold.";
 
     init();
 }
@@ -170,96 +170,105 @@ bool CMPSPInfo::updateSP(uint32_t propertyId, const Entry& info)
 uint32_t CMPSPInfo::putSP(uint8_t ecosystem, const Entry& info)
 {
     uint32_t propertyId = 0;
-    // switch (ecosystem) {
-    //     case OMNI_PROPERTY_MSC: // Main ecosystem, MSC: 1, TMSC: 2, First available SP = 3
-    //         propertyId = next_spid++;
-    //         break;
-    //     case OMNI_PROPERTY_TMSC: // Test ecosystem, same as above with high bit set
-    //         propertyId = next_test_spid++;
-    //         break;
-    //     default: // Non-standard ecosystem, ID's start at 0
-    //         propertyId = 0;
-    // }
-    //
-    // // DB key for property entry
-    // CDataStream ssSpKey(SER_DISK, CLIENT_VERSION);
-    // ssSpKey << std::make_pair('s', propertyId);
-    // leveldb::Slice slSpKey(&ssSpKey[0], ssSpKey.size());
-    //
-    // // DB value for property entry
-    // CDataStream ssSpValue(SER_DISK, CLIENT_VERSION);
-    // ssSpValue.reserve(ssSpValue.Serialize(info));
-    // ssSpValue << info;
-    // leveldb::Slice slSpValue(&ssSpValue[0], ssSpValue.size());
-    //
-    // // DB key for identifier lookup entry
-    // CDataStream ssTxIndexKey(SER_DISK, CLIENT_VERSION);
-    // ssTxIndexKey << std::make_pair('t', info.txid);
-    // leveldb::Slice slTxIndexKey(&ssTxIndexKey[0], ssTxIndexKey.size());
-    //
-    // // DB value for identifier
-    // CDataStream ssTxValue(SER_DISK, CLIENT_VERSION);
-    // ssTxValue.reserve(ssSpValue.Serialize(propertyId));
-    // ssTxValue << propertyId;
-    // leveldb::Slice slTxValue(&ssTxValue[0], ssTxValue.size());
-    //
-    // // sanity checking
-    // std::string existingEntry;
-    // if (!pdb->Get(readoptions, slSpKey, &existingEntry).IsNotFound() && slSpValue.compare(existingEntry) != 0) {
-    //     std::string strError = strprintf("writing SP %d to DB, when a different SP already exists for that identifier", propertyId);
-    //     PrintToLog("%s() ERROR: %s\n", __func__, strError);
-    // } else if (!pdb->Get(readoptions, slTxIndexKey, &existingEntry).IsNotFound() && slTxValue.compare(existingEntry) != 0) {
-    //     std::string strError = strprintf("writing index txid %s : SP %d is overwriting a different value", info.txid.ToString(), propertyId);
-    //     PrintToLog("%s() ERROR: %s\n", __func__, strError);
-    // }
-    //
-    // // atomically write both the the SP and the index to the database
-    // leveldb::WriteBatch batch;
-    // batch.Put(slSpKey, slSpValue);
-    // batch.Put(slTxIndexKey, slTxValue);
-    //
-    // leveldb::Status status = pdb->Write(syncoptions, &batch);
-    //
-    // if (!status.ok()) {
-    //     PrintToLog("%s(): ERROR for SP %d: %s\n", __func__, propertyId, status.ToString());
-    // }
+    switch (ecosystem) {
+        case OMNI_PROPERTY_MSC: // Main ecosystem, MSC: 1, TMSC: 2, First available SP = 3
+            propertyId = next_spid++;
+            break;
+        case OMNI_PROPERTY_TMSC: // Test ecosystem, same as above with high bit set
+            propertyId = next_test_spid++;
+            break;
+        default: // Non-standard ecosystem, ID's start at 0
+            propertyId = 0;
+    }
+
+    // DB key for property entry
+    CDataStream ssSpKey(SER_DISK, CLIENT_VERSION);
+    ssSpKey << std::make_pair('s', propertyId);
+    leveldb::Slice slSpKey(&ssSpKey[0], ssSpKey.size());
+
+    // DB value for property entry
+    CDataStream ssSpValue(SER_DISK, CLIENT_VERSION);
+    ssSpValue.reserve(GetSerializeSize(info, ssSpValue.GetType(), ssSpValue.GetVersion()));
+    ssSpValue << info;
+    leveldb::Slice slSpValue(&ssSpValue[0], ssSpValue.size());
+
+    // DB key for identifier lookup entry
+    CDataStream ssTxIndexKey(SER_DISK, CLIENT_VERSION);
+    ssTxIndexKey << std::make_pair('t', info.txid);
+    leveldb::Slice slTxIndexKey(&ssTxIndexKey[0], ssTxIndexKey.size());
+
+    // DB value for identifier
+    CDataStream ssTxValue(SER_DISK, CLIENT_VERSION);
+    ssTxValue.reserve(GetSerializeSize(propertyId, ssSpValue.GetType(), ssSpValue.GetVersion()));
+    ssTxValue << propertyId;
+    leveldb::Slice slTxValue(&ssTxValue[0], ssTxValue.size());
+
+    // sanity checking
+    std::string existingEntry;
+    if (!pdb->Get(readoptions, slSpKey, &existingEntry).IsNotFound() && slSpValue.compare(existingEntry) != 0) {
+        std::string strError = strprintf("writing SP %d to DB, when a different SP already exists for that identifier", propertyId);
+        PrintToLog("%s() ERROR: %s\n", __func__, strError);
+        const string lineOut = strprintf("%s() ERROR: %s\n", __func__, strError);
+        saveToLog(lineOut);
+    } else if (!pdb->Get(readoptions, slTxIndexKey, &existingEntry).IsNotFound() && slTxValue.compare(existingEntry) != 0) {
+        std::string strError = strprintf("writing index txid %s : SP %d is overwriting a different value", info.txid.ToString(), propertyId);
+        PrintToLog("%s() ERROR: %s\n", __func__, strError);
+        saveToLog(strError);
+    }
+
+    // atomically write both the the SP and the index to the database
+    leveldb::WriteBatch batch;
+    batch.Put(slSpKey, slSpValue);
+    batch.Put(slTxIndexKey, slTxValue);
+
+    leveldb::Status status = pdb->Write(syncoptions, &batch);
+
+    if (!status.ok()) {
+        PrintToLog("%s(): ERROR for SP %d: %s\n", __func__, propertyId, status.ToString());
+        const string lineOut = strprintf("%s(): ERROR for SP %d: %s\n", __func__, propertyId, status.ToString());
+        saveToLog(lineOut);
+    }
 
     return propertyId;
 }
 
 bool CMPSPInfo::getSP(uint32_t propertyId, Entry& info) const
 {
-    // // special cases for constant SPs MSC and TMSC
-    // if (OMNI_PROPERTY_MSC == propertyId) {
-    //     info = implied_omni;
-    //     return true;
-    // } else if (OMNI_PROPERTY_TMSC == propertyId) {
-    //     info = implied_tomni;
-    //     return true;
-    // }
-    //
-    // // DB key for property entry
-    // CDataStream ssSpKey(SER_DISK, CLIENT_VERSION);
-    // ssSpKey << std::make_pair('s', propertyId);
-    // leveldb::Slice slSpKey(&ssSpKey[0], ssSpKey.size());
-    //
-    // // DB value for property entry
-    // std::string strSpValue;
-    // leveldb::Status status = pdb->Get(readoptions, slSpKey, &strSpValue);
-    // if (!status.ok()) {
-    //     if (!status.IsNotFound()) {
-    //         PrintToLog("%s(): ERROR for SP %d: %s\n", __func__, propertyId, status.ToString());
-    //     }
-    //     return false;
-    // }
-    //
-    // try {
-    //     CDataStream ssSpValue(strSpValue.data(), strSpValue.data() + strSpValue.size(), SER_DISK, CLIENT_VERSION);
-    //     ssSpValue >> info;
-    // } catch (const std::exception& e) {
-    //     PrintToLog("%s(): ERROR for SP %d: %s\n", __func__, propertyId, e.what());
-    //     return false;
-    // }
+    // special cases for constant SPs MSC and TMSC
+    if (OMNI_PROPERTY_MSC == propertyId) {
+        info = implied_omni;
+        return true;
+    } else if (OMNI_PROPERTY_TMSC == propertyId) {
+        info = implied_tomni;
+        return true;
+    }
+
+    // DB key for property entry
+    CDataStream ssSpKey(SER_DISK, CLIENT_VERSION);
+    ssSpKey << std::make_pair('s', propertyId);
+    leveldb::Slice slSpKey(&ssSpKey[0], ssSpKey.size());
+
+    // DB value for property entry
+    std::string strSpValue;
+    leveldb::Status status = pdb->Get(readoptions, slSpKey, &strSpValue);
+    if (!status.ok()) {
+        if (!status.IsNotFound()) {
+            PrintToLog("%s(): ERROR for SP %d: %s\n", __func__, propertyId, status.ToString());
+            const string lineOut = strprintf("%s(): ERROR for SP %d: %s\n", __func__, propertyId, status.ToString());
+            saveToLog(lineOut);
+        }
+        return false;
+    }
+
+    try {
+        CDataStream ssSpValue(strSpValue.data(), strSpValue.data() + strSpValue.size(), SER_DISK, CLIENT_VERSION);
+        ssSpValue >> info;
+    } catch (const std::exception& e) {
+        PrintToLog("%s(): ERROR for SP %d: %s\n", __func__, propertyId, e.what());
+        const string lineOut = strprintf("%s(): ERROR for SP %d: %s\n", __func__, propertyId, e.what());
+        saveToLog(lineOut);
+        return false;
+    }
 
     return true;
 }
