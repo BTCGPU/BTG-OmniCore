@@ -148,8 +148,8 @@ bool CMPTransaction::interpret_Transaction()
         case MSC_TYPE_CREATE_PROPERTY_MANUAL:
             return interpret_CreatePropertyManaged();
         //
-        // case MSC_TYPE_GRANT_PROPERTY_TOKENS:
-        //     return interpret_GrantTokens();
+        case MSC_TYPE_GRANT_PROPERTY_TOKENS:
+            return interpret_GrantTokens();
         //
         // case MSC_TYPE_REVOKE_PROPERTY_TOKENS:
         //     return interpret_RevokeTokens();
@@ -598,26 +598,26 @@ bool CMPTransaction::interpret_CreatePropertyManaged()
 
     return true;
 }
-//
-// /** Tx 55 */
-// bool CMPTransaction::interpret_GrantTokens()
-// {
-//     if (pkt_size < 16) {
-//         return false;
-//     }
-//     memcpy(&property, &pkt[4], 4);
-//     swapByteOrder32(property);
-//     memcpy(&nValue, &pkt[8], 8);
-//     swapByteOrder64(nValue);
-//     nNewValue = nValue;
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
-//         PrintToLog("\t           value: %s\n", FormatMP(property, nValue));
-//     }
-//
-//     return true;
-// }
+
+/** Tx 55 */
+bool CMPTransaction::interpret_GrantTokens()
+{
+    if (pkt_size < 16) {
+        return false;
+    }
+    memcpy(&property, &pkt[4], 4);
+    swapByteOrder32(property);
+    memcpy(&nValue, &pkt[8], 8);
+    swapByteOrder64(nValue);
+    nNewValue = nValue;
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
+        PrintToLog("\t           value: %s\n", FormatMP(property, nValue));
+    }
+
+    return true;
+}
 //
 // /** Tx 56 */
 // bool CMPTransaction::interpret_RevokeTokens()
@@ -898,9 +898,9 @@ int CMPTransaction::interpretPacket()
         //
         case MSC_TYPE_CREATE_PROPERTY_MANUAL:
             return logicMath_CreatePropertyManaged();
-        //
-        // case MSC_TYPE_GRANT_PROPERTY_TOKENS:
-        //     return logicMath_GrantTokens();
+
+        case MSC_TYPE_GRANT_PROPERTY_TOKENS:
+            return logicMath_GrantTokens();
         //
         // case MSC_TYPE_REVOKE_PROPERTY_TOKENS:
         //     return logicMath_RevokeTokens();
@@ -1878,98 +1878,98 @@ int CMPTransaction::logicMath_CreatePropertyManaged()
 
     return 0;
 }
-//
-// /** Tx 55 */
-// int CMPTransaction::logicMath_GrantTokens()
-// {
-//     uint256 blockHash;
-//     {
-//         LOCK(cs_main);
-//
-//         CBlockIndex* pindex = chainActive[block];
-//         if (pindex == NULL) {
-//             PrintToLog("%s(): ERROR: block %d not in the active chain\n", __func__, block);
-//             return (PKT_ERROR_SP -20);
-//         }
-//         blockHash = pindex->GetBlockHash();
-//     }
-//
-//     if (!IsTransactionTypeAllowed(block, property, type, version)) {
-//         PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
-//                 __func__,
-//                 type,
-//                 version,
-//                 property,
-//                 block);
-//         return (PKT_ERROR_TOKENS -22);
-//     }
-//
-//     if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
-//         PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
-//         return (PKT_ERROR_TOKENS -23);
-//     }
-//
-//     if (!IsPropertyIdValid(property)) {
-//         PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
-//         return (PKT_ERROR_TOKENS -24);
-//     }
-//
-//     CMPSPInfo::Entry sp;
-//     assert(_my_sps->getSP(property, sp));
-//
-//     if (!sp.manual) {
-//         PrintToLog("%s(): rejected: property %d is not managed\n", __func__, property);
-//         return (PKT_ERROR_TOKENS -42);
-//     }
-//
-//     if (sender != sp.issuer) {
-//         PrintToLog("%s(): rejected: sender %s is not issuer of property %d [issuer=%s]\n", __func__, sender, property, sp.issuer);
-//         return (PKT_ERROR_TOKENS -43);
-//     }
-//
-//     int64_t nTotalTokens = getTotalTokens(property);
-//     if (nValue > (MAX_INT_8_BYTES - nTotalTokens)) {
-//         PrintToLog("%s(): rejected: no more than %s tokens can ever exist [%s + %s > %s]\n",
-//                 __func__,
-//                 FormatMP(property, MAX_INT_8_BYTES),
-//                 FormatMP(property, nTotalTokens),
-//                 FormatMP(property, nValue),
-//                 FormatMP(property, MAX_INT_8_BYTES));
-//         return (PKT_ERROR_TOKENS -44);
-//     }
-//
-//     // ------------------------------------------
-//
-//     std::vector<int64_t> dataPt;
-//     dataPt.push_back(nValue);
-//     dataPt.push_back(0);
-//     sp.historicalData.insert(std::make_pair(txid, dataPt));
-//     sp.update_block = blockHash;
-//
-//     // Persist the number of granted tokens
-//     assert(_my_sps->updateSP(property, sp));
-//
-//     // Special case: if can't find the receiver -- assume grant to self!
-//     if (receiver.empty()) {
-//         receiver = sender;
-//     }
-//
-//     // Move the tokens
-//     assert(update_tally_map(receiver, property, nValue, BALANCE));
-//
-//     /**
-//      * As long as the feature to disable the side effects of "granting tokens"
-//      * is not activated, "granting tokens" can trigger crowdsale participations.
-//      */
-//     if (!IsFeatureActivated(FEATURE_GRANTEFFECTS, block)) {
-//         // Is there an active crowdsale running from this recepient?
-//         logicHelper_CrowdsaleParticipation();
-//     }
-//
-//     NotifyTotalTokensChanged(property, block);
-//
-//     return 0;
-// }
+
+/** Tx 55 */
+int CMPTransaction::logicMath_GrantTokens()
+{
+    uint256 blockHash;
+    {
+        LOCK(cs_main);
+
+        CBlockIndex* pindex = chainActive[block];
+        if (pindex == NULL) {
+            PrintToLog("%s(): ERROR: block %d not in the active chain\n", __func__, block);
+            return (PKT_ERROR_SP -20);
+        }
+        blockHash = pindex->GetBlockHash();
+    }
+    //
+    // if (!IsTransactionTypeAllowed(block, property, type, version)) {
+    //     PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
+    //             __func__,
+    //             type,
+    //             version,
+    //             property,
+    //             block);
+    //     return (PKT_ERROR_TOKENS -22);
+    // }
+
+    if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
+        PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
+        return (PKT_ERROR_TOKENS -23);
+    }
+
+    // if (!IsPropertyIdValid(property)) {
+    //     PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
+    //     return (PKT_ERROR_TOKENS -24);
+    // }
+
+    CMPSPInfo::Entry sp;
+    assert(_my_sps->getSP(property, sp));
+
+    if (!sp.manual) {
+        PrintToLog("%s(): rejected: property %d is not managed\n", __func__, property);
+        return (PKT_ERROR_TOKENS -42);
+    }
+
+    if (sender != sp.issuer) {
+        PrintToLog("%s(): rejected: sender %s is not issuer of property %d [issuer=%s]\n", __func__, sender, property, sp.issuer);
+        return (PKT_ERROR_TOKENS -43);
+    }
+
+    int64_t nTotalTokens = getTotalTokens(property);
+    if (nValue > (MAX_INT_8_BYTES - nTotalTokens)) {
+        PrintToLog("%s(): rejected: no more than %s tokens can ever exist [%s + %s > %s]\n",
+                __func__,
+                FormatMP(property, MAX_INT_8_BYTES),
+                FormatMP(property, nTotalTokens),
+                FormatMP(property, nValue),
+                FormatMP(property, MAX_INT_8_BYTES));
+        return (PKT_ERROR_TOKENS -44);
+    }
+
+    // ------------------------------------------
+
+    std::vector<int64_t> dataPt;
+    dataPt.push_back(nValue);
+    dataPt.push_back(0);
+    sp.historicalData.insert(std::make_pair(txid, dataPt));
+    sp.update_block = blockHash;
+
+    // Persist the number of granted tokens
+    assert(_my_sps->updateSP(property, sp));
+
+    // Special case: if can't find the receiver -- assume grant to self!
+    if (receiver.empty()) {
+        receiver = sender;
+    }
+
+    // Move the tokens
+    assert(update_tally_map(receiver, property, nValue, BALANCE));
+
+    /**
+     * As long as the feature to disable the side effects of "granting tokens"
+     * is not activated, "granting tokens" can trigger crowdsale participations.
+     */
+    if (!IsFeatureActivated(FEATURE_GRANTEFFECTS, block)) {
+        // Is there an active crowdsale running from this recepient?
+        // logicHelper_CrowdsaleParticipation();
+    }
+
+    NotifyTotalTokensChanged(property, block);
+
+    return 0;
+}
 //
 // /** Tx 56 */
 // int CMPTransaction::logicMath_RevokeTokens()

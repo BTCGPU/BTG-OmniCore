@@ -614,60 +614,60 @@ UniValue omni_sendissuancemanaged(const JSONRPCRequest& request)
 //     }
 // }
 //
-// UniValue omni_sendgrant(const UniValue& params, bool fHelp)
-// {
-//     if (fHelp || params.size() < 4 || params.size() > 5)
-//         throw runtime_error(
-//             "omni_sendgrant \"fromaddress\" \"toaddress\" propertyid \"amount\" ( \"memo\" )\n"
-//
-//             "\nIssue or grant new units of managed tokens.\n"
-//
-//             "\nArguments:\n"
-//             "1. fromaddress          (string, required) the address to send from\n"
-//             "2. toaddress            (string, required) the receiver of the tokens (sender by default, can be \"\")\n"
-//             "3. propertyid           (number, required) the identifier of the tokens to grant\n"
-//             "4. amount               (string, required) the amount of tokens to create\n"
-//             "5. memo                 (string, optional) a text note attached to this transaction (none by default)\n"
-//
-//             "\nResult:\n"
-//             "\"hash\"                  (string) the hex-encoded transaction hash\n"
-//
-//             "\nExamples:\n"
-//             + HelpExampleCli("omni_sendgrant", "\"3HsJvhr9qzgRe3ss97b1QHs38rmaLExLcH\" \"\" 51 \"7000\"")
-//             + HelpExampleRpc("omni_sendgrant", "\"3HsJvhr9qzgRe3ss97b1QHs38rmaLExLcH\", \"\", 51, \"7000\"")
-//         );
-//
-//     // obtain parameters & info
-//     std::string fromAddress = ParseAddress(params[0]);
-//     std::string toAddress = !ParseText(params[1]).empty() ? ParseAddress(params[1]): "";
-//     uint32_t propertyId = ParsePropertyId(params[2]);
-//     int64_t amount = ParseAmount(params[3], isPropertyDivisible(propertyId));
-//     std::string memo = (params.size() > 4) ? ParseText(params[4]): "";
-//
-//     // perform checks
-//     RequireExistingProperty(propertyId);
-//     RequireManagedProperty(propertyId);
-//     RequireTokenIssuer(fromAddress, propertyId);
-//
-//     // create a payload for the transaction
-//     std::vector<unsigned char> payload = CreatePayload_Grant(propertyId, amount, memo);
-//
-//     // request the wallet build the transaction (and if needed commit it)
-//     uint256 txid;
-//     std::string rawHex;
-//     int result = WalletTxBuilder(fromAddress, toAddress, "", 0, payload, txid, rawHex, autoCommit);
-//
-//     // check error and return the txid (or raw hex depending on autocommit)
-//     if (result != 0) {
-//         throw JSONRPCError(result, error_str(result));
-//     } else {
-//         if (!autoCommit) {
-//             return rawHex;
-//         } else {
-//             return txid.GetHex();
-//         }
-//     }
-// }
+UniValue omni_sendgrant(const JSONRPCRequest& request)
+{
+    if (request.params.size() < 4 || request.params.size() > 5)
+        throw runtime_error(
+            "omni_sendgrant \"fromaddress\" \"toaddress\" propertyid \"amount\" ( \"memo\" )\n"
+
+            "\nIssue or grant new units of managed tokens.\n"
+
+            "\nArguments:\n"
+            "1. fromaddress          (string, required) the address to send from\n"
+            "2. toaddress            (string, required) the receiver of the tokens (sender by default, can be \"\")\n"
+            "3. propertyid           (number, required) the identifier of the tokens to grant\n"
+            "4. amount               (string, required) the amount of tokens to create\n"
+            "5. memo                 (string, optional) a text note attached to this transaction (none by default)\n"
+
+            "\nResult:\n"
+            "\"hash\"                  (string) the hex-encoded transaction hash\n"
+
+            "\nExamples:\n"
+            + HelpExampleCli("omni_sendgrant", "\"3HsJvhr9qzgRe3ss97b1QHs38rmaLExLcH\" \"\" 51 \"7000\"")
+            + HelpExampleRpc("omni_sendgrant", "\"3HsJvhr9qzgRe3ss97b1QHs38rmaLExLcH\", \"\", 51, \"7000\"")
+        );
+
+    // obtain parameters & info
+    std::string fromAddress = ParseAddress(request.params[0]);
+    std::string toAddress = !ParseText(request.params[1]).empty() ? ParseAddress(request.params[1]): "";
+    uint32_t propertyId = ParsePropertyId(request.params[2]);
+    int64_t amount = ParseAmount(request.params[3], isPropertyDivisible(propertyId));
+    std::string memo = (request.params.size() > 4) ? ParseText(request.params[4]): "";
+
+    // perform checks
+    // RequireExistingProperty(propertyId);
+    // RequireManagedProperty(propertyId);
+    // RequireTokenIssuer(fromAddress, propertyId);
+
+    // create a payload for the transaction
+    std::vector<unsigned char> payload = CreatePayload_Grant(propertyId, amount, memo);
+
+    // request the wallet build the transaction (and if needed commit it)
+    uint256 txid;
+    std::string rawHex;
+    int result = WalletTxBuilder(fromAddress, toAddress, "", 0, payload, txid, rawHex, autoCommit);
+
+    // check error and return the txid (or raw hex depending on autocommit)
+    if (result != 0) {
+        throw JSONRPCError(result, error_str(result));
+    } else {
+        if (!autoCommit) {
+            return rawHex;
+        } else {
+            return txid.GetHex();
+        }
+    }
+}
 //
 // UniValue omni_sendrevoke(const UniValue& params, bool fHelp)
 // {
@@ -1459,7 +1459,7 @@ static const CRPCCommand commands[] =
     // { "omni layer (transaction creation)", "omni_sendcanceltradesbypair",  &omni_sendcanceltradesbypair,  false },
     // { "omni layer (transaction creation)", "omni_sendcancelalltrades",     &omni_sendcancelalltrades,     false },
     // { "omni layer (transaction creation)", "omni_sendsto",                 &omni_sendsto,                 false },
-    // { "omni layer (transaction creation)", "omni_sendgrant",               &omni_sendgrant,               false },
+    { "omni layer (transaction creation)", "omni_sendgrant",               &omni_sendgrant,               false },
     // { "omni layer (transaction creation)", "omni_sendrevoke",              &omni_sendrevoke,              false },
     // { "omni layer (transaction creation)", "omni_sendclosecrowdsale",      &omni_sendclosecrowdsale,      false },
     // { "omni layer (transaction creation)", "omni_sendchangeissuer",        &omni_sendchangeissuer,        false },
