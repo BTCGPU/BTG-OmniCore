@@ -703,6 +703,20 @@ bool TryCreateDirectories(const fs::path& p)
     return false;
 }
 
+bool TryCreateDirectory(const boost::filesystem::path& p)
+{
+    try
+    {
+        return boost::filesystem::create_directory(p);
+    } catch (const boost::filesystem::filesystem_error&) {
+        if (!boost::filesystem::exists(p) || !boost::filesystem::is_directory(p))
+            throw;
+    }
+
+    // create_directory didn't create the directory, it had to have existed already
+    return false;
+}
+
 void FileCommit(FILE *file)
 {
     fflush(file); // harmless if redundantly called

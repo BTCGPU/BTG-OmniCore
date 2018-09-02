@@ -158,6 +158,7 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "omni_sendissuancemanaged", 1, "" },
     { "omni_sendissuancemanaged", 2, "" },
     { "omni_sendissuancemanaged", 3, "" },
+    { "omni_sendgrant", 2, "" },
 
       /* Omni Core - retrieve data calls */
     { "omni_getbalance", 1, "" },

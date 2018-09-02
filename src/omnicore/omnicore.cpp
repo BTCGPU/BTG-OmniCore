@@ -700,9 +700,9 @@ int mastercore::GetEncodingClass(const CTransaction& tx, int nBlock)
     }
 
     // Examine everything when not on mainnet
-    // if (isNonMainNet()) {
-    //     examineClosely = true;
-    // }
+    if (isNonMainNet()) {
+        examineClosely = true;
+    }
 
     if (!examineClosely) return NO_MARKER;
 
@@ -1332,50 +1332,50 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
 //     return 0;
 // }
 //
-// int input_msc_balances_string(const std::string& s)
-// {
-//     // "address=propertybalancedata"
-//     std::vector<std::string> addrData;
-//     boost::split(addrData, s, boost::is_any_of("="), boost::token_compress_on);
-//     if (addrData.size() != 2) return -1;
-//
-//     std::string strAddress = addrData[0];
-//
-//     // split the tuples of properties
-//     std::vector<std::string> vProperties;
-//     boost::split(vProperties, addrData[1], boost::is_any_of(";"), boost::token_compress_on);
-//
-//     std::vector<std::string>::const_iterator iter;
-//     for (iter = vProperties.begin(); iter != vProperties.end(); ++iter) {
-//         if ((*iter).empty()) {
-//             continue;
-//         }
-//
-//         // "propertyid:balancedata"
-//         std::vector<std::string> curProperty;
-//         boost::split(curProperty, *iter, boost::is_any_of(":"), boost::token_compress_on);
-//         if (curProperty.size() != 2) return -1;
-//
-//         // "balance,sellreserved,acceptreserved,metadexreserved"
-//         std::vector<std::string> curBalance;
-//         boost::split(curBalance, curProperty[1], boost::is_any_of(","), boost::token_compress_on);
-//         if (curBalance.size() != 4) return -1;
-//
-//         uint32_t propertyId = boost::lexical_cast<uint32_t>(curProperty[0]);
-//
-//         int64_t balance = boost::lexical_cast<int64_t>(curBalance[0]);
-//         int64_t sellReserved = boost::lexical_cast<int64_t>(curBalance[1]);
-//         int64_t acceptReserved = boost::lexical_cast<int64_t>(curBalance[2]);
-//         int64_t metadexReserved = boost::lexical_cast<int64_t>(curBalance[3]);
-//
-//         if (balance) update_tally_map(strAddress, propertyId, balance, BALANCE);
-//         if (sellReserved) update_tally_map(strAddress, propertyId, sellReserved, SELLOFFER_RESERVE);
-//         if (acceptReserved) update_tally_map(strAddress, propertyId, acceptReserved, ACCEPT_RESERVE);
-//         if (metadexReserved) update_tally_map(strAddress, propertyId, metadexReserved, METADEX_RESERVE);
-//     }
-//
-//     return 0;
-// }
+int input_msc_balances_string(const std::string& s)
+{
+    // "address=propertybalancedata"
+    std::vector<std::string> addrData;
+    boost::split(addrData, s, boost::is_any_of("="), boost::token_compress_on);
+    if (addrData.size() != 2) return -1;
+
+    std::string strAddress = addrData[0];
+
+    // split the tuples of properties
+    std::vector<std::string> vProperties;
+    boost::split(vProperties, addrData[1], boost::is_any_of(";"), boost::token_compress_on);
+
+    std::vector<std::string>::const_iterator iter;
+    for (iter = vProperties.begin(); iter != vProperties.end(); ++iter) {
+        if ((*iter).empty()) {
+            continue;
+        }
+
+        // "propertyid:balancedata"
+        std::vector<std::string> curProperty;
+        boost::split(curProperty, *iter, boost::is_any_of(":"), boost::token_compress_on);
+        if (curProperty.size() != 2) return -1;
+
+        // "balance,sellreserved,acceptreserved,metadexreserved"
+        std::vector<std::string> curBalance;
+        boost::split(curBalance, curProperty[1], boost::is_any_of(","), boost::token_compress_on);
+        if (curBalance.size() != 4) return -1;
+
+        uint32_t propertyId = boost::lexical_cast<uint32_t>(curProperty[0]);
+
+        int64_t balance = boost::lexical_cast<int64_t>(curBalance[0]);
+        int64_t sellReserved = boost::lexical_cast<int64_t>(curBalance[1]);
+        int64_t acceptReserved = boost::lexical_cast<int64_t>(curBalance[2]);
+        int64_t metadexReserved = boost::lexical_cast<int64_t>(curBalance[3]);
+
+        if (balance) update_tally_map(strAddress, propertyId, balance, BALANCE);
+        if (sellReserved) update_tally_map(strAddress, propertyId, sellReserved, SELLOFFER_RESERVE);
+        if (acceptReserved) update_tally_map(strAddress, propertyId, acceptReserved, ACCEPT_RESERVE);
+        if (metadexReserved) update_tally_map(strAddress, propertyId, metadexReserved, METADEX_RESERVE);
+    }
+
+    return 0;
+}
 //
 // // seller-address, offer_block, amount, property, desired BTC , property_desired, fee, blocktimelimit
 // // 13z1JFtDMGTYQvtMq5gs4LmCztK3rmEZga,299076,76375000,1,6415500,0,10000,6
@@ -1446,23 +1446,23 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
 // }
 //
 // // exodus_prev
-// int input_globals_state_string(const string &s)
-// {
-//   uint64_t exodusPrev;
-//   unsigned int nextSPID, nextTestSPID;
-//   std::vector<std::string> vstr;
-//   boost::split(vstr, s, boost::is_any_of(" ,="), token_compress_on);
-//   if (3 != vstr.size()) return -1;
-//
-//   int i = 0;
-//   exodusPrev = boost::lexical_cast<uint64_t>(vstr[i++]);
-//   nextSPID = boost::lexical_cast<unsigned int>(vstr[i++]);
-//   nextTestSPID = boost::lexical_cast<unsigned int>(vstr[i++]);
-//
-//   exodus_prev = exodusPrev;
-//   _my_sps->init(nextSPID, nextTestSPID);
-//   return 0;
-// }
+int input_globals_state_string(const string &s)
+{
+  uint64_t exodusPrev;
+  unsigned int nextSPID, nextTestSPID;
+  std::vector<std::string> vstr;
+  boost::split(vstr, s, boost::is_any_of(" ,="), token_compress_on);
+  if (3 != vstr.size()) return -1;
+
+  int i = 0;
+  exodusPrev = boost::lexical_cast<uint64_t>(vstr[i++]);
+  nextSPID = boost::lexical_cast<unsigned int>(vstr[i++]);
+  nextTestSPID = boost::lexical_cast<unsigned int>(vstr[i++]);
+
+  exodus_prev = exodusPrev;
+  _my_sps->init(nextSPID, nextTestSPID);
+  return 0;
+}
 //
 // // addr,propertyId,nValue,property_desired,deadline,early_bird,percentage,txid
 // int input_mp_crowdsale_string(const std::string& s)
@@ -1540,282 +1540,282 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
 //     return 0;
 // }
 //
-// static int msc_file_load(const string &filename, int what, bool verifyHash = false)
-// {
-//   int lines = 0;
-//   int (*inputLineFunc)(const string &) = NULL;
-//
-//   SHA256_CTX shaCtx;
-//   SHA256_Init(&shaCtx);
-//
-//   switch (what)
-//   {
-//     case FILETYPE_BALANCES:
-//       mp_tally_map.clear();
-//       inputLineFunc = input_msc_balances_string;
-//       break;
-//
-//     case FILETYPE_OFFERS:
-//       my_offers.clear();
-//       inputLineFunc = input_mp_offers_string;
-//       break;
-//
-//     case FILETYPE_ACCEPTS:
-//       my_accepts.clear();
-//       inputLineFunc = input_mp_accepts_string;
-//       break;
-//
-//     case FILETYPE_GLOBALS:
-//       inputLineFunc = input_globals_state_string;
-//       break;
-//
-//     case FILETYPE_CROWDSALES:
-//       my_crowds.clear();
-//       inputLineFunc = input_mp_crowdsale_string;
-//       break;
-//
-//     case FILETYPE_MDEXORDERS:
-//       // FIXME
-//       // memory leak ... gotta unallocate inner layers first....
-//       // TODO
-//       // ...
-//       metadex.clear();
-//       inputLineFunc = input_mp_mdexorder_string;
-//       break;
-//
-//     default:
-//       return -1;
-//   }
-//
-//   if (msc_debug_persistence)
-//   {
-//     LogPrintf("Loading %s ... \n", filename);
-//     PrintToLog("%s(%s), line %d, file: %s\n", __FUNCTION__, filename, __LINE__, __FILE__);
-//   }
-//
-//   std::ifstream file;
-//   file.open(filename.c_str());
-//   if (!file.is_open())
-//   {
-//     if (msc_debug_persistence) LogPrintf("%s(%s): file not found, line %d, file: %s\n", __FUNCTION__, filename, __LINE__, __FILE__);
-//     return -1;
-//   }
-//
-//   int res = 0;
-//
-//   std::string fileHash;
-//   while (file.good())
-//   {
-//     std::string line;
-//     std::getline(file, line);
-//     if (line.empty() || line[0] == '#') continue;
-//
-//     // remove \r if the file came from Windows
-//     line.erase( std::remove( line.begin(), line.end(), '\r' ), line.end() ) ;
-//
-//     // record and skip hashes in the file
-//     if (line[0] == '!') {
-//       fileHash = line.substr(1);
-//       continue;
-//     }
-//
-//     // update hash?
-//     if (verifyHash) {
-//       SHA256_Update(&shaCtx, line.c_str(), line.length());
-//     }
-//
-//     if (inputLineFunc) {
-//       if (inputLineFunc(line) < 0) {
-//         res = -1;
-//         break;
-//       }
-//     }
-//
-//     ++lines;
-//   }
-//
-//   file.close();
-//
-//   if (verifyHash && res == 0) {
-//     // generate and wite the double hash of all the contents written
-//     uint256 hash1;
-//     SHA256_Final((unsigned char*)&hash1, &shaCtx);
-//     uint256 hash2;
-//     SHA256((unsigned char*)&hash1, sizeof(hash1), (unsigned char*)&hash2);
-//
-//     if (false == boost::iequals(hash2.ToString(), fileHash)) {
-//       PrintToLog("File %s loaded, but failed hash validation!\n", filename);
-//       res = -1;
-//     }
-//   }
-//
-//   PrintToLog("%s(%s), loaded lines= %d, res= %d\n", __FUNCTION__, filename, lines, res);
-//   LogPrintf("%s(): file: %s , loaded lines= %d, res= %d\n", __FUNCTION__, filename, lines, res);
-//
-//   return res;
-// }
-//
-// static char const * const statePrefix[NUM_FILETYPES] = {
-//     "balances",
-//     "offers",
-//     "accepts",
-//     "globals",
-//     "crowdsales",
-//     "mdexorders",
-// };
+static int msc_file_load(const string &filename, int what, bool verifyHash = false)
+{
+  int lines = 0;
+  int (*inputLineFunc)(const string &) = NULL;
+
+  SHA256_CTX shaCtx;
+  SHA256_Init(&shaCtx);
+
+  switch (what)
+  {
+    case FILETYPE_BALANCES:
+      mp_tally_map.clear();
+      inputLineFunc = input_msc_balances_string;
+      break;
+
+    // case FILETYPE_OFFERS:
+    //   my_offers.clear();
+    //   inputLineFunc = input_mp_offers_string;
+    //   break;
+    //
+    // case FILETYPE_ACCEPTS:
+    //   my_accepts.clear();
+    //   inputLineFunc = input_mp_accepts_string;
+    //   break;
+    //
+    case FILETYPE_GLOBALS:
+      inputLineFunc = input_globals_state_string;
+      break;
+    //
+    // case FILETYPE_CROWDSALES:
+    //   my_crowds.clear();
+    //   inputLineFunc = input_mp_crowdsale_string;
+    //   break;
+    //
+    // case FILETYPE_MDEXORDERS:
+    //   // FIXME
+    //   // memory leak ... gotta unallocate inner layers first....
+    //   // TODO
+    //   // ...
+    //   metadex.clear();
+    //   inputLineFunc = input_mp_mdexorder_string;
+    //   break;
+
+    default:
+      return -1;
+  }
+
+  if (msc_debug_persistence)
+  {
+    LogPrintf("Loading %s ... \n", filename);
+    PrintToLog("%s(%s), line %d, file: %s\n", __FUNCTION__, filename, __LINE__, __FILE__);
+  }
+
+  std::ifstream file;
+  file.open(filename.c_str());
+  if (!file.is_open())
+  {
+    if (msc_debug_persistence) LogPrintf("%s(%s): file not found, line %d, file: %s\n", __FUNCTION__, filename, __LINE__, __FILE__);
+    return -1;
+  }
+
+  int res = 0;
+
+  std::string fileHash;
+  while (file.good())
+  {
+    std::string line;
+    std::getline(file, line);
+    if (line.empty() || line[0] == '#') continue;
+
+    // remove \r if the file came from Windows
+    line.erase( std::remove( line.begin(), line.end(), '\r' ), line.end() ) ;
+
+    // record and skip hashes in the file
+    if (line[0] == '!') {
+      fileHash = line.substr(1);
+      continue;
+    }
+
+    // update hash?
+    if (verifyHash) {
+      SHA256_Update(&shaCtx, line.c_str(), line.length());
+    }
+
+    if (inputLineFunc) {
+      if (inputLineFunc(line) < 0) {
+        res = -1;
+        break;
+      }
+    }
+
+    ++lines;
+  }
+
+  file.close();
+
+  if (verifyHash && res == 0) {
+    // generate and wite the double hash of all the contents written
+    uint256 hash1;
+    SHA256_Final((unsigned char*)&hash1, &shaCtx);
+    uint256 hash2;
+    SHA256((unsigned char*)&hash1, sizeof(hash1), (unsigned char*)&hash2);
+
+    if (false == boost::iequals(hash2.ToString(), fileHash)) {
+      PrintToLog("File %s loaded, but failed hash validation!\n", filename);
+      res = -1;
+    }
+  }
+
+  PrintToLog("%s(%s), loaded lines= %d, res= %d\n", __FUNCTION__, filename, lines, res);
+  LogPrintf("%s(): file: %s , loaded lines= %d, res= %d\n", __FUNCTION__, filename, lines, res);
+
+  return res;
+}
+
+static char const * const statePrefix[NUM_FILETYPES] = {
+    "balances",
+    // "offers",
+    // "accepts",
+    "globals",
+    // "crowdsales",
+    // "mdexorders",
+};
 //
 // // returns the height of the state loaded
-// static int load_most_relevant_state()
-// {
-//   int res = -1;
-//   // check the SP database and roll it back to its latest valid state
-//   // according to the active chain
-//   uint256 spWatermark;
-//   if (!_my_sps->getWatermark(spWatermark)) {
-//     //trigger a full reparse, if the SP database has no watermark
-//     return -1;
-//   }
-//
-//   CBlockIndex const *spBlockIndex = GetBlockIndex(spWatermark);
-//   if (NULL == spBlockIndex) {
-//     //trigger a full reparse, if the watermark isn't a real block
-//     return -1;
-//   }
-//
-//   while (NULL != spBlockIndex && false == chainActive.Contains(spBlockIndex)) {
-//     int remainingSPs = _my_sps->popBlock(spBlockIndex->GetBlockHash());
-//     if (remainingSPs < 0) {
-//       // trigger a full reparse, if the levelDB cannot roll back
-//       return -1;
-//     } /*else if (remainingSPs == 0) {
-//       // potential optimization here?
-//     }*/
-//     spBlockIndex = spBlockIndex->pprev;
-//     if (spBlockIndex != NULL) {
-//         _my_sps->setWatermark(spBlockIndex->GetBlockHash());
-//     }
-//   }
-//
-//   // prepare a set of available files by block hash pruning any that are
-//   // not in the active chain
-//   std::set<uint256> persistedBlocks;
-//   boost::filesystem::directory_iterator dIter(MPPersistencePath);
-//   boost::filesystem::directory_iterator endIter;
-//   for (; dIter != endIter; ++dIter) {
-//     if (false == boost::filesystem::is_regular_file(dIter->status()) || dIter->path().empty()) {
-//       // skip funny business
-//       continue;
-//     }
-//
-//     std::string fName = (*--dIter->path().end()).string();
-//     std::vector<std::string> vstr;
-//     boost::split(vstr, fName, boost::is_any_of("-."), token_compress_on);
-//     if (  vstr.size() == 3 &&
-//           boost::equals(vstr[2], "dat")) {
-//       uint256 blockHash;
-//       blockHash.SetHex(vstr[1]);
-//       CBlockIndex *pBlockIndex = GetBlockIndex(blockHash);
-//       if (pBlockIndex == NULL || false == chainActive.Contains(pBlockIndex)) {
-//         continue;
-//       }
-//
-//       // this is a valid block in the active chain, store it
-//       persistedBlocks.insert(blockHash);
-//     }
-//   }
-//
-//   // using the SP's watermark after its fixed-up as the tip
-//   // walk backwards until we find a valid and full set of persisted state files
-//   // for each block we discard, roll back the SP database
-//   // Note: to avoid rolling back all the way to the genesis block (which appears as if client is hung) abort after MAX_STATE_HISTORY attempts
-//   CBlockIndex const *curTip = spBlockIndex;
-//   int abortRollBackBlock;
-//   if (curTip != NULL) abortRollBackBlock = curTip->nHeight - (MAX_STATE_HISTORY+1);
-//   while (NULL != curTip && persistedBlocks.size() > 0 && curTip->nHeight > abortRollBackBlock) {
-//     if (persistedBlocks.find(spBlockIndex->GetBlockHash()) != persistedBlocks.end()) {
-//       int success = -1;
-//       for (int i = 0; i < NUM_FILETYPES; ++i) {
-//         boost::filesystem::path path = MPPersistencePath / strprintf("%s-%s.dat", statePrefix[i], curTip->GetBlockHash().ToString());
-//         const std::string strFile = path.string();
-//         success = msc_file_load(strFile, i, true);
-//         if (success < 0) {
-//           break;
-//         }
-//       }
-//
-//       if (success >= 0) {
-//         res = curTip->nHeight;
-//         break;
-//       }
-//
-//       // remove this from the persistedBlock Set
-//       persistedBlocks.erase(spBlockIndex->GetBlockHash());
-//     }
-//
-//     // go to the previous block
-//     if (0 > _my_sps->popBlock(curTip->GetBlockHash())) {
-//       // trigger a full reparse, if the levelDB cannot roll back
-//       return -1;
-//     }
-//     curTip = curTip->pprev;
-//     if (curTip != NULL) {
-//         _my_sps->setWatermark(curTip->GetBlockHash());
-//     }
-//   }
-//
-//   if (persistedBlocks.size() == 0) {
-//     // trigger a reparse if we exhausted the persistence files without success
-//     return -1;
-//   }
-//
-//   // return the height of the block we settled at
-//   return res;
-// }
-//
-// static int write_msc_balances(std::ofstream& file, SHA256_CTX* shaCtx)
-// {
-//     std::unordered_map<std::string, CMPTally>::iterator iter;
-//     for (iter = mp_tally_map.begin(); iter != mp_tally_map.end(); ++iter) {
-//         bool emptyWallet = true;
-//
-//         std::string lineOut = (*iter).first;
-//         lineOut.append("=");
-//         CMPTally& curAddr = (*iter).second;
-//         curAddr.init();
-//         uint32_t propertyId = 0;
-//         while (0 != (propertyId = curAddr.next())) {
-//             int64_t balance = (*iter).second.getMoney(propertyId, BALANCE);
-//             int64_t sellReserved = (*iter).second.getMoney(propertyId, SELLOFFER_RESERVE);
-//             int64_t acceptReserved = (*iter).second.getMoney(propertyId, ACCEPT_RESERVE);
-//             int64_t metadexReserved = (*iter).second.getMoney(propertyId, METADEX_RESERVE);
-//
-//             // we don't allow 0 balances to read in, so if we don't write them
-//             // it makes things match up better between persisted state and processed state
-//             if (0 == balance && 0 == sellReserved && 0 == acceptReserved && 0 == metadexReserved) {
-//                 continue;
-//             }
-//
-//             emptyWallet = false;
-//
-//             lineOut.append(strprintf("%d:%d,%d,%d,%d;",
-//                     propertyId,
-//                     balance,
-//                     sellReserved,
-//                     acceptReserved,
-//                     metadexReserved));
-//         }
-//
-//         if (false == emptyWallet) {
-//             // add the line to the hash
-//             SHA256_Update(shaCtx, lineOut.c_str(), lineOut.length());
-//
-//             // write the line
-//             file << lineOut << endl;
-//         }
-//     }
-//
-//     return 0;
-// }
+static int load_most_relevant_state()
+{
+  int res = -1;
+  // check the SP database and roll it back to its latest valid state
+  // according to the active chain
+  uint256 spWatermark;
+  if (!_my_sps->getWatermark(spWatermark)) {
+    //trigger a full reparse, if the SP database has no watermark
+    return -1;
+  }
+
+  CBlockIndex const *spBlockIndex = GetBlockIndex(spWatermark);
+  if (NULL == spBlockIndex) {
+    //trigger a full reparse, if the watermark isn't a real block
+    return -1;
+  }
+
+  while (NULL != spBlockIndex && false == chainActive.Contains(spBlockIndex)) {
+    int remainingSPs = _my_sps->popBlock(spBlockIndex->GetBlockHash());
+    if (remainingSPs < 0) {
+      // trigger a full reparse, if the levelDB cannot roll back
+      return -1;
+    } /*else if (remainingSPs == 0) {
+      // potential optimization here?
+    }*/
+    spBlockIndex = spBlockIndex->pprev;
+    if (spBlockIndex != NULL) {
+        _my_sps->setWatermark(spBlockIndex->GetBlockHash());
+    }
+  }
+
+  // prepare a set of available files by block hash pruning any that are
+  // not in the active chain
+  std::set<uint256> persistedBlocks;
+  boost::filesystem::directory_iterator dIter(MPPersistencePath);
+  boost::filesystem::directory_iterator endIter;
+  for (; dIter != endIter; ++dIter) {
+    if (false == boost::filesystem::is_regular_file(dIter->status()) || dIter->path().empty()) {
+      // skip funny business
+      continue;
+    }
+
+    std::string fName = (*--dIter->path().end()).string();
+    std::vector<std::string> vstr;
+    boost::split(vstr, fName, boost::is_any_of("-."), token_compress_on);
+    if (  vstr.size() == 3 &&
+          boost::equals(vstr[2], "dat")) {
+      uint256 blockHash;
+      blockHash.SetHex(vstr[1]);
+      CBlockIndex *pBlockIndex = GetBlockIndex(blockHash);
+      if (pBlockIndex == NULL || false == chainActive.Contains(pBlockIndex)) {
+        continue;
+      }
+
+      // this is a valid block in the active chain, store it
+      persistedBlocks.insert(blockHash);
+    }
+  }
+
+  // using the SP's watermark after its fixed-up as the tip
+  // walk backwards until we find a valid and full set of persisted state files
+  // for each block we discard, roll back the SP database
+  // Note: to avoid rolling back all the way to the genesis block (which appears as if client is hung) abort after MAX_STATE_HISTORY attempts
+  CBlockIndex const *curTip = spBlockIndex;
+  int abortRollBackBlock;
+  if (curTip != NULL) abortRollBackBlock = curTip->nHeight - (MAX_STATE_HISTORY+1);
+  while (NULL != curTip && persistedBlocks.size() > 0 && curTip->nHeight > abortRollBackBlock) {
+    if (persistedBlocks.find(spBlockIndex->GetBlockHash()) != persistedBlocks.end()) {
+      int success = -1;
+      for (int i = 0; i < NUM_FILETYPES; ++i) {
+        boost::filesystem::path path = MPPersistencePath / strprintf("%s-%s.dat", statePrefix[i], curTip->GetBlockHash().ToString());
+        const std::string strFile = path.string();
+        success = msc_file_load(strFile, i, true);
+        if (success < 0) {
+          break;
+        }
+      }
+
+      if (success >= 0) {
+        res = curTip->nHeight;
+        break;
+      }
+
+      // remove this from the persistedBlock Set
+      persistedBlocks.erase(spBlockIndex->GetBlockHash());
+    }
+
+    // go to the previous block
+    if (0 > _my_sps->popBlock(curTip->GetBlockHash())) {
+      // trigger a full reparse, if the levelDB cannot roll back
+      return -1;
+    }
+    curTip = curTip->pprev;
+    if (curTip != NULL) {
+        _my_sps->setWatermark(curTip->GetBlockHash());
+    }
+  }
+
+  if (persistedBlocks.size() == 0) {
+    // trigger a reparse if we exhausted the persistence files without success
+    return -1;
+  }
+
+  // return the height of the block we settled at
+  return res;
+}
+
+static int write_msc_balances(std::ofstream& file, SHA256_CTX* shaCtx)
+{
+    std::unordered_map<std::string, CMPTally>::iterator iter;
+    for (iter = mp_tally_map.begin(); iter != mp_tally_map.end(); ++iter) {
+        bool emptyWallet = true;
+
+        std::string lineOut = (*iter).first;
+        lineOut.append("=");
+        CMPTally& curAddr = (*iter).second;
+        curAddr.init();
+        uint32_t propertyId = 0;
+        while (0 != (propertyId = curAddr.next())) {
+            int64_t balance = (*iter).second.getMoney(propertyId, BALANCE);
+            int64_t sellReserved = (*iter).second.getMoney(propertyId, SELLOFFER_RESERVE);
+            int64_t acceptReserved = (*iter).second.getMoney(propertyId, ACCEPT_RESERVE);
+            int64_t metadexReserved = (*iter).second.getMoney(propertyId, METADEX_RESERVE);
+
+            // we don't allow 0 balances to read in, so if we don't write them
+            // it makes things match up better between persisted state and processed state
+            if (0 == balance && 0 == sellReserved && 0 == acceptReserved && 0 == metadexReserved) {
+                continue;
+            }
+
+            emptyWallet = false;
+
+            lineOut.append(strprintf("%d:%d,%d,%d,%d;",
+                    propertyId,
+                    balance,
+                    sellReserved,
+                    acceptReserved,
+                    metadexReserved));
+        }
+
+        if (false == emptyWallet) {
+            // add the line to the hash
+            SHA256_Update(shaCtx, lineOut.c_str(), lineOut.length());
+
+            // write the line
+            file << lineOut << endl;
+        }
+    }
+
+    return 0;
+}
 //
 // static int write_mp_offers(ofstream &file, SHA256_CTX *shaCtx)
 // {
@@ -1865,24 +1865,24 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
 //   return 0;
 // }
 //
-// static int write_globals_state(ofstream &file, SHA256_CTX *shaCtx)
-// {
-//   unsigned int nextSPID = _my_sps->peekNextSPID(OMNI_PROPERTY_MSC);
-//   unsigned int nextTestSPID = _my_sps->peekNextSPID(OMNI_PROPERTY_TMSC);
-//   std::string lineOut = strprintf("%d,%d,%d",
-//     exodus_prev,
-//     nextSPID,
-//     nextTestSPID);
-//
-//   // add the line to the hash
-//   SHA256_Update(shaCtx, lineOut.c_str(), lineOut.length());
-//
-//   // write the line
-//   file << lineOut << endl;
-//
-//   return 0;
-// }
-//
+static int write_globals_state(ofstream &file, SHA256_CTX *shaCtx)
+{
+  unsigned int nextSPID = _my_sps->peekNextSPID(OMNI_PROPERTY_MSC);
+  unsigned int nextTestSPID = _my_sps->peekNextSPID(OMNI_PROPERTY_TMSC);
+  std::string lineOut = strprintf("%d,%d,%d",
+    exodus_prev,
+    nextSPID,
+    nextTestSPID);
+
+  // add the line to the hash
+  SHA256_Update(shaCtx, lineOut.c_str(), lineOut.length());
+
+  // write the line
+  file << lineOut << endl;
+
+  return 0;
+}
+
 // static int write_mp_crowdsales(std::ofstream& file, SHA256_CTX* shaCtx)
 // {
 //     for (CrowdMap::const_iterator it = my_crowds.begin(); it != my_crowds.end(); ++it) {
@@ -1893,141 +1893,141 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
 //
 //     return 0;
 // }
+
+static int write_state_file( CBlockIndex const *pBlockIndex, int what )
+{
+  boost::filesystem::path path = MPPersistencePath / strprintf("%s-%s.dat", statePrefix[what], pBlockIndex->GetBlockHash().ToString());
+  const std::string strFile = path.string();
+
+  std::ofstream file;
+  file.open(strFile.c_str());
+
+  SHA256_CTX shaCtx;
+  SHA256_Init(&shaCtx);
+
+  int result = 0;
+
+  switch(what) {
+  case FILETYPE_BALANCES:
+    result = write_msc_balances(file, &shaCtx);
+    break;
+
+  // case FILETYPE_OFFERS:
+  //   result = write_mp_offers(file, &shaCtx);
+  //   break;
+  //
+  // case FILETYPE_ACCEPTS:
+  //   result = write_mp_accepts(file, &shaCtx);
+  //   break;
+
+  case FILETYPE_GLOBALS:
+    result = write_globals_state(file, &shaCtx);
+    break;
+
+  // case FILETYPE_CROWDSALES:
+  //     result = write_mp_crowdsales(file, &shaCtx);
+  //     break;
+  //
+  // case FILETYPE_MDEXORDERS:
+  //     result = write_mp_metadex(file, &shaCtx);
+  //     break;
+  }
+
+  // generate and wite the double hash of all the contents written
+  uint256 hash1;
+  SHA256_Final((unsigned char*)&hash1, &shaCtx);
+  uint256 hash2;
+  SHA256((unsigned char*)&hash1, sizeof(hash1), (unsigned char*)&hash2);
+  file << "!" << hash2.ToString() << endl;
+
+  file.flush();
+  file.close();
+  return result;
+}
+
+static bool is_state_prefix( std::string const &str )
+{
+  for (int i = 0; i < NUM_FILETYPES; ++i) {
+    if (boost::equals(str,  statePrefix[i])) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+static void prune_state_files( CBlockIndex const *topIndex )
+{
+  // build a set of blockHashes for which we have any state files
+  std::set<uint256> statefulBlockHashes;
+
+  boost::filesystem::directory_iterator dIter(MPPersistencePath);
+  boost::filesystem::directory_iterator endIter;
+  for (; dIter != endIter; ++dIter) {
+    std::string fName = dIter->path().empty() ? "<invalid>" : (*--dIter->path().end()).string();
+    if (false == boost::filesystem::is_regular_file(dIter->status())) {
+      // skip funny business
+      PrintToLog("Non-regular file found in persistence directory : %s\n", fName);
+      continue;
+    }
+
+    std::vector<std::string> vstr;
+    boost::split(vstr, fName, boost::is_any_of("-."), token_compress_on);
+    if (  vstr.size() == 3 &&
+          is_state_prefix(vstr[0]) &&
+          boost::equals(vstr[2], "dat")) {
+      uint256 blockHash;
+      blockHash.SetHex(vstr[1]);
+      statefulBlockHashes.insert(blockHash);
+    } else {
+      PrintToLog("None state file found in persistence directory : %s\n", fName);
+    }
+  }
+
+  // for each blockHash in the set, determine the distance from the given block
+  std::set<uint256>::const_iterator iter;
+  for (iter = statefulBlockHashes.begin(); iter != statefulBlockHashes.end(); ++iter) {
+    // look up the CBlockIndex for height info
+    CBlockIndex const *curIndex = GetBlockIndex(*iter);
+
+    // if we have nothing int the index, or this block is too old..
+    if (NULL == curIndex || (topIndex->nHeight - curIndex->nHeight) > MAX_STATE_HISTORY ) {
+     if (msc_debug_persistence)
+     {
+      if (curIndex) {
+        PrintToLog("State from Block:%s is no longer need, removing files (age-from-tip: %d)\n", (*iter).ToString(), topIndex->nHeight - curIndex->nHeight);
+      } else {
+        PrintToLog("State from Block:%s is no longer need, removing files (not in index)\n", (*iter).ToString());
+      }
+     }
+
+      // destroy the associated files!
+      std::string strBlockHash = iter->ToString();
+      for (int i = 0; i < NUM_FILETYPES; ++i) {
+        boost::filesystem::path path = MPPersistencePath / strprintf("%s-%s.dat", statePrefix[i], strBlockHash);
+        boost::filesystem::remove(path);
+      }
+    }
+  }
+}
 //
-// static int write_state_file( CBlockIndex const *pBlockIndex, int what )
-// {
-//   boost::filesystem::path path = MPPersistencePath / strprintf("%s-%s.dat", statePrefix[what], pBlockIndex->GetBlockHash().ToString());
-//   const std::string strFile = path.string();
-//
-//   std::ofstream file;
-//   file.open(strFile.c_str());
-//
-//   SHA256_CTX shaCtx;
-//   SHA256_Init(&shaCtx);
-//
-//   int result = 0;
-//
-//   switch(what) {
-//   case FILETYPE_BALANCES:
-//     result = write_msc_balances(file, &shaCtx);
-//     break;
-//
-//   case FILETYPE_OFFERS:
-//     result = write_mp_offers(file, &shaCtx);
-//     break;
-//
-//   case FILETYPE_ACCEPTS:
-//     result = write_mp_accepts(file, &shaCtx);
-//     break;
-//
-//   case FILETYPE_GLOBALS:
-//     result = write_globals_state(file, &shaCtx);
-//     break;
-//
-//   case FILETYPE_CROWDSALES:
-//       result = write_mp_crowdsales(file, &shaCtx);
-//       break;
-//
-//   case FILETYPE_MDEXORDERS:
-//       result = write_mp_metadex(file, &shaCtx);
-//       break;
-//   }
-//
-//   // generate and wite the double hash of all the contents written
-//   uint256 hash1;
-//   SHA256_Final((unsigned char*)&hash1, &shaCtx);
-//   uint256 hash2;
-//   SHA256((unsigned char*)&hash1, sizeof(hash1), (unsigned char*)&hash2);
-//   file << "!" << hash2.ToString() << endl;
-//
-//   file.flush();
-//   file.close();
-//   return result;
-// }
-//
-// static bool is_state_prefix( std::string const &str )
-// {
-//   for (int i = 0; i < NUM_FILETYPES; ++i) {
-//     if (boost::equals(str,  statePrefix[i])) {
-//       return true;
-//     }
-//   }
-//
-//   return false;
-// }
-//
-// static void prune_state_files( CBlockIndex const *topIndex )
-// {
-//   // build a set of blockHashes for which we have any state files
-//   std::set<uint256> statefulBlockHashes;
-//
-//   boost::filesystem::directory_iterator dIter(MPPersistencePath);
-//   boost::filesystem::directory_iterator endIter;
-//   for (; dIter != endIter; ++dIter) {
-//     std::string fName = dIter->path().empty() ? "<invalid>" : (*--dIter->path().end()).string();
-//     if (false == boost::filesystem::is_regular_file(dIter->status())) {
-//       // skip funny business
-//       PrintToLog("Non-regular file found in persistence directory : %s\n", fName);
-//       continue;
-//     }
-//
-//     std::vector<std::string> vstr;
-//     boost::split(vstr, fName, boost::is_any_of("-."), token_compress_on);
-//     if (  vstr.size() == 3 &&
-//           is_state_prefix(vstr[0]) &&
-//           boost::equals(vstr[2], "dat")) {
-//       uint256 blockHash;
-//       blockHash.SetHex(vstr[1]);
-//       statefulBlockHashes.insert(blockHash);
-//     } else {
-//       PrintToLog("None state file found in persistence directory : %s\n", fName);
-//     }
-//   }
-//
-//   // for each blockHash in the set, determine the distance from the given block
-//   std::set<uint256>::const_iterator iter;
-//   for (iter = statefulBlockHashes.begin(); iter != statefulBlockHashes.end(); ++iter) {
-//     // look up the CBlockIndex for height info
-//     CBlockIndex const *curIndex = GetBlockIndex(*iter);
-//
-//     // if we have nothing int the index, or this block is too old..
-//     if (NULL == curIndex || (topIndex->nHeight - curIndex->nHeight) > MAX_STATE_HISTORY ) {
-//      if (msc_debug_persistence)
-//      {
-//       if (curIndex) {
-//         PrintToLog("State from Block:%s is no longer need, removing files (age-from-tip: %d)\n", (*iter).ToString(), topIndex->nHeight - curIndex->nHeight);
-//       } else {
-//         PrintToLog("State from Block:%s is no longer need, removing files (not in index)\n", (*iter).ToString());
-//       }
-//      }
-//
-//       // destroy the associated files!
-//       std::string strBlockHash = iter->ToString();
-//       for (int i = 0; i < NUM_FILETYPES; ++i) {
-//         boost::filesystem::path path = MPPersistencePath / strprintf("%s-%s.dat", statePrefix[i], strBlockHash);
-//         boost::filesystem::remove(path);
-//       }
-//     }
-//   }
-// }
-//
-// int mastercore_save_state( CBlockIndex const *pBlockIndex )
-// {
-//     // write the new state as of the given block
-//     write_state_file(pBlockIndex, FILETYPE_BALANCES);
-//     write_state_file(pBlockIndex, FILETYPE_OFFERS);
-//     write_state_file(pBlockIndex, FILETYPE_ACCEPTS);
-//     write_state_file(pBlockIndex, FILETYPE_GLOBALS);
-//     write_state_file(pBlockIndex, FILETYPE_CROWDSALES);
-//     write_state_file(pBlockIndex, FILETYPE_MDEXORDERS);
-//
-//     // clean-up the directory
-//     prune_state_files(pBlockIndex);
-//
-//     _my_sps->setWatermark(pBlockIndex->GetBlockHash());
-//
-//     return 0;
-// }
+int mastercore_save_state( CBlockIndex const *pBlockIndex )
+{
+    // write the new state as of the given block
+    write_state_file(pBlockIndex, FILETYPE_BALANCES);
+    // write_state_file(pBlockIndex, FILETYPE_OFFERS);
+    // write_state_file(pBlockIndex, FILETYPE_ACCEPTS);
+    write_state_file(pBlockIndex, FILETYPE_GLOBALS);
+    // write_state_file(pBlockIndex, FILETYPE_CROWDSALES);
+    // write_state_file(pBlockIndex, FILETYPE_MDEXORDERS);
+
+    // clean-up the directory
+    prune_state_files(pBlockIndex);
+
+    _my_sps->setWatermark(pBlockIndex->GetBlockHash());
+
+    return 0;
+}
 //
 // /**
 //  * Clears the state of the system.
@@ -2038,15 +2038,15 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
 //
 //     // Memory based storage
 //     mp_tally_map.clear();
-//     my_offers.clear();
-//     my_accepts.clear();
-//     my_crowds.clear();
-//     metadex.clear();
-//     my_pending.clear();
+//     // my_offers.clear();
+//     // my_accepts.clear();
+//     // my_crowds.clear();
+//     // metadex.clear();
+//     // my_pending.clear();
 //     ResetConsensusParams();
-//     ClearActivations();
-//     ClearAlerts();
-//     ClearFreezeState();
+//     // ClearActivations();
+//     // ClearAlerts();
+//     // ClearFreezeState();
 //
 //     // LevelDB based storage
 //     _my_sps->Clear();
@@ -2098,7 +2098,7 @@ int mastercore_init()
     if (gArgs.GetBoolArg("-startclean", false)) {
         PrintToLog("Process was started with --startclean option, attempting to clear persistence files..\n");
         try {
-//             boost::filesystem::path persistPath = GetDataDir() / "MP_persist";
+            // boost::filesystem::path persistPath = GetDataDir() / "MP_persist";
 //             boost::filesystem::path txlistPath = GetDataDir() / "MP_txlist";
 //             boost::filesystem::path tradePath = GetDataDir() / "MP_tradelist";
             boost::filesystem::path spPath = GetDataDir() / "MP_spinfo";
@@ -2106,7 +2106,7 @@ int mastercore_init()
 //             boost::filesystem::path omniTXDBPath = GetDataDir() / "Omni_TXDB";
 //             boost::filesystem::path feesPath = GetDataDir() / "OMNI_feecache";
 //             boost::filesystem::path feeHistoryPath = GetDataDir() / "OMNI_feehistory";
-//             if (boost::filesystem::exists(persistPath)) boost::filesystem::remove_all(persistPath);
+            // if (boost::filesystem::exists(persistPath)) boost::filesystem::remove_all(persistPath);
 //             if (boost::filesystem::exists(txlistPath)) boost::filesystem::remove_all(txlistPath);
 //             if (boost::filesystem::exists(tradePath)) boost::filesystem::remove_all(tradePath);
 //             if (boost::filesystem::exists(spPath)) boost::filesystem::remove_all(spPath);
@@ -2136,10 +2136,10 @@ int mastercore_init()
 
     // bool wrongDBVersion = (p_txlistdb->getDBVersion() != DB_VERSION);
 
-    ++mastercoreInitialized;
+    // ++mastercoreInitialized;
 
-    // nWaterlineBlock = load_most_relevant_state();
-    bool noPreviousState = (nWaterlineBlock <= 0);
+    // nWaterlineBlock = load_most_relevant_state(); TODO: Work on this Function!
+    // bool noPreviousState = (nWaterlineBlock <= 0);
 //
 //     if (startClean) {
 //         assert(p_txlistdb->setDBVersion() == DB_VERSION); // new set of databases, set DB version
@@ -2195,15 +2195,15 @@ int mastercore_init()
 //         }
 //     }
 //
-//     // initial scan
+    // initial scan
     // msc_initial_scan(nWaterlineBlock);
-//
-//     // display Exodus balance
-//     int64_t exodus_balance = getMPbalance(exodus_address, OMNI_PROPERTY_MSC, BALANCE);
-//     PrintToLog("Exodus balance after initialization: %s\n", FormatDivisibleMP(exodus_balance));
-//
-//     PrintToConsole("Exodus balance: %s OMNI\n", FormatDivisibleMP(exodus_balance));
-//     PrintToConsole("Omni Core initialization completed\n");
+
+    // display Exodus balance
+    int64_t exodus_balance = getMPbalance(exodus_address, OMNI_PROPERTY_MSC, BALANCE);
+    PrintToLog("Exodus balance after initialization: %s\n", FormatDivisibleMP(exodus_balance));
+
+    PrintToConsole("Exodus balance: %s OMNI\n", FormatDivisibleMP(exodus_balance));
+    PrintToConsole("Omni Core initialization completed\n");
 //
     return 0;
 }
@@ -2269,9 +2269,9 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
 
        LOCK(cs_tally);
 //
-    if (!mastercoreInitialized) {
-        mastercore_init();
-    }
+    // if (!mastercoreInitialized) {
+    //     mastercore_init();
+    // }
     const string lineOut = strprintf("dentro de mastercore_handler_tx");
     saveToLog(lineOut);
 //
@@ -2294,23 +2294,23 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
     saveToLog(lineOut2);
 //
     // if (pop_ret >= 0) {
-
-        // assert(mp_obj.getEncodingClass() != NO_MARKER);
-        // assert(mp_obj.getSender().empty() == false);
-        // if (true) return MP_CHECKPOINT;
-//         // extra iteration of the outputs for every transaction, not needed on mainnet after Exodus closed
-//         const CConsensusParams& params = ConsensusParams();
-//         if (isNonMainNet() || nBlock <= params.LAST_EXODUS_BLOCK) {
-//             fFoundTx |= HandleExodusPurchase(tx, nBlock, mp_obj.getSender(), nBlockTime);
-           // }
+    //
+    //     assert(mp_obj.getEncodingClass() != NO_MARKER);
+    //     assert(mp_obj.getSender().empty() == false);
+    //     if (true) return MP_CHECKPOINT;
+    //     // extra iteration of the outputs for every transaction, not needed on mainnet after Exodus closed
+    //     const CConsensusParams& params = ConsensusParams();
+    //     // if (isNonMainNet() || nBlock <= params.LAST_EXODUS_BLOCK) {
+    //     //     fFoundTx |= HandleExodusPurchase(tx, nBlock, mp_obj.getSender(), nBlockTime);
+    //     //    }
     // }
-//
-//     if (pop_ret > 0) {
-//         assert(mp_obj.getEncodingClass() == OMNI_CLASS_A);
-//         assert(mp_obj.getPayload().empty() == true);
-//
-//         fFoundTx |= HandleDExPayments(tx, nBlock, mp_obj.getSender());
-//     }
+
+    if (pop_ret > 0) {
+        assert(mp_obj.getEncodingClass() == OMNI_CLASS_A);
+        assert(mp_obj.getPayload().empty() == true);
+
+        // fFoundTx |= HandleDExPayments(tx, nBlock, mp_obj.getSender());
+    }
 
     if (0 == pop_ret) {
         int interp_ret = mp_obj.interpretPacket();
@@ -2319,18 +2319,18 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
         saveToLog(lineOut8);
       //  Only structurally valid transactions get recorded in levelDB
       //  PKT_ERROR - 2 = interpret_Transaction failed, structurally invalid payload
-        // if (interp_ret != PKT_ERROR - 2) {
-        //     bool bValid = (0 <= interp_ret);
-        //     p_txlistdb->recordTX(tx.GetHash(), bValid, nBlock, mp_obj.getType(), mp_obj.getNewAmount());
-        //     p_OmniTXDB->RecordTransaction(tx.GetHash(), idx, interp_ret);
-        // }
-        fFoundTx |= (interp_ret == 0);
+    //     if (interp_ret != PKT_ERROR - 2) {
+    //         bool bValid = (0 <= interp_ret);
+    //         p_txlistdb->recordTX(tx.GetHash(), bValid, nBlock, mp_obj.getType(), mp_obj.getNewAmount());
+    //         p_OmniTXDB->RecordTransaction(tx.GetHash(), idx, interp_ret);
+    //     }
+    //     fFoundTx |= (interp_ret == 0);
     }
 //
-//     if (fFoundTx && msc_debug_consensus_hash_every_transaction) {
-//         uint256 consensusHash = GetConsensusHash();
-//         PrintToLog("Consensus hash for transaction %s: %s\n", tx.GetHash().GetHex(), consensusHash.GetHex());
-//     }
+    // if (fFoundTx && msc_debug_consensus_hash_every_transaction) {
+    //     uint256 consensusHash = GetConsensusHash();
+    //     PrintToLog("Consensus hash for transaction %s: %s\n", tx.GetHash().GetHex(), consensusHash.GetHex());
+    // }
 
     return fFoundTx;
 }
@@ -2396,14 +2396,6 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     saveToLog(lineOut10);
     // Encode the data outputs
     switch(omniTxClass) {
-        // case OMNI_CLASS_B: { // declaring vars in a switch here so use an expicit code block
-        //     CPubKey redeemingPubKey;
-        //     const std::string& sAddress = redemptionAddress.empty() ? senderAddress : redemptionAddress;
-        //     if (!AddressToPubKey(sAddress, redeemingPubKey)) {
-        //         return MP_REDEMP_BAD_VALIDATION;
-        //     }
-        //     if (!OmniCore_Encode_ClassB(senderAddress,redeemingPubKey,data,vecSend)) { return MP_ENCODING_ERROR; }
-        // break; }
         case OMNI_CLASS_C:
             if(!OmniCore_Encode_ClassC(data,vecSend)) { return MP_ENCODING_ERROR; }
             break;
@@ -2812,35 +2804,35 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
 //  *
 //  * Returns the current version
 //  */
-// int CMPTxList::getDBVersion()
-// {
-//     std::string strValue;
-//     int verDB = 0;
-//
-//     Status status = pdb->Get(readoptions, "dbversion", &strValue);
-//     if (status.ok()) {
-//         verDB = boost::lexical_cast<uint64_t>(strValue);
-//     }
-//
-//     if (msc_debug_txdb) PrintToLog("%s(): dbversion %s status %s, line %d, file: %s\n", __FUNCTION__, strValue, status.ToString(), __LINE__, __FILE__);
-//
-//     return verDB;
-// }
+int CMPTxList::getDBVersion()
+{
+    std::string strValue;
+    int verDB = 0;
+
+    Status status = pdb->Get(readoptions, "dbversion", &strValue);
+    if (status.ok()) {
+        verDB = boost::lexical_cast<uint64_t>(strValue);
+    }
+
+    if (msc_debug_txdb) PrintToLog("%s(): dbversion %s status %s, line %d, file: %s\n", __FUNCTION__, strValue, status.ToString(), __LINE__, __FILE__);
+
+    return verDB;
+}
 //
 // /*
 //  * Sets the DB version for txlistdb
 //  *
 //  * Returns the current version after update
 //  */
-// int CMPTxList::setDBVersion()
-// {
-//     std::string verStr = boost::lexical_cast<std::string>(DB_VERSION);
-//     Status status = pdb->Put(writeoptions, "dbversion", verStr);
-//
-//     if (msc_debug_txdb) PrintToLog("%s(): dbversion %s status %s, line %d, file: %s\n", __FUNCTION__, verStr, status.ToString(), __LINE__, __FILE__);
-//
-//     return getDBVersion();
-// }
+int CMPTxList::setDBVersion()
+{
+    std::string verStr = boost::lexical_cast<std::string>(DB_VERSION);
+    Status status = pdb->Put(writeoptions, "dbversion", verStr);
+
+    if (msc_debug_txdb) PrintToLog("%s(): dbversion %s status %s, line %d, file: %s\n", __FUNCTION__, verStr, status.ToString(), __LINE__, __FILE__);
+
+    return getDBVersion();
+}
 //
 // int CMPTxList::getNumberOfMetaDExCancels(const uint256 txid)
 // {
@@ -3818,7 +3810,7 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
 //
 int mastercore_handler_block_begin(int nBlockPrev, CBlockIndex const * pBlockIndex)
 {
-//     LOCK(cs_tally);
+    // LOCK(cs_tally);
 //
 //     if (reorgRecoveryMode > 0) {
 //         reorgRecoveryMode = 0; // clear reorgRecovery here as this is likely re-entrant
@@ -3874,11 +3866,11 @@ int mastercore_handler_block_begin(int nBlockPrev, CBlockIndex const * pBlockInd
 int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex,
         unsigned int countMP)
 {
-//     LOCK(cs_tally);
-//
-//     if (!mastercoreInitialized) {
-//         mastercore_init();
-//     }
+    // LOCK(cs_tally);
+
+    // if (!mastercoreInitialized) {
+    //     mastercore_init();
+    // }
 //
 //     // for every new received block must do:
 //     // 1) remove expired entries from the accept list (per spec accept entries are
@@ -3940,18 +3932,18 @@ int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex,
 int mastercore_handler_disc_begin(int nBlockNow, CBlockIndex const * pBlockIndex)
 {
        strprintf("INSIDE MASTERCORE HANDLER DISC BEGIN FUNCTION \n");
-    LOCK(cs_tally);
-
-    reorgRecoveryMode = 1;
-//     reorgRecoveryMaxHeight = (pBlockIndex->nHeight > reorgRecoveryMaxHeight) ? pBlockIndex->nHeight: reorgRecoveryMaxHeight;
+    // LOCK(cs_tally);
+    //
+    // reorgRecoveryMode = 1;
+    // reorgRecoveryMaxHeight = (pBlockIndex->nHeight > reorgRecoveryMaxHeight) ? pBlockIndex->nHeight: reorgRecoveryMaxHeight;
     return 0;
 }
-//
+
 int mastercore_handler_disc_end(int nBlockNow, CBlockIndex const * pBlockIndex)
 {
        strprintf("INSIDE MASTERCORE HANDLER DISC END FUNCTION \n");
-//     LOCK(cs_tally);
-//
+    // LOCK(cs_tally);
+
     return 0;
 }
 //
