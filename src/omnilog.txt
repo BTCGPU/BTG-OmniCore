@@ -81,3 +81,297 @@ resultado de pop_ret : 0
 
 !!! interpretPacket() returned 0 !!!
 
+RETURN -1, getWatermark
+
+dentro de mastercore_handler_tx
+2103708a78fd9aa285408b3dc06f06eb98e11494106a1f120aba069ed0b3fb4558c1ac
+6a24aa21a9ede2f61c3f71d1defd3fa999dfa36953755c690689799962b48bebd836974e8cf9
+outType = TX_NULL_DATA
+
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+2103202a5f399eee340ef9623b799a0da518319c4442a4f81b8418e39be6f7edc4a6ac
+6a24aa21a9ed419e85b34db2e71facc963d64466533df518d8287cb63bb184a70372bcd753fa
+outType = TX_NULL_DATA
+
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+76a91484cfbed6aa75bf1cfbe2a588f1a6d8a49929bc8688ac
+6a146f6d6e6900000000000000020000000000989680
+OMNI MARKER DETECTED
+
+outType = TX_NULL_DATA
+
+HAS OP RETURN!!!
+
+NEW LOGIC
+
+vin=0:304402202d036f99a0bce0697dcd9b6c67b7e787db972059080773c16b0fccec55e2deb50220548baa60f2d3f1c8aa042c30851358e1197bb44e03c2464090b4926a59dc80fe41
+
+after view.GetOutputFor(txIn)
+
+checkpoint luego de los ifs
+
+ ExtractDestination : mipPUQUPyJGnrX9cyxUXrvWVr7UrtSFtPo
+
+ Primer checkpoint 
+
+The Sender: mipPUQUPyJGnrX9cyxUXrvWVr7UrtSFtPo : fee= 0.00060000
+
+ DATA POPULATION 
+
+saving address_data #0: msdCMnPpEwKpUmRpfrxS1E72QsBpcv8ijq:OP_DUP OP_HASH160 84cfbed6aa75bf1cfbe2a588f1a6d8a49929bc86 OP_EQUALVERIFY OP_CHECKSIG
+
+saving address_data #2: mrbsKVe8mFyQF3zoYDUZBxsdr5YzgZPUXS:OP_DUP OP_HASH160 79974f74afcef3326be290bd3b1511f579913002 OP_EQUALVERIFY OP_CHECKSIG
+
+ CLASS B / CLASS C PARSING 
+
+### CLASS B / CLASS C PARSING ###
+
+ Ultimo checkpoint 
+
+resultado de pop_ret : 0
+!!! inside interpret_TransactionType, type: 0 , version: 0
+
+!!! inside interpret Simple Send, value: 10000000 , propertyId: 2
+
+!!! interpretPacket() returned 0 !!!
+
+dentro de mastercore_handler_tx
+21025e04ada4d5156c2a3f1e9ad16ea94cf80b3bbc1d51934e75a73146a52b06992fac
+6a24aa21a9ed7e45eee624940b9dc70471f8ed05d0629e79877f25ef0442e2d46b0a6a29d5a4
+outType = TX_NULL_DATA
+
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+6a396f6d6e690000003601000200000000546f6b656e00506567676564004c69686b69007777772e6c69686b69636f696e2e636f6c006461746100
+OMNI MARKER DETECTED
+
+outType = TX_NULL_DATA
+
+HAS OP RETURN!!!
+
+NEW LOGIC
+
+vin=0:3044022072465d529740216631918897a3e67eb2205b2c5842997fea6e594001ecb3ea1302205ee8c5c18132cbdcc6c751924da0fd9f22da9795b5f0c25486d6b65912c5f48741 0233eebafcf4f7e7da4be27ec379cb95035a93d1a301e4d57642feb21d364db6fe
+
+after view.GetOutputFor(txIn)
+
+checkpoint luego de los ifs
+
+ ExtractDestination : msdCMnPpEwKpUmRpfrxS1E72QsBpcv8ijq
+
+ Primer checkpoint 
+
+The Sender: msdCMnPpEwKpUmRpfrxS1E72QsBpcv8ijq : fee= 0.00005200
+
+ DATA POPULATION 
+
+saving address_data #1: msdCMnPpEwKpUmRpfrxS1E72QsBpcv8ijq:OP_DUP OP_HASH160 84cfbed6aa75bf1cfbe2a588f1a6d8a49929bc86 OP_EQUALVERIFY OP_CHECKSIG
+
+ CLASS B / CLASS C PARSING 
+
+### CLASS B / CLASS C PARSING ###
+
+ Ultimo checkpoint 
+
+resultado de pop_ret : 0
+!!! inside interpret_TransactionType, type: 54 , version: 0
+
+putSP() ERROR: writing SP 3 to DB, when a different SP already exists for that identifier
+
+!!! interpretPacket() returned 0 !!!
+
+dentro de mastercore_handler_tx
+21039c209726d6a58a1a526baa5f99316b76c12dd30f9e684fbf29297b1d95187882ac
+6a24aa21a9ed752de95e1a28932c1fc4810b2d4e634529b83e54d271c3d7104e2b27a3a3c883
+outType = TX_NULL_DATA
+
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+6a156f6d6e690000003700000003000016486badab0000
+OMNI MARKER DETECTED
+
+outType = TX_NULL_DATA
+
+HAS OP RETURN!!!
+
+NEW LOGIC
+
+vin=0:3044022005865ba79cc25c8c71ab39f1ad65ae8e02552bc85dc5a109882ab2c59b932ef102203141ed575e9ee344553a67b467dfdecc500a4b406f00d1538fb7b0ee475693eb41 0233eebafcf4f7e7da4be27ec379cb95035a93d1a301e4d57642feb21d364db6fe
+
+after view.GetOutputFor(txIn)
+
+checkpoint luego de los ifs
+
+ ExtractDestination : msdCMnPpEwKpUmRpfrxS1E72QsBpcv8ijq
+
+ Primer checkpoint 
+
+The Sender: msdCMnPpEwKpUmRpfrxS1E72QsBpcv8ijq : fee= 0.00005160
+
+ DATA POPULATION 
+
+saving address_data #1: msdCMnPpEwKpUmRpfrxS1E72QsBpcv8ijq:OP_DUP OP_HASH160 84cfbed6aa75bf1cfbe2a588f1a6d8a49929bc86 OP_EQUALVERIFY OP_CHECKSIG
+
+saving address_data #2: msdCMnPpEwKpUmRpfrxS1E72QsBpcv8ijq:OP_DUP OP_HASH160 84cfbed6aa75bf1cfbe2a588f1a6d8a49929bc86 OP_EQUALVERIFY OP_CHECKSIG
+
+ CLASS B / CLASS C PARSING 
+
+### CLASS B / CLASS C PARSING ###
+
+ Ultimo checkpoint 
+
+resultado de pop_ret : 0
+!!! inside interpret_TransactionType, type: 55 , version: 0
+
+!!! interpretPacket() returned 0 !!!
+
+RETURN -1, getWatermark
+
+dentro de mastercore_handler_tx
+2102b1de26115507a9c67d2714f47f3a721d8f98c6abdd6c210b79386086b4b1d082ac
+6a24aa21a9ede2f61c3f71d1defd3fa999dfa36953755c690689799962b48bebd836974e8cf9
+outType = TX_NULL_DATA
+
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+21023aa1ff6802e734b9d20e594f28149011d34158456f182ed97793d8a1fbb65ca4ac
+6a24aa21a9edd691770c9a38459305a4c29fd2f79bb0de736e6922f50470a169873d088b90e7
+outType = TX_NULL_DATA
+
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+76a914d80e0d3d7e42a0378b82a38f3c67253a1b5d689f88ac
+6a146f6d6e6900000000000000020000000000989680
+OMNI MARKER DETECTED
+
+outType = TX_NULL_DATA
+
+HAS OP RETURN!!!
+
+NEW LOGIC
+
+vin=0:3045022100de7dc9ed69ecb4367ae437c8862b38cb6819b66b1124f813a2aa79b16dd3de0a02203d9497ced062c34b916be527db4a4d11257261d0c3338ce35bf4cb90427a86ee41
+
+after view.GetOutputFor(txIn)
+
+checkpoint luego de los ifs
+
+ ExtractDestination : mkv94XKyDAaVuygiCexDR4LjRVpzLc6Swv
+
+ Primer checkpoint 
+
+The Sender: mkv94XKyDAaVuygiCexDR4LjRVpzLc6Swv : fee= 0.00060000
+
+ DATA POPULATION 
+
+saving address_data #0: n1DM5pWgCBpu2nJoEvEXrrYxdH5gm9VchV:OP_DUP OP_HASH160 d80e0d3d7e42a0378b82a38f3c67253a1b5d689f OP_EQUALVERIFY OP_CHECKSIG
+
+saving address_data #2: n2C8da6LfwS4mFCQd97zwJna7dgKWsqLz5:OP_DUP OP_HASH160 e2cb5dddd303215683f6f1112888d6818e4f02f0 OP_EQUALVERIFY OP_CHECKSIG
+
+ CLASS B / CLASS C PARSING 
+
+### CLASS B / CLASS C PARSING ###
+
+ Ultimo checkpoint 
+
+resultado de pop_ret : 0
+!!! inside interpret_TransactionType, type: 0 , version: 0
+
+!!! inside interpret Simple Send, value: 10000000 , propertyId: 2
+
+!!! interpretPacket() returned 0 !!!
+
+dentro de mastercore_handler_tx
+210209ddec7f6280c8a4228866f4b18b771cd614a27c5b2ae4b65f5fe0899e63bb32ac
+6a24aa21a9ed3739b7366f2c325c9fe5ab124874094b6b1bdd7efd2c1fd1dc062adca8f914e4
+outType = TX_NULL_DATA
+
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+76a914d80e0d3d7e42a0378b82a38f3c67253a1b5d689f88ac
+6a396f6d6e690000003601000200000000546f6b656e00506567676564004c69686b69007777772e6c69686b69636f696e2e636f6c006461746100
+OMNI MARKER DETECTED
+
+outType = TX_NULL_DATA
+
+HAS OP RETURN!!!
+
+NEW LOGIC
+
+vin=0:3045022100c22c286b8f96b1682b37f05131d82e48be1b75b8cb1c16eb98b961053f645eab0220310b10532dbfc82a741e4d63c11053d9dd28db380698c79c48430d06edeff0a841 02788ed25b70ed178d62a2981dc3e2f139f0de6c6b262978337fd8081b6555e07a
+
+after view.GetOutputFor(txIn)
+
+checkpoint luego de los ifs
+
+ ExtractDestination : n1DM5pWgCBpu2nJoEvEXrrYxdH5gm9VchV
+
+ Primer checkpoint 
+
+The Sender: n1DM5pWgCBpu2nJoEvEXrrYxdH5gm9VchV : fee= 0.00005200
+
+ DATA POPULATION 
+
+saving address_data #0: n1DM5pWgCBpu2nJoEvEXrrYxdH5gm9VchV:OP_DUP OP_HASH160 d80e0d3d7e42a0378b82a38f3c67253a1b5d689f OP_EQUALVERIFY OP_CHECKSIG
+
+ CLASS B / CLASS C PARSING 
+
+### CLASS B / CLASS C PARSING ###
+
+ Ultimo checkpoint 
+
+resultado de pop_ret : 0
+!!! inside interpret_TransactionType, type: 54 , version: 0
+
+putSP() ERROR: writing SP 3 to DB, when a different SP already exists for that identifier
+
+!!! interpretPacket() returned 0 !!!
+
+dentro de mastercore_handler_tx
+2102beb7b7cfd8dad28776dac822c694c39b077e68f09945d563c15ab85de6aa646bac
+6a24aa21a9edc663e4179fb074ace28eb815c993501e7fd8931c355139593978be0c59cadef1
+outType = TX_NULL_DATA
+
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+76a914d80e0d3d7e42a0378b82a38f3c67253a1b5d689f88ac
+6a156f6d6e690000003700000003000016486badab0000
+OMNI MARKER DETECTED
+
+outType = TX_NULL_DATA
+
+HAS OP RETURN!!!
+
+NEW LOGIC
+
+vin=0:30450221009a1ba68c284c9e911f67c0d36041768e85050f3da3d37728d810d0f7c67717d60220796e1237c6cf0f8452899275cb3b24c96dbd96dc02554decfbcbe0094830050d41 02788ed25b70ed178d62a2981dc3e2f139f0de6c6b262978337fd8081b6555e07a
+
+after view.GetOutputFor(txIn)
+
+checkpoint luego de los ifs
+
+ ExtractDestination : n1DM5pWgCBpu2nJoEvEXrrYxdH5gm9VchV
+
+ Primer checkpoint 
+
+The Sender: n1DM5pWgCBpu2nJoEvEXrrYxdH5gm9VchV : fee= 0.00005160
+
+ DATA POPULATION 
+
+saving address_data #0: n1DM5pWgCBpu2nJoEvEXrrYxdH5gm9VchV:OP_DUP OP_HASH160 d80e0d3d7e42a0378b82a38f3c67253a1b5d689f OP_EQUALVERIFY OP_CHECKSIG
+
+saving address_data #2: n1DM5pWgCBpu2nJoEvEXrrYxdH5gm9VchV:OP_DUP OP_HASH160 d80e0d3d7e42a0378b82a38f3c67253a1b5d689f OP_EQUALVERIFY OP_CHECKSIG
+
+ CLASS B / CLASS C PARSING 
+
+### CLASS B / CLASS C PARSING ###
+
+ Ultimo checkpoint 
+
+resultado de pop_ret : 0
+!!! inside interpret_TransactionType, type: 55 , version: 0
+
+!!! interpretPacket() returned 0 !!!
+

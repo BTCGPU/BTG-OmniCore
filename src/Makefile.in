@@ -469,6 +469,7 @@ am_libbitcoin_server_a_OBJECTS = libbitcoin_server_a-addrdb.$(OBJEXT) \
 	omnicore/libbitcoin_server_a-sp.$(OBJEXT) \
 	omnicore/libbitcoin_server_a-rpcrawtx.$(OBJEXT) \
 	omnicore/libbitcoin_server_a-createtx.$(OBJEXT) \
+	omnicore/libbitcoin_server_a-seedblocks.$(OBJEXT) \
 	$(am__objects_4)
 libbitcoin_server_a_OBJECTS = $(am_libbitcoin_server_a_OBJECTS)
 libbitcoin_util_a_AR = $(AR) $(ARFLAGS)
@@ -515,7 +516,8 @@ am__libbitcoin_util_a_SOURCES_DIST = support/lockedpool.cpp \
 	omnicore/rpcrequirements.h omnicore/rpctx.h \
 	omnicore/rpcpayload.h omnicore/parse_string.h \
 	omnicore/createpayload.h omnicore/varint.h omnicore/sp.h \
-	omnicore/utils.h omnicore/globals.h compat/glibc_compat.cpp
+	omnicore/seedblocks.h omnicore/utils.h omnicore/globals.h \
+	compat/glibc_compat.cpp
 @GLIBC_BACK_COMPAT_TRUE@am__objects_5 = compat/libbitcoin_util_a-glibc_compat.$(OBJEXT)
 am_libbitcoin_util_a_OBJECTS =  \
 	support/libbitcoin_util_a-lockedpool.$(OBJEXT) \
@@ -2015,9 +2017,10 @@ BITCOIN_CORE_H = \
 	omnicore/createpayload.h \
 	omnicore/varint.h \
 	omnicore/sp.h \
+        omnicore/seedblocks.h \
 	omnicore/utils.h\
 	omnicore/rpcrawtx.h \
-  omnicore/createtx.h\
+        omnicore/createtx.h\
 	omnicore/globals.h
 
 
@@ -2094,6 +2097,7 @@ libbitcoin_server_a_SOURCES = \
 	omnicore/sp.cpp \
 	omnicore/rpcrawtx.cpp \
 	omnicore/createtx.cpp\
+        omnicore/seedblocks.cpp \
   $(BITCOIN_CORE_H)
 
 @ENABLE_ZMQ_TRUE@libbitcoin_zmq_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
@@ -3374,6 +3378,8 @@ omnicore/libbitcoin_server_a-rpcrawtx.$(OBJEXT):  \
 	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
 omnicore/libbitcoin_server_a-createtx.$(OBJEXT):  \
 	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
+omnicore/libbitcoin_server_a-seedblocks.$(OBJEXT):  \
+	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
 
 libbitcoin_server.a: $(libbitcoin_server_a_OBJECTS) $(libbitcoin_server_a_DEPENDENCIES) $(EXTRA_libbitcoin_server_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbitcoin_server.a
@@ -4257,6 +4263,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-rpcvalues.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-rules.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-script.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-seedblocks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-sp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-tally.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@omnicore/$(DEPDIR)/libbitcoin_server_a-tx.Po@am__quote@
@@ -6623,6 +6630,20 @@ omnicore/libbitcoin_server_a-createtx.obj: omnicore/createtx.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/createtx.cpp' object='omnicore/libbitcoin_server_a-createtx.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-createtx.obj `if test -f 'omnicore/createtx.cpp'; then $(CYGPATH_W) 'omnicore/createtx.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/createtx.cpp'; fi`
+
+omnicore/libbitcoin_server_a-seedblocks.o: omnicore/seedblocks.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-seedblocks.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-seedblocks.Tpo -c -o omnicore/libbitcoin_server_a-seedblocks.o `test -f 'omnicore/seedblocks.cpp' || echo '$(srcdir)/'`omnicore/seedblocks.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-seedblocks.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-seedblocks.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/seedblocks.cpp' object='omnicore/libbitcoin_server_a-seedblocks.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-seedblocks.o `test -f 'omnicore/seedblocks.cpp' || echo '$(srcdir)/'`omnicore/seedblocks.cpp
+
+omnicore/libbitcoin_server_a-seedblocks.obj: omnicore/seedblocks.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-seedblocks.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-seedblocks.Tpo -c -o omnicore/libbitcoin_server_a-seedblocks.obj `if test -f 'omnicore/seedblocks.cpp'; then $(CYGPATH_W) 'omnicore/seedblocks.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/seedblocks.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-seedblocks.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-seedblocks.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='omnicore/seedblocks.cpp' object='omnicore/libbitcoin_server_a-seedblocks.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-seedblocks.obj `if test -f 'omnicore/seedblocks.cpp'; then $(CYGPATH_W) 'omnicore/seedblocks.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/seedblocks.cpp'; fi`
 
 support/libbitcoin_util_a-lockedpool.o: support/lockedpool.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_util_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_util_a_CXXFLAGS) $(CXXFLAGS) -MT support/libbitcoin_util_a-lockedpool.o -MD -MP -MF support/$(DEPDIR)/libbitcoin_util_a-lockedpool.Tpo -c -o support/libbitcoin_util_a-lockedpool.o `test -f 'support/lockedpool.cpp' || echo '$(srcdir)/'`support/lockedpool.cpp
