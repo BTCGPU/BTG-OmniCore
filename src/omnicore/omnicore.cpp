@@ -1266,72 +1266,71 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
 //  * @param nFirstBlock[in]  The index of the first block to scan
 //  * @return An exit code, indicating success or failure
 //  */
-// static int msc_initial_scan(int nFirstBlock)
-// {
-//     int nTimeBetweenProgressReports = GetArg("-omniprogressfrequency", 30);  // seconds
-//     int64_t nNow = GetTime();
-//     unsigned int nTxsTotal = 0;
-//     unsigned int nTxsFoundTotal = 0;
-//     int nBlock = 999999;
-//     const int nLastBlock = GetHeight();
-//
-//     // this function is useless if there are not enough blocks in the blockchain yet!
-//     if (nFirstBlock < 0 || nLastBlock < nFirstBlock) return -1;
-//     PrintToConsole("Scanning for transactions in block %d to block %d..\n", nFirstBlock, nLastBlock);
-//
-//     // used to print the progress to the console and notifies the UI
-//     ProgressReporter progressReporter(chainActive[nFirstBlock], chainActive[nLastBlock]);
-//
-//     // check if using seed block filter should be disabled
-//     bool seedBlockFilterEnabled = GetBoolArg("-omniseedblockfilter", true);
-//
-//     for (nBlock = nFirstBlock; nBlock <= nLastBlock; ++nBlock)
-//     {
-//         if (ShutdownRequested()) {
-//             PrintToLog("Shutdown requested, stop scan at block %d of %d\n", nBlock, nLastBlock);
-//             break;
-//         }
-//
-//         CBlockIndex* pblockindex = chainActive[nBlock];
-//         if (NULL == pblockindex) break;
-//         std::string strBlockHash = pblockindex->GetBlockHash().GetHex();
-//
-//         if (msc_debug_exo) PrintToLog("%s(%d; max=%d):%s, line %d, file: %s\n",
-//             __FUNCTION__, nBlock, nLastBlock, strBlockHash, __LINE__, __FILE__);
-//
-//         if (GetTime() >= nNow + nTimeBetweenProgressReports) {
-//             progressReporter.update(pblockindex);
-//             nNow = GetTime();
-//         }
-//
-//         unsigned int nTxNum = 0;
-//         unsigned int nTxsFoundInBlock = 0;
-//         mastercore_handler_block_begin(nBlock, pblockindex);
-//
-//         if (!seedBlockFilterEnabled || !SkipBlock(nBlock)) {
-//             CBlock block;
-//             if (!ReadBlockFromDisk(block, pblockindex, Params().GetConsensus())) break;
-//
-//             BOOST_FOREACH(const CTransaction&tx, block.vtx) {
-//                 if (mastercore_handler_tx(tx, nBlock, nTxNum, pblockindex)) ++nTxsFoundInBlock;
-//                 ++nTxNum;
-//             }
-//         }
-//
-//         nTxsFoundTotal += nTxsFoundInBlock;
-//         nTxsTotal += nTxNum;
-//         mastercore_handler_block_end(nBlock, pblockindex, nTxsFoundInBlock);
-//     }
-//
-//     if (nBlock < nLastBlock) {
-//         PrintToConsole("Scan stopped early at block %d of block %d\n", nBlock, nLastBlock);
-//     }
-//
-//     PrintToConsole("%d transactions processed, %d meta transactions found\n", nTxsTotal, nTxsFoundTotal);
-//
-//     return 0;
-// }
-//
+static int msc_initial_scan(int nFirstBlock)
+{
+    int nTimeBetweenProgressReports = gArgs.GetArg("-omniprogressfrequency", 30);  // seconds
+    int64_t nNow = GetTime();
+    unsigned int nTxsTotal = 0;
+    unsigned int nTxsFoundTotal = 0;
+    int nBlock = 999999;
+    const int nLastBlock = GetHeight();
+
+    // this function is useless if there are not enough blocks in the blockchain yet!
+    if (nFirstBlock < 0 || nLastBlock < nFirstBlock) return -1;
+    PrintToConsole("Scanning for transactions in block %d to block %d..\n", nFirstBlock, nLastBlock);
+
+    // used to print the progress to the console and notifies the UI
+    // ProgressReporter progressReporter(chainActive[nFirstBlock], chainActive[nLastBlock]);
+
+    // check if using seed block filter should be disabled
+    bool seedBlockFilterEnabled = gArgs.GetBoolArg("-omniseedblockfilter", true);
+
+    for (nBlock = nFirstBlock; nBlock <= nLastBlock; ++nBlock)
+    {
+        // if (ShutdownRequested()) {
+        //     PrintToLog("Shutdown requested, stop scan at block %d of %d\n", nBlock, nLastBlock);
+        //     break;
+        // }
+
+        CBlockIndex* pblockindex = chainActive[nBlock];
+        if (NULL == pblockindex) break;
+        std::string strBlockHash = pblockindex->GetBlockHash().GetHex();
+
+        if (msc_debug_exo) PrintToLog("%s(%d; max=%d):%s, line %d, file: %s\n",
+            __FUNCTION__, nBlock, nLastBlock, strBlockHash, __LINE__, __FILE__);
+
+        // if (GetTime() >= nNow + nTimeBetweenProgressReports) {
+        //     progressReporter.update(pblockindex);
+        //     nNow = GetTime();
+        // }
+
+        unsigned int nTxNum = 0;
+        unsigned int nTxsFoundInBlock = 0;
+        mastercore_handler_block_begin(nBlock, pblockindex);
+
+        if (!seedBlockFilterEnabled || !SkipBlock(nBlock)) {
+            CBlock block;
+            if (!ReadBlockFromDisk(block, pblockindex, Params().GetConsensus())) break;
+
+            for(CTransactionRef tx : block.vtx){
+               if (mastercore_handler_tx(*(tx.get()), nBlock, nTxNum, pblockindex)) ++nTxsFoundInBlock;
+            }
+        }
+
+        nTxsFoundTotal += nTxsFoundInBlock;
+        nTxsTotal += nTxNum;
+        mastercore_handler_block_end(nBlock, pblockindex, nTxsFoundInBlock);
+    }
+
+    if (nBlock < nLastBlock) {
+        PrintToConsole("Scan stopped early at block %d of block %d\n", nBlock, nLastBlock);
+    }
+
+    PrintToConsole("%d transactions processed, %d meta transactions found\n", nTxsTotal, nTxsFoundTotal);
+
+    return 0;
+}
+
 int input_msc_balances_string(const std::string& s)
 {
     // "address=propertybalancedata"
@@ -1673,19 +1672,26 @@ static int load_most_relevant_state()
   uint256 spWatermark;
   if (!_my_sps->getWatermark(spWatermark)) {
     //trigger a full reparse, if the SP database has no watermark
+    const string lineOut = strprintf("RETURN -1, getWatermark\n");
+    saveToLog(lineOut);
     return -1;
+
   }
 
   CBlockIndex const *spBlockIndex = GetBlockIndex(spWatermark);
   if (NULL == spBlockIndex) {
     //trigger a full reparse, if the watermark isn't a real block
+    const string lineOut = strprintf("RETURN -1, GetBlockIndex\n");
+    saveToLog(lineOut);
     return -1;
   }
-
+    // TODO: make this work out
   while (NULL != spBlockIndex && false == chainActive.Contains(spBlockIndex)) {
     int remainingSPs = _my_sps->popBlock(spBlockIndex->GetBlockHash());
     if (remainingSPs < 0) {
       // trigger a full reparse, if the levelDB cannot roll back
+      const string lineOut = strprintf("RETURN -1, remainingSPs < 0 \n");
+      saveToLog(lineOut);
       return -1;
     } /*else if (remainingSPs == 0) {
       // potential optimization here?
@@ -1694,6 +1700,8 @@ static int load_most_relevant_state()
     if (spBlockIndex != NULL) {
         _my_sps->setWatermark(spBlockIndex->GetBlockHash());
     }
+    const string lineOut1 = strprintf("inside while loop \n");
+    saveToLog(lineOut1);
   }
 
   // prepare a set of available files by block hash pruning any that are
@@ -1723,7 +1731,8 @@ static int load_most_relevant_state()
       persistedBlocks.insert(blockHash);
     }
   }
-
+  const string lineOut2 = strprintf("first checkpoint \n");
+  saveToLog(lineOut2);
   // using the SP's watermark after its fixed-up as the tip
   // walk backwards until we find a valid and full set of persisted state files
   // for each block we discard, roll back the SP database
@@ -1732,6 +1741,8 @@ static int load_most_relevant_state()
   int abortRollBackBlock;
   if (curTip != NULL) abortRollBackBlock = curTip->nHeight - (MAX_STATE_HISTORY+1);
   while (NULL != curTip && persistedBlocks.size() > 0 && curTip->nHeight > abortRollBackBlock) {
+    const string lineOut1 = strprintf("inside second while loop \n");
+    saveToLog(lineOut1);
     if (persistedBlocks.find(spBlockIndex->GetBlockHash()) != persistedBlocks.end()) {
       int success = -1;
       for (int i = 0; i < NUM_FILETYPES; ++i) {
@@ -1755,6 +1766,8 @@ static int load_most_relevant_state()
     // go to the previous block
     if (0 > _my_sps->popBlock(curTip->GetBlockHash())) {
       // trigger a full reparse, if the levelDB cannot roll back
+      const string lineOut1 = strprintf(" 0 > _my_sps->popBlock(curTip->GetBlockHash())\n");
+      saveToLog(lineOut1);
       return -1;
     }
     curTip = curTip->pprev;
@@ -1765,6 +1778,8 @@ static int load_most_relevant_state()
 
   if (persistedBlocks.size() == 0) {
     // trigger a reparse if we exhausted the persistence files without success
+    const string lineOut1 = strprintf("persistedBlocks.size() == 0\n");
+    saveToLog(lineOut1);
     return -1;
   }
 
@@ -2032,33 +2047,33 @@ int mastercore_save_state( CBlockIndex const *pBlockIndex )
 // /**
 //  * Clears the state of the system.
 //  */
-// void clear_all_state()
-// {
-//     LOCK2(cs_tally, cs_pending);
-//
-//     // Memory based storage
-//     mp_tally_map.clear();
-//     // my_offers.clear();
-//     // my_accepts.clear();
-//     // my_crowds.clear();
-//     // metadex.clear();
-//     // my_pending.clear();
-//     ResetConsensusParams();
-//     // ClearActivations();
-//     // ClearAlerts();
-//     // ClearFreezeState();
-//
-//     // LevelDB based storage
-//     _my_sps->Clear();
-//     p_txlistdb->Clear();
-//     s_stolistdb->Clear();
-//     t_tradelistdb->Clear();
-//     p_OmniTXDB->Clear();
-//     p_feecache->Clear();
-//     p_feehistory->Clear();
-//     assert(p_txlistdb->setDBVersion() == DB_VERSION); // new set of databases, set DB version
-//     exodus_prev = 0;
-// }
+void clear_all_state()
+{
+    LOCK2(cs_tally, cs_pending);
+
+    // Memory based storage
+    mp_tally_map.clear();
+    // my_offers.clear();
+    // my_accepts.clear();
+    // my_crowds.clear();
+    // metadex.clear();
+    // my_pending.clear();
+    ResetConsensusParams();
+    // ClearActivations();
+    // ClearAlerts();
+    // ClearFreezeState();
+
+    // LevelDB based storage
+    _my_sps->Clear();
+    p_txlistdb->Clear();
+    s_stolistdb->Clear();
+    t_tradelistdb->Clear();
+    p_OmniTXDB->Clear();
+    p_feecache->Clear();
+    p_feehistory->Clear();
+    // assert(p_txlistdb->setDBVersion() == DB_VERSION); // new set of databases, set DB version
+    exodus_prev = 0;
+}
 //
 // /**
 //  * Global handler to initialize Omni Core.
@@ -2098,7 +2113,7 @@ int mastercore_init()
     if (gArgs.GetBoolArg("-startclean", false)) {
         PrintToLog("Process was started with --startclean option, attempting to clear persistence files..\n");
         try {
-            // boost::filesystem::path persistPath = GetDataDir() / "MP_persist";
+            boost::filesystem::path persistPath = GetDataDir() / "MP_persist";
 //             boost::filesystem::path txlistPath = GetDataDir() / "MP_txlist";
 //             boost::filesystem::path tradePath = GetDataDir() / "MP_tradelist";
             boost::filesystem::path spPath = GetDataDir() / "MP_spinfo";
@@ -2131,72 +2146,72 @@ int mastercore_init()
 //     p_feecache = new COmniFeeCache(GetDataDir() / "OMNI_feecache", fReindex);
 //     p_feehistory = new COmniFeeHistory(GetDataDir() / "OMNI_feehistory", fReindex);
 //
-    // MPPersistencePath = GetDataDir() / "MP_persist";
-    // TryCreateDirectory(MPPersistencePath);
+    MPPersistencePath = GetDataDir() / "MP_persist";
+    TryCreateDirectory(MPPersistencePath);
 
     // bool wrongDBVersion = (p_txlistdb->getDBVersion() != DB_VERSION);
 
-    // ++mastercoreInitialized;
+    ++mastercoreInitialized;
 
-    // nWaterlineBlock = load_most_relevant_state(); TODO: Work on this Function!
-    // bool noPreviousState = (nWaterlineBlock <= 0);
-//
-//     if (startClean) {
-//         assert(p_txlistdb->setDBVersion() == DB_VERSION); // new set of databases, set DB version
-//     } else if (wrongDBVersion) {
-//         nWaterlineBlock = -1; // force a clear_all_state and parse from start
-//     }
-//
-//     if (nWaterlineBlock > 0) {
-//         PrintToConsole("Loading persistent state: OK [block %d]\n", nWaterlineBlock);
-//     } else {
-//         std::string strReason = "unknown";
-//         if (wrongDBVersion) strReason = "client version changed";
-//         if (noPreviousState) strReason = "no usable previous state found";
-//         if (startClean) strReason = "-startclean parameter used";
-//         PrintToConsole("Loading persistent state: NONE (%s)\n", strReason);
-//     }
-//
-//     if (nWaterlineBlock < 0) {
-//         // persistence says we reparse!, nuke some stuff in case the partial loads left stale bits
-//         clear_all_state();
-//     }
-//
-//     // legacy code, setting to pre-genesis-block
-//     int snapshotHeight = ConsensusParams().GENESIS_BLOCK - 1;
-//
-//     if (nWaterlineBlock < snapshotHeight) {
-//         nWaterlineBlock = snapshotHeight;
-//         exodus_prev = 0;
-//     }
-//
-//     // advance the waterline so that we start on the next unaccounted for block
-//     nWaterlineBlock += 1;
-//
-//     // collect the real Exodus balances available at the snapshot time
-//     // redundant? do we need to show it both pre-parse and post-parse?  if so let's label the printfs accordingly
-//     if (msc_debug_exo) {
-//         int64_t exodus_balance = getMPbalance(exodus_address, OMNI_PROPERTY_MSC, BALANCE);
-//         PrintToLog("Exodus balance at start: %s\n", FormatDivisibleMP(exodus_balance));
-//     }
-//
-//     // load feature activation messages from txlistdb and process them accordingly
-//     p_txlistdb->LoadActivations(nWaterlineBlock);
-//
-//     // load all alerts from levelDB (and immediately expire old ones)
-//     p_txlistdb->LoadAlerts(nWaterlineBlock);
-//
-//     // load the state of any freeable properties and frozen addresses from levelDB
-//     if (!p_txlistdb->LoadFreezeState(nWaterlineBlock)) {
-//         std::string strShutdownReason = "Failed to load freeze state from levelDB.  It is unsafe to continue.\n";
-//         PrintToLog(strShutdownReason);
-//         if (!GetBoolArg("-overrideforcedshutdown", false)) {
-//             AbortNode(strShutdownReason, strShutdownReason);
-//         }
-//     }
-//
+    nWaterlineBlock = load_most_relevant_state();
+    bool noPreviousState = (nWaterlineBlock <= 0);
+
+    // if (startClean) {
+    //     assert(p_txlistdb->setDBVersion() == DB_VERSION); // new set of databases, set DB version
+    // } // else if (wrongDBVersion) { // TODO:checkout this
+    //     nWaterlineBlock = -1; // force a clear_all_state and parse from start
+    // }
+
+    if (nWaterlineBlock > 0) {
+        PrintToConsole("Loading persistent state: OK [block %d]\n", nWaterlineBlock);
+    } else {
+        std::string strReason = "unknown";
+        // if (wrongDBVersion) strReason = "client version changed";
+        if (noPreviousState) strReason = "no usable previous state found";
+        if (startClean) strReason = "-startclean parameter used";
+        PrintToConsole("Loading persistent state: NONE (%s)\n", strReason);
+    }
+
+    // if (nWaterlineBlock < 0) { // TODO:checkout this
+    //     // persistence says we reparse!, nuke some stuff in case the partial loads left stale bits
+    //     clear_all_state();
+    // }
+
+    // legacy code, setting to pre-genesis-block
+    int snapshotHeight = ConsensusParams().GENESIS_BLOCK - 1;
+
+    if (nWaterlineBlock < snapshotHeight) {
+        nWaterlineBlock = snapshotHeight;
+        exodus_prev = 0;
+    }
+
+    // advance the waterline so that we start on the next unaccounted for block
+    nWaterlineBlock += 1;
+
+    // collect the real Exodus balances available at the snapshot time
+    // redundant? do we need to show it both pre-parse and post-parse?  if so let's label the printfs accordingly
+    if (msc_debug_exo) {
+        int64_t exodus_balance = getMPbalance(exodus_address, OMNI_PROPERTY_MSC, BALANCE);
+        PrintToLog("Exodus balance at start: %s\n", FormatDivisibleMP(exodus_balance));
+    }
+
+    // load feature activation messages from txlistdb and process them accordingly
+    // p_txlistdb->LoadActivations(nWaterlineBlock);
+
+    // load all alerts from levelDB (and immediately expire old ones)
+    // p_txlistdb->LoadAlerts(nWaterlineBlock);
+
+    // load the state of any freeable properties and frozen addresses from levelDB
+    // if (!p_txlistdb->LoadFreezeState(nWaterlineBlock)) {
+    //     std::string strShutdownReason = "Failed to load freeze state from levelDB.  It is unsafe to continue.\n";
+    //     PrintToLog(strShutdownReason);
+        // if (!GetBoolArg("-overrideforcedshutdown", false)) {
+        //     AbortNode(strShutdownReason, strShutdownReason);
+        // }
+    // }
+
     // initial scan
-    // msc_initial_scan(nWaterlineBlock);
+    msc_initial_scan(nWaterlineBlock);
 
     // display Exodus balance
     int64_t exodus_balance = getMPbalance(exodus_address, OMNI_PROPERTY_MSC, BALANCE);
