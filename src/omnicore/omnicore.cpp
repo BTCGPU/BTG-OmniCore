@@ -800,8 +800,6 @@ static bool FillTxInputCache(const CTransaction& tx)
     for (std::vector<CTxIn>::const_iterator it = tx.vin.begin(); it != tx.vin.end(); ++it) {
         const CTxIn& txIn = *it;
         unsigned int nOut = txIn.prevout.n;
-        // TODO: WORK WITH COINS.H  (CCoinsModifier Class and CoinViewCache Class)
-        // CCoinsModifier coins = view.ModifyCoins(txIn.prevout.hash);
 
         if (view.HaveCoin(txIn.prevout)){
              ++nCacheHits;
@@ -812,17 +810,13 @@ static bool FillTxInputCache(const CTransaction& tx)
         CTransactionRef txPrev;
         uint256 hashBlock = uint256();
 
-        if (!GetTransaction(txIn.prevout.hash, txPrev, Params().GetConsensus(), hashBlock, false)) {
+        if (!GetTransaction(txIn.prevout.hash, txPrev, Params().GetConsensus(), hashBlock, true)) {
            return false;
         }
 
         if (txPrev.get()->vout.size() <= nOut){
             return false;
         }
-
-
-        // coins->vout[nOut].scriptPubKey = txPrev.vout[nOut].scriptPubKey;
-        // coins->vout[nOut].nValue = txPrev.vout[nOut].nValue;
 
         Coin newCoin(txPrev.get()->vout[nOut], 0, tx.IsCoinBase());
         view.AddCoin(txIn.prevout, std::move(newCoin), false);
