@@ -136,8 +136,8 @@ bool CMPTransaction::interpret_Transaction()
         // case MSC_TYPE_METADEX_CANCEL_ECOSYSTEM:
         //     return interpret_MetaDExCancelEcosystem();
         //
-        // case MSC_TYPE_CREATE_PROPERTY_FIXED:
-        //     return interpret_CreatePropertyFixed();
+        case MSC_TYPE_CREATE_PROPERTY_FIXED:
+            return interpret_CreatePropertyFixed();
         //
         // case MSC_TYPE_CREATE_PROPERTY_VARIABLE:
         //     return interpret_CreatePropertyVariable();
@@ -433,52 +433,52 @@ bool CMPTransaction::interpret_SimpleSend()
 // }
 //
 // /** Tx 50 */
-// bool CMPTransaction::interpret_CreatePropertyFixed()
-// {
-//     if (pkt_size < 25) {
-//         return false;
-//     }
-//     const char* p = 11 + (char*) &pkt;
-//     std::vector<std::string> spstr;
-//     memcpy(&ecosystem, &pkt[4], 1);
-//     memcpy(&prop_type, &pkt[5], 2);
-//     swapByteOrder16(prop_type);
-//     memcpy(&prev_prop_id, &pkt[7], 4);
-//     swapByteOrder32(prev_prop_id);
-//     for (int i = 0; i < 5; i++) {
-//         spstr.push_back(std::string(p));
-//         p += spstr.back().size() + 1;
-//     }
-//     int i = 0;
-//     memcpy(category, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(category)-1)); i++;
-//     memcpy(subcategory, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(subcategory)-1)); i++;
-//     memcpy(name, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(name)-1)); i++;
-//     memcpy(url, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(url)-1)); i++;
-//     memcpy(data, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(data)-1)); i++;
-//     memcpy(&nValue, p, 8);
-//     swapByteOrder64(nValue);
-//     p += 8;
-//     nNewValue = nValue;
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t       ecosystem: %d\n", ecosystem);
-//         PrintToLog("\t   property type: %d (%s)\n", prop_type, strPropertyType(prop_type));
-//         PrintToLog("\tprev property id: %d\n", prev_prop_id);
-//         PrintToLog("\t        category: %s\n", category);
-//         PrintToLog("\t     subcategory: %s\n", subcategory);
-//         PrintToLog("\t            name: %s\n", name);
-//         PrintToLog("\t             url: %s\n", url);
-//         PrintToLog("\t            data: %s\n", data);
-//         PrintToLog("\t           value: %s\n", FormatByType(nValue, prop_type));
-//     }
-//
-//     if (isOverrun(p)) {
-//         PrintToLog("%s(): rejected: malformed string value(s)\n", __func__);
-//         return false;
-//     }
-//
-//     return true;
-// }
+bool CMPTransaction::interpret_CreatePropertyFixed()
+{
+    if (pkt_size < 25) {
+        return false;
+    }
+    const char* p = 11 + (char*) &pkt;
+    std::vector<std::string> spstr;
+    memcpy(&ecosystem, &pkt[4], 1);
+    memcpy(&prop_type, &pkt[5], 2);
+    swapByteOrder16(prop_type);
+    memcpy(&prev_prop_id, &pkt[7], 4);
+    swapByteOrder32(prev_prop_id);
+    for (int i = 0; i < 5; i++) {
+        spstr.push_back(std::string(p));
+        p += spstr.back().size() + 1;
+    }
+    int i = 0;
+    memcpy(category, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(category)-1)); i++;
+    memcpy(subcategory, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(subcategory)-1)); i++;
+    memcpy(name, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(name)-1)); i++;
+    memcpy(url, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(url)-1)); i++;
+    memcpy(data, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(data)-1)); i++;
+    memcpy(&nValue, p, 8);
+    swapByteOrder64(nValue);
+    p += 8;
+    nNewValue = nValue;
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t       ecosystem: %d\n", ecosystem);
+        PrintToLog("\t   property type: %d (%s)\n", prop_type, strPropertyType(prop_type));
+        PrintToLog("\tprev property id: %d\n", prev_prop_id);
+        PrintToLog("\t        category: %s\n", category);
+        PrintToLog("\t     subcategory: %s\n", subcategory);
+        PrintToLog("\t            name: %s\n", name);
+        PrintToLog("\t             url: %s\n", url);
+        PrintToLog("\t            data: %s\n", data);
+        PrintToLog("\t           value: %s\n", FormatByType(nValue, prop_type));
+    }
+
+    if (isOverrun(p)) {
+        PrintToLog("%s(): rejected: malformed string value(s)\n", __func__);
+        return false;
+    }
+
+    return true;
+}
 //
 // /** Tx 51 */
 // bool CMPTransaction::interpret_CreatePropertyVariable()
@@ -887,8 +887,8 @@ int CMPTransaction::interpretPacket()
         // case MSC_TYPE_METADEX_CANCEL_ECOSYSTEM:
         //     return logicMath_MetaDExCancelEcosystem();
         //
-        // case MSC_TYPE_CREATE_PROPERTY_FIXED:
-        //     return logicMath_CreatePropertyFixed();
+        case MSC_TYPE_CREATE_PROPERTY_FIXED:
+            return logicMath_CreatePropertyFixed();
         //
         // case MSC_TYPE_CREATE_PROPERTY_VARIABLE:
         //     return logicMath_CreatePropertyVariable();
@@ -1577,74 +1577,74 @@ int CMPTransaction::logicMath_SimpleSend()
 // }
 //
 // /** Tx 50 */
-// int CMPTransaction::logicMath_CreatePropertyFixed()
-// {
-//     uint256 blockHash;
-//     {
-//         LOCK(cs_main);
-//
-//         CBlockIndex* pindex = chainActive[block];
-//         if (pindex == NULL) {
-//             PrintToLog("%s(): ERROR: block %d not in the active chain\n", __func__, block);
-//             return (PKT_ERROR_SP -20);
-//         }
-//         blockHash = pindex->GetBlockHash();
-//     }
-//
-//     if (OMNI_PROPERTY_MSC != ecosystem && OMNI_PROPERTY_TMSC != ecosystem) {
-//         PrintToLog("%s(): rejected: invalid ecosystem: %d\n", __func__, (uint32_t) ecosystem);
-//         return (PKT_ERROR_SP -21);
-//     }
-//
-//     if (!IsTransactionTypeAllowed(block, ecosystem, type, version)) {
-//         PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
-//                 __func__,
-//                 type,
-//                 version,
-//                 property,
-//                 block);
-//         return (PKT_ERROR_SP -22);
-//     }
-//
-//     if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
-//         PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
-//         return (PKT_ERROR_SP -23);
-//     }
-//
-//     if (MSC_PROPERTY_TYPE_INDIVISIBLE != prop_type && MSC_PROPERTY_TYPE_DIVISIBLE != prop_type) {
-//         PrintToLog("%s(): rejected: invalid property type: %d\n", __func__, prop_type);
-//         return (PKT_ERROR_SP -36);
-//     }
-//
-//     if ('\0' == name[0]) {
-//         PrintToLog("%s(): rejected: property name must not be empty\n", __func__);
-//         return (PKT_ERROR_SP -37);
-//     }
-//
-//     // ------------------------------------------
-//
-//     CMPSPInfo::Entry newSP;
-//     newSP.issuer = sender;
-//     newSP.txid = txid;
-//     newSP.prop_type = prop_type;
-//     newSP.num_tokens = nValue;
-//     newSP.category.assign(category);
-//     newSP.subcategory.assign(subcategory);
-//     newSP.name.assign(name);
-//     newSP.url.assign(url);
-//     newSP.data.assign(data);
-//     newSP.fixed = true;
-//     newSP.creation_block = blockHash;
-//     newSP.update_block = newSP.creation_block;
-//
-//     const uint32_t propertyId = _my_sps->putSP(ecosystem, newSP);
-//     assert(propertyId > 0);
-//     assert(update_tally_map(sender, propertyId, nValue, BALANCE));
-//
-//     NotifyTotalTokensChanged(propertyId, block);
-//
-//     return 0;
-// }
+int CMPTransaction::logicMath_CreatePropertyFixed()
+{
+    uint256 blockHash;
+    {
+        LOCK(cs_main);
+
+        CBlockIndex* pindex = chainActive[block];
+        if (pindex == NULL) {
+            PrintToLog("%s(): ERROR: block %d not in the active chain\n", __func__, block);
+            return (PKT_ERROR_SP -20);
+        }
+        blockHash = pindex->GetBlockHash();
+    }
+
+    if (OMNI_PROPERTY_MSC != ecosystem && OMNI_PROPERTY_TMSC != ecosystem) {
+        PrintToLog("%s(): rejected: invalid ecosystem: %d\n", __func__, (uint32_t) ecosystem);
+        return (PKT_ERROR_SP -21);
+    }
+
+    // if (!IsTransactionTypeAllowed(block, ecosystem, type, version)) {
+    //     PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
+    //             __func__,
+    //             type,
+    //             version,
+    //             property,
+    //             block);
+    //     return (PKT_ERROR_SP -22);
+    // }
+
+    if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
+        PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
+        return (PKT_ERROR_SP -23);
+    }
+
+    if (MSC_PROPERTY_TYPE_INDIVISIBLE != prop_type && MSC_PROPERTY_TYPE_DIVISIBLE != prop_type) {
+        PrintToLog("%s(): rejected: invalid property type: %d\n", __func__, prop_type);
+        return (PKT_ERROR_SP -36);
+    }
+
+    if ('\0' == name[0]) {
+        PrintToLog("%s(): rejected: property name must not be empty\n", __func__);
+        return (PKT_ERROR_SP -37);
+    }
+
+    // ------------------------------------------
+
+    CMPSPInfo::Entry newSP;
+    newSP.issuer = sender;
+    newSP.txid = txid;
+    newSP.prop_type = prop_type;
+    newSP.num_tokens = nValue;
+    newSP.category.assign(category);
+    newSP.subcategory.assign(subcategory);
+    newSP.name.assign(name);
+    newSP.url.assign(url);
+    newSP.data.assign(data);
+    newSP.fixed = true;
+    newSP.creation_block = blockHash;
+    newSP.update_block = newSP.creation_block;
+
+    const uint32_t propertyId = _my_sps->putSP(ecosystem, newSP);
+    assert(propertyId > 0);
+    assert(update_tally_map(sender, propertyId, nValue, BALANCE));
+
+    NotifyTotalTokensChanged(propertyId, block);
+
+    return 0;
+}
 //
 // /** Tx 51 */
 // int CMPTransaction::logicMath_CreatePropertyVariable()

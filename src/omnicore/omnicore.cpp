@@ -92,7 +92,7 @@ using std::ofstream;
 using std::pair;
 using std::string;
 using std::vector;
-//
+
 using namespace mastercore;
 
 CCriticalSection cs_tally;
