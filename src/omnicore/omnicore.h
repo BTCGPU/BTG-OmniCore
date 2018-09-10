@@ -105,11 +105,11 @@ enum TransactionType {
 
 enum FILETYPES {
   FILETYPE_BALANCES = 0,
-  FILETYPE_OFFERS,
-  FILETYPE_ACCEPTS,
+  // FILETYPE_OFFERS,
+  // FILETYPE_ACCEPTS,
   FILETYPE_GLOBALS,
-  FILETYPE_CROWDSALES,
-  FILETYPE_MDEXORDERS,
+  // FILETYPE_CROWDSALES,
+  // FILETYPE_MDEXORDERS,
   NUM_FILETYPES
 };
 
@@ -165,8 +165,8 @@ class COmniTransactionDB : public CDBBase
   public:
     COmniTransactionDB(const boost::filesystem::path& path, bool fWipe)
     {
-        // leveldb::Status status = Open(path, fWipe);
-        // PrintToConsole("Loading master transactions database: %s\n", status.ToString());
+        leveldb::Status status = Open(path, fWipe);
+        PrintToConsole("Loading master transactions database: %s\n", status.ToString());
         PrintToConsole("Loading master transactions database\n");
     }
 
@@ -249,14 +249,14 @@ class CMPTxList : public CDBBase
   public:
     CMPTxList(const boost::filesystem::path& path, bool fWipe)
     {
-        // leveldb::Status status = Open(path, fWipe);
-        // PrintToConsole("Loading tx meta-info database: %s\n", status.ToString());
+        leveldb::Status status = Open(path, fWipe);
+        PrintToConsole("Loading tx meta-info database: %s\n", status.ToString());
         PrintToConsole("Loading tx meta-info database\n");
     }
 
     virtual ~CMPTxList()
     {
-        // if (msc_debug_persistence) PrintToLog("CMPTxList closed\n");
+        if (msc_debug_persistence) PrintToLog("CMPTxList closed\n");
     }
 
     void recordTX(const uint256 &txid, bool fValid, int nBlock, unsigned int type, uint64_t nValue);

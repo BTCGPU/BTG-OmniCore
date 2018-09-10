@@ -291,16 +291,16 @@ int64_t getUserAvailableMPbalance(const std::string& address, uint32_t propertyI
     return money;
 }
 
-// int64_t getUserFrozenMPbalance(const std::string& address, uint32_t propertyId)
-// {
-//     int64_t frozen = 0;
-//
-//     if (isAddressFrozen(address, propertyId)) {
-//         frozen = getMPbalance(address, propertyId, BALANCE);
-//     }
-//
-//     return frozen;
-// }
+int64_t getUserFrozenMPbalance(const std::string& address, uint32_t propertyId)
+{
+    int64_t frozen = 0;
+
+    if (isAddressFrozen(address, propertyId)) {
+        frozen = getMPbalance(address, propertyId, BALANCE);
+    }
+
+    return frozen;
+}
 
 bool mastercore::isTestEcosystemProperty(uint32_t propertyId)
 {
@@ -316,92 +316,92 @@ bool mastercore::isMainEcosystemProperty(uint32_t propertyId)
     return false;
 }
 
-// void mastercore::ClearFreezeState()
-// {
-//     // Should only ever be called in the event of a reorg
-//     setFreezingEnabledProperties.clear();
-//     setFrozenAddresses.clear();
-// }
-//
-// void mastercore::PrintFreezeState()
-// {
-//     PrintToLog("setFrozenAddresses state:\n");
-//     for (std::set<std::pair<std::string,uint32_t> >::iterator it = setFrozenAddresses.begin(); it != setFrozenAddresses.end(); it++) {
-//         PrintToLog("  %s:%d\n", (*it).first, (*it).second);
-//     }
-//     PrintToLog("setFreezingEnabledProperties state:\n");
-//     for (std::set<std::pair<uint32_t,int> >::iterator it = setFreezingEnabledProperties.begin(); it != setFreezingEnabledProperties.end(); it++) {
-//         PrintToLog("  %d:%d\n", (*it).first, (*it).second);
-//     }
-// }
-//
-// void mastercore::enableFreezing(uint32_t propertyId, int liveBlock)
-// {
-//     setFreezingEnabledProperties.insert(std::make_pair(propertyId, liveBlock));
-//     assert(isFreezingEnabled(propertyId, liveBlock));
-//     PrintToLog("Freezing for property %d will be enabled at block %d.\n", propertyId, liveBlock);
-// }
-//
-// void mastercore::disableFreezing(uint32_t propertyId)
-// {
-//     int liveBlock = 0;
-//     for (std::set<std::pair<uint32_t,int> >::iterator it = setFreezingEnabledProperties.begin(); it != setFreezingEnabledProperties.end(); it++) {
-//         if (propertyId == (*it).first) {
-//             liveBlock = (*it).second;
-//         }
-//     }
-//     assert(liveBlock > 0);
-//
-//     setFreezingEnabledProperties.erase(std::make_pair(propertyId, liveBlock));
-//     PrintToLog("Freezing for property %d has been disabled.\n", propertyId);
-//
-//     // When disabling freezing for a property, all frozen addresses for that property will be unfrozen!
-//     for (std::set<std::pair<std::string,uint32_t> >::iterator it = setFrozenAddresses.begin(); it != setFrozenAddresses.end(); ) {
-//         if ((*it).second == propertyId) {
-//             PrintToLog("Address %s has been unfrozen for property %d.\n", (*it).first, propertyId);
-//             it = setFrozenAddresses.erase(it);
-//             assert(!isAddressFrozen((*it).first, (*it).second));
-//         } else {
-//             it++;
-//         }
-//     }
-//
-//     assert(!isFreezingEnabled(propertyId, liveBlock));
-// }
-//
-// bool mastercore::isFreezingEnabled(uint32_t propertyId, int block)
-// {
-//     for (std::set<std::pair<uint32_t,int> >::iterator it = setFreezingEnabledProperties.begin(); it != setFreezingEnabledProperties.end(); it++) {
-//         uint32_t itemPropertyId = (*it).first;
-//         int itemBlock = (*it).second;
-//         if (propertyId == itemPropertyId && block >= itemBlock) {
-//             return true;
-//         }
-//     }
-//     return false;
-// }
-//
-// void mastercore::freezeAddress(const std::string& address, uint32_t propertyId)
-// {
-//     setFrozenAddresses.insert(std::make_pair(address, propertyId));
-//     assert(isAddressFrozen(address, propertyId));
-//     PrintToLog("Address %s has been frozen for property %d.\n", address, propertyId);
-// }
-//
-// void mastercore::unfreezeAddress(const std::string& address, uint32_t propertyId)
-// {
-//     setFrozenAddresses.erase(std::make_pair(address, propertyId));
-//     assert(!isAddressFrozen(address, propertyId));
-//     PrintToLog("Address %s has been unfrozen for property %d.\n", address, propertyId);
-// }
-//
-// bool mastercore::isAddressFrozen(const std::string& address, uint32_t propertyId)
-// {
-//     if (setFrozenAddresses.find(std::make_pair(address, propertyId)) != setFrozenAddresses.end()) {
-//         return true;
-//     }
-//     return false;
-// }
+void mastercore::ClearFreezeState()
+{
+    // Should only ever be called in the event of a reorg
+    setFreezingEnabledProperties.clear();
+    setFrozenAddresses.clear();
+}
+
+void mastercore::PrintFreezeState()
+{
+    PrintToLog("setFrozenAddresses state:\n");
+    for (std::set<std::pair<std::string,uint32_t> >::iterator it = setFrozenAddresses.begin(); it != setFrozenAddresses.end(); it++) {
+        PrintToLog("  %s:%d\n", (*it).first, (*it).second);
+    }
+    PrintToLog("setFreezingEnabledProperties state:\n");
+    for (std::set<std::pair<uint32_t,int> >::iterator it = setFreezingEnabledProperties.begin(); it != setFreezingEnabledProperties.end(); it++) {
+        PrintToLog("  %d:%d\n", (*it).first, (*it).second);
+    }
+}
+
+void mastercore::enableFreezing(uint32_t propertyId, int liveBlock)
+{
+    setFreezingEnabledProperties.insert(std::make_pair(propertyId, liveBlock));
+    assert(isFreezingEnabled(propertyId, liveBlock));
+    PrintToLog("Freezing for property %d will be enabled at block %d.\n", propertyId, liveBlock);
+}
+
+void mastercore::disableFreezing(uint32_t propertyId)
+{
+    int liveBlock = 0;
+    for (std::set<std::pair<uint32_t,int> >::iterator it = setFreezingEnabledProperties.begin(); it != setFreezingEnabledProperties.end(); it++) {
+        if (propertyId == (*it).first) {
+            liveBlock = (*it).second;
+        }
+    }
+    assert(liveBlock > 0);
+
+    setFreezingEnabledProperties.erase(std::make_pair(propertyId, liveBlock));
+    PrintToLog("Freezing for property %d has been disabled.\n", propertyId);
+
+    // When disabling freezing for a property, all frozen addresses for that property will be unfrozen!
+    for (std::set<std::pair<std::string,uint32_t> >::iterator it = setFrozenAddresses.begin(); it != setFrozenAddresses.end(); ) {
+        if ((*it).second == propertyId) {
+            PrintToLog("Address %s has been unfrozen for property %d.\n", (*it).first, propertyId);
+            it = setFrozenAddresses.erase(it);
+            assert(!isAddressFrozen((*it).first, (*it).second));
+        } else {
+            it++;
+        }
+    }
+
+    assert(!isFreezingEnabled(propertyId, liveBlock));
+}
+
+bool mastercore::isFreezingEnabled(uint32_t propertyId, int block)
+{
+    for (std::set<std::pair<uint32_t,int> >::iterator it = setFreezingEnabledProperties.begin(); it != setFreezingEnabledProperties.end(); it++) {
+        uint32_t itemPropertyId = (*it).first;
+        int itemBlock = (*it).second;
+        if (propertyId == itemPropertyId && block >= itemBlock) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void mastercore::freezeAddress(const std::string& address, uint32_t propertyId)
+{
+    setFrozenAddresses.insert(std::make_pair(address, propertyId));
+    assert(isAddressFrozen(address, propertyId));
+    PrintToLog("Address %s has been frozen for property %d.\n", address, propertyId);
+}
+
+void mastercore::unfreezeAddress(const std::string& address, uint32_t propertyId)
+{
+    setFrozenAddresses.erase(std::make_pair(address, propertyId));
+    assert(!isAddressFrozen(address, propertyId));
+    PrintToLog("Address %s has been unfrozen for property %d.\n", address, propertyId);
+}
+
+bool mastercore::isAddressFrozen(const std::string& address, uint32_t propertyId)
+{
+    if (setFrozenAddresses.find(std::make_pair(address, propertyId)) != setFrozenAddresses.end()) {
+        return true;
+    }
+    return false;
+}
 
 std::string mastercore::getTokenLabel(uint32_t propertyId)
 {
@@ -586,44 +586,44 @@ void NotifyTotalTokensChanged(uint32_t propertyId, int block)
 
 void CheckWalletUpdate(bool forceUpdate)
 {
-//     if (!WalletCacheUpdate()) {
-//         // no balance changes were detected that affect wallet addresses, signal a generic change to overall Omni state
-//         if (!forceUpdate) {
-//             uiInterface.OmniStateChanged();
-//             return;
-//         }
-//     }
-// #ifdef ENABLE_WALLET
-//     LOCK(cs_tally);
-//
-//     // balance changes were found in the wallet, update the global totals and signal a Omni balance change
-//     global_balance_money.clear();
-//     global_balance_reserved.clear();
-//
-//     // populate global balance totals and wallet property list - note global balances do not include additional balances from watch-only addresses
-//     for (std::unordered_map<std::string, CMPTally>::iterator my_it = mp_tally_map.begin(); my_it != mp_tally_map.end(); ++my_it) {
-//         // check if the address is a wallet address (including watched addresses)
-//         std::string address = my_it->first;
-//         int addressIsMine = IsMyAddress(address);
-//         if (!addressIsMine) continue;
-//         // iterate only those properties in the TokenMap for this address
-//         my_it->second.init();
-//         uint32_t propertyId;
-//         while (0 != (propertyId = (my_it->second).next())) {
-//             // add to the global wallet property list
-//             global_wallet_property_list.insert(propertyId);
-//             // check if the address is spendable (only spendable balances are included in totals)
-//             if (addressIsMine != ISMINE_SPENDABLE) continue;
-//             // work out the balances and add to globals
-//             global_balance_money[propertyId] += getUserAvailableMPbalance(address, propertyId);
-//             global_balance_reserved[propertyId] += getMPbalance(address, propertyId, SELLOFFER_RESERVE);
-//             global_balance_reserved[propertyId] += getMPbalance(address, propertyId, METADEX_RESERVE);
-//             global_balance_reserved[propertyId] += getMPbalance(address, propertyId, ACCEPT_RESERVE);
-//         }
-//     }
-//     // signal an Omni balance change
-//     uiInterface.OmniBalanceChanged();
-// #endif
+    if (!WalletCacheUpdate()) {
+        // no balance changes were detected that affect wallet addresses, signal a generic change to overall Omni state
+        if (!forceUpdate) {
+            uiInterface.OmniStateChanged();
+            return;
+        }
+    }
+#ifdef ENABLE_WALLET
+    LOCK(cs_tally);
+
+    // balance changes were found in the wallet, update the global totals and signal a Omni balance change
+    global_balance_money.clear();
+    global_balance_reserved.clear();
+
+    // populate global balance totals and wallet property list - note global balances do not include additional balances from watch-only addresses
+    for (std::unordered_map<std::string, CMPTally>::iterator my_it = mp_tally_map.begin(); my_it != mp_tally_map.end(); ++my_it) {
+        // check if the address is a wallet address (including watched addresses)
+        std::string address = my_it->first;
+        int addressIsMine = IsMyAddress(address);
+        if (!addressIsMine) continue;
+        // iterate only those properties in the TokenMap for this address
+        my_it->second.init();
+        uint32_t propertyId;
+        while (0 != (propertyId = (my_it->second).next())) {
+            // add to the global wallet property list
+            global_wallet_property_list.insert(propertyId);
+            // check if the address is spendable (only spendable balances are included in totals)
+            if (addressIsMine != ISMINE_SPENDABLE) continue;
+            // work out the balances and add to globals
+            global_balance_money[propertyId] += getUserAvailableMPbalance(address, propertyId);
+            global_balance_reserved[propertyId] += getMPbalance(address, propertyId, SELLOFFER_RESERVE);
+            global_balance_reserved[propertyId] += getMPbalance(address, propertyId, METADEX_RESERVE);
+            global_balance_reserved[propertyId] += getMPbalance(address, propertyId, ACCEPT_RESERVE);
+        }
+    }
+    // signal an Omni balance change
+    uiInterface.OmniBalanceChanged();
+#endif
 }
 //
 // /**
@@ -768,12 +768,12 @@ int mastercore::GetEncodingClass(const CTransaction& tx, int nBlock)
 
     return NO_MARKER;
 }
-//
-// // TODO: move
+
+// TODO: move
 CCoinsView mastercore::viewDummy;
 CCoinsViewCache mastercore::view(&viewDummy);
 //
-// //! Guards coins view cache
+//! Guards coins view cache
 CCriticalSection mastercore::cs_tx_cache;
 //
 static unsigned int nCacheHits = 0;
@@ -840,7 +840,6 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
 
     // ### CLASS IDENTIFICATION AND MARKER CHECK ###
     int omniClass = GetEncodingClass(wtx, nBlock);
-    // int omniClass = OMNI_CLASS_C;
 
     if (omniClass == NO_MARKER) {
         // const string lineOut = strprintf("NO MARKER in parse transaction function\n");
@@ -883,13 +882,12 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
             const string lineOut1 = strprintf("NEW LOGIC\n");
             saveToLog(lineOut1);
         // determine the sender, but invalidate transaction, if the input is not accepted
-        // {
             unsigned int vin_n = 0; // the first input
             // if (msc_debug_vin) PrintToLog("vin=%d:%s\n", vin_n, ScriptToAsmStr(wtx.vin[vin_n].scriptSig));
             const string lineOut16 = strprintf("vin=%d:%s\n", vin_n, ScriptToAsmStr(wtx.vin[vin_n].scriptSig));
             saveToLog(lineOut16);
             const CTxIn& txIn = wtx.vin[vin_n];
-            const CTxOut& txOut = view.GetOutputFor(txIn); // TODO: fix this !!!!
+            const CTxOut& txOut = view.GetOutputFor(txIn);
 
             const string lineOut9 = strprintf("after view.GetOutputFor(txIn)\n");
             saveToLog(lineOut9);
@@ -2060,12 +2058,12 @@ void clear_all_state()
     // LevelDB based storage
     _my_sps->Clear();
     p_txlistdb->Clear();
-    s_stolistdb->Clear();
-    t_tradelistdb->Clear();
-    p_OmniTXDB->Clear();
-    p_feecache->Clear();
-    p_feehistory->Clear();
-    // assert(p_txlistdb->setDBVersion() == DB_VERSION); // new set of databases, set DB version
+    // s_stolistdb->Clear();
+    // t_tradelistdb->Clear();
+    // p_OmniTXDB->Clear();
+    // p_feecache->Clear();
+    // p_feehistory->Clear();
+    assert(p_txlistdb->setDBVersion() == DB_VERSION); // new set of databases, set DB version
     exodus_prev = 0;
 }
 //
@@ -2078,10 +2076,10 @@ int mastercore_init()
 {
     LOCK(cs_tally);
 
-    // if (mastercoreInitialized) {
-    //     // nothing to do
-    //     return 0;
-    // }
+    if (mastercoreInitialized) {
+        // nothing to do
+        return 0;
+    }
    strprintf(_("Initializing Omni Core Gold\n"));
     PrintToConsole("Initializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
 
@@ -2091,24 +2089,24 @@ int mastercore_init()
     // InitDebugLogLevels();
     // ShrinkDebugLog();
 
-    if (isNonMainNet()) {
+    if (!isNonMainNet()) {
         exodus_address = exodus_testnet;
     }
 
     // check for --autocommit option and set transaction commit flag accordingly
-    // if (!gArgs.GetBoolArg("-autocommit", true)) {
-    //     PrintToLog("Process was started with --autocommit set to false. "
-    //             "Created Omni transactions will not be committed to wallet or broadcast.\n");
-    //     autoCommit = false;
-    // }
+    if (!gArgs.GetBoolArg("-autocommit", true)) {
+        PrintToLog("Process was started with --autocommit set to false. "
+                "Created Omni transactions will not be committed to wallet or broadcast.\n");
+        autoCommit = false;
+    }
 
     // check for --startclean option and delete MP_ folders if present
     bool startClean = false;
-    if (gArgs.GetBoolArg("-startclean", false)) {
+    if (!gArgs.GetBoolArg("-startclean", false)) {
         PrintToLog("Process was started with --startclean option, attempting to clear persistence files..\n");
         try {
             boost::filesystem::path persistPath = GetDataDir() / "MP_persist";
-//             boost::filesystem::path txlistPath = GetDataDir() / "MP_txlist";
+            boost::filesystem::path txlistPath = GetDataDir() / "MP_txlist";
 //             boost::filesystem::path tradePath = GetDataDir() / "MP_tradelist";
             boost::filesystem::path spPath = GetDataDir() / "MP_spinfo";
 //             boost::filesystem::path stoPath = GetDataDir() / "MP_stolist";
@@ -2134,7 +2132,7 @@ int mastercore_init()
 //
 //     t_tradelistdb = new CMPTradeList(GetDataDir() / "MP_tradelist", fReindex);
 //     s_stolistdb = new CMPSTOList(GetDataDir() / "MP_stolist", fReindex);
-//     p_txlistdb = new CMPTxList(GetDataDir() / "MP_txlist", fReindex);
+    p_txlistdb = new CMPTxList(GetDataDir() / "MP_txlist", fReindex);
     _my_sps = new CMPSPInfo(GetDataDir() / "MP_spinfo", fReindex);
 //     p_OmniTXDB = new COmniTransactionDB(GetDataDir() / "Omni_TXDB", fReindex);
 //     p_feecache = new COmniFeeCache(GetDataDir() / "OMNI_feecache", fReindex);
@@ -2143,33 +2141,34 @@ int mastercore_init()
     MPPersistencePath = GetDataDir() / "MP_persist";
     TryCreateDirectory(MPPersistencePath);
 
-    // bool wrongDBVersion = (p_txlistdb->getDBVersion() != DB_VERSION);
-
+    bool wrongDBVersion = (p_txlistdb->getDBVersion() != DB_VERSION); //DB_VERSION=6
     ++mastercoreInitialized;
 
     nWaterlineBlock = load_most_relevant_state();
+    const string lineOut9 = strprintf("After load_most_relevant_state function!, nWaterlineBlock: %d\n",nWaterlineBlock);
+    saveToLog(lineOut9);
     bool noPreviousState = (nWaterlineBlock <= 0);
 
-    // if (startClean) {
-    //     assert(p_txlistdb->setDBVersion() == DB_VERSION); // new set of databases, set DB version
-    // } // else if (wrongDBVersion) { // TODO:checkout this
-    //     nWaterlineBlock = -1; // force a clear_all_state and parse from start
-    // }
+    if (startClean) {
+        assert(p_txlistdb->setDBVersion() == DB_VERSION); // new set of databases, set DB version
+    }  else if (wrongDBVersion) {
+        nWaterlineBlock = -1; // force a clear_all_state and parse from start
+    }
 
     if (nWaterlineBlock > 0) {
         PrintToConsole("Loading persistent state: OK [block %d]\n", nWaterlineBlock);
     } else {
         std::string strReason = "unknown";
-        // if (wrongDBVersion) strReason = "client version changed";
+        if (wrongDBVersion) strReason = "client version changed";
         if (noPreviousState) strReason = "no usable previous state found";
         if (startClean) strReason = "-startclean parameter used";
         PrintToConsole("Loading persistent state: NONE (%s)\n", strReason);
     }
 
-    // if (nWaterlineBlock < 0) { // TODO:checkout this
-    //     // persistence says we reparse!, nuke some stuff in case the partial loads left stale bits
-    //     clear_all_state();
-    // }
+    if (nWaterlineBlock < 0) {
+        // persistence says we reparse!, nuke some stuff in case the partial loads left stale bits
+        clear_all_state();
+    }
 
     // legacy code, setting to pre-genesis-block
     int snapshotHeight = ConsensusParams().GENESIS_BLOCK - 1;
@@ -2258,7 +2257,7 @@ int mastercore_shutdown()
     //     p_feehistory = NULL;
     // }
     //
-    // mastercoreInitialized = 0;
+    mastercoreInitialized = 0;
 
     PrintToLog("\nOmni Core shutdown completed\n");
     PrintToLog("Shutdown time: %s\n", DateTimeStrFormat("%Y-%m-%d %H:%M:%S", GetTime()));
@@ -2277,10 +2276,10 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
 {
 
        LOCK(cs_tally);
-//
-    // if (!mastercoreInitialized) {
-    //     mastercore_init();
-    // }
+
+    if (!mastercoreInitialized) {
+        mastercore_init();
+    }
     const string lineOut = strprintf("dentro de mastercore_handler_tx");
     saveToLog(lineOut);
 //
@@ -2306,7 +2305,6 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
     //
     //     assert(mp_obj.getEncodingClass() != NO_MARKER);
     //     assert(mp_obj.getSender().empty() == false);
-    //     if (true) return MP_CHECKPOINT;
     //     // extra iteration of the outputs for every transaction, not needed on mainnet after Exodus closed
     //     const CConsensusParams& params = ConsensusParams();
     //     // if (isNonMainNet() || nBlock <= params.LAST_EXODUS_BLOCK) {
@@ -2395,8 +2393,6 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     CBitcoinAddress addr = CBitcoinAddress(senderAddress);
     coinControl.destChange = addr.Get();
     coinControl.fAllowOtherInputs = true;
-    // coinControl.fOverrideFeeRate = true;
-    // CCoinControl const coinControl1 = coinControl;
     const string lineOut9 = strprintf("First Checkpoint\n");
     saveToLog(lineOut9);
     // Select the inputs  TODO: make SelectCoins function works!!!
@@ -2461,18 +2457,18 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
 #endif
 
 }
-//
-// void COmniTransactionDB::RecordTransaction(const uint256& txid, uint32_t posInBlock, int processingResult)
-// {
-//     assert(pdb);
-//
-//     const std::string key = txid.ToString();
-//     const std::string value = strprintf("%d:%d", posInBlock, processingResult);
-//
-//     Status status = pdb->Put(writeoptions, key, value);
-//     ++nWritten;
-// }
-//
+
+void COmniTransactionDB::RecordTransaction(const uint256& txid, uint32_t posInBlock, int processingResult)
+{
+    assert(pdb);
+
+    const std::string key = txid.ToString();
+    const std::string value = strprintf("%d:%d", posInBlock, processingResult);
+
+    Status status = pdb->Put(writeoptions, key, value);
+    ++nWritten;
+}
+
 // std::vector<std::string> COmniTransactionDB::FetchTransactionDetails(const uint256& txid)
 // {
 //     assert(pdb);
@@ -2544,30 +2540,30 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
 //     return setSeedBlocks;
 // }
 //
-// bool CMPTxList::CheckForFreezeTxs(int blockHeight)
-// {
-//     assert(pdb);
-//     Iterator* it = NewIterator();
-//
-//     for (it->SeekToFirst(); it->Valid(); it->Next()) {
-//         std::string itData = it->value().ToString();
-//         std::vector<std::string> vstr;
-//         boost::split(vstr, itData, boost::is_any_of(":"), token_compress_on);
-//         if (4 != vstr.size()) continue;
-//         int block = atoi(vstr[1]);
-//         if (block < blockHeight) continue;
-//         uint16_t txtype = atoi(vstr[2]);
-//         if (txtype == MSC_TYPE_FREEZE_PROPERTY_TOKENS || txtype == MSC_TYPE_UNFREEZE_PROPERTY_TOKENS ||
-//             txtype == MSC_TYPE_ENABLE_FREEZING || txtype == MSC_TYPE_DISABLE_FREEZING) {
-//             delete it;
-//             return true;
-//         }
-//     }
-//
-//     delete it;
-//     return false;
-// }
-//
+bool CMPTxList::CheckForFreezeTxs(int blockHeight)
+{
+    assert(pdb);
+    Iterator* it = NewIterator();
+
+    for (it->SeekToFirst(); it->Valid(); it->Next()) {
+        std::string itData = it->value().ToString();
+        std::vector<std::string> vstr;
+        boost::split(vstr, itData, boost::is_any_of(":"), token_compress_on);
+        if (4 != vstr.size()) continue;
+        int block = atoi(vstr[1]);
+        if (block < blockHeight) continue;
+        uint16_t txtype = atoi(vstr[2]);
+        if (txtype == MSC_TYPE_FREEZE_PROPERTY_TOKENS || txtype == MSC_TYPE_UNFREEZE_PROPERTY_TOKENS ||
+            txtype == MSC_TYPE_ENABLE_FREEZING || txtype == MSC_TYPE_DISABLE_FREEZING) {
+            delete it;
+            return true;
+        }
+    }
+
+    delete it;
+    return false;
+}
+
 // bool CMPTxList::LoadFreezeState(int blockHeight)
 // {
 //     assert(pdb);
@@ -2821,10 +2817,11 @@ int CMPTxList::getDBVersion()
     Status status = pdb->Get(readoptions, "dbversion", &strValue);
     if (status.ok()) {
         verDB = boost::lexical_cast<uint64_t>(strValue);
+        const string lineOut9 = strprintf("VERSION OF DB: %d\n",verDB);
+        saveToLog(lineOut9);
     }
 
     if (msc_debug_txdb) PrintToLog("%s(): dbversion %s status %s, line %d, file: %s\n", __FUNCTION__, strValue, status.ToString(), __LINE__, __FILE__);
-
     return verDB;
 }
 //
@@ -2837,7 +2834,8 @@ int CMPTxList::setDBVersion()
 {
     std::string verStr = boost::lexical_cast<std::string>(DB_VERSION);
     Status status = pdb->Put(writeoptions, "dbversion", verStr);
-
+    const string lineOut9 = strprintf("%s(): dbversion %s status %s, line %d, file: %s\n", __FUNCTION__, verStr, status.ToString(), __LINE__, __FILE__);
+    saveToLog(lineOut9);
     if (msc_debug_txdb) PrintToLog("%s(): dbversion %s status %s, line %d, file: %s\n", __FUNCTION__, verStr, status.ToString(), __LINE__, __FILE__);
 
     return getDBVersion();
@@ -3175,48 +3173,48 @@ int CMPTxList::setDBVersion()
 // // figure out if there was at least 1 Master Protocol transaction within the block range, or a block if starting equals ending
 // // block numbers are inclusive
 // // pass in bDeleteFound = true to erase each entry found within the block range
-// bool CMPTxList::isMPinBlockRange(int starting_block, int ending_block, bool bDeleteFound)
-// {
-// leveldb::Slice skey, svalue;
-// unsigned int count = 0;
-// std::vector<std::string> vstr;
-// int block;
-// unsigned int n_found = 0;
-//
-//   leveldb::Iterator* it = NewIterator();
-//
-//   for(it->SeekToFirst(); it->Valid(); it->Next())
-//   {
-//     skey = it->key();
-//     svalue = it->value();
-//
-//     ++count;
-//
-//     string strvalue = it->value().ToString();
-//
-//     // parse the string returned, find the validity flag/bit & other parameters
-//     boost::split(vstr, strvalue, boost::is_any_of(":"), token_compress_on);
-//
-//     // only care about the block number/height here
-//     if (2 <= vstr.size())
-//     {
-//       block = atoi(vstr[1]);
-//
-//       if ((starting_block <= block) && (block <= ending_block))
-//       {
-//         ++n_found;
-//         PrintToLog("%s() DELETING: %s=%s\n", __FUNCTION__, skey.ToString(), svalue.ToString());
-//         if (bDeleteFound) pdb->Delete(writeoptions, skey);
-//       }
-//     }
-//   }
-//
-//   PrintToLog("%s(%d, %d); n_found= %d\n", __FUNCTION__, starting_block, ending_block, n_found);
-//
-//   delete it;
-//
-//   return (n_found);
-// }
+bool CMPTxList::isMPinBlockRange(int starting_block, int ending_block, bool bDeleteFound)
+{
+leveldb::Slice skey, svalue;
+unsigned int count = 0;
+std::vector<std::string> vstr;
+int block;
+unsigned int n_found = 0;
+
+  leveldb::Iterator* it = NewIterator();
+
+  for(it->SeekToFirst(); it->Valid(); it->Next())
+  {
+    skey = it->key();
+    svalue = it->value();
+
+    ++count;
+
+    string strvalue = it->value().ToString();
+
+    // parse the string returned, find the validity flag/bit & other parameters
+    boost::split(vstr, strvalue, boost::is_any_of(":"), token_compress_on);
+
+    // only care about the block number/height here
+    if (2 <= vstr.size())
+    {
+      block = atoi(vstr[1]);
+
+      if ((starting_block <= block) && (block <= ending_block))
+      {
+        ++n_found;
+        PrintToLog("%s() DELETING: %s=%s\n", __FUNCTION__, skey.ToString(), svalue.ToString());
+        if (bDeleteFound) pdb->Delete(writeoptions, skey);
+      }
+    }
+  }
+
+  PrintToLog("%s(%d, %d); n_found= %d\n", __FUNCTION__, starting_block, ending_block, n_found);
+
+  delete it;
+
+  return (n_found);
+}
 //
 // // MPSTOList here
 // std::string CMPSTOList::getMySTOReceipts(string filterAddress)
@@ -3819,53 +3817,53 @@ int CMPTxList::setDBVersion()
 //
 int mastercore_handler_block_begin(int nBlockPrev, CBlockIndex const * pBlockIndex)
 {
-    // LOCK(cs_tally);
-//
-//     if (reorgRecoveryMode > 0) {
-//         reorgRecoveryMode = 0; // clear reorgRecovery here as this is likely re-entrant
-//
-//         // Check if any freeze related transactions would be rolled back - if so wipe the state and startclean
-//         bool reorgContainsFreeze = p_txlistdb->CheckForFreezeTxs(pBlockIndex->nHeight);
-//
-//         // NOTE: The blockNum parameter is inclusive, so deleteAboveBlock(1000) will delete records in block 1000 and above.
-//         p_txlistdb->isMPinBlockRange(pBlockIndex->nHeight, reorgRecoveryMaxHeight, true);
-//         t_tradelistdb->deleteAboveBlock(pBlockIndex->nHeight);
-//         s_stolistdb->deleteAboveBlock(pBlockIndex->nHeight);
-//         p_feecache->RollBackCache(pBlockIndex->nHeight);
-//         p_feehistory->RollBackHistory(pBlockIndex->nHeight);
-//         reorgRecoveryMaxHeight = 0;
-//
-//         nWaterlineBlock = ConsensusParams().GENESIS_BLOCK - 1;
-//
-//         if (reorgContainsFreeze) {
-//            PrintToLog("Reorganization containing freeze related transactions detected, forcing a reparse...\n");
-//            clear_all_state(); // unable to reorg freezes safely, clear state and reparse
-//         } else {
-//             int best_state_block = load_most_relevant_state();
-//             if (best_state_block < 0) {
-//                 // unable to recover easily, remove stale stale state bits and reparse from the beginning.
-//                 clear_all_state();
-//             } else {
-//                 nWaterlineBlock = best_state_block;
-//             }
-//         }
-//
-//         // clear the global wallet property list, perform a forced wallet update and tell the UI that state is no longer valid, and UI views need to be reinit
-//         global_wallet_property_list.clear();
-//         CheckWalletUpdate(true);
-//         uiInterface.OmniStateInvalidated();
-//
-//         if (nWaterlineBlock < nBlockPrev) {
-//             // scan from the block after the best active block to catch up to the active chain
-//             msc_initial_scan(nWaterlineBlock + 1);
-//         }
-//     }
-//
-//     // handle any features that go live with this block
-//     CheckLiveActivations(pBlockIndex->nHeight);
-//
-//     eraseExpiredCrowdsale(pBlockIndex);
-//
+    LOCK(cs_tally);
+
+    if (reorgRecoveryMode > 0) {
+        reorgRecoveryMode = 0; // clear reorgRecovery here as this is likely re-entrant
+
+        // Check if any freeze related transactions would be rolled back - if so wipe the state and startclean
+        bool reorgContainsFreeze = p_txlistdb->CheckForFreezeTxs(pBlockIndex->nHeight);
+
+        // NOTE: The blockNum parameter is inclusive, so deleteAboveBlock(1000) will delete records in block 1000 and above.
+        p_txlistdb->isMPinBlockRange(pBlockIndex->nHeight, reorgRecoveryMaxHeight, true);
+        // t_tradelistdb->deleteAboveBlock(pBlockIndex->nHeight);
+        // s_stolistdb->deleteAboveBlock(pBlockIndex->nHeight);
+        // p_feecache->RollBackCache(pBlockIndex->nHeight);
+        // p_feehistory->RollBackHistory(pBlockIndex->nHeight);
+        // reorgRecoveryMaxHeight = 0;
+
+        nWaterlineBlock = ConsensusParams().GENESIS_BLOCK - 1;
+
+        if (reorgContainsFreeze) {
+           PrintToLog("Reorganization containing freeze related transactions detected, forcing a reparse...\n");
+           clear_all_state(); // unable to reorg freezes safely, clear state and reparse
+        } else {
+            int best_state_block = load_most_relevant_state();
+            if (best_state_block < 0) {
+                // unable to recover easily, remove stale stale state bits and reparse from the beginning.
+                clear_all_state();
+            } else {
+                nWaterlineBlock = best_state_block;
+            }
+        }
+
+        // clear the global wallet property list, perform a forced wallet update and tell the UI that state is no longer valid, and UI views need to be reinit
+        global_wallet_property_list.clear();
+        CheckWalletUpdate(true);
+        uiInterface.OmniStateInvalidated();
+
+        if (nWaterlineBlock < nBlockPrev) {
+            // scan from the block after the best active block to catch up to the active chain
+            msc_initial_scan(nWaterlineBlock + 1);
+        }
+    }
+
+    //handle any features that go live with this block
+    // CheckLiveActivations(pBlockIndex->nHeight);
+    //
+    // eraseExpiredCrowdsale(pBlockIndex);
+
     return 0;
 }
 //
@@ -3875,83 +3873,83 @@ int mastercore_handler_block_begin(int nBlockPrev, CBlockIndex const * pBlockInd
 int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex,
         unsigned int countMP)
 {
-    // LOCK(cs_tally);
+    LOCK(cs_tally);
 
-    // if (!mastercoreInitialized) {
-    //     mastercore_init();
+    if (!mastercoreInitialized) {
+        mastercore_init();
+    }
+
+    // for every new received block must do:
+    // 1) remove expired entries from the accept list (per spec accept entries are
+    //    valid until their blocklimit expiration; because the customer can keep
+    //    paying BTC for the offer in several installments)
+    // 2) update the amount in the Exodus address
+    int64_t devmsc = 0;
+    // unsigned int how_many_erased = eraseExpiredAccepts(nBlockNow);
+
+    // if (how_many_erased) {
+    //     PrintToLog("%s(%d); erased %u accepts this block, line %d, file: %s\n",
+    //         __FUNCTION__, how_many_erased, nBlockNow, __LINE__, __FILE__);
     // }
-//
-//     // for every new received block must do:
-//     // 1) remove expired entries from the accept list (per spec accept entries are
-//     //    valid until their blocklimit expiration; because the customer can keep
-//     //    paying BTC for the offer in several installments)
-//     // 2) update the amount in the Exodus address
-//     int64_t devmsc = 0;
-//     unsigned int how_many_erased = eraseExpiredAccepts(nBlockNow);
-//
-//     if (how_many_erased) {
-//         PrintToLog("%s(%d); erased %u accepts this block, line %d, file: %s\n",
-//             __FUNCTION__, how_many_erased, nBlockNow, __LINE__, __FILE__);
-//     }
-//
-//     // calculate devmsc as of this block and update the Exodus' balance
-//     devmsc = calculate_and_update_devmsc(pBlockIndex->GetBlockTime(), nBlockNow);
-//
-//     if (msc_debug_exo) {
-//         int64_t balance = getMPbalance(exodus_address, OMNI_PROPERTY_MSC, BALANCE);
-//         PrintToLog("devmsc for block %d: %d, Exodus balance: %d\n", nBlockNow, devmsc, FormatDivisibleMP(balance));
-//     }
-//
-//     // check the alert status, do we need to do anything else here?
-//     CheckExpiredAlerts(nBlockNow, pBlockIndex->GetBlockTime());
-//
-//     // check that pending transactions are still in the mempool
-//     PendingCheck();
-//
-//     // transactions were found in the block, signal the UI accordingly
-//     if (countMP > 0) CheckWalletUpdate(true);
-//
-//     // calculate and print a consensus hash if required
-//     if (ShouldConsensusHashBlock(nBlockNow)) {
-//         uint256 consensusHash = GetConsensusHash();
-//         PrintToLog("Consensus hash for block %d: %s\n", nBlockNow, consensusHash.GetHex());
-//     }
-//
-//     // request checkpoint verification
-//     bool checkpointValid = VerifyCheckpoint(nBlockNow, pBlockIndex->GetBlockHash());
-//     if (!checkpointValid) {
-//         // failed checkpoint, can't be trusted to provide valid data - shutdown client
-//         const std::string& msg = strprintf("Shutting down due to failed checkpoint for block %d (hash %s)\n", nBlockNow, pBlockIndex->GetBlockHash().GetHex());
-//         PrintToLog(msg);
-//         if (!GetBoolArg("-overrideforcedshutdown", false)) {
-//             boost::filesystem::path persistPath = GetDataDir() / "MP_persist";
-//             if (boost::filesystem::exists(persistPath)) boost::filesystem::remove_all(persistPath); // prevent the node being restarted without a reparse after forced shutdown
-//             AbortNode(msg, msg);
-//         }
-//     } else {
-//         // save out the state after this block
-//         if (writePersistence(nBlockNow)) {
-//             mastercore_save_state(pBlockIndex);
-//         }
-//     }
-//
+
+    // calculate devmsc as of this block and update the Exodus' balance
+    devmsc = calculate_and_update_devmsc(pBlockIndex->GetBlockTime(), nBlockNow);
+
+    if (msc_debug_exo) {
+        int64_t balance = getMPbalance(exodus_address, OMNI_PROPERTY_MSC, BALANCE);
+        PrintToLog("devmsc for block %d: %d, Exodus balance: %d\n", nBlockNow, devmsc, FormatDivisibleMP(balance));
+    }
+
+    // check the alert status, do we need to do anything else here?
+    // CheckExpiredAlerts(nBlockNow, pBlockIndex->GetBlockTime());
+
+    // check that pending transactions are still in the mempool
+    PendingCheck();
+
+    // transactions were found in the block, signal the UI accordingly
+    if (countMP > 0) CheckWalletUpdate(true);
+
+    // calculate and print a consensus hash if required
+    // if (ShouldConsensusHashBlock(nBlockNow)) {
+    //     uint256 consensusHash = GetConsensusHash();
+    //     PrintToLog("Consensus hash for block %d: %s\n", nBlockNow, consensusHash.GetHex());
+    // }
+
+    // request checkpoint verification
+    bool checkpointValid = VerifyCheckpoint(nBlockNow, pBlockIndex->GetBlockHash());
+    if (!checkpointValid) {
+        // failed checkpoint, can't be trusted to provide valid data - shutdown client
+        const std::string& msg = strprintf("Shutting down due to failed checkpoint for block %d (hash %s)\n", nBlockNow, pBlockIndex->GetBlockHash().GetHex());
+        saveToLog(msg);
+        PrintToLog(msg);
+        if (!gArgs.GetBoolArg("-overrideforcedshutdown", false)) {
+            boost::filesystem::path persistPath = GetDataDir() / "MP_persist";
+            if (boost::filesystem::exists(persistPath)) boost::filesystem::remove_all(persistPath); // prevent the node being restarted without a reparse after forced shutdown
+            // AbortNode(msg, msg);
+        }
+    } else {
+        // save out the state after this block
+        if (writePersistence(nBlockNow)) {
+            mastercore_save_state(pBlockIndex);
+        }
+    }
+
     return 0;
 }
 //
 int mastercore_handler_disc_begin(int nBlockNow, CBlockIndex const * pBlockIndex)
 {
-       strprintf("INSIDE MASTERCORE HANDLER DISC BEGIN FUNCTION \n");
-    // LOCK(cs_tally);
-    //
-    // reorgRecoveryMode = 1;
-    // reorgRecoveryMaxHeight = (pBlockIndex->nHeight > reorgRecoveryMaxHeight) ? pBlockIndex->nHeight: reorgRecoveryMaxHeight;
+    strprintf("INSIDE MASTERCORE HANDLER DISC BEGIN FUNCTION \n");
+    LOCK(cs_tally);
+    reorgRecoveryMode = 1;
+    reorgRecoveryMaxHeight = (pBlockIndex->nHeight > reorgRecoveryMaxHeight) ? pBlockIndex->nHeight: reorgRecoveryMaxHeight;
     return 0;
 }
 
 int mastercore_handler_disc_end(int nBlockNow, CBlockIndex const * pBlockIndex)
 {
-       strprintf("INSIDE MASTERCORE HANDLER DISC END FUNCTION \n");
-    // LOCK(cs_tally);
+    strprintf("INSIDE MASTERCORE HANDLER DISC END FUNCTION \n");
+    LOCK(cs_tally);
 
     return 0;
 }
