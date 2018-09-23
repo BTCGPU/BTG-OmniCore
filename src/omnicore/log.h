@@ -3,7 +3,7 @@
 
 #include "util.h"
 #include "tinyformat.h"
-
+#include <stdio.h>
 #include <string>
 
 /** Prints to the log file. */
@@ -60,18 +60,18 @@ extern bool msc_debug_fees;
     template<TINYFORMAT_ARGTYPES(n)>                                            \
     static inline int PrintToLog(const char* format, TINYFORMAT_VARARGS(n))     \
     {                                                                           \
-        return ConsolePrint(tfm::format(format, TINYFORMAT_PASSARGS(n)));       \
+        return LogFilePrint(tfm::format(format, TINYFORMAT_PASSARGS(n)));       \
     }                                                                           \
     template<TINYFORMAT_ARGTYPES(n)>                                            \
     static inline int PrintToLog(TINYFORMAT_VARARGS(n))                         \
     {                                                                           \
-        return ConsolePrint(tfm::format("%s", TINYFORMAT_PASSARGS(n)));         \
+        return LogFilePrint(tfm::format("%s", TINYFORMAT_PASSARGS(n)));         \
     }                                                                           \
     template<TINYFORMAT_ARGTYPES(n)>                                            \
     static inline int PrintToConsole(const char* format, TINYFORMAT_VARARGS(n)) \
-    {                                                                           \
-        return ConsolePrint(tfm::format(format, TINYFORMAT_PASSARGS(n)));       \
-    }                                                                           \
+  {                                                                             \
+      return ConsolePrint(tfm::format(format, TINYFORMAT_PASSARGS(n)));         \
+  }                                                                             \
     template<TINYFORMAT_ARGTYPES(n)>                                            \
     static inline int PrintToConsole(TINYFORMAT_VARARGS(n))                     \
     {                                                                           \

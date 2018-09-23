@@ -1004,7 +1004,93 @@ omnicore/libbitcoin_server_a-log.o: omnicore/log.cpp \
  /usr/include/boost/signals2/detail/variadic_slot_invoker.hpp \
  /usr/include/boost/type_traits/function_traits.hpp \
  /usr/include/boost/signals2/detail/signal_template.hpp tinyformat.h \
- chainparamsbase.h utiltime.h /usr/include/boost/thread/once.hpp \
+ omnicore/omnicore.h omnicore/persistence.h leveldb/include/leveldb/db.h \
+ leveldb/include/leveldb/iterator.h leveldb/include/leveldb/slice.h \
+ leveldb/include/leveldb/status.h leveldb/include/leveldb/options.h \
+ omnicore/tally.h sync.h uint256.h crypto/common.h \
+ ../src/config/bitcoin-config.h /usr/include/sodium.h \
+ /usr/include/sodium/version.h /usr/include/sodium/export.h \
+ /usr/include/sodium/core.h /usr/include/sodium/crypto_aead_aes256gcm.h \
+ /usr/include/sodium/crypto_aead_chacha20poly1305.h \
+ /usr/include/sodium/crypto_aead_xchacha20poly1305.h \
+ /usr/include/sodium/crypto_auth.h \
+ /usr/include/sodium/crypto_auth_hmacsha512256.h \
+ /usr/include/sodium/crypto_auth_hmacsha512.h \
+ /usr/include/sodium/crypto_hash_sha512.h /usr/include/c++/7/stdlib.h \
+ /usr/include/sodium/crypto_auth_hmacsha256.h \
+ /usr/include/sodium/crypto_hash_sha256.h \
+ /usr/include/sodium/crypto_auth_hmacsha512.h \
+ /usr/include/sodium/crypto_auth_hmacsha512256.h \
+ /usr/include/sodium/crypto_box.h \
+ /usr/include/sodium/crypto_box_curve25519xsalsa20poly1305.h \
+ /usr/include/sodium/crypto_stream_xsalsa20.h \
+ /usr/include/sodium/crypto_box_curve25519xsalsa20poly1305.h \
+ /usr/include/sodium/crypto_core_hsalsa20.h \
+ /usr/include/sodium/crypto_core_hchacha20.h \
+ /usr/include/sodium/crypto_core_salsa20.h \
+ /usr/include/sodium/crypto_core_salsa2012.h \
+ /usr/include/sodium/crypto_core_salsa208.h \
+ /usr/include/sodium/crypto_generichash.h \
+ /usr/include/sodium/crypto_generichash_blake2b.h \
+ /usr/include/sodium/crypto_generichash_blake2b.h \
+ /usr/include/sodium/crypto_hash.h \
+ /usr/include/sodium/crypto_hash_sha256.h \
+ /usr/include/sodium/crypto_hash_sha512.h \
+ /usr/include/sodium/crypto_kdf.h \
+ /usr/include/sodium/crypto_kdf_blake2b.h \
+ /usr/include/sodium/crypto_kdf_blake2b.h /usr/include/sodium/crypto_kx.h \
+ /usr/include/sodium/crypto_onetimeauth.h \
+ /usr/include/sodium/crypto_onetimeauth_poly1305.h \
+ /usr/include/sodium/crypto_onetimeauth_poly1305.h \
+ /usr/include/sodium/crypto_pwhash.h \
+ /usr/include/sodium/crypto_pwhash_argon2i.h \
+ /usr/include/sodium/crypto_pwhash_argon2id.h \
+ /usr/include/sodium/crypto_pwhash_argon2i.h \
+ /usr/include/sodium/crypto_scalarmult.h \
+ /usr/include/sodium/crypto_scalarmult_curve25519.h \
+ /usr/include/sodium/crypto_scalarmult_curve25519.h \
+ /usr/include/sodium/crypto_secretbox.h \
+ /usr/include/sodium/crypto_secretbox_xsalsa20poly1305.h \
+ /usr/include/sodium/crypto_secretbox_xsalsa20poly1305.h \
+ /usr/include/sodium/crypto_secretstream_xchacha20poly1305.h \
+ /usr/include/sodium/crypto_aead_xchacha20poly1305.h \
+ /usr/include/sodium/crypto_stream_chacha20.h \
+ /usr/include/sodium/crypto_shorthash.h \
+ /usr/include/sodium/crypto_shorthash_siphash24.h \
+ /usr/include/sodium/crypto_shorthash_siphash24.h \
+ /usr/include/sodium/crypto_sign.h \
+ /usr/include/sodium/crypto_sign_ed25519.h \
+ /usr/include/sodium/crypto_sign_ed25519.h \
+ /usr/include/sodium/crypto_stream.h \
+ /usr/include/sodium/crypto_stream_chacha20.h \
+ /usr/include/sodium/crypto_stream_salsa20.h \
+ /usr/include/sodium/crypto_stream_xsalsa20.h \
+ /usr/include/sodium/crypto_verify_16.h \
+ /usr/include/sodium/crypto_verify_32.h \
+ /usr/include/sodium/crypto_verify_64.h /usr/include/sodium/randombytes.h \
+ /usr/include/sodium/randombytes_salsa20_random.h \
+ /usr/include/sodium/randombytes.h \
+ /usr/include/sodium/randombytes_sysrandom.h \
+ /usr/include/sodium/runtime.h /usr/include/sodium/utils.h \
+ /usr/include/sodium/crypto_box_curve25519xchacha20poly1305.h \
+ /usr/include/sodium/crypto_stream_xchacha20.h \
+ /usr/include/sodium/crypto_core_ed25519.h \
+ /usr/include/sodium/crypto_scalarmult_ed25519.h \
+ /usr/include/sodium/crypto_secretbox_xchacha20poly1305.h \
+ /usr/include/sodium/crypto_pwhash_scryptsalsa208sha256.h \
+ /usr/include/sodium/crypto_stream_salsa2012.h \
+ /usr/include/sodium/crypto_stream_salsa208.h \
+ /usr/include/sodium/crypto_stream_xchacha20.h compat/endian.h \
+ config/bitcoin-config.h compat/byteswap.h /usr/include/byteswap.h \
+ univalue/include/univalue.h primitives/transaction.h amount.h \
+ script/script.h crypto/common.h prevector.h serialize.h compat/endian.h \
+ /usr/include/c++/7/set /usr/include/c++/7/bits/stl_set.h \
+ /usr/include/c++/7/bits/stl_multiset.h prevector.h policy/feerate.h \
+ consensus/consensus.h /usr/include/c++/7/unordered_map \
+ /usr/include/c++/7/bits/hashtable.h \
+ /usr/include/c++/7/bits/hashtable_policy.h \
+ /usr/include/c++/7/bits/unordered_map.h chainparamsbase.h utiltime.h \
+ /usr/include/boost/thread/once.hpp \
  /usr/include/boost/thread/pthread/once_atomic.hpp \
  /usr/include/boost/thread/detail/invoke.hpp \
  /usr/include/boost/atomic.hpp /usr/include/boost/atomic/atomic.hpp \
@@ -3295,6 +3381,232 @@ utiltime.h:
 /usr/include/boost/signals2/detail/signal_template.hpp:
 
 tinyformat.h:
+
+omnicore/omnicore.h:
+
+omnicore/persistence.h:
+
+leveldb/include/leveldb/db.h:
+
+leveldb/include/leveldb/iterator.h:
+
+leveldb/include/leveldb/slice.h:
+
+leveldb/include/leveldb/status.h:
+
+leveldb/include/leveldb/options.h:
+
+omnicore/tally.h:
+
+sync.h:
+
+uint256.h:
+
+crypto/common.h:
+
+../src/config/bitcoin-config.h:
+
+/usr/include/sodium.h:
+
+/usr/include/sodium/version.h:
+
+/usr/include/sodium/export.h:
+
+/usr/include/sodium/core.h:
+
+/usr/include/sodium/crypto_aead_aes256gcm.h:
+
+/usr/include/sodium/crypto_aead_chacha20poly1305.h:
+
+/usr/include/sodium/crypto_aead_xchacha20poly1305.h:
+
+/usr/include/sodium/crypto_auth.h:
+
+/usr/include/sodium/crypto_auth_hmacsha512256.h:
+
+/usr/include/sodium/crypto_auth_hmacsha512.h:
+
+/usr/include/sodium/crypto_hash_sha512.h:
+
+/usr/include/c++/7/stdlib.h:
+
+/usr/include/sodium/crypto_auth_hmacsha256.h:
+
+/usr/include/sodium/crypto_hash_sha256.h:
+
+/usr/include/sodium/crypto_auth_hmacsha512.h:
+
+/usr/include/sodium/crypto_auth_hmacsha512256.h:
+
+/usr/include/sodium/crypto_box.h:
+
+/usr/include/sodium/crypto_box_curve25519xsalsa20poly1305.h:
+
+/usr/include/sodium/crypto_stream_xsalsa20.h:
+
+/usr/include/sodium/crypto_box_curve25519xsalsa20poly1305.h:
+
+/usr/include/sodium/crypto_core_hsalsa20.h:
+
+/usr/include/sodium/crypto_core_hchacha20.h:
+
+/usr/include/sodium/crypto_core_salsa20.h:
+
+/usr/include/sodium/crypto_core_salsa2012.h:
+
+/usr/include/sodium/crypto_core_salsa208.h:
+
+/usr/include/sodium/crypto_generichash.h:
+
+/usr/include/sodium/crypto_generichash_blake2b.h:
+
+/usr/include/sodium/crypto_generichash_blake2b.h:
+
+/usr/include/sodium/crypto_hash.h:
+
+/usr/include/sodium/crypto_hash_sha256.h:
+
+/usr/include/sodium/crypto_hash_sha512.h:
+
+/usr/include/sodium/crypto_kdf.h:
+
+/usr/include/sodium/crypto_kdf_blake2b.h:
+
+/usr/include/sodium/crypto_kdf_blake2b.h:
+
+/usr/include/sodium/crypto_kx.h:
+
+/usr/include/sodium/crypto_onetimeauth.h:
+
+/usr/include/sodium/crypto_onetimeauth_poly1305.h:
+
+/usr/include/sodium/crypto_onetimeauth_poly1305.h:
+
+/usr/include/sodium/crypto_pwhash.h:
+
+/usr/include/sodium/crypto_pwhash_argon2i.h:
+
+/usr/include/sodium/crypto_pwhash_argon2id.h:
+
+/usr/include/sodium/crypto_pwhash_argon2i.h:
+
+/usr/include/sodium/crypto_scalarmult.h:
+
+/usr/include/sodium/crypto_scalarmult_curve25519.h:
+
+/usr/include/sodium/crypto_scalarmult_curve25519.h:
+
+/usr/include/sodium/crypto_secretbox.h:
+
+/usr/include/sodium/crypto_secretbox_xsalsa20poly1305.h:
+
+/usr/include/sodium/crypto_secretbox_xsalsa20poly1305.h:
+
+/usr/include/sodium/crypto_secretstream_xchacha20poly1305.h:
+
+/usr/include/sodium/crypto_aead_xchacha20poly1305.h:
+
+/usr/include/sodium/crypto_stream_chacha20.h:
+
+/usr/include/sodium/crypto_shorthash.h:
+
+/usr/include/sodium/crypto_shorthash_siphash24.h:
+
+/usr/include/sodium/crypto_shorthash_siphash24.h:
+
+/usr/include/sodium/crypto_sign.h:
+
+/usr/include/sodium/crypto_sign_ed25519.h:
+
+/usr/include/sodium/crypto_sign_ed25519.h:
+
+/usr/include/sodium/crypto_stream.h:
+
+/usr/include/sodium/crypto_stream_chacha20.h:
+
+/usr/include/sodium/crypto_stream_salsa20.h:
+
+/usr/include/sodium/crypto_stream_xsalsa20.h:
+
+/usr/include/sodium/crypto_verify_16.h:
+
+/usr/include/sodium/crypto_verify_32.h:
+
+/usr/include/sodium/crypto_verify_64.h:
+
+/usr/include/sodium/randombytes.h:
+
+/usr/include/sodium/randombytes_salsa20_random.h:
+
+/usr/include/sodium/randombytes.h:
+
+/usr/include/sodium/randombytes_sysrandom.h:
+
+/usr/include/sodium/runtime.h:
+
+/usr/include/sodium/utils.h:
+
+/usr/include/sodium/crypto_box_curve25519xchacha20poly1305.h:
+
+/usr/include/sodium/crypto_stream_xchacha20.h:
+
+/usr/include/sodium/crypto_core_ed25519.h:
+
+/usr/include/sodium/crypto_scalarmult_ed25519.h:
+
+/usr/include/sodium/crypto_secretbox_xchacha20poly1305.h:
+
+/usr/include/sodium/crypto_pwhash_scryptsalsa208sha256.h:
+
+/usr/include/sodium/crypto_stream_salsa2012.h:
+
+/usr/include/sodium/crypto_stream_salsa208.h:
+
+/usr/include/sodium/crypto_stream_xchacha20.h:
+
+compat/endian.h:
+
+config/bitcoin-config.h:
+
+compat/byteswap.h:
+
+/usr/include/byteswap.h:
+
+univalue/include/univalue.h:
+
+primitives/transaction.h:
+
+amount.h:
+
+script/script.h:
+
+crypto/common.h:
+
+prevector.h:
+
+serialize.h:
+
+compat/endian.h:
+
+/usr/include/c++/7/set:
+
+/usr/include/c++/7/bits/stl_set.h:
+
+/usr/include/c++/7/bits/stl_multiset.h:
+
+prevector.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
+
+/usr/include/c++/7/unordered_map:
+
+/usr/include/c++/7/bits/hashtable.h:
+
+/usr/include/c++/7/bits/hashtable_policy.h:
+
+/usr/include/c++/7/bits/unordered_map.h:
 
 chainparamsbase.h:
 

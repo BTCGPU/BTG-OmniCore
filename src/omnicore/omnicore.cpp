@@ -2080,14 +2080,14 @@ int mastercore_init()
         // nothing to do
         return 0;
     }
-   strprintf(_("Initializing Omni Core Gold\n"));
+   //strprintf(_("Initializing Omni Core Gold\n"));
     PrintToConsole("Initializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
 
     PrintToLog("\nInitializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
     PrintToLog("Startup time: %s\n", DateTimeStrFormat("%Y-%m-%d %H:%M:%S", GetTime()));
 
     // InitDebugLogLevels();
-    // ShrinkDebugLog();
+    ShrinkDebugLog();
 
     if (!isNonMainNet()) {
         exodus_address = exodus_testnet;
