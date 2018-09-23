@@ -1,8 +1,12 @@
+
 #include "omnicore/log.h"
+#include "omnicore/omnicore.h"  //NOTE: just for testing
 
 #include "chainparamsbase.h"
+#include "tinyformat.h"
 #include "util.h"
 #include "utiltime.h"
+
 
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/path.hpp>
@@ -14,6 +18,8 @@
 #include <atomic>
 #include <string>
 #include <vector>
+#include <cstdio>
+
 
 // Default log files
 const std::string LOG_FILENAME    = "omnicore.log";
@@ -82,18 +88,17 @@ static boost::once_flag debugLogInitFlag = BOOST_ONCE_INIT;
  * We use boost::call_once() to make sure these are initialized
  * in a thread-safe manner the first time called:
  */
-static FILE* fileout = NULL;
-static boost::mutex* mutexDebugLog = NULL;
+static FILE* fileout = nullptr;
+static boost::mutex* mutexDebugLog = nullptr;
 /** Flag to indicate, whether the Omni Core log file should be reopened. */
 extern std::atomic<bool> fReopenOmniCoreLog;
-
 /**
  * Returns path for debug log file.
  *
  * The log file can be specified via startup option "--omnilogfile=/path/to/omnicore.log",
  * and if none is provided, then the client's datadir is used as default location.
  */
- static boost::filesystem::path GetLogPath()
+ static fs::path GetLogPath()
  {
      boost::filesystem::path pathLogFile;
      std::string strLogPath = gArgs.GetArg("-omnilogfile", "");
@@ -104,7 +109,8 @@ extern std::atomic<bool> fReopenOmniCoreLog;
      } else {
          pathLogFile = GetDataDir() / LOG_FILENAME;
      }
-
+     const string lineOut = strprintf("GetLogPath: %s\n",pathLogFile);
+     saveToLog(lineOut);
      return pathLogFile;
  }
 
@@ -113,16 +119,21 @@ extern std::atomic<bool> fReopenOmniCoreLog;
  */
 static void DebugLogInit()
 {
-    assert(fileout == NULL);
-    assert(mutexDebugLog == NULL);
+    assert(fileout == nullptr);
+    assert(mutexDebugLog == nullptr);
 
     boost::filesystem::path pathDebug = GetLogPath();
     fileout = fopen(pathDebug.string().c_str(), "a");
 
     if (fileout) {
-        setbuf(fileout, NULL); // Unbuffered
+        setbuf(fileout, nullptr); // Unbuffered
+        const string lineOut = strprintf("Debug log file: %s\n", pathDebug.string());
+        saveToLog(lineOut);
     } else {
-        PrintToConsole("Failed to open debug log file: %s\n", pathDebug.string());
+        // PrintToConsole("Failed to open debug log file: %s\n", pathDebug.string());
+        const string lineOut = strprintf("Failed to open debug log file: %s\n", pathDebug.string());
+        saveToLog(lineOut);
+
     }
 
     mutexDebugLog = new boost::mutex();
@@ -133,6 +144,8 @@ static void DebugLogInit()
  */
 static std::string GetTimestamp()
 {
+    const string lineOut = strprintf(" GetTimestamp: %Y-%m-%d %H:%M:%S", GetTime());
+    saveToLog(lineOut);
     return DateTimeStrFormat("%Y-%m-%d %H:%M:%S", GetTime());
 }
 
@@ -150,39 +163,49 @@ static std::string GetTimestamp()
  */
 int LogFilePrint(const std::string& str)
 {
+    const string lineOut = strprintf("inside LogFilePrint function\n");
+    saveToLog(lineOut);
     int ret = 0; // Number of characters written
     if (fPrintToConsole) {
         // Print to console
-        ret = ConsolePrint(str);
-    }
-    else if (fPrintToDebugLog && false) {
+        // ret = ConsolePrint(str);
+    // } else if (fPrintToDebugLog && AreBaseParamsConfigured()) {
+    } else if (true) {
         static bool fStartedNewLine = true;
         boost::call_once(&DebugLogInit, debugLogInitFlag);
-
         if (fileout == NULL) {
+            const string lineOut = strprintf("fileout == NULL\n");
+            saveToLog(lineOut);
             return ret;
         }
         boost::mutex::scoped_lock scoped_lock(*mutexDebugLog);
 
         // Reopen the log file, if requested
         if (fReopenOmniCoreLog) {
+        // if (true) {
             boost::filesystem::path pathDebug = GetLogPath();
-            if (freopen(pathDebug.string().c_str(), "a", fileout) != NULL) {
-                setbuf(fileout, NULL); // Unbuffered
+            if (freopen(pathDebug.string().c_str(),"a",fileout) != nullptr) {
+                setbuf(fileout, nullptr); // unbuffered
             }
+            const string lineOut = strprintf("fReopenOmniCoreLog == true\n");
+            saveToLog(lineOut);
         }
 
 
         // Printing log timestamps can be useful for profiling
-        if (fLogTimestamps && fStartedNewLine) {
-            ret += fprintf(fileout, "%s ", GetTimestamp().c_str());
-        }
-        if (!str.empty() && str[str.size()-1] == '\n') {
-            fStartedNewLine = true;
-        } else {
-            fStartedNewLine = false;
-        }
+        // if (fLogTimestamps && fStartedNewLine) {
+        // if (true) {
+        //     ret += fprintf(fileout, "%s ", GetTimestamp().c_str());
+        // }
+        // if (!str.empty() && str[str.size()-1] == '\n') {
+        //     fStartedNewLine = true;
+        // } else {
+        //     fStartedNewLine = false;
+        // }
+        const string lineOut = strprintf("tratando de imprimir al archivo!\n");
+        saveToLog(lineOut);
         ret += fwrite(str.data(), 1, str.size(), fileout);
+
     }
 
     return ret;
@@ -200,19 +223,26 @@ int LogFilePrint(const std::string& str)
 int ConsolePrint(const std::string& str)
 {
     int ret = 0; // Number of characters written
-    static bool fStartedNewLine = true;
-
-    if (fLogTimestamps && fStartedNewLine) {
-        ret = fprintf(stdout, "%s %s", GetTimestamp().c_str(), str.c_str());
-    } else {
-        ret = fwrite(str.data(), 1, str.size(), stdout);
-    }
-    if (!str.empty() && str[str.size()-1] == '\n') {
-        fStartedNewLine = true;
-    } else {
-        fStartedNewLine = false;
-    }
-    fflush(stdout);
+    // static bool fStartedNewLine = true;
+    // static bool fLogTimestamps = false; // NOTE: Check this function
+    // if (true) {
+    // // if (fLogTimestamps && fStartedNewLine) {
+        // ret = fprintf(stdout, "%s %s", GetTimestamp().c_str(), str.c_str());
+        // const string lineOut = strprintf("Using cout, str: %d\n",str);
+        // saveToLog(lineOut);
+    // } else {
+    //     ret = fwrite(str.data(), 1, str.size(), stdout);
+    //     const string lineOut = strprintf("Inside ConsolePrint function, data: %s, ret: %d\n",str,ret);
+    //     saveToLog(lineOut);
+    //
+    // }
+    // if (!str.empty() && str[str.size()-1] == '\n') {
+    //     fStartedNewLine = true;
+    // } else {
+    //     fStartedNewLine = false;
+    // }
+    // fflush(stdout);
+    // cout.flush();
 
     return ret;
 }
@@ -225,115 +255,115 @@ int ConsolePrint(const std::string& str)
  * Example usage (disable all debugging)  : --omnidebug=none
  * Example usage (disable all except XYZ) : --omnidebug=none --omnidebug=parser --omnidebug=sto
  */
-// void InitDebugLogLevels()
-// {
-//     if (!mapArgs.count("-omnidebug")) {
-//         return;
-//     }
-//
-//     const std::vector<std::string>& debugLevels = mapMultiArgs["-omnidebug"];
-//
-//     for (std::vector<std::string>::const_iterator it = debugLevels.begin(); it != debugLevels.end(); ++it) {
-//         if (*it == "parser_data") msc_debug_parser_data = true;
-//         if (*it == "parser_readonly") msc_debug_parser_readonly = true;
-//         if (*it == "parser_dex") msc_debug_parser_dex = true;
-//         if (*it == "parser") msc_debug_parser = true;
-//         if (*it == "verbose") msc_debug_verbose = true;
-//         if (*it == "verbose2") msc_debug_verbose2 = true;
-//         if (*it == "verbose3") msc_debug_verbose3 = true;
-//         if (*it == "vin") msc_debug_vin = true;
-//         if (*it == "script") msc_debug_script = true;
-//         if (*it == "dex") msc_debug_dex = true;
-//         if (*it == "send") msc_debug_send = true;
-//         if (*it == "tokens") msc_debug_tokens = true;
-//         if (*it == "spec") msc_debug_spec = true;
-//         if (*it == "exo") msc_debug_exo = true;
-//         if (*it == "tally") msc_debug_tally = true;
-//         if (*it == "sp") msc_debug_sp = true;
-//         if (*it == "sto") msc_debug_sto = true;
-//         if (*it == "txdb") msc_debug_txdb = true;
-//         if (*it == "tradedb") msc_debug_tradedb = true;
-//         if (*it == "persistence") msc_debug_persistence = true;
-//         if (*it == "ui") msc_debug_ui = true;
-//         if (*it == "pending") msc_debug_pending = true;
-//         if (*it == "metadex1") msc_debug_metadex1 = true;
-//         if (*it == "metadex2") msc_debug_metadex2 = true;
-//         if (*it == "metadex3") msc_debug_metadex3 = true;
-//         if (*it == "packets") msc_debug_packets = true;
-//         if (*it == "packets_readonly") msc_debug_packets_readonly = true;
-//         if (*it == "walletcache") msc_debug_walletcache = true;
-//         if (*it == "consensus_hash") msc_debug_consensus_hash = true;
-//         if (*it == "consensus_hash_every_block") msc_debug_consensus_hash_every_block = true;
-//         if (*it == "alerts") msc_debug_alerts = true;
-//         if (*it == "consensus_hash_every_transaction") msc_debug_consensus_hash_every_transaction = true;
-//         if (*it == "fees") msc_debug_fees = true;
-//         if (*it == "none" || *it == "all") {
-//             bool allDebugState = false;
-//             if (*it == "all") allDebugState = true;
-//             msc_debug_parser_data = allDebugState;
-//             msc_debug_parser_readonly = allDebugState;
-//             msc_debug_parser_dex = allDebugState;
-//             msc_debug_parser = allDebugState;
-//             msc_debug_verbose = allDebugState;
-//             msc_debug_verbose2 = allDebugState;
-//             msc_debug_verbose3 = allDebugState;
-//             msc_debug_vin = allDebugState;
-//             msc_debug_script = allDebugState;
-//             msc_debug_dex = allDebugState;
-//             msc_debug_send = allDebugState;
-//             msc_debug_tokens = allDebugState;
-//             msc_debug_spec = allDebugState;
-//             msc_debug_exo = allDebugState;
-//             msc_debug_tally = allDebugState;
-//             msc_debug_sp = allDebugState;
-//             msc_debug_sto = allDebugState;
-//             msc_debug_txdb = allDebugState;
-//             msc_debug_tradedb = allDebugState;
-//             msc_debug_persistence = allDebugState;
-//             msc_debug_ui = allDebugState;
-//             msc_debug_pending = allDebugState;
-//             msc_debug_metadex1 = allDebugState;
-//             msc_debug_metadex2 = allDebugState;
-//             msc_debug_metadex3 = allDebugState;
-//             msc_debug_packets =  allDebugState;
-//             msc_debug_packets_readonly =  allDebugState;
-//             msc_debug_walletcache = allDebugState;
-//             msc_debug_consensus_hash = allDebugState;
-//             msc_debug_consensus_hash_every_block = allDebugState;
-//             msc_debug_alerts = allDebugState;
-//             msc_debug_consensus_hash_every_transaction = allDebugState;
-//             msc_debug_fees = allDebugState;
-//         }
-//     }
-// }
+void InitDebugLogLevels()
+{
+    if (!gArgs.IsArgSet("-omnidebug")) {
+        return;
+    }
+
+    const std::vector<std::string>& debugLevels = gArgs.GetArgs("-omnidebug");
+
+    for (std::vector<std::string>::const_iterator it = debugLevels.begin(); it != debugLevels.end(); ++it) {
+        if (*it == "parser_data") msc_debug_parser_data = true;
+        if (*it == "parser_readonly") msc_debug_parser_readonly = true;
+        if (*it == "parser_dex") msc_debug_parser_dex = true;
+        if (*it == "parser") msc_debug_parser = true;
+        if (*it == "verbose") msc_debug_verbose = true;
+        if (*it == "verbose2") msc_debug_verbose2 = true;
+        if (*it == "verbose3") msc_debug_verbose3 = true;
+        if (*it == "vin") msc_debug_vin = true;
+        if (*it == "script") msc_debug_script = true;
+        if (*it == "dex") msc_debug_dex = true;
+        if (*it == "send") msc_debug_send = true;
+        if (*it == "tokens") msc_debug_tokens = true;
+        if (*it == "spec") msc_debug_spec = true;
+        if (*it == "exo") msc_debug_exo = true;
+        if (*it == "tally") msc_debug_tally = true;
+        if (*it == "sp") msc_debug_sp = true;
+        if (*it == "sto") msc_debug_sto = true;
+        if (*it == "txdb") msc_debug_txdb = true;
+        if (*it == "tradedb") msc_debug_tradedb = true;
+        if (*it == "persistence") msc_debug_persistence = true;
+        if (*it == "ui") msc_debug_ui = true;
+        if (*it == "pending") msc_debug_pending = true;
+        if (*it == "metadex1") msc_debug_metadex1 = true;
+        if (*it == "metadex2") msc_debug_metadex2 = true;
+        if (*it == "metadex3") msc_debug_metadex3 = true;
+        if (*it == "packets") msc_debug_packets = true;
+        if (*it == "packets_readonly") msc_debug_packets_readonly = true;
+        if (*it == "walletcache") msc_debug_walletcache = true;
+        if (*it == "consensus_hash") msc_debug_consensus_hash = true;
+        if (*it == "consensus_hash_every_block") msc_debug_consensus_hash_every_block = true;
+        if (*it == "alerts") msc_debug_alerts = true;
+        if (*it == "consensus_hash_every_transaction") msc_debug_consensus_hash_every_transaction = true;
+        if (*it == "fees") msc_debug_fees = true;
+        if (*it == "none" || *it == "all") {
+            bool allDebugState = false;
+            if (*it == "all") allDebugState = true;
+            msc_debug_parser_data = allDebugState;
+            msc_debug_parser_readonly = allDebugState;
+            msc_debug_parser_dex = allDebugState;
+            msc_debug_parser = allDebugState;
+            msc_debug_verbose = allDebugState;
+            msc_debug_verbose2 = allDebugState;
+            msc_debug_verbose3 = allDebugState;
+            msc_debug_vin = allDebugState;
+            msc_debug_script = allDebugState;
+            msc_debug_dex = allDebugState;
+            msc_debug_send = allDebugState;
+            msc_debug_tokens = allDebugState;
+            msc_debug_spec = allDebugState;
+            msc_debug_exo = allDebugState;
+            msc_debug_tally = allDebugState;
+            msc_debug_sp = allDebugState;
+            msc_debug_sto = allDebugState;
+            msc_debug_txdb = allDebugState;
+            msc_debug_tradedb = allDebugState;
+            msc_debug_persistence = allDebugState;
+            msc_debug_ui = allDebugState;
+            msc_debug_pending = allDebugState;
+            msc_debug_metadex1 = allDebugState;
+            msc_debug_metadex2 = allDebugState;
+            msc_debug_metadex3 = allDebugState;
+            msc_debug_packets =  allDebugState;
+            msc_debug_packets_readonly =  allDebugState;
+            msc_debug_walletcache = allDebugState;
+            msc_debug_consensus_hash = allDebugState;
+            msc_debug_consensus_hash_every_block = allDebugState;
+            msc_debug_alerts = allDebugState;
+            msc_debug_consensus_hash_every_transaction = allDebugState;
+            msc_debug_fees = allDebugState;
+        }
+    }
+}
 
 /**
  * Scrolls debug log, if it's getting too big.
  */
-// void ShrinkDebugLog()
-// {
-//     boost::filesystem::path pathLog = GetLogPath();
-//     FILE* file = fopen(pathLog.string().c_str(), "r");
-//
-//     if (file && boost::filesystem::file_size(pathLog) > LOG_SHRINKSIZE) {
-//         // Restart the file with some of the end
-//         char* pch = new char[LOG_BUFFERSIZE];
-//         if (NULL != pch) {
-//             fseek(file, -LOG_BUFFERSIZE, SEEK_END);
-//             int nBytes = fread(pch, 1, LOG_BUFFERSIZE, file);
-//             fclose(file);
-//             file = NULL;
-//
-//             file = fopen(pathLog.string().c_str(), "w");
-//             if (file) {
-//                 fwrite(pch, 1, nBytes, file);
-//                 fclose(file);
-//                 file = NULL;
-//             }
-//             delete[] pch;
-//         }
-//     } else if (NULL != file) {
-//         fclose(file);
-//         file = NULL;
-//     }
-// }
+void ShrinkDebugLog()
+{
+  boost::filesystem::path pathLog = GetLogPath();
+  FILE* file = fopen(pathLog.string().c_str(), "r");
+
+  if (file && boost::filesystem::file_size(pathLog) > LOG_SHRINKSIZE) {
+      // Restart the file with some of the end
+      char* pch = new char[LOG_BUFFERSIZE];
+      if (NULL != pch) {
+          fseek(file, -LOG_BUFFERSIZE, SEEK_END);
+          int nBytes = fread(pch, 1, LOG_BUFFERSIZE, file);
+          fclose(file);
+          file = NULL;
+
+          file = fopen(pathLog.string().c_str(), "w");
+          if (file) {
+              fwrite(pch, 1, nBytes, file);
+              fclose(file);
+              file = NULL;
+          }
+          delete[] pch;
+      }
+  } else if (NULL != file) {
+      fclose(file);
+      file = NULL;
+  }
+}
