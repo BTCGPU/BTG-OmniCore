@@ -112,8 +112,8 @@ UniValue omni_send(const JSONRPCRequest& request)  // TODO: add the fhelp bool
     std::string redeemAddress = (request.params.size() > 4 && !ParseText(request.params[4]).empty()) ? ParseAddress(request.params[4]): "";
     int64_t referenceAmount = (request.params.size() > 5) ? ParseAmount(request.params[5], true): 0;
     // perform checks
-    // RequireExistingProperty(propertyId);
-    // RequireBalance(fromAddress, propertyId, amount);
+    RequireExistingProperty(propertyId);
+    RequireBalance(fromAddress, propertyId, amount);
     // RequireSaneReferenceAmount(referenceAmount);
 
     // create a payload for the transaction

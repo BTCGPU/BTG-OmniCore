@@ -100,3 +100,9 @@ std::string ChainNameFromCommandLine()
         return CBaseChainParams::TESTNET;
     return CBaseChainParams::MAIN;
 }
+
+/*------------------ New things for OmniCore G Port --------------------------*/
+bool AreBaseParamsConfigured()
+{
+    return globalChainBaseParams != NULL;
+}
