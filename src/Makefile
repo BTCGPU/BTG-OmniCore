@@ -464,7 +464,6 @@ am_libbitcoin_server_a_OBJECTS = libbitcoin_server_a-addrdb.$(OBJEXT) \
 	omnicore/libbitcoin_server_a-parse_string.$(OBJEXT) \
 	omnicore/libbitcoin_server_a-createpayload.$(OBJEXT) \
 	omnicore/libbitcoin_server_a-varint.$(OBJEXT) \
-	omnicore/libbitcoin_server_a-globals.$(OBJEXT) \
 	omnicore/libbitcoin_server_a-utils.$(OBJEXT) \
 	omnicore/libbitcoin_server_a-sp.$(OBJEXT) \
 	omnicore/libbitcoin_server_a-rpcrawtx.$(OBJEXT) \
@@ -2092,7 +2091,6 @@ libbitcoin_server_a_SOURCES = \
 	omnicore/parse_string.cpp \
 	omnicore/createpayload.cpp \
 	omnicore/varint.cpp \
-	omnicore/globals.cpp\
 	omnicore/utils.cpp\
 	omnicore/sp.cpp \
 	omnicore/rpcrawtx.cpp \
@@ -3368,8 +3366,6 @@ omnicore/libbitcoin_server_a-createpayload.$(OBJEXT):  \
 	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
 omnicore/libbitcoin_server_a-varint.$(OBJEXT):  \
 	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
-omnicore/libbitcoin_server_a-globals.$(OBJEXT):  \
-	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
 omnicore/libbitcoin_server_a-utils.$(OBJEXT):  \
 	omnicore/$(am__dirstamp) omnicore/$(DEPDIR)/$(am__dirstamp)
 omnicore/libbitcoin_server_a-sp.$(OBJEXT): omnicore/$(am__dirstamp) \
@@ -4248,7 +4244,6 @@ include omnicore/$(DEPDIR)/libbitcoin_server_a-createpayload.Po
 include omnicore/$(DEPDIR)/libbitcoin_server_a-createtx.Po
 include omnicore/$(DEPDIR)/libbitcoin_server_a-encoding.Po
 include omnicore/$(DEPDIR)/libbitcoin_server_a-fetchwallettx.Po
-include omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Po
 include omnicore/$(DEPDIR)/libbitcoin_server_a-log.Po
 include omnicore/$(DEPDIR)/libbitcoin_server_a-notifications.Po
 include omnicore/$(DEPDIR)/libbitcoin_server_a-omnicore.Po
@@ -6560,20 +6555,6 @@ omnicore/libbitcoin_server_a-varint.obj: omnicore/varint.cpp
 #	$(AM_V_CXX)source='omnicore/varint.cpp' object='omnicore/libbitcoin_server_a-varint.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-varint.obj `if test -f 'omnicore/varint.cpp'; then $(CYGPATH_W) 'omnicore/varint.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/varint.cpp'; fi`
-
-omnicore/libbitcoin_server_a-globals.o: omnicore/globals.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-globals.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Tpo -c -o omnicore/libbitcoin_server_a-globals.o `test -f 'omnicore/globals.cpp' || echo '$(srcdir)/'`omnicore/globals.cpp
-	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Po
-#	$(AM_V_CXX)source='omnicore/globals.cpp' object='omnicore/libbitcoin_server_a-globals.o' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-globals.o `test -f 'omnicore/globals.cpp' || echo '$(srcdir)/'`omnicore/globals.cpp
-
-omnicore/libbitcoin_server_a-globals.obj: omnicore/globals.cpp
-	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-globals.obj -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Tpo -c -o omnicore/libbitcoin_server_a-globals.obj `if test -f 'omnicore/globals.cpp'; then $(CYGPATH_W) 'omnicore/globals.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/globals.cpp'; fi`
-	$(AM_V_at)$(am__mv) omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Tpo omnicore/$(DEPDIR)/libbitcoin_server_a-globals.Po
-#	$(AM_V_CXX)source='omnicore/globals.cpp' object='omnicore/libbitcoin_server_a-globals.obj' libtool=no \
-#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
-#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -c -o omnicore/libbitcoin_server_a-globals.obj `if test -f 'omnicore/globals.cpp'; then $(CYGPATH_W) 'omnicore/globals.cpp'; else $(CYGPATH_W) '$(srcdir)/omnicore/globals.cpp'; fi`
 
 omnicore/libbitcoin_server_a-utils.o: omnicore/utils.cpp
 	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libbitcoin_server_a_CPPFLAGS) $(CPPFLAGS) $(libbitcoin_server_a_CXXFLAGS) $(CXXFLAGS) -MT omnicore/libbitcoin_server_a-utils.o -MD -MP -MF omnicore/$(DEPDIR)/libbitcoin_server_a-utils.Tpo -c -o omnicore/libbitcoin_server_a-utils.o `test -f 'omnicore/utils.cpp' || echo '$(srcdir)/'`omnicore/utils.cpp

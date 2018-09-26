@@ -26,7 +26,7 @@ extern CFeeRate minRelayTxFee;
  */
 int64_t GetDustThreshold(const CScript& scriptPubKey) //TODO: Watch this !!!
 {
-    CTxOut txOut(0, scriptPubKey);
+    CTxOut txOut(CAmount(0), scriptPubKey);
 
     return txOut.GetDustThreshold(minRelayTxFee);
 }
@@ -87,7 +87,7 @@ bool GetScriptPushes(const CScript& script, std::vector<std::string>& vstrRet, b
  * @param typeRet[out]        The output type
  * @param vSolutionsRet[out]  The extracted public keys or hashes
  * @return True if a standard script was found
- */  //TODO: watch this !!!
+ */
 bool SafeSolver(const CScript& scriptPubKey, txnouttype& typeRet, std::vector<std::vector<unsigned char> >& vSolutionsRet)
 {
     // Templates

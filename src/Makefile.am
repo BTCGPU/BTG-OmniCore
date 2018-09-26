@@ -282,7 +282,6 @@ libbitcoin_server_a_SOURCES = \
 	omnicore/parse_string.cpp \
 	omnicore/createpayload.cpp \
 	omnicore/varint.cpp \
-	omnicore/globals.cpp\
 	omnicore/utils.cpp\
 	omnicore/sp.cpp \
 	omnicore/rpcrawtx.cpp \

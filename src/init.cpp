@@ -302,6 +302,8 @@ static void HandleSIGTERM(int)
 static void HandleSIGHUP(int)
 {
     fReopenDebugLog = true;
+    fReopenOmniCoreLog = true;
+
 }
 
 #ifndef WIN32

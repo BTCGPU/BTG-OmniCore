@@ -211,7 +211,7 @@ static int64_t GetEstimatedFeePerKb()
 static int64_t GetEconomicThreshold(const CTxOut& txOut)
 {
     // Minimum value needed to relay the transaction
-    int64_t nThresholdDust = txOut.GetDustThreshold(minRelayTxFee);
+    int64_t nThresholdDust = txOut.GetDustThreshold(::minRelayTxFee);
 
     // Use the estimated fee that is also used to contruct transactions.
     // We use the absolute minimum, so we divide by 3, to get rid of the
@@ -299,8 +299,6 @@ int64_t SelectCoins(const std::string& fromAddress, CCoinControl& coinControl, i
         if (nMax <= nTotal) break;
     }
 #endif
-    const string lineOut1 = strprintf("Total for transaction (satoshis): %d\n",nTotal);
-    saveToLog(lineOut1);
     return nTotal;
 }
 

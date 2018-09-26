@@ -2409,8 +2409,8 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     // Then add a paytopubkeyhash output for the recipient (if needed) - note we do this last as we want this to be the highest vout
     if (!receiverAddress.empty()) {
         CScript scriptPubKey = GetScriptForDestination(CBitcoinAddress(receiverAddress).Get());
-        // vecSend.push_back(std::make_pair(scriptPubKey, 0 < referenceAmount ? referenceAmount : GetDustThreshold(scriptPubKey)));
-        vecSend.push_back(std::make_pair(scriptPubKey, 0 < referenceAmount ? referenceAmount : 500000));
+        vecSend.push_back(std::make_pair(scriptPubKey, 0 < referenceAmount ? referenceAmount : GetDustThreshold(scriptPubKey)));
+        // +vecSend.push_back(std::make_pair(scriptPubKey, 0 < referenceAmount ? referenceAmount : 500000));
         const string lineOut1 = strprintf("GetDustThreshold: %d\n",GetDustThreshold(scriptPubKey));
         saveToLog(lineOut1);
         const string lineOut2 = strprintf("referenceAmount :%d\n",referenceAmount);
@@ -4016,7 +4016,7 @@ void saveToLog(std::string lineOut)
 //  */
 const std::vector<unsigned char> GetOmMarker()
 {
-    static unsigned char pch[] = {0x6f, 0x6d, 0x6e, 0x69}; // Hex-encoded: "omni"
+    static unsigned char pch[] = {0x6f, 0x6d, 0x6e, 0x69}; // TODO: change Hex-encoded to "btge"
 
     return std::vector<unsigned char>(pch, pch + sizeof(pch) / sizeof(pch[0]));
 }

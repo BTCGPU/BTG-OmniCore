@@ -98,7 +98,7 @@ extern std::atomic<bool> fReopenOmniCoreLog;
  * The log file can be specified via startup option "--omnilogfile=/path/to/omnicore.log",
  * and if none is provided, then the client's datadir is used as default location.
  */
- static fs::path GetLogPath()
+ static boost::filesystem::path  GetLogPath()
  {
      boost::filesystem::path pathLogFile;
      std::string strLogPath = gArgs.GetArg("-omnilogfile", "");
@@ -144,8 +144,8 @@ static void DebugLogInit()
  */
 static std::string GetTimestamp()
 {
-    const string lineOut = strprintf(" GetTimestamp: %Y-%m-%d %H:%M:%S", GetTime());
-    saveToLog(lineOut);
+    // const string lineOut = strprintf(" GetTimestamp: %Y-%m-%d %H:%M:%S", GetTime());
+    // saveToLog(lineOut);
     return DateTimeStrFormat("%Y-%m-%d %H:%M:%S", GetTime());
 }
 
@@ -182,7 +182,6 @@ int LogFilePrint(const std::string& str)
 
         // Reopen the log file, if requested
         if (fReopenOmniCoreLog) {
-        // if (true) {
             boost::filesystem::path pathDebug = GetLogPath();
             if (freopen(pathDebug.string().c_str(),"a",fileout) != nullptr) {
                 setbuf(fileout, nullptr); // unbuffered
@@ -191,19 +190,15 @@ int LogFilePrint(const std::string& str)
             saveToLog(lineOut);
         }
 
-
         // Printing log timestamps can be useful for profiling
-        // if (fLogTimestamps && fStartedNewLine) {
-        // if (true) {
-        //     ret += fprintf(fileout, "%s ", GetTimestamp().c_str());
-        // }
-        // if (!str.empty() && str[str.size()-1] == '\n') {
-        //     fStartedNewLine = true;
-        // } else {
-        //     fStartedNewLine = false;
-        // }
-        const string lineOut = strprintf("tratando de imprimir al archivo!\n");
-        saveToLog(lineOut);
+        if (fLogTimestamps && fStartedNewLine) {
+            ret += fwrite(GetTimestamp().data(), 1, GetTimestamp().size(), fileout);
+        }
+        if (!str.empty() && str[str.size()-1] == '\n') {
+            fStartedNewLine = true;
+        } else {
+            fStartedNewLine = false;
+        }
         ret += fwrite(str.data(), 1, str.size(), fileout);
 
     }
@@ -225,24 +220,23 @@ int ConsolePrint(const std::string& str)
     int ret = 0; // Number of characters written
     // static bool fStartedNewLine = true;
     // static bool fLogTimestamps = false; // NOTE: Check this function
-    // if (true) {
+    if (false) {
     // // if (fLogTimestamps && fStartedNewLine) {
         // ret = fprintf(stdout, "%s %s", GetTimestamp().c_str(), str.c_str());
         // const string lineOut = strprintf("Using cout, str: %d\n",str);
         // saveToLog(lineOut);
-    // } else {
-    //     ret = fwrite(str.data(), 1, str.size(), stdout);
-    //     const string lineOut = strprintf("Inside ConsolePrint function, data: %s, ret: %d\n",str,ret);
-    //     saveToLog(lineOut);
-    //
-    // }
+    } else {
+        // ret = fwrite(str.data(), 1, str.size(), stdout);
+        const string lineOut = strprintf("Inside ConsolePrint function, data: %s, ret: %d\n",str,ret);
+        saveToLog(lineOut);
+
+    }
     // if (!str.empty() && str[str.size()-1] == '\n') {
     //     fStartedNewLine = true;
     // } else {
     //     fStartedNewLine = false;
     // }
-    // fflush(stdout);
-    // cout.flush();
+    fflush(stdout);
 
     return ret;
 }
