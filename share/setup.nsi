@@ -10,11 +10,11 @@ SetCompressor /SOLID lzma
 !define URL https://bitcoingold.org/
 
 # MUI Symbol Definitions
-!define MUI_ICON "/media/ale/data/BTCGPU/share/pixmaps/bitcoin.ico"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "/media/ale/data/BTCGPU/share/pixmaps/nsis-wizard.bmp"
+!define MUI_ICON "/root/BTG/OmniG/share/pixmaps/bitcoin.ico"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "/root/BTG/OmniG/share/pixmaps/nsis-wizard.bmp"
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
-!define MUI_HEADERIMAGE_BITMAP "/media/ale/data/BTCGPU/share/pixmaps/nsis-header.bmp"
+!define MUI_HEADERIMAGE_BITMAP "/root/BTG/OmniG/share/pixmaps/nsis-header.bmp"
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
@@ -22,7 +22,7 @@ SetCompressor /SOLID lzma
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "Bitcoin Gold"
 !define MUI_FINISHPAGE_RUN $INSTDIR\bitcoin-qt
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/media/ale/data/BTCGPU/share/pixmaps/nsis-wizard.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/root/BTG/OmniG/share/pixmaps/nsis-wizard.bmp"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
 # Included files
@@ -48,7 +48,7 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile /media/ale/data/BTCGPU/bitcoin-gold-${VERSION}-win-setup.exe
+OutFile /root/BTG/OmniG/bitcoin-gold-${VERSION}-win-setup.exe
 !if "" == "64"
 InstallDir $PROGRAMFILES64\BitcoinGold
 !else
@@ -73,14 +73,14 @@ ShowUninstDetails show
 Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
-    File /media/ale/data/BTCGPU/release/bitcoin-qt
-    File /oname=COPYING.txt /media/ale/data/BTCGPU/COPYING
-    File /oname=readme.txt /media/ale/data/BTCGPU/doc/README_windows.txt
+    File /root/BTG/OmniG/release/bitcoin-qt
+    File /oname=COPYING.txt /root/BTG/OmniG/COPYING
+    File /oname=readme.txt /root/BTG/OmniG/doc/README_windows.txt
     SetOutPath $INSTDIR\daemon
-    File /media/ale/data/BTCGPU/release/bgoldd
-    File /media/ale/data/BTCGPU/release/bgold-cli
+    File /root/BTG/OmniG/release/bgoldd
+    File /root/BTG/OmniG/release/bgold-cli
     SetOutPath $INSTDIR\doc
-    File /r /media/ale/data/BTCGPU/doc\*.*
+    File /r /root/BTG/OmniG/doc\*.*
     SetOutPath $INSTDIR
     WriteRegStr HKCU "${REGKEY}\Components" Main 1
 SectionEnd

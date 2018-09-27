@@ -1035,16 +1035,16 @@ int CMPTransaction::logicMath_SimpleSend()
     //     return (PKT_ERROR_SEND -24);
     // }
     //
-    // int64_t nBalance = getMPbalance(sender, property, BALANCE);
-    // if (nBalance < (int64_t) nValue) {
-    //     PrintToLog("%s(): rejected: sender %s has insufficient balance of property %d [%s < %s]\n",
-    //             __func__,
-    //             sender,
-    //             property,
-    //             FormatMP(property, nBalance),
-    //             FormatMP(property, nValue));
-    //     return (PKT_ERROR_SEND -25);
-    // }
+     int64_t nBalance = getMPbalance(sender, property, BALANCE);
+     if (nBalance < (int64_t) nValue) {
+         PrintToLog("%s(): rejected: sender %s has insufficient balance of property %d [%s < %s]\n",
+                 __func__,
+                 sender,
+                 property,
+                FormatMP(property, nBalance),
+                 FormatMP(property, nValue));
+         return (PKT_ERROR_SEND -25);
+     }
     //
     // // ------------------------------------------
     //
@@ -1054,7 +1054,7 @@ int CMPTransaction::logicMath_SimpleSend()
     // }
 
     // Move the tokens
-    // assert(update_tally_map(sender, property, -nValue, BALANCE));
+    assert(update_tally_map(sender, property, -nValue, BALANCE));
     assert(update_tally_map(receiver, property, nValue, BALANCE));
 
     // Is there an active crowdsale running from this recepient?

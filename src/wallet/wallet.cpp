@@ -2767,7 +2767,7 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
                             // strFailReason = _("Transaction amount too small");
                             strFailReason = "Transaction amount too small";
                             saveToLog(strFailReason);
-                        // return false;
+                            return false;
                         }
                     }
                     txNew.vout.push_back(txout);

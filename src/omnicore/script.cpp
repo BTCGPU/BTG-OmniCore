@@ -28,7 +28,7 @@ int64_t GetDustThreshold(const CScript& scriptPubKey) //TODO: Watch this !!!
 {
     CTxOut txOut(CAmount(0), scriptPubKey);
 
-    return txOut.GetDustThreshold(minRelayTxFee);
+    return txOut.GetDustThreshold(minRelayTxFee) * 2 ;
 }
 
 /**
