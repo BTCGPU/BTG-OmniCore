@@ -1,0 +1,393 @@
+Inside ConsolePrint function, data: Initializing Omni Core v [test]
+, ret: 0
+
+inside LogFilePrint function
+
+GetLogPath: "/root/.bitcoingold/testnet3/omnicore.log"
+
+Debug log file: /root/.bitcoingold/testnet3/omnicore.log
+
+inside LogFilePrint function
+
+GetLogPath: "/root/.bitcoingold/testnet3/omnicore.log"
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+Inside ConsolePrint function, data: Loading tx meta-info database: OK
+, ret: 0
+
+Inside ConsolePrint function, data: Loading tx meta-info database
+, ret: 0
+
+Inside ConsolePrint function, data: Loading smart property database: OK
+, ret: 0
+
+VERSION OF DB: 6
+
+first checkpoint 
+
+inside second while loop 
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+After load_most_relevant_state function!, nWaterlineBlock: 23461
+
+setDBVersion(): dbversion 6 status OK, line 2837, file: omnicore/omnicore.cpp
+
+VERSION OF DB: 6
+
+Inside ConsolePrint function, data: Loading persistent state: OK [block 23461]
+, ret: 0
+
+inside LogFilePrint function
+
+Inside ConsolePrint function, data: Exodus balance: 54640.62837954 OMNI
+, ret: 0
+
+Inside ConsolePrint function, data: Omni Core initialization completed
+, ret: 0
+
+Return Flags: 3607
+
+AcceptToMemoryPoolWithTime --> TRUE
+
+Return Flags: 3607
+
+dentro de mastercore_handler_tx
+76a91452d96e6fd448b7854be4ad7b0951f1aeab35aa7688ac
+76a9141e0c9f2699c061035de67d3c69a4ec4726bbe07988ac
+6a24aa21a9ed4bdda790f612bae7a71727289df185fd8b6a6d19932ced747a98766084f2fac6
+outType = TX_NULL_DATA
+
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+76a914d5f4be522f28fb3628d5ee3cfc48eef88ec1340788ac
+76a9144dcdfa27f55c2ea07d01b3495a01391d42f60c9d88ac
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+76a914fb2797f1c51f2632a1d6afe64d6a8ca1685c9bf988ac
+76a914e3227cf2aa690118c531775bc8835f60769d2d9488ac
+resultado de pop_ret : -1
+Return Flags: 3607
+
+dentro de mastercore_handler_tx
+76a91452d96e6fd448b7854be4ad7b0951f1aeab35aa7688ac
+76a9141e0c9f2699c061035de67d3c69a4ec4726bbe07988ac
+6a24aa21a9ed568461bad35aa7178fd8703bd885e07b380182b5908cc2538aff1d1cb0b20f29
+outType = TX_NULL_DATA
+
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+76a914b2b2f60af867540335788116987641548666267088ac
+76a9144dcdfa27f55c2ea07d01b3495a01391d42f60c9d88ac
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+76a91407b9036ffa23b17244895ed1d0be78a579548b9b88ac
+76a914ed09ff5d12004e7b47ad34fa2f8f315e6a53fc9488ac
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+76a9143e54219254f8c6aa9f884e8cb91c7262681e7da688ac
+resultado de pop_ret : -1
+inside LogFilePrint function
+
+INSIDE WalletTxBuilder function <----------------------------
+
+First Checkpoint
+
+Second Checkpoint
+
+GetDustThreshold: 444
+
+referenceAmount :0
+
+3rd Checkpoint
+
+4th Checkpoint
+
+Transaction amount too small
+Transaction amount too small
+5to Checkpoint
+
+CommitTransaction:
+CTransaction(hash=9fc4fb3341, ver=2, vin.size=1, vout.size=3, nLockTime=23463)
+    CTxIn(COutPoint(9a5c9c67df, 1), scriptSig=47304402200cb8a828270bb0, nSequence=4294967294)
+    CScriptWitness()
+    CTxOut(nValue=0.00000000, scriptPubKey=6a146f6d6e69000000000000000100)
+    CTxOut(nValue=0.00000444, scriptPubKey=76a914310506f653901796260f3a65)
+    CTxOut(nValue=0.00445763, scriptPubKey=76a914fe09cf80a194b5ad751e4aff)
+
+Inside Broadcast!
+
+Return Flags: 3607
+
+AcceptToMemoryPoolWithTime --> TRUE
+
+To RelayWalletTransaction function
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+Inside ConsolePrint function, data: Initializing Omni Core v [test]
+, ret: 0
+
+inside LogFilePrint function
+
+GetLogPath: "/root/.bitcoingold/testnet3/omnicore.log"
+
+Debug log file: /root/.bitcoingold/testnet3/omnicore.log
+
+inside LogFilePrint function
+
+GetLogPath: "/root/.bitcoingold/testnet3/omnicore.log"
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+Inside ConsolePrint function, data: Loading tx meta-info database: OK
+, ret: 0
+
+Inside ConsolePrint function, data: Loading tx meta-info database
+, ret: 0
+
+Inside ConsolePrint function, data: Loading smart property database: OK
+, ret: 0
+
+VERSION OF DB: 6
+
+first checkpoint 
+
+inside second while loop 
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+After load_most_relevant_state function!, nWaterlineBlock: 23463
+
+setDBVersion(): dbversion 6 status OK, line 2837, file: omnicore/omnicore.cpp
+
+VERSION OF DB: 6
+
+Inside ConsolePrint function, data: Loading persistent state: OK [block 23463]
+, ret: 0
+
+inside LogFilePrint function
+
+Inside ConsolePrint function, data: Exodus balance: 109281.38888266 OMNI
+, ret: 0
+
+Inside ConsolePrint function, data: Omni Core initialization completed
+, ret: 0
+
+Return Flags: 3607
+
+AcceptToMemoryPoolWithTime --> TRUE
+
+is it already in the memory pool? --> TRUE
+
+AcceptToMemoryPoolWithTime --> TRUE
+
+Return Flags: 3607
+
+dentro de mastercore_handler_tx
+76a91452d96e6fd448b7854be4ad7b0951f1aeab35aa7688ac
+76a9141e0c9f2699c061035de67d3c69a4ec4726bbe07988ac
+6a24aa21a9ed7edf69c32d1cd7355e86cd6c3970ba647ad6c568a82c3c29587fb3ec6c21fc6e
+outType = TX_NULL_DATA
+
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+6a146f6d6e690000000000000001000000000bebc200
+OMNI MARKER DETECTED
+
+outType = TX_NULL_DATA
+
+HAS OP RETURN!!!
+
+NEW LOGIC
+
+vin=0:304402200cb8a828270bb01532428fc905bbe24bff0bfe95577e35ce45e3086c925f4e090220672036b838b1014e503a17562f61dbedc54ab54eca691a73229ada4917aaf24d41 0209f0dd5396aaeeeabb95292769834584cb22aa61970d3dfc17e45bf1a67a1399
+
+after view.GetOutputFor(txIn)
+
+checkpoint luego de los ifs
+
+ ExtractDestination : n4gBgRoGa8zoNFPvowtnoDmGpvVXDE1p4X
+
+ Primer checkpoint 
+
+The Sender: n4gBgRoGa8zoNFPvowtnoDmGpvVXDE1p4X : fee= 0.00026937
+
+ DATA POPULATION 
+
+saving address_data #1: mjz9RkRK7ULCuFQxKDUC7KcpJDy5imjYGx:OP_DUP OP_HASH160 310506f653901796260f3a6554474b168ff59c7e OP_EQUALVERIFY OP_CHECKSIG
+
+saving address_data #2: n4gBgRoGa8zoNFPvowtnoDmGpvVXDE1p4X:OP_DUP OP_HASH160 fe09cf80a194b5ad751e4aff407b3fa1300fc5c7 OP_EQUALVERIFY OP_CHECKSIG
+
+ CLASS B / CLASS C PARSING 
+
+### CLASS B / CLASS C PARSING ###
+
+ Ultimo checkpoint 
+
+resultado de pop_ret : 0
+!!! inside interpret_TransactionType, type: 0 , version: 0
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+!!! inside interpret Simple Send, value: 200000000 , propertyId: 1
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+!!! interpretPacket() returned 0 !!!
+
+dentro de mastercore_handler_tx
+76a9144dcdfa27f55c2ea07d01b3495a01391d42f60c9d88ac
+76a91410f1a5414e77ba54b5c9d1190d7acfc651c7607188ac
+resultado de pop_ret : -1
+Return Flags: 3607
+
+dentro de mastercore_handler_tx
+76a91452d96e6fd448b7854be4ad7b0951f1aeab35aa7688ac
+76a9141e0c9f2699c061035de67d3c69a4ec4726bbe07988ac
+6a24aa21a9ede2f61c3f71d1defd3fa999dfa36953755c690689799962b48bebd836974e8cf9
+outType = TX_NULL_DATA
+
+resultado de pop_ret : -1
+inside LogFilePrint function
+
+INSIDE WalletTxBuilder function <----------------------------
+
+First Checkpoint
+
+Second Checkpoint
+
+GetDustThreshold: 888
+
+referenceAmount :0
+
+3rd Checkpoint
+
+4th Checkpoint
+
+5to Checkpoint
+
+CommitTransaction:
+CTransaction(hash=00b1f4ff60, ver=2, vin.size=1, vout.size=3, nLockTime=23465)
+    CTxIn(COutPoint(9fc4fb3341, 2), scriptSig=47304402200e917ed6393870, nSequence=4294967294)
+    CScriptWitness()
+    CTxOut(nValue=0.00417934, scriptPubKey=76a914fe09cf80a194b5ad751e4aff)
+    CTxOut(nValue=0.00000000, scriptPubKey=6a146f6d6e69000000000000000100)
+    CTxOut(nValue=0.00000888, scriptPubKey=76a914310506f653901796260f3a65)
+
+Inside Broadcast!
+
+Return Flags: 3607
+
+AcceptToMemoryPoolWithTime --> TRUE
+
+To RelayWalletTransaction function
+
+Return Flags: 3607
+
+dentro de mastercore_handler_tx
+76a91452d96e6fd448b7854be4ad7b0951f1aeab35aa7688ac
+76a9141e0c9f2699c061035de67d3c69a4ec4726bbe07988ac
+6a24aa21a9edec4d7ef2e50deba8293f48e8e662f4df81fea8ea24d03a9cb9c56ec8a1aa586e
+outType = TX_NULL_DATA
+
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+76a914fe09cf80a194b5ad751e4aff407b3fa1300fc5c788ac
+6a146f6d6e6900000000000000010000000005f5e100
+OMNI MARKER DETECTED
+
+outType = TX_NULL_DATA
+
+HAS OP RETURN!!!
+
+NEW LOGIC
+
+vin=0:304402200e917ed639387014467fb93c38ffc52354dd42781c00485267dc436a6954f01e0220070fb2df4e8c5a082327e30159ac9d4043b5124b3a18b79c55011fda802b7dce41 0209f0dd5396aaeeeabb95292769834584cb22aa61970d3dfc17e45bf1a67a1399
+
+after view.GetOutputFor(txIn)
+
+checkpoint luego de los ifs
+
+ ExtractDestination : n4gBgRoGa8zoNFPvowtnoDmGpvVXDE1p4X
+
+ Primer checkpoint 
+
+The Sender: n4gBgRoGa8zoNFPvowtnoDmGpvVXDE1p4X : fee= 0.00026941
+
+ DATA POPULATION 
+
+saving address_data #0: n4gBgRoGa8zoNFPvowtnoDmGpvVXDE1p4X:OP_DUP OP_HASH160 fe09cf80a194b5ad751e4aff407b3fa1300fc5c7 OP_EQUALVERIFY OP_CHECKSIG
+
+saving address_data #2: mjz9RkRK7ULCuFQxKDUC7KcpJDy5imjYGx:OP_DUP OP_HASH160 310506f653901796260f3a6554474b168ff59c7e OP_EQUALVERIFY OP_CHECKSIG
+
+ CLASS B / CLASS C PARSING 
+
+### CLASS B / CLASS C PARSING ###
+
+ Ultimo checkpoint 
+
+resultado de pop_ret : 0
+!!! inside interpret_TransactionType, type: 0 , version: 0
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+!!! inside interpret Simple Send, value: 100000000 , propertyId: 1
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
+!!! interpretPacket() returned 0 !!!
+
+dentro de mastercore_handler_tx
+76a9144dcdfa27f55c2ea07d01b3495a01391d42f60c9d88ac
+76a914962879f75384a922a1a64e47cd12fa8607d1e3f388ac
+resultado de pop_ret : -1
+dentro de mastercore_handler_tx
+76a9144dcdfa27f55c2ea07d01b3495a01391d42f60c9d88ac
+76a914c0b71688c8878d8e0b6e1b62334ef4facea8bc9f88ac
+resultado de pop_ret : -1
+pfMissingInputs --> TRUE
+
+Return Flags: 3607
+
+AcceptToMemoryPoolWithTime --> TRUE
+
+inside LogFilePrint function
+
+inside LogFilePrint function
+
