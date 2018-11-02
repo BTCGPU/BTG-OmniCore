@@ -17,8 +17,8 @@
 #include "omnicore/persistence.h"
 #include "omnicore/rules.h"
 #include "omnicore/script.h"
-//#include "omnicore/mdex.h"
-//#include "omnicore/dex.h"
+#include "omnicore/mdex.h"
+// #include "omnicore/dex.h"
 #include "omnicore/seedblocks.h"
 #include "omnicore/sp.h"
 #include "omnicore/tally.h"
@@ -680,7 +680,6 @@ int mastercore::GetEncodingClass(const CTransaction& tx, int nBlock)
     for (unsigned int n = 0; n < tx.vout.size(); ++n) {
         const CTxOut& output = tx.vout[n];
         std::string strSPB = HexStr(output.scriptPubKey.begin(), output.scriptPubKey.end());
-        saveToLog(strSPB);
         if (strSPB != strClassAB) { // not an exodus marker
             // if (nBlock < 395000) { // class C not enabled yet, no need to search for marker bytes
             if (false) {
@@ -688,8 +687,6 @@ int mastercore::GetEncodingClass(const CTransaction& tx, int nBlock)
             } else {
                 if (strSPB.find(strClassC) != std::string::npos) {
                     examineClosely = true;
-                    const string lineOut = strprintf("OMNI MARKER DETECTED\n");
-                    saveToLog(lineOut);
                     break;
                 }
             }
@@ -735,8 +732,6 @@ int mastercore::GetEncodingClass(const CTransaction& tx, int nBlock)
         if (outType == TX_NULL_DATA) {
             // Ensure there is a payload, and the first pushed element equals,
             // or starts with the "omni" marker
-            const string lineOut = strprintf("outType = TX_NULL_DATA\n");
-            saveToLog(lineOut);
             std::vector<std::string> scriptPushes;
             if (!GetScriptPushes(output.scriptPubKey, scriptPushes)) {
                 continue;
@@ -755,8 +750,6 @@ int mastercore::GetEncodingClass(const CTransaction& tx, int nBlock)
     }
 
     if (hasOpReturn) {
-        const string lineOut = strprintf("HAS OP RETURN!!!\n");
-        saveToLog(lineOut);
         return OMNI_CLASS_C;
     }
     if (hasExodus && hasMultisig) {
@@ -842,8 +835,6 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
     int omniClass = GetEncodingClass(wtx, nBlock);
 
     if (omniClass == NO_MARKER) {
-        // const string lineOut = strprintf("NO MARKER in parse transaction function\n");
-        // saveToLog(lineOut);
         return -1; // No Exodus/Omni marker, thus not a valid Omni transaction
     } else {
       // const string lineOut = strprintf("OMNI MARKER DETECTED in parse transaction function\n");
@@ -864,8 +855,6 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
 
     //Add previous transaction inputs to the cache
     if (!FillTxInputCache(wtx)) {
-        const string lineOut1 = strprintf("ERROR: failed to get inputs for\n");
-        saveToLog(lineOut1);
         PrintToLog("%s() ERROR: failed to get inputs for %s\n", __func__, wtx.GetHash().GetHex());
         return -101;
     }
@@ -879,48 +868,27 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
     else
     {
         // NEW LOGIC - the sender is chosen based on the first vin
-            const string lineOut1 = strprintf("NEW LOGIC\n");
-            saveToLog(lineOut1);
         // determine the sender, but invalidate transaction, if the input is not accepted
             unsigned int vin_n = 0; // the first input
             // if (msc_debug_vin) PrintToLog("vin=%d:%s\n", vin_n, ScriptToAsmStr(wtx.vin[vin_n].scriptSig));
-            const string lineOut16 = strprintf("vin=%d:%s\n", vin_n, ScriptToAsmStr(wtx.vin[vin_n].scriptSig));
-            saveToLog(lineOut16);
             const CTxIn& txIn = wtx.vin[vin_n];
             const CTxOut& txOut = view.GetOutputFor(txIn);
 
-            const string lineOut9 = strprintf("after view.GetOutputFor(txIn)\n");
-            saveToLog(lineOut9);
-
             assert(!txOut.IsNull());
-
-            if(txOut.IsNull()) {
-              const string lineOut = strprintf("txOut.isNull\n");
-              saveToLog(lineOut);
-            }
 
             txnouttype whichType;
             if (!GetOutputType(txOut.scriptPubKey, whichType)) {
-                  const string lineOut = strprintf("RETURN -108\n");
-                  saveToLog(lineOut);
                 return -108;
             }     //TODO: Check this condition later!
             // if (!IsAllowedInputType(whichType, nBlock)) {
-            //     const string lineOut = strprintf("RETURN -109\n");
-            //     saveToLog(lineOut);
             //     return -109;
             // }
-            const string lineOut8 = strprintf("checkpoint luego de los ifs\n");
-            saveToLog(lineOut8);
+
             CTxDestination source;
             if (ExtractDestination(txOut.scriptPubKey, source)) {
                 strSender = CBitcoinAddress(source).ToString();
-                const string lineOut = strprintf(" ExtractDestination : %s\n",strSender);
-                saveToLog(lineOut);
             }
             else {
-              const string lineOut = strprintf(" RETURN -110 \n");
-              saveToLog(lineOut);
               return -110;
 
             }
@@ -929,24 +897,16 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
     inAll = view.GetValueIn(wtx);
 
     } // end of LOCK(cs_tx_cache)
-    const string lineOut5 = strprintf(" Primer checkpoint \n");
-    saveToLog(lineOut5);
     int64_t outAll = wtx.GetValueOut();
     int64_t txFee = inAll - outAll; // miner fee
 
     if (!strSender.empty()) {
-        const string lineOut = strprintf("The Sender: %s : fee= %s\n", strSender, FormatDivisibleMP(txFee));
-        saveToLog(lineOut);
         if (msc_debug_verbose) PrintToLog("The Sender: %s : fee= %s\n", strSender, FormatDivisibleMP(txFee));
     } else {
-        const string lineOut = strprintf("The sender is still EMPTY !!! txid: %s\n", wtx.GetHash().GetHex());
-        saveToLog(lineOut);
         PrintToLog("The sender is still EMPTY !!! txid: %s\n", wtx.GetHash().GetHex());
         return -5;
     }
 
-    const string lineOut7 = strprintf(" DATA POPULATION \n");
-    saveToLog(lineOut7);
     // ### DATA POPULATION ### - save output addresses, values and scripts
     std::string strReference;
     unsigned char single_pkt[MAX_PACKETS * PACKET_SIZE];
@@ -971,18 +931,12 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
                 GetScriptPushes(wtx.vout[n].scriptPubKey, script_data);
                 address_data.push_back(address.ToString());
                 value_data.push_back(wtx.vout[n].nValue);
-                const string lineOut3 = strprintf("saving address_data #%d: %s:%s\n", n, address.ToString(), ScriptToAsmStr(wtx.vout[n].scriptPubKey));
-                saveToLog(lineOut3);
                 if (msc_debug_parser_data) PrintToLog("saving address_data #%d: %s:%s\n", n, address.ToString(), ScriptToAsmStr(wtx.vout[n].scriptPubKey));
             }
         }
     }
     // ### CLASS B / CLASS C PARSING ###
-    const string lineOut4 = strprintf(" CLASS B / CLASS C PARSING \n");
-    saveToLog(lineOut4);
     if (omniClass == OMNI_CLASS_C) {
-        const string lineOut = strprintf("### CLASS B / CLASS C PARSING ###\n");
-        saveToLog(lineOut);
         if (msc_debug_parser_data) PrintToLog("Beginning reference identification\n");
         bool referenceFound = false; // bool to hold whether we've found the reference yet
         bool changeRemoved = false; // bool to hold whether we've ignored the first output to sender as change
@@ -1092,8 +1046,6 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
     // if (omniClass == OMNI_CLASS_A && packet_size == 0) {
     //     return 1;
     // }
-    const string lineOut6 = strprintf(" Ultimo checkpoint \n");
-    saveToLog(lineOut6);
     return 0;
 }
 //
@@ -1163,82 +1115,82 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
 //
 //     return false;
 // }
-//
-// /**
-//  * Reports the progress of the initial transaction scanning.
-//  *
-//  * The progress is printed to the console, written to the debug log file, and
-//  * the RPC status, as well as the splash screen progress label, are updated.
-//  *
-//  * @see msc_initial_scan()
-//  */
-// class ProgressReporter
-// {
-// private:
-//     const CBlockIndex* m_pblockFirst;
-//     const CBlockIndex* m_pblockLast;
-//     const int64_t m_timeStart;
-//
-//     /** Returns the estimated remaining time in milliseconds. */
-//     int64_t estimateRemainingTime(double progress) const
-//     {
-//         int64_t timeSinceStart = GetTimeMillis() - m_timeStart;
-//
-//         double timeRemaining = 3600000.0; // 1 hour
-//         if (progress > 0.0 && timeSinceStart > 0) {
-//             timeRemaining = (100.0 - progress) / progress * timeSinceStart;
-//         }
-//
-//         return static_cast<int64_t>(timeRemaining);
-//     }
-//
-//     /** Converts a time span to a human readable string. */
-//     std::string remainingTimeAsString(int64_t remainingTime) const
-//     {
-//         int64_t secondsTotal = 0.001 * remainingTime;
-//         int64_t hours = secondsTotal / 3600;
-//         int64_t minutes = secondsTotal / 60;
-//         int64_t seconds = secondsTotal % 60;
-//
-//         if (hours > 0) {
-//             return strprintf("%d:%02d:%02d hours", hours, minutes, seconds);
-//         } else if (minutes > 0) {
-//             return strprintf("%d:%02d minutes", minutes, seconds);
-//         } else {
-//             return strprintf("%d seconds", seconds);
-//         }
-//     }
-//
-// public:
-//     ProgressReporter(const CBlockIndex* pblockFirst, const CBlockIndex* pblockLast)
-//     : m_pblockFirst(pblockFirst), m_pblockLast(pblockLast), m_timeStart(GetTimeMillis())
-//     {
-//     }
-//
-//     /** Prints the current progress to the console and notifies the UI. */
-//     void update(const CBlockIndex* pblockNow) const
-//     {
-//         int nLastBlock = m_pblockLast->nHeight;
-//         int nCurrentBlock = pblockNow->nHeight;
-//         unsigned int nFirst = m_pblockFirst->nChainTx;
-//         unsigned int nCurrent = pblockNow->nChainTx;
-//         unsigned int nLast = m_pblockLast->nChainTx;
-//
-//         double dProgress = 100.0 * (nCurrent - nFirst) / (nLast - nFirst);
-//         int64_t nRemainingTime = estimateRemainingTime(dProgress);
-//
-//         std::string strProgress = strprintf(
-//                 "Still scanning.. at block %d of %d. Progress: %.2f %%, about %s remaining..\n",
-//                 nCurrentBlock, nLastBlock, dProgress, remainingTimeAsString(nRemainingTime));
-//         std::string strProgressUI = strprintf(
-//                 "Still scanning.. at block %d of %d.\nProgress: %.2f %% (about %s remaining)",
-//                 nCurrentBlock, nLastBlock, dProgress, remainingTimeAsString(nRemainingTime));
-//
-//         PrintToConsole(strProgress);
-//         uiInterface.InitMessage(strProgressUI);
-//     }
-// };
-//
+
+/**
+ * Reports the progress of the initial transaction scanning.
+ *
+ * The progress is printed to the console, written to the debug log file, and
+ * the RPC status, as well as the splash screen progress label, are updated.
+ *
+ * @see msc_initial_scan()
+ */
+class ProgressReporter
+{
+private:
+    const CBlockIndex* m_pblockFirst;
+    const CBlockIndex* m_pblockLast;
+    const int64_t m_timeStart;
+
+    /** Returns the estimated remaining time in milliseconds. */
+    int64_t estimateRemainingTime(double progress) const
+    {
+        int64_t timeSinceStart = GetTimeMillis() - m_timeStart;
+
+        double timeRemaining = 3600000.0; // 1 hour
+        if (progress > 0.0 && timeSinceStart > 0) {
+            timeRemaining = (100.0 - progress) / progress * timeSinceStart;
+        }
+
+        return static_cast<int64_t>(timeRemaining);
+    }
+
+    /** Converts a time span to a human readable string. */
+    std::string remainingTimeAsString(int64_t remainingTime) const
+    {
+        int64_t secondsTotal = 0.001 * remainingTime;
+        int64_t hours = secondsTotal / 3600;
+        int64_t minutes = secondsTotal / 60;
+        int64_t seconds = secondsTotal % 60;
+
+        if (hours > 0) {
+            return strprintf("%d:%02d:%02d hours", hours, minutes, seconds);
+        } else if (minutes > 0) {
+            return strprintf("%d:%02d minutes", minutes, seconds);
+        } else {
+            return strprintf("%d seconds", seconds);
+        }
+    }
+
+public:
+    ProgressReporter(const CBlockIndex* pblockFirst, const CBlockIndex* pblockLast)
+    : m_pblockFirst(pblockFirst), m_pblockLast(pblockLast), m_timeStart(GetTimeMillis())
+    {
+    }
+
+    /** Prints the current progress to the console and notifies the UI. */
+    void update(const CBlockIndex* pblockNow) const
+    {
+        int nLastBlock = m_pblockLast->nHeight;
+        int nCurrentBlock = pblockNow->nHeight;
+        unsigned int nFirst = m_pblockFirst->nChainTx;
+        unsigned int nCurrent = pblockNow->nChainTx;
+        unsigned int nLast = m_pblockLast->nChainTx;
+
+        double dProgress = 100.0 * (nCurrent - nFirst) / (nLast - nFirst);
+        int64_t nRemainingTime = estimateRemainingTime(dProgress);
+
+        std::string strProgress = strprintf(
+                "Still scanning.. at block %d of %d. Progress: %.2f %%, about %s remaining..\n",
+                nCurrentBlock, nLastBlock, dProgress, remainingTimeAsString(nRemainingTime));
+        std::string strProgressUI = strprintf(
+                "Still scanning.. at block %d of %d.\nProgress: %.2f %% (about %s remaining)",
+                nCurrentBlock, nLastBlock, dProgress, remainingTimeAsString(nRemainingTime));
+
+        PrintToConsole(strProgress);
+        uiInterface.InitMessage(strProgressUI);
+    }
+};
+
 // /**
 //  * Scans the blockchain for meta transactions.
 //  *
@@ -1502,35 +1454,35 @@ int input_globals_state_string(const string &s)
 //     return 0;
 // }
 //
-// // address, block, amount for sale, property, amount desired, property desired, subaction, idx, txid, amount remaining
-// int input_mp_mdexorder_string(const std::string& s)
-// {
-//     std::vector<std::string> vstr;
-//     boost::split(vstr, s, boost::is_any_of(" ,="), boost::token_compress_on);
-//
-//     if (10 != vstr.size()) return -1;
-//
-//     int i = 0;
-//
-//     std::string addr = vstr[i++];
-//     int block = boost::lexical_cast<int>(vstr[i++]);
-//     int64_t amount_forsale = boost::lexical_cast<int64_t>(vstr[i++]);
-//     uint32_t property = boost::lexical_cast<uint32_t>(vstr[i++]);
-//     int64_t amount_desired = boost::lexical_cast<int64_t>(vstr[i++]);
-//     uint32_t desired_property = boost::lexical_cast<uint32_t>(vstr[i++]);
-//     uint8_t subaction = boost::lexical_cast<unsigned int>(vstr[i++]); // lexical_cast can't handle char!
-//     unsigned int idx = boost::lexical_cast<unsigned int>(vstr[i++]);
-//     uint256 txid = uint256S(vstr[i++]);
-//     int64_t amount_remaining = boost::lexical_cast<int64_t>(vstr[i++]);
-//
-//     CMPMetaDEx mdexObj(addr, block, property, amount_forsale, desired_property,
-//             amount_desired, txid, idx, subaction, amount_remaining);
-//
-//     if (!MetaDEx_INSERT(mdexObj)) return -1;
-//
-//     return 0;
-// }
-//
+// address, block, amount for sale, property, amount desired, property desired, subaction, idx, txid, amount remaining
+int input_mp_mdexorder_string(const std::string& s)
+{
+    std::vector<std::string> vstr;
+    boost::split(vstr, s, boost::is_any_of(" ,="), boost::token_compress_on);
+
+    if (10 != vstr.size()) return -1;
+
+    int i = 0;
+
+    std::string addr = vstr[i++];
+    int block = boost::lexical_cast<int>(vstr[i++]);
+    int64_t amount_forsale = boost::lexical_cast<int64_t>(vstr[i++]);
+    uint32_t property = boost::lexical_cast<uint32_t>(vstr[i++]);
+    int64_t amount_desired = boost::lexical_cast<int64_t>(vstr[i++]);
+    uint32_t desired_property = boost::lexical_cast<uint32_t>(vstr[i++]);
+    uint8_t subaction = boost::lexical_cast<unsigned int>(vstr[i++]); // lexical_cast can't handle char!
+    unsigned int idx = boost::lexical_cast<unsigned int>(vstr[i++]);
+    uint256 txid = uint256S(vstr[i++]);
+    int64_t amount_remaining = boost::lexical_cast<int64_t>(vstr[i++]);
+
+    CMPMetaDEx mdexObj(addr, block, property, amount_forsale, desired_property,
+            amount_desired, txid, idx, subaction, amount_remaining);
+
+    if (!MetaDEx_INSERT(mdexObj)) return -1;
+
+    return 0;
+}
+
 static int msc_file_load(const string &filename, int what, bool verifyHash = false)
 {
   int lines = 0;
@@ -1565,14 +1517,14 @@ static int msc_file_load(const string &filename, int what, bool verifyHash = fal
     //   inputLineFunc = input_mp_crowdsale_string;
     //   break;
     //
-    // case FILETYPE_MDEXORDERS:
-    //   // FIXME
-    //   // memory leak ... gotta unallocate inner layers first....
-    //   // TODO
-    //   // ...
-    //   metadex.clear();
-    //   inputLineFunc = input_mp_mdexorder_string;
-    //   break;
+    case FILETYPE_MDEXORDERS:
+      // FIXME
+      // memory leak ... gotta unallocate inner layers first....
+      // TODO
+      // ...
+      metadex.clear();
+      inputLineFunc = input_mp_mdexorder_string;
+      break;
 
     default:
       return -1;
@@ -1652,7 +1604,7 @@ static char const * const statePrefix[NUM_FILETYPES] = {
     // "accepts",
     "globals",
     // "crowdsales",
-    // "mdexorders",
+    "mdexorders",
 };
 //
 // // returns the height of the state loaded
@@ -1664,8 +1616,6 @@ static int load_most_relevant_state()
   uint256 spWatermark;
   if (!_my_sps->getWatermark(spWatermark)) {
     //trigger a full reparse, if the SP database has no watermark
-    const string lineOut = strprintf("RETURN -1, getWatermark\n");
-    saveToLog(lineOut);
     return -1;
 
   }
@@ -1673,8 +1623,6 @@ static int load_most_relevant_state()
   CBlockIndex const *spBlockIndex = GetBlockIndex(spWatermark);
   if (NULL == spBlockIndex) {
     //trigger a full reparse, if the watermark isn't a real block
-    const string lineOut = strprintf("RETURN -1, GetBlockIndex\n");
-    saveToLog(lineOut);
     return -1;
   }
     // TODO: make this work out
@@ -1682,8 +1630,6 @@ static int load_most_relevant_state()
     int remainingSPs = _my_sps->popBlock(spBlockIndex->GetBlockHash());
     if (remainingSPs < 0) {
       // trigger a full reparse, if the levelDB cannot roll back
-      const string lineOut = strprintf("RETURN -1, remainingSPs < 0 \n");
-      saveToLog(lineOut);
       return -1;
     } /*else if (remainingSPs == 0) {
       // potential optimization here?
@@ -1692,8 +1638,6 @@ static int load_most_relevant_state()
     if (spBlockIndex != NULL) {
         _my_sps->setWatermark(spBlockIndex->GetBlockHash());
     }
-    const string lineOut1 = strprintf("inside while loop \n");
-    saveToLog(lineOut1);
   }
 
   // prepare a set of available files by block hash pruning any that are
@@ -1723,8 +1667,6 @@ static int load_most_relevant_state()
       persistedBlocks.insert(blockHash);
     }
   }
-  const string lineOut2 = strprintf("first checkpoint \n");
-  saveToLog(lineOut2);
   // using the SP's watermark after its fixed-up as the tip
   // walk backwards until we find a valid and full set of persisted state files
   // for each block we discard, roll back the SP database
@@ -1733,8 +1675,6 @@ static int load_most_relevant_state()
   int abortRollBackBlock;
   if (curTip != NULL) abortRollBackBlock = curTip->nHeight - (MAX_STATE_HISTORY+1);
   while (NULL != curTip && persistedBlocks.size() > 0 && curTip->nHeight > abortRollBackBlock) {
-    const string lineOut1 = strprintf("inside second while loop \n");
-    saveToLog(lineOut1);
     if (persistedBlocks.find(spBlockIndex->GetBlockHash()) != persistedBlocks.end()) {
       int success = -1;
       for (int i = 0; i < NUM_FILETYPES; ++i) {
@@ -1758,8 +1698,6 @@ static int load_most_relevant_state()
     // go to the previous block
     if (0 > _my_sps->popBlock(curTip->GetBlockHash())) {
       // trigger a full reparse, if the levelDB cannot roll back
-      const string lineOut1 = strprintf(" 0 > _my_sps->popBlock(curTip->GetBlockHash())\n");
-      saveToLog(lineOut1);
       return -1;
     }
     curTip = curTip->pprev;
@@ -1770,8 +1708,6 @@ static int load_most_relevant_state()
 
   if (persistedBlocks.size() == 0) {
     // trigger a reparse if we exhausted the persistence files without success
-    const string lineOut1 = strprintf("persistedBlocks.size() == 0\n");
-    saveToLog(lineOut1);
     return -1;
   }
 
@@ -1838,26 +1774,26 @@ static int write_msc_balances(std::ofstream& file, SHA256_CTX* shaCtx)
 //
 //   return 0;
 // }
-//
-// static int write_mp_metadex(ofstream &file, SHA256_CTX *shaCtx)
-// {
-//   for (md_PropertiesMap::iterator my_it = metadex.begin(); my_it != metadex.end(); ++my_it)
-//   {
-//     md_PricesMap & prices = my_it->second;
-//     for (md_PricesMap::iterator it = prices.begin(); it != prices.end(); ++it)
-//     {
-//       md_Set & indexes = (it->second);
-//       for (md_Set::iterator it = indexes.begin(); it != indexes.end(); ++it)
-//       {
-//         CMPMetaDEx meta = *it;
-//         meta.saveOffer(file, shaCtx);
-//       }
-//     }
-//   }
-//
-//   return 0;
-// }
-//
+
+static int write_mp_metadex(ofstream &file, SHA256_CTX *shaCtx)
+{
+  for (md_PropertiesMap::iterator my_it = metadex.begin(); my_it != metadex.end(); ++my_it)
+  {
+    md_PricesMap & prices = my_it->second;
+    for (md_PricesMap::iterator it = prices.begin(); it != prices.end(); ++it)
+    {
+      md_Set & indexes = (it->second);
+      for (md_Set::iterator it = indexes.begin(); it != indexes.end(); ++it)
+      {
+        CMPMetaDEx meta = *it;
+        meta.saveOffer(file, shaCtx);
+      }
+    }
+  }
+
+  return 0;
+}
+
 // static int write_mp_accepts(ofstream &file, SHA256_CTX *shaCtx)
 // {
 //   AcceptMap::const_iterator iter;
@@ -1890,16 +1826,16 @@ static int write_globals_state(ofstream &file, SHA256_CTX *shaCtx)
   return 0;
 }
 
-// static int write_mp_crowdsales(std::ofstream& file, SHA256_CTX* shaCtx)
-// {
-//     for (CrowdMap::const_iterator it = my_crowds.begin(); it != my_crowds.end(); ++it) {
-//         // decompose the key for address
-//         const CMPCrowd& crowd = it->second;
-//         crowd.saveCrowdSale(file, shaCtx, it->first);
-//     }
-//
-//     return 0;
-// }
+static int write_mp_crowdsales(std::ofstream& file, SHA256_CTX* shaCtx)
+{
+    for (CrowdMap::const_iterator it = my_crowds.begin(); it != my_crowds.end(); ++it) {
+        // decompose the key for address
+        const CMPCrowd& crowd = it->second;
+        crowd.saveCrowdSale(file, shaCtx, it->first);
+    }
+
+    return 0;
+}
 
 static int write_state_file( CBlockIndex const *pBlockIndex, int what )
 {
@@ -2114,19 +2050,17 @@ int mastercore_init()
 //             boost::filesystem::path feesPath = GetDataDir() / "OMNI_feecache";
 //             boost::filesystem::path feeHistoryPath = GetDataDir() / "OMNI_feehistory";
             // if (boost::filesystem::exists(persistPath)) boost::filesystem::remove_all(persistPath);
-//             if (boost::filesystem::exists(txlistPath)) boost::filesystem::remove_all(txlistPath);
-//             if (boost::filesystem::exists(tradePath)) boost::filesystem::remove_all(tradePath);
-//             if (boost::filesystem::exists(spPath)) boost::filesystem::remove_all(spPath);
-//             if (boost::filesystem::exists(stoPath)) boost::filesystem::remove_all(stoPath);
-//             if (boost::filesystem::exists(omniTXDBPath)) boost::filesystem::remove_all(omniTXDBPath);
-//             if (boost::filesystem::exists(feesPath)) boost::filesystem::remove_all(feesPath);
-//             if (boost::filesystem::exists(feeHistoryPath)) boost::filesystem::remove_all(feeHistoryPath);
+            // if (boost::filesystem::exists(txlistPath)) boost::filesystem::remove_all(txlistPath);
+            // if (boost::filesystem::exists(tradePath)) boost::filesystem::remove_all(tradePath);
+            // if (boost::filesystem::exists(spPath)) boost::filesystem::remove_all(spPath);
+            // if (boost::filesystem::exists(stoPath)) boost::filesystem::remove_all(stoPath);
+            // if (boost::filesystem::exists(omniTXDBPath)) boost::filesystem::remove_all(omniTXDBPath);
+            // if (boost::filesystem::exists(feesPath)) boost::filesystem::remove_all(feesPath);
+            // if (boost::filesystem::exists(feeHistoryPath)) boost::filesystem::remove_all(feeHistoryPath);
             PrintToLog("Success clearing persistence files in datadir %s\n", GetDataDir().string());
             startClean = true;
         } catch (const boost::filesystem::filesystem_error& e) {
             PrintToLog("Failed to delete persistence folders: %s\n", e.what());
-            const string lineOut = strprintf("Failed to delete persistence folders: %s\n", e.what());
-            saveToLog(lineOut);
         }
     }
 //
@@ -2145,8 +2079,6 @@ int mastercore_init()
     ++mastercoreInitialized;
 
     nWaterlineBlock = load_most_relevant_state();
-    const string lineOut9 = strprintf("After load_most_relevant_state function!, nWaterlineBlock: %d\n",nWaterlineBlock);
-    saveToLog(lineOut9);
     bool noPreviousState = (nWaterlineBlock <= 0);
 
     if (startClean) {
@@ -2280,8 +2212,6 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
     if (!mastercoreInitialized) {
         mastercore_init();
     }
-    const string lineOut = strprintf("dentro de mastercore_handler_tx");
-    saveToLog(lineOut);
 //
 //     // clear pending, if any
 //     // NOTE1: Every incoming TX is checked, not just MP-ones because:
@@ -2298,19 +2228,17 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
 
     bool fFoundTx = false;
     int pop_ret = parseTransaction(false, tx, nBlock, idx, mp_obj, nBlockTime);
-    const string lineOut2 = strprintf("resultado de pop_ret : %d",pop_ret);
-    saveToLog(lineOut2);
-//
-    // if (pop_ret >= 0) {
-    //
-    //     assert(mp_obj.getEncodingClass() != NO_MARKER);
-    //     assert(mp_obj.getSender().empty() == false);
-    //     // extra iteration of the outputs for every transaction, not needed on mainnet after Exodus closed
-    //     const CConsensusParams& params = ConsensusParams();
-    //     // if (isNonMainNet() || nBlock <= params.LAST_EXODUS_BLOCK) {
-    //     //     fFoundTx |= HandleExodusPurchase(tx, nBlock, mp_obj.getSender(), nBlockTime);
-    //     //    }
-    // }
+
+    if (pop_ret >= 0) {
+
+        assert(mp_obj.getEncodingClass() != NO_MARKER);
+        assert(mp_obj.getSender().empty() == false);
+        // extra iteration of the outputs for every transaction, not needed on mainnet after Exodus closed
+        const CConsensusParams& params = ConsensusParams();
+        // if (isNonMainNet() || nBlock <= params.LAST_EXODUS_BLOCK) {
+        //     fFoundTx |= HandleExodusPurchase(tx, nBlock, mp_obj.getSender(), nBlockTime);
+        //    }
+    }
 
     if (pop_ret > 0) {
         assert(mp_obj.getEncodingClass() == OMNI_CLASS_A);
@@ -2322,22 +2250,20 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
     if (0 == pop_ret) {
         int interp_ret = mp_obj.interpretPacket();
         if (interp_ret) PrintToLog("!!! interpretPacket() returned %d !!!\n", interp_ret);
-        const string lineOut8 = strprintf("!!! interpretPacket() returned %d !!!\n", interp_ret);
-        saveToLog(lineOut8);
       //  Only structurally valid transactions get recorded in levelDB
       //  PKT_ERROR - 2 = interpret_Transaction failed, structurally invalid payload
-    //     if (interp_ret != PKT_ERROR - 2) {
-    //         bool bValid = (0 <= interp_ret);
-    //         p_txlistdb->recordTX(tx.GetHash(), bValid, nBlock, mp_obj.getType(), mp_obj.getNewAmount());
-    //         p_OmniTXDB->RecordTransaction(tx.GetHash(), idx, interp_ret);
-    //     }
-    //     fFoundTx |= (interp_ret == 0);
+        if (interp_ret != PKT_ERROR - 2) {
+            bool bValid = (0 <= interp_ret);
+            p_txlistdb->recordTX(tx.GetHash(), bValid, nBlock, mp_obj.getType(), mp_obj.getNewAmount());
+            p_OmniTXDB->RecordTransaction(tx.GetHash(), idx, interp_ret);
+        }
+        fFoundTx |= (interp_ret == 0);
     }
-//
-    // if (fFoundTx && msc_debug_consensus_hash_every_transaction) {
-    //     uint256 consensusHash = GetConsensusHash();
-    //     PrintToLog("Consensus hash for transaction %s: %s\n", tx.GetHash().GetHex(), consensusHash.GetHex());
-    // }
+
+    if (fFoundTx && msc_debug_consensus_hash_every_transaction) {
+        uint256 consensusHash = GetConsensusHash();
+        PrintToLog("Consensus hash for transaction %s: %s\n", tx.GetHash().GetHex(), consensusHash.GetHex());
+    }
 
     return fFoundTx;
 }
@@ -2363,9 +2289,6 @@ bool mastercore::UseEncodingClassC(size_t nDataSize)
 int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::string& receiverAddress, const std::string& redemptionAddress,
         int64_t referenceAmount, const std::vector<unsigned char>& data, uint256& txid, std::string& rawHex, bool commit)
 {
-    PrintToLog("INSIDE WalletTxBuilder function <----------------------------\n");
-    const string lineOut8 = strprintf("INSIDE WalletTxBuilder function <----------------------------\n");
-    saveToLog(lineOut8);
     #ifdef ENABLE_WALLET
     CWalletRef pwalletMain = NULL;
     if (vpwallets.size() > 0){
@@ -2377,10 +2300,8 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
 
     // Determine the class to send the transaction via - default is Class C
     int omniTxClass = OMNI_CLASS_C;
-    // if (!UseEncodingClassC(data.size())) omniTxClass = OMNI_CLASS_B;
 
     // Prepare the transaction - first setup some vars
-    // const CCoinControl coinControl1 = (const CCoinControl) coinControl;
     CCoinControl coinControl;
     CWalletTx wtxNew;
     CAmount nFeeRet;  // change to new class CAmount
@@ -2393,12 +2314,10 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     CBitcoinAddress addr = CBitcoinAddress(senderAddress);
     coinControl.destChange = addr.Get();
     coinControl.fAllowOtherInputs = true;
-    const string lineOut9 = strprintf("First Checkpoint\n");
-    saveToLog(lineOut9);
-    // Select the inputs  TODO: make SelectCoins function works!!!
+
+    // Select the inputs
     if (0 > SelectCoins(senderAddress, coinControl, referenceAmount)) { return MP_INPUTS_INVALID; }
-    const string lineOut10 = strprintf("Second Checkpoint\n");
-    saveToLog(lineOut10);
+
     // Encode the data outputs
     switch(omniTxClass) {
         case OMNI_CLASS_C:
@@ -2410,16 +2329,9 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     if (!receiverAddress.empty()) {
         CScript scriptPubKey = GetScriptForDestination(CBitcoinAddress(receiverAddress).Get());
         vecSend.push_back(std::make_pair(scriptPubKey, 0 < referenceAmount ? referenceAmount : GetDustThreshold(scriptPubKey)));
-        // +vecSend.push_back(std::make_pair(scriptPubKey, 0 < referenceAmount ? referenceAmount : 500000));
-        const string lineOut1 = strprintf("GetDustThreshold: %d\n",GetDustThreshold(scriptPubKey));
-        saveToLog(lineOut1);
-        const string lineOut2 = strprintf("referenceAmount :%d\n",referenceAmount);
-        saveToLog(lineOut2);
     }
 
     // Now we have what we need to pass to the wallet to create the transaction, perform some checks first
-    const string lineOut12 = strprintf("3rd Checkpoint\n");
-    saveToLog(lineOut12);
     if (!coinControl.HasSelected()) return MP_ERR_INPUTSELECT_FAIL;
 
     std::vector<CRecipient> vecRecipients;
@@ -2428,13 +2340,10 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
         CRecipient recipient = {vec.first, CAmount(vec.second), false};
         vecRecipients.push_back(recipient);
     }
-    const string lineOut13 = strprintf("4th Checkpoint\n");
-    saveToLog(lineOut13);
+
     // Ask the wallet to create the transaction (note mining fee determined by Bitcoin Core params)
     if (!pwalletMain->CreateTransaction(vecRecipients, wtxNew, reserveKey, nFeeRet, nChangePosInOut, strFailReason, coinControl, true)) {
         PrintToLog("%s: ERROR: wallet transaction creation failed: %s\n", __func__, strFailReason);
-        const string lineOut14 = strprintf("ERROR: wallet transaction creation failed\n");
-        saveToLog(lineOut14);
         return MP_ERR_CREATE_TX;
     }
 
@@ -2445,8 +2354,6 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     } else {
         // Commit the transaction to the wallet and broadcast)
         // PrintToLog("%s: %s; nFeeRet = %d\n", __func__, wtxNew.ToString(), nFeeRet);
-        const string lineOut14= strprintf("5to Checkpoint\n");
-        saveToLog(lineOut14);
         CValidationState state;
         if (!pwalletMain->CommitTransaction(wtxNew, reserveKey,g_connman.get(),state)) return MP_ERR_COMMIT_TX;
         txid = wtxNew.GetHash();
@@ -2469,77 +2376,77 @@ void COmniTransactionDB::RecordTransaction(const uint256& txid, uint32_t posInBl
     ++nWritten;
 }
 
-// std::vector<std::string> COmniTransactionDB::FetchTransactionDetails(const uint256& txid)
-// {
-//     assert(pdb);
-//     std::string strValue;
-//     std::vector<std::string> vTransactionDetails;
-//
-//     Status status = pdb->Get(readoptions, txid.ToString(), &strValue);
-//     if (status.ok()) {
-//         std::vector<std::string> vStr;
-//         boost::split(vStr, strValue, boost::is_any_of(":"), boost::token_compress_on);
-//         if (vStr.size() == 2) {
-//             vTransactionDetails.push_back(vStr[0]);
-//             vTransactionDetails.push_back(vStr[1]);
-//         } else {
-//             PrintToLog("ERROR: Entry (%s) found in OmniTXDB with unexpected number of attributes!\n", txid.GetHex());
-//         }
-//     } else {
-//         PrintToLog("ERROR: Entry (%s) could not be loaded from OmniTXDB!\n", txid.GetHex());
-//     }
-//
-//     return vTransactionDetails;
-// }
-//
-// uint32_t COmniTransactionDB::FetchTransactionPosition(const uint256& txid)
-// {
-//     uint32_t posInBlock = 999999; // setting an initial arbitrarily high value will ensure transaction is always "last" in event of bug/exploit
-//
-//     std::vector<std::string> vTransactionDetails = FetchTransactionDetails(txid);
-//     if (vTransactionDetails.size() == 2) {
-//         posInBlock = boost::lexical_cast<uint32_t>(vTransactionDetails[0]);
-//     }
-//
-//     return posInBlock;
-// }
-//
-// std::string COmniTransactionDB::FetchInvalidReason(const uint256& txid)
-// {
-//     int processingResult = -999999;
-//
-//     std::vector<std::string> vTransactionDetails = FetchTransactionDetails(txid);
-//     if (vTransactionDetails.size() == 2) {
-//         processingResult = boost::lexical_cast<int>(vTransactionDetails[1]);
-//     }
-//
-//     return error_str(processingResult);
-// }
-//
-// std::set<int> CMPTxList::GetSeedBlocks(int startHeight, int endHeight)
-// {
-//     std::set<int> setSeedBlocks;
-//
-//     if (!pdb) return setSeedBlocks;
-//
-//     Iterator* it = NewIterator();
-//
-//     for (it->SeekToFirst(); it->Valid(); it->Next()) {
-//         std::string itData = it->value().ToString();
-//         std::vector<std::string> vstr;
-//         boost::split(vstr, itData, boost::is_any_of(":"), boost::token_compress_on);
-//         if (4 != vstr.size()) continue; // unexpected number of tokens
-//         int block = atoi(vstr[1]);
-//         if (block >= startHeight && block <= endHeight) {
-//             setSeedBlocks.insert(block);
-//         }
-//     }
-//
-//     delete it;
-//
-//     return setSeedBlocks;
-// }
-//
+std::vector<std::string> COmniTransactionDB::FetchTransactionDetails(const uint256& txid)
+{
+    assert(pdb);
+    std::string strValue;
+    std::vector<std::string> vTransactionDetails;
+
+    Status status = pdb->Get(readoptions, txid.ToString(), &strValue);
+    if (status.ok()) {
+        std::vector<std::string> vStr;
+        boost::split(vStr, strValue, boost::is_any_of(":"), boost::token_compress_on);
+        if (vStr.size() == 2) {
+            vTransactionDetails.push_back(vStr[0]);
+            vTransactionDetails.push_back(vStr[1]);
+        } else {
+            PrintToLog("ERROR: Entry (%s) found in OmniTXDB with unexpected number of attributes!\n", txid.GetHex());
+        }
+    } else {
+        PrintToLog("ERROR: Entry (%s) could not be loaded from OmniTXDB!\n", txid.GetHex());
+    }
+
+    return vTransactionDetails;
+}
+
+uint32_t COmniTransactionDB::FetchTransactionPosition(const uint256& txid)
+{
+    uint32_t posInBlock = 999999; // setting an initial arbitrarily high value will ensure transaction is always "last" in event of bug/exploit
+
+    std::vector<std::string> vTransactionDetails = FetchTransactionDetails(txid);
+    if (vTransactionDetails.size() == 2) {
+        posInBlock = boost::lexical_cast<uint32_t>(vTransactionDetails[0]);
+    }
+
+    return posInBlock;
+}
+
+std::string COmniTransactionDB::FetchInvalidReason(const uint256& txid)
+{
+    int processingResult = -999999;
+
+    std::vector<std::string> vTransactionDetails = FetchTransactionDetails(txid);
+    if (vTransactionDetails.size() == 2) {
+        processingResult = boost::lexical_cast<int>(vTransactionDetails[1]);
+    }
+
+    return error_str(processingResult);
+}
+
+std::set<int> CMPTxList::GetSeedBlocks(int startHeight, int endHeight)
+{
+    std::set<int> setSeedBlocks;
+
+    if (!pdb) return setSeedBlocks;
+
+    Iterator* it = NewIterator();
+
+    for (it->SeekToFirst(); it->Valid(); it->Next()) {
+        std::string itData = it->value().ToString();
+        std::vector<std::string> vstr;
+        boost::split(vstr, itData, boost::is_any_of(":"), boost::token_compress_on);
+        if (4 != vstr.size()) continue; // unexpected number of tokens
+        int block = atoi(vstr[1]);
+        if (block >= startHeight && block <= endHeight) {
+            setSeedBlocks.insert(block);
+        }
+    }
+
+    delete it;
+
+    return setSeedBlocks;
+}
+
 bool CMPTxList::CheckForFreezeTxs(int blockHeight)
 {
     assert(pdb);
@@ -2564,251 +2471,251 @@ bool CMPTxList::CheckForFreezeTxs(int blockHeight)
     return false;
 }
 
-// bool CMPTxList::LoadFreezeState(int blockHeight)
-// {
-//     assert(pdb);
-//     std::vector<std::pair<std::string, uint256> > loadOrder;
-//     int txnsLoaded = 0;
-//     Iterator* it = NewIterator();
-//     PrintToLog("Loading freeze state from levelDB\n");
-//
-//     for (it->SeekToFirst(); it->Valid(); it->Next()) {
-//         std::string itData = it->value().ToString();
-//         std::vector<std::string> vstr;
-//         boost::split(vstr, itData, boost::is_any_of(":"), token_compress_on);
-//         if (4 != vstr.size()) continue;
-//         uint16_t txtype = atoi(vstr[2]);
-//         if (txtype != MSC_TYPE_FREEZE_PROPERTY_TOKENS && txtype != MSC_TYPE_UNFREEZE_PROPERTY_TOKENS &&
-//             txtype != MSC_TYPE_ENABLE_FREEZING && txtype != MSC_TYPE_DISABLE_FREEZING) continue;
-//         if (atoi(vstr[0]) != 1) continue; // invalid, ignore
-//         uint256 txid = uint256S(it->key().ToString());
-//         int txPosition = p_OmniTXDB->FetchTransactionPosition(txid);
-//         std::string sortKey = strprintf("%06d%010d", atoi(vstr[1]), txPosition);
-//         loadOrder.push_back(std::make_pair(sortKey, txid));
-//     }
-//
-//     delete it;
-//
-//     std::sort (loadOrder.begin(), loadOrder.end());
-//
-//     for (std::vector<std::pair<std::string, uint256> >::iterator it = loadOrder.begin(); it != loadOrder.end(); ++it) {
-//         uint256 hash = (*it).second;
-//         uint256 blockHash;
-//         CTransaction wtx;
-//         CMPTransaction mp_obj;
-//         if (!GetTransaction(hash, wtx, Params().GetConsensus(), blockHash, true)) {
-//             PrintToLog("ERROR: While loading freeze transaction %s: tx in levelDB but does not exist.\n", hash.GetHex());
-//             return false;
-//         }
-//         if (blockHash.IsNull() || (NULL == GetBlockIndex(blockHash))) {
-//             PrintToLog("ERROR: While loading freeze transaction %s: failed to retrieve block hash.\n", hash.GetHex());
-//             return false;
-//         }
-//         CBlockIndex* pBlockIndex = GetBlockIndex(blockHash);
-//         if (NULL == pBlockIndex) {
-//             PrintToLog("ERROR: While loading freeze transaction %s: failed to retrieve block index.\n", hash.GetHex());
-//             return false;
-//         }
-//         int txBlockHeight = pBlockIndex->nHeight;
-//         if (txBlockHeight > blockHeight) {
-//             PrintToLog("ERROR: While loading freeze transaction %s: transaction is in the future.\n", hash.GetHex());
-//             return false;
-//         }
-//         if (0 != ParseTransaction(wtx, txBlockHeight, 0, mp_obj)) {
-//             PrintToLog("ERROR: While loading freeze transaction %s: failed ParseTransaction.\n", hash.GetHex());
-//             return false;
-//         }
-//         if (!mp_obj.interpret_Transaction()) {
-//             PrintToLog("ERROR: While loading freeze transaction %s: failed interpret_Transaction.\n", hash.GetHex());
-//             return false;
-//         }
-//         if (MSC_TYPE_FREEZE_PROPERTY_TOKENS != mp_obj.getType() && MSC_TYPE_UNFREEZE_PROPERTY_TOKENS != mp_obj.getType() &&
-//             MSC_TYPE_ENABLE_FREEZING != mp_obj.getType() && MSC_TYPE_DISABLE_FREEZING != mp_obj.getType()) {
-//             PrintToLog("ERROR: While loading freeze transaction %s: levelDB type mismatch, not a freeze transaction.\n", hash.GetHex());
-//             return false;
-//         }
-//         mp_obj.unlockLogic();
-//         if (0 != mp_obj.interpretPacket()) {
-//             PrintToLog("ERROR: While loading freeze transaction %s: non-zero return from interpretPacket\n", hash.GetHex());
-//             return false;
-//         }
-//         txnsLoaded++;
-//     }
-//
-//     if (blockHeight > 497000 && !isNonMainNet()) {
-//         assert(txnsLoaded >= 2); // sanity check against a failure to properly load the freeze state
-//     }
-//
-//     return true;
-// }
-//
-// void CMPTxList::LoadActivations(int blockHeight)
-// {
-//     if (!pdb) return;
-//
-//     Slice skey, svalue;
-//     Iterator* it = NewIterator();
-//
-//     PrintToLog("Loading feature activations from levelDB\n");
-//
-//     std::vector<std::pair<int64_t, uint256> > loadOrder;
-//
-//     for (it->SeekToFirst(); it->Valid(); it->Next()) {
-//         std::string itData = it->value().ToString();
-//         std::vector<std::string> vstr;
-//         boost::split(vstr, itData, boost::is_any_of(":"), token_compress_on);
-//         if (4 != vstr.size()) continue; // unexpected number of tokens
-//         if (atoi(vstr[2]) != OMNICORE_MESSAGE_TYPE_ACTIVATION || atoi(vstr[0]) != 1) continue; // we only care about valid activations
-//         uint256 txid = uint256S(it->key().ToString());;
-//         loadOrder.push_back(std::make_pair(atoi(vstr[1]), txid));
-//     }
-//
-//     std::sort (loadOrder.begin(), loadOrder.end());
-//
-//     for (std::vector<std::pair<int64_t, uint256> >::iterator it = loadOrder.begin(); it != loadOrder.end(); ++it) {
-//         uint256 hash = (*it).second;
-//         uint256 blockHash;
-//         CTransaction wtx;
-//         CMPTransaction mp_obj;
-//
-//         if (!GetTransaction(hash, wtx, Params().GetConsensus(), blockHash, true)) {
-//             PrintToLog("ERROR: While loading activation transaction %s: tx in levelDB but does not exist.\n", hash.GetHex());
-//             continue;
-//         }
-//         if (blockHash.IsNull() || (NULL == GetBlockIndex(blockHash))) {
-//             PrintToLog("ERROR: While loading activation transaction %s: failed to retrieve block hash.\n", hash.GetHex());
-//             continue;
-//         }
-//         CBlockIndex* pBlockIndex = GetBlockIndex(blockHash);
-//         if (NULL == pBlockIndex) {
-//             PrintToLog("ERROR: While loading activation transaction %s: failed to retrieve block index.\n", hash.GetHex());
-//             continue;
-//         }
-//         int blockHeight = pBlockIndex->nHeight;
-//         if (0 != ParseTransaction(wtx, blockHeight, 0, mp_obj)) {
-//             PrintToLog("ERROR: While loading activation transaction %s: failed ParseTransaction.\n", hash.GetHex());
-//             continue;
-//         }
-//         if (!mp_obj.interpret_Transaction()) {
-//             PrintToLog("ERROR: While loading activation transaction %s: failed interpret_Transaction.\n", hash.GetHex());
-//             continue;
-//         }
-//         if (OMNICORE_MESSAGE_TYPE_ACTIVATION != mp_obj.getType()) {
-//             PrintToLog("ERROR: While loading activation transaction %s: levelDB type mismatch, not an activation.\n", hash.GetHex());
-//             continue;
-//         }
-//         mp_obj.unlockLogic();
-//         if (0 != mp_obj.interpretPacket()) {
-//             PrintToLog("ERROR: While loading activation transaction %s: non-zero return from interpretPacket\n", hash.GetHex());
-//             continue;
-//         }
-//     }
-//     delete it;
-//     CheckLiveActivations(blockHeight);
-//
-//     // This alert never expires as long as custom activations are used
-//     if (mapArgs.count("-omniactivationallowsender") || mapArgs.count("-omniactivationignoresender")) {
-//         AddAlert("omnicore", ALERT_CLIENT_VERSION_EXPIRY, std::numeric_limits<uint32_t>::max(),
-//                  "Authorization for feature activation has been modified.  Data provided by this client should not be trusted.");
-//     }
-// }
-//
-// void CMPTxList::LoadAlerts(int blockHeight)
-// {
-//     if (!pdb) return;
-//     Slice skey, svalue;
-//     Iterator* it = NewIterator();
-//
-//     std::vector<std::pair<int64_t, uint256> > loadOrder;
-//
-//     for (it->SeekToFirst(); it->Valid(); it->Next()) {
-//         std::string itData = it->value().ToString();
-//         std::vector<std::string> vstr;
-//         boost::split(vstr, itData, boost::is_any_of(":"), token_compress_on);
-//         if (4 != vstr.size()) continue; // unexpected number of tokens
-//         if (atoi(vstr[2]) != OMNICORE_MESSAGE_TYPE_ALERT || atoi(vstr[0]) != 1) continue; // not a valid alert
-//         uint256 txid = uint256S(it->key().ToString());;
-//         loadOrder.push_back(std::make_pair(atoi(vstr[1]), txid));
-//     }
-//
-//     std::sort (loadOrder.begin(), loadOrder.end());
-//
-//     for (std::vector<std::pair<int64_t, uint256> >::iterator it = loadOrder.begin(); it != loadOrder.end(); ++it) {
-//         uint256 txid = (*it).second;
-//         uint256 blockHash;
-//         CTransaction wtx;
-//         CMPTransaction mp_obj;
-//         if (!GetTransaction(txid, wtx, Params().GetConsensus(), blockHash, true)) {
-//             PrintToLog("ERROR: While loading alert %s: tx in levelDB but does not exist.\n", txid.GetHex());
-//             continue;
-//         }
-//         if (0 != ParseTransaction(wtx, blockHeight, 0, mp_obj)) {
-//             PrintToLog("ERROR: While loading alert %s: failed ParseTransaction.\n", txid.GetHex());
-//             continue;
-//         }
-//         if (!mp_obj.interpret_Transaction()) {
-//             PrintToLog("ERROR: While loading alert %s: failed interpret_Transaction.\n", txid.GetHex());
-//             continue;
-//         }
-//         if (OMNICORE_MESSAGE_TYPE_ALERT != mp_obj.getType()) {
-//             PrintToLog("ERROR: While loading alert %s: levelDB type mismatch, not an alert.\n", txid.GetHex());
-//             continue;
-//         }
-//         if (!CheckAlertAuthorization(mp_obj.getSender())) {
-//             PrintToLog("ERROR: While loading alert %s: sender is not authorized to send alerts.\n", txid.GetHex());
-//             continue;
-//         }
-//
-//         if (mp_obj.getAlertType() == 65535) { // set alert type to FFFF to clear previously sent alerts
-//             DeleteAlerts(mp_obj.getSender());
-//         } else {
-//             AddAlert(mp_obj.getSender(), mp_obj.getAlertType(), mp_obj.getAlertExpiry(), mp_obj.getAlertMessage());
-//         }
-//     }
-//
-//     delete it;
-//     int64_t blockTime = 0;
-//     {
-//         LOCK(cs_main);
-//         CBlockIndex* pBlockIndex = chainActive[blockHeight-1];
-//         if (pBlockIndex != NULL) {
-//             blockTime = pBlockIndex->GetBlockTime();
-//         }
-//     }
-//     if (blockTime > 0) {
-//         CheckExpiredAlerts(blockHeight, blockTime);
-//     }
-// }
-//
-// uint256 CMPTxList::findMetaDExCancel(const uint256 txid)
-// {
-//   std::vector<std::string> vstr;
-//   string txidStr = txid.ToString();
-//   Slice skey, svalue;
-//   uint256 cancelTxid;
-//   Iterator* it = NewIterator();
-//   for(it->SeekToFirst(); it->Valid(); it->Next())
-//   {
-//       skey = it->key();
-//       svalue = it->value();
-//       string svalueStr = svalue.ToString();
-//       boost::split(vstr, svalueStr, boost::is_any_of(":"), token_compress_on);
-//       // obtain the existing affected tx count
-//       if (3 <= vstr.size())
-//       {
-//           if (vstr[0] == txidStr) { delete it; cancelTxid.SetHex(skey.ToString()); return cancelTxid; }
-//       }
-//   }
-//
-//   delete it;
-//   return uint256();
-// }
-//
-// /*
-//  * Gets the DB version from txlistdb
-//  *
-//  * Returns the current version
-//  */
+bool CMPTxList::LoadFreezeState(int blockHeight)
+{
+    assert(pdb);
+    std::vector<std::pair<std::string, uint256> > loadOrder;
+    int txnsLoaded = 0;
+    Iterator* it = NewIterator();
+    PrintToLog("Loading freeze state from levelDB\n");
+
+    for (it->SeekToFirst(); it->Valid(); it->Next()) {
+        std::string itData = it->value().ToString();
+        std::vector<std::string> vstr;
+        boost::split(vstr, itData, boost::is_any_of(":"), token_compress_on);
+        if (4 != vstr.size()) continue;
+        uint16_t txtype = atoi(vstr[2]);
+        if (txtype != MSC_TYPE_FREEZE_PROPERTY_TOKENS && txtype != MSC_TYPE_UNFREEZE_PROPERTY_TOKENS &&
+            txtype != MSC_TYPE_ENABLE_FREEZING && txtype != MSC_TYPE_DISABLE_FREEZING) continue;
+        if (atoi(vstr[0]) != 1) continue; // invalid, ignore
+        uint256 txid = uint256S(it->key().ToString());
+        int txPosition = p_OmniTXDB->FetchTransactionPosition(txid);
+        std::string sortKey = strprintf("%06d%010d", atoi(vstr[1]), txPosition);
+        loadOrder.push_back(std::make_pair(sortKey, txid));
+    }
+
+    delete it;
+
+    std::sort (loadOrder.begin(), loadOrder.end());
+
+    for (std::vector<std::pair<std::string, uint256> >::iterator it = loadOrder.begin(); it != loadOrder.end(); ++it) {
+        uint256 hash = (*it).second;
+        uint256 blockHash;
+        CTransactionRef wtx;
+        CMPTransaction mp_obj;
+        if (!GetTransaction(hash, wtx, Params().GetConsensus(), blockHash, true)) {
+            PrintToLog("ERROR: While loading freeze transaction %s: tx in levelDB but does not exist.\n", hash.GetHex());
+            return false;
+        }
+        if (blockHash.IsNull() || (NULL == GetBlockIndex(blockHash))) {
+            PrintToLog("ERROR: While loading freeze transaction %s: failed to retrieve block hash.\n", hash.GetHex());
+            return false;
+        }
+        CBlockIndex* pBlockIndex = GetBlockIndex(blockHash);
+        if (NULL == pBlockIndex) {
+            PrintToLog("ERROR: While loading freeze transaction %s: failed to retrieve block index.\n", hash.GetHex());
+            return false;
+        }
+        int txBlockHeight = pBlockIndex->nHeight;
+        if (txBlockHeight > blockHeight) {
+            PrintToLog("ERROR: While loading freeze transaction %s: transaction is in the future.\n", hash.GetHex());
+            return false;
+        }
+        if (0 != ParseTransaction(*(wtx), txBlockHeight, 0, mp_obj)) {
+            PrintToLog("ERROR: While loading freeze transaction %s: failed ParseTransaction.\n", hash.GetHex());
+            return false;
+        }
+        if (!mp_obj.interpret_Transaction()) {
+            PrintToLog("ERROR: While loading freeze transaction %s: failed interpret_Transaction.\n", hash.GetHex());
+            return false;
+        }
+        if (MSC_TYPE_FREEZE_PROPERTY_TOKENS != mp_obj.getType() && MSC_TYPE_UNFREEZE_PROPERTY_TOKENS != mp_obj.getType() &&
+            MSC_TYPE_ENABLE_FREEZING != mp_obj.getType() && MSC_TYPE_DISABLE_FREEZING != mp_obj.getType()) {
+            PrintToLog("ERROR: While loading freeze transaction %s: levelDB type mismatch, not a freeze transaction.\n", hash.GetHex());
+            return false;
+        }
+        mp_obj.unlockLogic();
+        if (0 != mp_obj.interpretPacket()) {
+            PrintToLog("ERROR: While loading freeze transaction %s: non-zero return from interpretPacket\n", hash.GetHex());
+            return false;
+        }
+        txnsLoaded++;
+    }
+
+    if (blockHeight > 497000 && !isNonMainNet()) {
+        assert(txnsLoaded >= 2); // sanity check against a failure to properly load the freeze state
+    }
+
+    return true;
+}
+
+void CMPTxList::LoadActivations(int blockHeight)
+{
+    if (!pdb) return;
+
+    Slice skey, svalue;
+    Iterator* it = NewIterator();
+
+    PrintToLog("Loading feature activations from levelDB\n");
+
+    std::vector<std::pair<int64_t, uint256> > loadOrder;
+
+    for (it->SeekToFirst(); it->Valid(); it->Next()) {
+        std::string itData = it->value().ToString();
+        std::vector<std::string> vstr;
+        boost::split(vstr, itData, boost::is_any_of(":"), token_compress_on);
+        if (4 != vstr.size()) continue; // unexpected number of tokens
+        if (atoi(vstr[2]) != OMNICORE_MESSAGE_TYPE_ACTIVATION || atoi(vstr[0]) != 1) continue; // we only care about valid activations
+        uint256 txid = uint256S(it->key().ToString());;
+        loadOrder.push_back(std::make_pair(atoi(vstr[1]), txid));
+    }
+
+    std::sort (loadOrder.begin(), loadOrder.end());
+
+    for (std::vector<std::pair<int64_t, uint256> >::iterator it = loadOrder.begin(); it != loadOrder.end(); ++it) {
+        uint256 hash = (*it).second;
+        uint256 blockHash;
+        CTransactionRef wtx;
+        CMPTransaction mp_obj;
+
+        if (!GetTransaction(hash, wtx, Params().GetConsensus(), blockHash, true)) {
+            PrintToLog("ERROR: While loading activation transaction %s: tx in levelDB but does not exist.\n", hash.GetHex());
+            continue;
+        }
+        if (blockHash.IsNull() || (NULL == GetBlockIndex(blockHash))) {
+            PrintToLog("ERROR: While loading activation transaction %s: failed to retrieve block hash.\n", hash.GetHex());
+            continue;
+        }
+        CBlockIndex* pBlockIndex = GetBlockIndex(blockHash);
+        if (NULL == pBlockIndex) {
+            PrintToLog("ERROR: While loading activation transaction %s: failed to retrieve block index.\n", hash.GetHex());
+            continue;
+        }
+        int blockHeight = pBlockIndex->nHeight;
+        if (0 != ParseTransaction(*(wtx), blockHeight, 0, mp_obj)) {
+            PrintToLog("ERROR: While loading activation transaction %s: failed ParseTransaction.\n", hash.GetHex());
+            continue;
+        }
+        if (!mp_obj.interpret_Transaction()) {
+            PrintToLog("ERROR: While loading activation transaction %s: failed interpret_Transaction.\n", hash.GetHex());
+            continue;
+        }
+        if (OMNICORE_MESSAGE_TYPE_ACTIVATION != mp_obj.getType()) {
+            PrintToLog("ERROR: While loading activation transaction %s: levelDB type mismatch, not an activation.\n", hash.GetHex());
+            continue;
+        }
+        mp_obj.unlockLogic();
+        if (0 != mp_obj.interpretPacket()) {
+            PrintToLog("ERROR: While loading activation transaction %s: non-zero return from interpretPacket\n", hash.GetHex());
+            continue;
+        }
+    }
+    delete it;
+    CheckLiveActivations(blockHeight);
+
+    // This alert never expires as long as custom activations are used
+    // if (mapArgs.count("-omniactivationallowsender") || mapArgs.count("-omniactivationignoresender")) {
+    //     AddAlert("omnicore", ALERT_CLIENT_VERSION_EXPIRY, std::numeric_limits<uint32_t>::max(),
+    //              "Authorization for feature activation has been modified.  Data provided by this client should not be trusted.");
+    // }
+}
+
+void CMPTxList::LoadAlerts(int blockHeight)
+{
+    if (!pdb) return;
+    Slice skey, svalue;
+    Iterator* it = NewIterator();
+
+    std::vector<std::pair<int64_t, uint256> > loadOrder;
+
+    for (it->SeekToFirst(); it->Valid(); it->Next()) {
+        std::string itData = it->value().ToString();
+        std::vector<std::string> vstr;
+        boost::split(vstr, itData, boost::is_any_of(":"), token_compress_on);
+        if (4 != vstr.size()) continue; // unexpected number of tokens
+        if (atoi(vstr[2]) != OMNICORE_MESSAGE_TYPE_ALERT || atoi(vstr[0]) != 1) continue; // not a valid alert
+        uint256 txid = uint256S(it->key().ToString());;
+        loadOrder.push_back(std::make_pair(atoi(vstr[1]), txid));
+    }
+
+    std::sort (loadOrder.begin(), loadOrder.end());
+
+    for (std::vector<std::pair<int64_t, uint256> >::iterator it = loadOrder.begin(); it != loadOrder.end(); ++it) {
+        uint256 txid = (*it).second;
+        uint256 blockHash;
+        CTransactionRef wtx;
+        CMPTransaction mp_obj;
+        if (!GetTransaction(txid, wtx, Params().GetConsensus(), blockHash, true)) {
+            PrintToLog("ERROR: While loading alert %s: tx in levelDB but does not exist.\n", txid.GetHex());
+            continue;
+        }
+        if (0 != ParseTransaction(*(wtx), blockHeight, 0, mp_obj)) {
+            PrintToLog("ERROR: While loading alert %s: failed ParseTransaction.\n", txid.GetHex());
+            continue;
+        }
+        if (!mp_obj.interpret_Transaction()) {
+            PrintToLog("ERROR: While loading alert %s: failed interpret_Transaction.\n", txid.GetHex());
+            continue;
+        }
+        if (OMNICORE_MESSAGE_TYPE_ALERT != mp_obj.getType()) {
+            PrintToLog("ERROR: While loading alert %s: levelDB type mismatch, not an alert.\n", txid.GetHex());
+            continue;
+        }
+        if (!CheckAlertAuthorization(mp_obj.getSender())) {
+            PrintToLog("ERROR: While loading alert %s: sender is not authorized to send alerts.\n", txid.GetHex());
+            continue;
+        }
+
+        if (mp_obj.getAlertType() == 65535) { // set alert type to FFFF to clear previously sent alerts
+            DeleteAlerts(mp_obj.getSender());
+        } else {
+            AddAlert(mp_obj.getSender(), mp_obj.getAlertType(), mp_obj.getAlertExpiry(), mp_obj.getAlertMessage());
+        }
+    }
+
+    delete it;
+    int64_t blockTime = 0;
+    {
+        LOCK(cs_main);
+        CBlockIndex* pBlockIndex = chainActive[blockHeight-1];
+        if (pBlockIndex != NULL) {
+            blockTime = pBlockIndex->GetBlockTime();
+        }
+    }
+    if (blockTime > 0) {
+        // CheckExpiredAlerts(blockHeight, blockTime);
+    }
+}
+
+uint256 CMPTxList::findMetaDExCancel(const uint256 txid)
+{
+  std::vector<std::string> vstr;
+  string txidStr = txid.ToString();
+  Slice skey, svalue;
+  uint256 cancelTxid;
+  Iterator* it = NewIterator();
+  for(it->SeekToFirst(); it->Valid(); it->Next())
+  {
+      skey = it->key();
+      svalue = it->value();
+      string svalueStr = svalue.ToString();
+      boost::split(vstr, svalueStr, boost::is_any_of(":"), token_compress_on);
+      // obtain the existing affected tx count
+      if (3 <= vstr.size())
+      {
+          if (vstr[0] == txidStr) { delete it; cancelTxid.SetHex(skey.ToString()); return cancelTxid; }
+      }
+  }
+
+  delete it;
+  return uint256();
+}
+
+/*
+ * Gets the DB version from txlistdb
+ *
+ * Returns the current version
+ */
 int CMPTxList::getDBVersion()
 {
     std::string strValue;
@@ -2817,8 +2724,6 @@ int CMPTxList::getDBVersion()
     Status status = pdb->Get(readoptions, "dbversion", &strValue);
     if (status.ok()) {
         verDB = boost::lexical_cast<uint64_t>(strValue);
-        const string lineOut9 = strprintf("VERSION OF DB: %d\n",verDB);
-        saveToLog(lineOut9);
     }
 
     if (msc_debug_txdb) PrintToLog("%s(): dbversion %s status %s, line %d, file: %s\n", __FUNCTION__, strValue, status.ToString(), __LINE__, __FILE__);
@@ -2834,345 +2739,343 @@ int CMPTxList::setDBVersion()
 {
     std::string verStr = boost::lexical_cast<std::string>(DB_VERSION);
     Status status = pdb->Put(writeoptions, "dbversion", verStr);
-    const string lineOut9 = strprintf("%s(): dbversion %s status %s, line %d, file: %s\n", __FUNCTION__, verStr, status.ToString(), __LINE__, __FILE__);
-    saveToLog(lineOut9);
     if (msc_debug_txdb) PrintToLog("%s(): dbversion %s status %s, line %d, file: %s\n", __FUNCTION__, verStr, status.ToString(), __LINE__, __FILE__);
 
     return getDBVersion();
 }
-//
-// int CMPTxList::getNumberOfMetaDExCancels(const uint256 txid)
-// {
-//     if (!pdb) return 0;
-//     int numberOfCancels = 0;
-//     std::vector<std::string> vstr;
-//     string strValue;
-//     Status status = pdb->Get(readoptions, txid.ToString() + "-C", &strValue);
-//     if (status.ok())
-//     {
-//         // parse the string returned
-//         boost::split(vstr, strValue, boost::is_any_of(":"), token_compress_on);
-//         // obtain the number of cancels
-//         if (4 <= vstr.size())
-//         {
-//             numberOfCancels = atoi(vstr[3]);
-//         }
-//     }
-//     return numberOfCancels;
-// }
-//
-// /**
-//  * Returns the number of sub records.
-//  */
-// int CMPTxList::getNumberOfSubRecords(const uint256& txid)
-// {
-//     int numberOfSubRecords = 0;
-//
-//     std::string strValue;
-//     Status status = pdb->Get(readoptions, txid.ToString(), &strValue);
-//     if (status.ok()) {
-//         std::vector<std::string> vstr;
-//         boost::split(vstr, strValue, boost::is_any_of(":"), boost::token_compress_on);
-//         if (4 <= vstr.size()) {
-//             numberOfSubRecords = boost::lexical_cast<int>(vstr[3]);
-//         }
-//     }
-//
-//     return numberOfSubRecords;
-// }
-//
-// int CMPTxList::getMPTransactionCountTotal()
-// {
-//     int count = 0;
-//     Slice skey, svalue;
-//     Iterator* it = NewIterator();
-//     for(it->SeekToFirst(); it->Valid(); it->Next())
-//     {
-//         skey = it->key();
-//         if (skey.ToString().length() == 64) { ++count; } //extra entries for cancels and purchases are more than 64 chars long
-//     }
-//     delete it;
-//     return count;
-// }
-//
-// int CMPTxList::getMPTransactionCountBlock(int block)
-// {
-//     int count = 0;
-//     Slice skey, svalue;
-//     Iterator* it = NewIterator();
-//     for(it->SeekToFirst(); it->Valid(); it->Next())
-//     {
-//         skey = it->key();
-//         svalue = it->value();
-//         if (skey.ToString().length() == 64)
-//         {
-//             string strValue = svalue.ToString();
-//             std::vector<std::string> vstr;
-//             boost::split(vstr, strValue, boost::is_any_of(":"), token_compress_on);
-//             if (4 == vstr.size())
-//             {
-//                 if (atoi(vstr[1]) == block) { ++count; }
-//             }
-//         }
-//     }
-//     delete it;
-//     return count;
-// }
-//
-// string CMPTxList::getKeyValue(string key)
-// {
-//     if (!pdb) return "";
-//     string strValue;
-//     Status status = pdb->Get(readoptions, key, &strValue);
-//     if (status.ok()) { return strValue; } else { return ""; }
-// }
-//
-// /**
-//  * Retrieves details about a "send all" record.
-//  */
-// bool CMPTxList::getSendAllDetails(const uint256& txid, int subSend, uint32_t& propertyId, int64_t& amount)
-// {
-//     std::string strKey = strprintf("%s-%d", txid.ToString(), subSend);
-//     std::string strValue;
-//     leveldb::Status status = pdb->Get(readoptions, strKey, &strValue);
-//     if (status.ok()) {
-//         std::vector<std::string> vstr;
-//         boost::split(vstr, strValue, boost::is_any_of(":"), boost::token_compress_on);
-//         if (2 == vstr.size()) {
-//             propertyId = boost::lexical_cast<uint32_t>(vstr[0]);
-//             amount = boost::lexical_cast<int64_t>(vstr[1]);
-//             return true;
-//         }
-//     }
-//     return false;
-// }
-//
-// bool CMPTxList::getPurchaseDetails(const uint256 txid, int purchaseNumber, string *buyer, string *seller, uint64_t *vout, uint64_t *propertyId, uint64_t *nValue)
-// {
-//     if (!pdb) return 0;
-//     std::vector<std::string> vstr;
-//     string strValue;
-//     Status status = pdb->Get(readoptions, txid.ToString()+"-"+to_string(purchaseNumber), &strValue);
-//     if (status.ok())
-//     {
-//         // parse the string returned
-//         boost::split(vstr, strValue, boost::is_any_of(":"), token_compress_on);
-//         // obtain the requisite details
-//         if (5 == vstr.size())
-//         {
-//             *vout = atoi(vstr[0]);
-//             *buyer = vstr[1];
-//             *seller = vstr[2];
-//             *propertyId = atoi(vstr[3]);
-//             *nValue = boost::lexical_cast<boost::uint64_t>(vstr[4]);;
-//             return true;
-//         }
-//     }
-//     return false;
-// }
-//
-// void CMPTxList::recordMetaDExCancelTX(const uint256 &txidMaster, const uint256 &txidSub, bool fValid, int nBlock, unsigned int propertyId, uint64_t nValue)
-// {
-//   if (!pdb) return;
-//
-//        // Prep - setup vars
-//        unsigned int type = 99992104;
-//        unsigned int refNumber = 1;
-//        uint64_t existingAffectedTXCount = 0;
-//        string txidMasterStr = txidMaster.ToString() + "-C";
-//
-//        // Step 1 - Check TXList to see if this cancel TXID exists
-//        // Step 2a - If doesn't exist leave number of affected txs & ref set to 1
-//        // Step 2b - If does exist add +1 to existing ref and set this ref as new number of affected
-//        std::vector<std::string> vstr;
-//        string strValue;
-//        Status status = pdb->Get(readoptions, txidMasterStr, &strValue);
-//        if (status.ok())
-//        {
-//            // parse the string returned
-//            boost::split(vstr, strValue, boost::is_any_of(":"), token_compress_on);
-//
-//            // obtain the existing affected tx count
-//            if (4 <= vstr.size())
-//            {
-//                existingAffectedTXCount = atoi(vstr[3]);
-//                refNumber = existingAffectedTXCount + 1;
-//            }
-//        }
-//
-//        // Step 3 - Create new/update master record for cancel tx in TXList
-//        const string key = txidMasterStr;
-//        const string value = strprintf("%u:%d:%u:%lu", fValid ? 1:0, nBlock, type, refNumber);
-//        PrintToLog("METADEXCANCELDEBUG : Writing master record %s(%s, valid=%s, block= %d, type= %d, number of affected transactions= %d)\n", __FUNCTION__, txidMaster.ToString(), fValid ? "YES":"NO", nBlock, type, refNumber);
-//        if (pdb)
-//        {
-//            status = pdb->Put(writeoptions, key, value);
-//            PrintToLog("METADEXCANCELDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, status.ToString(), __LINE__, __FILE__);
-//        }
-//
-//        // Step 4 - Write sub-record with cancel details
-//        const string txidStr = txidMaster.ToString() + "-C";
-//        const string subKey = STR_REF_SUBKEY_TXID_REF_COMBO(txidStr, refNumber);
-//        const string subValue = strprintf("%s:%d:%lu", txidSub.ToString(), propertyId, nValue);
-//        Status subStatus;
-//        PrintToLog("METADEXCANCELDEBUG : Writing sub-record %s with value %s\n", subKey, subValue);
-//        if (pdb)
-//        {
-//            subStatus = pdb->Put(writeoptions, subKey, subValue);
-//            PrintToLog("METADEXCANCELDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, subStatus.ToString(), __LINE__, __FILE__);
-//        }
-// }
-//
-// /**
+
+int CMPTxList::getNumberOfMetaDExCancels(const uint256 txid)
+{
+    if (!pdb) return 0;
+    int numberOfCancels = 0;
+    std::vector<std::string> vstr;
+    string strValue;
+    Status status = pdb->Get(readoptions, txid.ToString() + "-C", &strValue);
+    if (status.ok())
+    {
+        // parse the string returned
+        boost::split(vstr, strValue, boost::is_any_of(":"), token_compress_on);
+        // obtain the number of cancels
+        if (4 <= vstr.size())
+        {
+            numberOfCancels = atoi(vstr[3]);
+        }
+    }
+    return numberOfCancels;
+}
+
+/**
+ * Returns the number of sub records.
+ */
+int CMPTxList::getNumberOfSubRecords(const uint256& txid)
+{
+    int numberOfSubRecords = 0;
+
+    std::string strValue;
+    Status status = pdb->Get(readoptions, txid.ToString(), &strValue);
+    if (status.ok()) {
+        std::vector<std::string> vstr;
+        boost::split(vstr, strValue, boost::is_any_of(":"), boost::token_compress_on);
+        if (4 <= vstr.size()) {
+            numberOfSubRecords = boost::lexical_cast<int>(vstr[3]);
+        }
+    }
+
+    return numberOfSubRecords;
+}
+
+int CMPTxList::getMPTransactionCountTotal()
+{
+    int count = 0;
+    Slice skey, svalue;
+    Iterator* it = NewIterator();
+    for(it->SeekToFirst(); it->Valid(); it->Next())
+    {
+        skey = it->key();
+        if (skey.ToString().length() == 64) { ++count; } //extra entries for cancels and purchases are more than 64 chars long
+    }
+    delete it;
+    return count;
+}
+
+int CMPTxList::getMPTransactionCountBlock(int block)
+{
+    int count = 0;
+    Slice skey, svalue;
+    Iterator* it = NewIterator();
+    for(it->SeekToFirst(); it->Valid(); it->Next())
+    {
+        skey = it->key();
+        svalue = it->value();
+        if (skey.ToString().length() == 64)
+        {
+            string strValue = svalue.ToString();
+            std::vector<std::string> vstr;
+            boost::split(vstr, strValue, boost::is_any_of(":"), token_compress_on);
+            if (4 == vstr.size())
+            {
+                if (atoi(vstr[1]) == block) { ++count; }
+            }
+        }
+    }
+    delete it;
+    return count;
+}
+
+string CMPTxList::getKeyValue(string key)
+{
+    if (!pdb) return "";
+    string strValue;
+    Status status = pdb->Get(readoptions, key, &strValue);
+    if (status.ok()) { return strValue; } else { return ""; }
+}
+
+/**
+ * Retrieves details about a "send all" record.
+ */
+bool CMPTxList::getSendAllDetails(const uint256& txid, int subSend, uint32_t& propertyId, int64_t& amount)
+{
+    std::string strKey = strprintf("%s-%d", txid.ToString(), subSend);
+    std::string strValue;
+    leveldb::Status status = pdb->Get(readoptions, strKey, &strValue);
+    if (status.ok()) {
+        std::vector<std::string> vstr;
+        boost::split(vstr, strValue, boost::is_any_of(":"), boost::token_compress_on);
+        if (2 == vstr.size()) {
+            propertyId = boost::lexical_cast<uint32_t>(vstr[0]);
+            amount = boost::lexical_cast<int64_t>(vstr[1]);
+            return true;
+        }
+    }
+    return false;
+}
+
+bool CMPTxList::getPurchaseDetails(const uint256 txid, int purchaseNumber, string *buyer, string *seller, uint64_t *vout, uint64_t *propertyId, uint64_t *nValue)
+{
+    if (!pdb) return 0;
+    std::vector<std::string> vstr;
+    string strValue;
+    Status status = pdb->Get(readoptions, txid.ToString()+"-"+to_string(purchaseNumber), &strValue);
+    if (status.ok())
+    {
+        // parse the string returned
+        boost::split(vstr, strValue, boost::is_any_of(":"), token_compress_on);
+        // obtain the requisite details
+        if (5 == vstr.size())
+        {
+            *vout = atoi(vstr[0]);
+            *buyer = vstr[1];
+            *seller = vstr[2];
+            *propertyId = atoi(vstr[3]);
+            *nValue = boost::lexical_cast<boost::uint64_t>(vstr[4]);;
+            return true;
+        }
+    }
+    return false;
+}
+
+void CMPTxList::recordMetaDExCancelTX(const uint256 &txidMaster, const uint256 &txidSub, bool fValid, int nBlock, unsigned int propertyId, uint64_t nValue)
+{
+  if (!pdb) return;
+
+       // Prep - setup vars
+       unsigned int type = 99992104;
+       unsigned int refNumber = 1;
+       uint64_t existingAffectedTXCount = 0;
+       string txidMasterStr = txidMaster.ToString() + "-C";
+
+       // Step 1 - Check TXList to see if this cancel TXID exists
+       // Step 2a - If doesn't exist leave number of affected txs & ref set to 1
+       // Step 2b - If does exist add +1 to existing ref and set this ref as new number of affected
+       std::vector<std::string> vstr;
+       string strValue;
+       Status status = pdb->Get(readoptions, txidMasterStr, &strValue);
+       if (status.ok())
+       {
+           // parse the string returned
+           boost::split(vstr, strValue, boost::is_any_of(":"), token_compress_on);
+
+           // obtain the existing affected tx count
+           if (4 <= vstr.size())
+           {
+               existingAffectedTXCount = atoi(vstr[3]);
+               refNumber = existingAffectedTXCount + 1;
+           }
+       }
+
+       // Step 3 - Create new/update master record for cancel tx in TXList
+       const string key = txidMasterStr;
+       const string value = strprintf("%u:%d:%u:%lu", fValid ? 1:0, nBlock, type, refNumber);
+       PrintToLog("METADEXCANCELDEBUG : Writing master record %s(%s, valid=%s, block= %d, type= %d, number of affected transactions= %d)\n", __FUNCTION__, txidMaster.ToString(), fValid ? "YES":"NO", nBlock, type, refNumber);
+       if (pdb)
+       {
+           status = pdb->Put(writeoptions, key, value);
+           PrintToLog("METADEXCANCELDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, status.ToString(), __LINE__, __FILE__);
+       }
+
+       // Step 4 - Write sub-record with cancel details
+       // const string txidStr = txidMaster.ToString() + "-C";
+       // const string subKey = STR_REF_SUBKEY_TXID_REF_COMBO(txidStr, refNumber);
+       // const string subValue = strprintf("%s:%d:%lu", txidSub.ToString(), propertyId, nValue);
+       // Status subStatus;
+       // PrintToLog("METADEXCANCELDEBUG : Writing sub-record %s with value %s\n", subKey, subValue);
+       // if (pdb)
+       // {
+       //     subStatus = pdb->Put(writeoptions, subKey, subValue);
+       //     PrintToLog("METADEXCANCELDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, subStatus.ToString(), __LINE__, __FILE__);
+       // }
+}
+
+/**
 //  * Records a "send all" sub record.
-//  */
-// void CMPTxList::recordSendAllSubRecord(const uint256& txid, int subRecordNumber, uint32_t propertyId, int64_t nValue)
-// {
-//     std::string strKey = strprintf("%s-%d", txid.ToString(), subRecordNumber);
-//     std::string strValue = strprintf("%d:%d", propertyId, nValue);
-//
-//     leveldb::Status status = pdb->Put(writeoptions, strKey, strValue);
-//     ++nWritten;
-//     if (msc_debug_txdb) PrintToLog("%s(): store: %s=%s, status: %s\n", __func__, strKey, strValue, status.ToString());
-// }
-//
-// void CMPTxList::recordPaymentTX(const uint256 &txid, bool fValid, int nBlock, unsigned int vout, unsigned int propertyId, uint64_t nValue, string buyer, string seller)
-// {
-//   if (!pdb) return;
-//
-//        // Prep - setup vars
-//        unsigned int type = 99999999;
-//        uint64_t numberOfPayments = 1;
-//        unsigned int paymentNumber = 1;
-//        uint64_t existingNumberOfPayments = 0;
-//
-//        // Step 1 - Check TXList to see if this payment TXID exists
-//        bool paymentEntryExists = p_txlistdb->exists(txid);
-//
-//        // Step 2a - If doesn't exist leave number of payments & paymentNumber set to 1
-//        // Step 2b - If does exist add +1 to existing number of payments and set this paymentNumber as new numberOfPayments
-//        if (paymentEntryExists)
-//        {
-//            //retrieve old numberOfPayments
-//            std::vector<std::string> vstr;
-//            string strValue;
-//            Status status = pdb->Get(readoptions, txid.ToString(), &strValue);
-//            if (status.ok())
-//            {
-//                // parse the string returned
-//                boost::split(vstr, strValue, boost::is_any_of(":"), token_compress_on);
-//
-//                // obtain the existing number of payments
-//                if (4 <= vstr.size())
-//                {
-//                    existingNumberOfPayments = atoi(vstr[3]);
-//                    paymentNumber = existingNumberOfPayments + 1;
-//                    numberOfPayments = existingNumberOfPayments + 1;
-//                }
-//            }
-//        }
-//
-//        // Step 3 - Create new/update master record for payment tx in TXList
-//        const string key = txid.ToString();
-//        const string value = strprintf("%u:%d:%u:%lu", fValid ? 1:0, nBlock, type, numberOfPayments);
-//        Status status;
-//        PrintToLog("DEXPAYDEBUG : Writing master record %s(%s, valid=%s, block= %d, type= %d, number of payments= %lu)\n", __FUNCTION__, txid.ToString(), fValid ? "YES":"NO", nBlock, type, numberOfPayments);
-//        if (pdb)
-//        {
-//            status = pdb->Put(writeoptions, key, value);
-//            PrintToLog("DEXPAYDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, status.ToString(), __LINE__, __FILE__);
-//        }
-//
-//        // Step 4 - Write sub-record with payment details
-//        const string txidStr = txid.ToString();
-//        const string subKey = STR_PAYMENT_SUBKEY_TXID_PAYMENT_COMBO(txidStr, paymentNumber);
-//        const string subValue = strprintf("%d:%s:%s:%d:%lu", vout, buyer, seller, propertyId, nValue);
-//        Status subStatus;
-//        PrintToLog("DEXPAYDEBUG : Writing sub-record %s with value %s\n", subKey, subValue);
-//        if (pdb)
-//        {
-//            subStatus = pdb->Put(writeoptions, subKey, subValue);
-//            PrintToLog("DEXPAYDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, subStatus.ToString(), __LINE__, __FILE__);
-//        }
-// }
-//
-// void CMPTxList::recordTX(const uint256 &txid, bool fValid, int nBlock, unsigned int type, uint64_t nValue)
-// {
-//   if (!pdb) return;
-//
-//   // overwrite detection, we should never be overwriting a tx, as that means we have redone something a second time
-//   // reorgs delete all txs from levelDB above reorg_chain_height
-//   if (p_txlistdb->exists(txid)) PrintToLog("LEVELDB TX OVERWRITE DETECTION - %s\n", txid.ToString());
-//
-// const string key = txid.ToString();
-// const string value = strprintf("%u:%d:%u:%lu", fValid ? 1:0, nBlock, type, nValue);
-// Status status;
-//
-//   PrintToLog("%s(%s, valid=%s, block= %d, type= %d, value= %lu)\n",
-//    __FUNCTION__, txid.ToString(), fValid ? "YES":"NO", nBlock, type, nValue);
-//
-//   if (pdb)
-//   {
-//     status = pdb->Put(writeoptions, key, value);
-//     ++nWritten;
-//     if (msc_debug_txdb) PrintToLog("%s(): %s, line %d, file: %s\n", __FUNCTION__, status.ToString(), __LINE__, __FILE__);
-//   }
-// }
-//
-// bool CMPTxList::exists(const uint256 &txid)
-// {
-//   if (!pdb) return false;
-//
-// string strValue;
-// Status status = pdb->Get(readoptions, txid.ToString(), &strValue);
-//
-//   if (!status.ok())
-//   {
-//     if (status.IsNotFound()) return false;
-//   }
-//
-//   return true;
-// }
-//
-// bool CMPTxList::getTX(const uint256 &txid, string &value)
-// {
-// Status status = pdb->Get(readoptions, txid.ToString(), &value);
-//
-//   ++nRead;
-//
-//   if (status.ok())
-//   {
-//     return true;
-//   }
-//
-//   return false;
-// }
-//
-// void CMPTxList::printStats()
-// {
-//   PrintToLog("CMPTxList stats: nWritten= %d , nRead= %d\n", nWritten, nRead);
-// }
-//
-// void CMPTxList::printAll()
-// {
-// int count = 0;
-// Slice skey, svalue;
-//   Iterator* it = NewIterator();
-//
-//   for(it->SeekToFirst(); it->Valid(); it->Next())
-//   {
-//     skey = it->key();
-//     svalue = it->value();
-//     ++count;
-//     PrintToConsole("entry #%8d= %s:%s\n", count, skey.ToString(), svalue.ToString());
-//   }
-//
-//   delete it;
-// }
-//
-// // figure out if there was at least 1 Master Protocol transaction within the block range, or a block if starting equals ending
-// // block numbers are inclusive
-// // pass in bDeleteFound = true to erase each entry found within the block range
+ */
+void CMPTxList::recordSendAllSubRecord(const uint256& txid, int subRecordNumber, uint32_t propertyId, int64_t nValue)
+{
+    std::string strKey = strprintf("%s-%d", txid.ToString(), subRecordNumber);
+    std::string strValue = strprintf("%d:%d", propertyId, nValue);
+
+    leveldb::Status status = pdb->Put(writeoptions, strKey, strValue);
+    ++nWritten;
+    if (msc_debug_txdb) PrintToLog("%s(): store: %s=%s, status: %s\n", __func__, strKey, strValue, status.ToString());
+}
+
+void CMPTxList::recordPaymentTX(const uint256 &txid, bool fValid, int nBlock, unsigned int vout, unsigned int propertyId, uint64_t nValue, string buyer, string seller)
+{
+  if (!pdb) return;
+
+       // Prep - setup vars
+       unsigned int type = 99999999;
+       uint64_t numberOfPayments = 1;
+       unsigned int paymentNumber = 1;
+       uint64_t existingNumberOfPayments = 0;
+
+       // Step 1 - Check TXList to see if this payment TXID exists
+       bool paymentEntryExists = p_txlistdb->exists(txid);
+
+       // Step 2a - If doesn't exist leave number of payments & paymentNumber set to 1
+       // Step 2b - If does exist add +1 to existing number of payments and set this paymentNumber as new numberOfPayments
+       if (paymentEntryExists)
+       {
+           //retrieve old numberOfPayments
+           std::vector<std::string> vstr;
+           string strValue;
+           Status status = pdb->Get(readoptions, txid.ToString(), &strValue);
+           if (status.ok())
+           {
+               // parse the string returned
+               boost::split(vstr, strValue, boost::is_any_of(":"), token_compress_on);
+
+               // obtain the existing number of payments
+               if (4 <= vstr.size())
+               {
+                   existingNumberOfPayments = atoi(vstr[3]);
+                   paymentNumber = existingNumberOfPayments + 1;
+                   numberOfPayments = existingNumberOfPayments + 1;
+               }
+           }
+       }
+
+       // Step 3 - Create new/update master record for payment tx in TXList
+       const string key = txid.ToString();
+       const string value = strprintf("%u:%d:%u:%lu", fValid ? 1:0, nBlock, type, numberOfPayments);
+       Status status;
+       PrintToLog("DEXPAYDEBUG : Writing master record %s(%s, valid=%s, block= %d, type= %d, number of payments= %lu)\n", __FUNCTION__, txid.ToString(), fValid ? "YES":"NO", nBlock, type, numberOfPayments);
+       if (pdb)
+       {
+           status = pdb->Put(writeoptions, key, value);
+           PrintToLog("DEXPAYDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, status.ToString(), __LINE__, __FILE__);
+       }
+
+       // Step 4 - Write sub-record with payment details
+       // const string txidStr = txid.ToString();
+       // const string subKey = STR_PAYMENT_SUBKEY_TXID_PAYMENT_COMBO(txidStr, paymentNumber);
+       // const string subValue = strprintf("%d:%s:%s:%d:%lu", vout, buyer, seller, propertyId, nValue);
+       // Status subStatus;
+       // PrintToLog("DEXPAYDEBUG : Writing sub-record %s with value %s\n", subKey, subValue);
+       // if (pdb)
+       // {
+       //     subStatus = pdb->Put(writeoptions, subKey, subValue);
+       //     PrintToLog("DEXPAYDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, subStatus.ToString(), __LINE__, __FILE__);
+       // }
+}
+
+void CMPTxList::recordTX(const uint256 &txid, bool fValid, int nBlock, unsigned int type, uint64_t nValue)
+{
+  if (!pdb) return;
+
+  // overwrite detection, we should never be overwriting a tx, as that means we have redone something a second time
+  // reorgs delete all txs from levelDB above reorg_chain_height
+  if (p_txlistdb->exists(txid)) PrintToLog("LEVELDB TX OVERWRITE DETECTION - %s\n", txid.ToString());
+
+const string key = txid.ToString();
+const string value = strprintf("%u:%d:%u:%lu", fValid ? 1:0, nBlock, type, nValue);
+Status status;
+
+  PrintToLog("%s(%s, valid=%s, block= %d, type= %d, value= %lu)\n",
+   __FUNCTION__, txid.ToString(), fValid ? "YES":"NO", nBlock, type, nValue);
+
+  if (pdb)
+  {
+    status = pdb->Put(writeoptions, key, value);
+    ++nWritten;
+    if (msc_debug_txdb) PrintToLog("%s(): %s, line %d, file: %s\n", __FUNCTION__, status.ToString(), __LINE__, __FILE__);
+  }
+}
+
+bool CMPTxList::exists(const uint256 &txid)
+{
+  if (!pdb) return false;
+
+string strValue;
+Status status = pdb->Get(readoptions, txid.ToString(), &strValue);
+
+  if (!status.ok())
+  {
+    if (status.IsNotFound()) return false;
+  }
+
+  return true;
+}
+
+bool CMPTxList::getTX(const uint256 &txid, string &value)
+{
+Status status = pdb->Get(readoptions, txid.ToString(), &value);
+
+  ++nRead;
+
+  if (status.ok())
+  {
+    return true;
+  }
+
+  return false;
+}
+
+void CMPTxList::printStats()
+{
+  PrintToLog("CMPTxList stats: nWritten= %d , nRead= %d\n", nWritten, nRead);
+}
+
+void CMPTxList::printAll()
+{
+int count = 0;
+Slice skey, svalue;
+  Iterator* it = NewIterator();
+
+  for(it->SeekToFirst(); it->Valid(); it->Next())
+  {
+    skey = it->key();
+    svalue = it->value();
+    ++count;
+    PrintToConsole("entry #%8d= %s:%s\n", count, skey.ToString(), svalue.ToString());
+  }
+
+  delete it;
+}
+
+// figure out if there was at least 1 Master Protocol transaction within the block range, or a block if starting equals ending
+// block numbers are inclusive
+// pass in bDeleteFound = true to erase each entry found within the block range
 bool CMPTxList::isMPinBlockRange(int starting_block, int ending_block, bool bDeleteFound)
 {
 leveldb::Slice skey, svalue;
@@ -3215,606 +3118,606 @@ unsigned int n_found = 0;
 
   return (n_found);
 }
-//
-// // MPSTOList here
-// std::string CMPSTOList::getMySTOReceipts(string filterAddress)
-// {
-//   if (!pdb) return "";
-//   string mySTOReceipts = "";
-//   Slice skey, svalue;
-//   Iterator* it = NewIterator();
-//   for(it->SeekToFirst(); it->Valid(); it->Next()) {
-//       skey = it->key();
-//       string recipientAddress = skey.ToString();
-//       if(!IsMyAddress(recipientAddress)) continue; // not ours, not interested
-//       if((!filterAddress.empty()) && (filterAddress != recipientAddress)) continue; // not the filtered address
-//       // ours, get info
-//       svalue = it->value();
-//       string strValue = svalue.ToString();
-//       // break into individual receipts
-//       std::vector<std::string> vstr;
-//       boost::split(vstr, strValue, boost::is_any_of(","), token_compress_on);
-//       for(uint32_t i = 0; i<vstr.size(); i++) {
-//           // add to array
-//           std::vector<std::string> svstr;
-//           boost::split(svstr, vstr[i], boost::is_any_of(":"), token_compress_on);
-//           if(4 == svstr.size()) {
-//               size_t txidMatch = mySTOReceipts.find(svstr[0]);
-//               if(txidMatch==std::string::npos) mySTOReceipts += svstr[0]+":"+svstr[1]+":"+recipientAddress+":"+svstr[2]+",";
-//           }
-//       }
-//   }
-//   delete it;
-//   // above code will leave a trailing comma - strip it
-//   if (mySTOReceipts.size() > 0) mySTOReceipts.resize(mySTOReceipts.size()-1);
-//   return mySTOReceipts;
-// }
-//
-// void CMPSTOList::getRecipients(const uint256 txid, string filterAddress, UniValue *recipientArray, uint64_t *total, uint64_t *numRecipients)
-// {
-//   if (!pdb) return;
-//
-//   bool filter = true; //default
-//   bool filterByWallet = true; //default
-//   bool filterByAddress = false; //default
-//
-//   if (filterAddress == "*") filter = false;
-//   if ((filterAddress != "") && (filterAddress != "*")) { filterByWallet = false; filterByAddress = true; }
-//
-//   // iterate through SDB, dropping all records where key is not filterAddress (if filtering)
-//   int count = 0;
-//
-//   // the fee is variable based on version of STO - provide number of recipients and allow calling function to work out fee
-//   *numRecipients = 0;
-//
-//   Slice skey, svalue;
-//   Iterator* it = NewIterator();
-//   for(it->SeekToFirst(); it->Valid(); it->Next())
-//   {
-//       skey = it->key();
-//       string recipientAddress = skey.ToString();
-//       svalue = it->value();
-//       string strValue = svalue.ToString();
-//       // see if txid is in the data
-//       size_t txidMatch = strValue.find(txid.ToString());
-//       if(txidMatch!=std::string::npos)
-//       {
-//           ++*numRecipients;
-//           // the txid exists inside the data, this address was a recipient of this STO, check filter and add the details
-//           if(filter)
-//           {
-//               if( ( (filterByAddress) && (filterAddress == recipientAddress) ) || ( (filterByWallet) && (IsMyAddress(recipientAddress)) ) )
-//               { } else { continue; } // move on if no filter match (but counter still increased for fee)
-//           }
-//           std::vector<std::string> vstr;
-//           boost::split(vstr, strValue, boost::is_any_of(","), token_compress_on);
-//           for(uint32_t i = 0; i<vstr.size(); i++)
-//           {
-//               std::vector<std::string> svstr;
-//               boost::split(svstr, vstr[i], boost::is_any_of(":"), token_compress_on);
-//               if(4 == svstr.size())
-//               {
-//                   if(svstr[0] == txid.ToString())
-//                   {
-//                       //add data to array
-//                       uint64_t amount = 0;
-//                       uint64_t propertyId = 0;
-//                       try
-//                       {
-//                           amount = boost::lexical_cast<uint64_t>(svstr[3]);
-//                           propertyId = boost::lexical_cast<uint64_t>(svstr[2]);
-//                       } catch (const boost::bad_lexical_cast &e)
-//                       {
-//                           PrintToLog("DEBUG STO - error in converting values from leveldb\n");
-//                           delete it;
-//                           return; //(something went wrong)
-//                       }
-//                       UniValue recipient(UniValue::VOBJ);
-//                       recipient.push_back(Pair("address", recipientAddress));
-//                       if(isPropertyDivisible(propertyId))
-//                       {
-//                          recipient.push_back(Pair("amount", FormatDivisibleMP(amount)));
-//                       }
-//                       else
-//                       {
-//                          recipient.push_back(Pair("amount", FormatIndivisibleMP(amount)));
-//                       }
-//                       *total += amount;
-//                       recipientArray->push_back(recipient);
-//                       ++count;
-//                   }
-//               }
-//           }
-//       }
-//   }
-//
-//   delete it;
-//   return;
-// }
-//
-// bool CMPSTOList::exists(string address)
-// {
-//   if (!pdb) return false;
-//
-//   string strValue;
-//   Status status = pdb->Get(readoptions, address, &strValue);
-//
-//   if (!status.ok())
-//   {
-//     if (status.IsNotFound()) return false;
-//   }
-//
-//   return true;
-// }
-//
-// void CMPSTOList::recordSTOReceive(string address, const uint256 &txid, int nBlock, unsigned int propertyId, uint64_t amount)
-// {
-//   if (!pdb) return;
-//
-//   bool addressExists = s_stolistdb->exists(address);
-//   if (addressExists)
-//   {
-//       //retrieve existing record
-//       std::vector<std::string> vstr;
-//       string strValue;
-//       Status status = pdb->Get(readoptions, address, &strValue);
-//       if (status.ok())
-//       {
-//           // add details to record
-//           // see if we are overwriting (check)
-//           size_t txidMatch = strValue.find(txid.ToString());
-//           if(txidMatch!=std::string::npos) PrintToLog("STODEBUG : Duplicating entry for %s : %s\n",address,txid.ToString());
-//
-//           const string key = address;
-//           const string newValue = strprintf("%s:%d:%u:%lu,", txid.ToString(), nBlock, propertyId, amount);
-//           strValue += newValue;
-//           // write updated record
-//           Status status;
-//           if (pdb)
-//           {
-//               status = pdb->Put(writeoptions, key, strValue);
-//               PrintToLog("STODBDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, status.ToString(), __LINE__, __FILE__);
-//           }
-//       }
-//   }
-//   else
-//   {
-//       const string key = address;
-//       const string value = strprintf("%s:%d:%u:%lu,", txid.ToString(), nBlock, propertyId, amount);
-//       Status status;
-//       if (pdb)
-//       {
-//           status = pdb->Put(writeoptions, key, value);
-//           PrintToLog("STODBDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, status.ToString(), __LINE__, __FILE__);
-//       }
-//   }
-// }
-//
-// void CMPSTOList::printAll()
-// {
-//   int count = 0;
-//   Slice skey, svalue;
-//   Iterator* it = NewIterator();
-//
-//   for(it->SeekToFirst(); it->Valid(); it->Next())
-//   {
-//     skey = it->key();
-//     svalue = it->value();
-//     ++count;
-//     PrintToConsole("entry #%8d= %s:%s\n", count, skey.ToString(), svalue.ToString());
-//   }
-//
-//   delete it;
-// }
-//
-// void CMPSTOList::printStats()
-// {
-//   PrintToLog("CMPSTOList stats: tWritten= %d , tRead= %d\n", nWritten, nRead);
-// }
-//
-// /**
-//  * This function deletes records of STO receivers above/equal to a specific block from the STO database.
-//  *
-//  * Returns the number of records changed.
-//  */
-// int CMPSTOList::deleteAboveBlock(int blockNum)
-// {
-//   unsigned int n_found = 0;
-//   std::vector<std::string> vecSTORecords;
-//   leveldb::Iterator* it = NewIterator();
-//   for (it->SeekToFirst(); it->Valid(); it->Next()) {
-//       std::string newValue;
-//       std::string oldValue = it->value().ToString();
-//       bool needsUpdate = false;
-//       boost::split(vecSTORecords, oldValue, boost::is_any_of(","), boost::token_compress_on);
-//       for (uint32_t i = 0; i<vecSTORecords.size(); i++) {
-//           std::vector<std::string> vecSTORecordFields;
-//           boost::split(vecSTORecordFields, vecSTORecords[i], boost::is_any_of(":"), boost::token_compress_on);
-//           if (4 != vecSTORecordFields.size()) continue;
-//           if (atoi(vecSTORecordFields[1]) < blockNum) {
-//               newValue += vecSTORecords[i].append(","); // STO before the reorg, add data back to new value string
-//           } else {
-//               needsUpdate = true;
-//           }
-//       }
-//       if (needsUpdate) { // rewrite record with existing key and new value
-//           ++n_found;
-//           leveldb::Status status = pdb->Put(writeoptions, it->key().ToString(), newValue);
-//           PrintToLog("DEBUG STO - rewriting STO data after reorg\n");
-//           PrintToLog("STODBDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, status.ToString(), __LINE__, __FILE__);
-//       }
-//   }
-//
-//   PrintToLog("%s(%d); stodb updated records= %d\n", __FUNCTION__, blockNum, n_found);
-//
-//   delete it;
-//
-//   return (n_found);
-// }
-//
-// // MPTradeList here
-// bool CMPTradeList::getMatchingTrades(const uint256& txid, uint32_t propertyId, UniValue& tradeArray, int64_t& totalSold, int64_t& totalReceived)
-// {
-//   if (!pdb) return false;
-//
-//   int count = 0;
-//   totalReceived = 0;
-//   totalSold = 0;
-//
-//   std::vector<std::string> vstr;
-//   string txidStr = txid.ToString();
-//   leveldb::Iterator* it = NewIterator();
-//   for(it->SeekToFirst(); it->Valid(); it->Next()) {
-//       // search key to see if this is a matching trade
-//       std::string strKey = it->key().ToString();
-//       std::string strValue = it->value().ToString();
-//       std::string matchTxid;
-//       size_t txidMatch = strKey.find(txidStr);
-//       if (txidMatch == std::string::npos) continue; // no match
-//
-//       // sanity check key is the correct length for a matched trade
-//       if (strKey.length() != 129) continue;
-//
-//       // obtain the txid of the match
-//       if (txidMatch==0) { matchTxid = strKey.substr(65,64); } else { matchTxid = strKey.substr(0,64); }
-//
-//       // ensure correct amount of tokens in value string
-//       boost::split(vstr, strValue, boost::is_any_of(":"), token_compress_on);
-//       if (vstr.size() != 8) {
-//           PrintToLog("TRADEDB error - unexpected number of tokens in value (%s)\n", strValue);
-//           continue;
-//       }
-//
-//       // decode the details from the value string
-//       std::string address1 = vstr[0];
-//       std::string address2 = vstr[1];
-//       uint32_t prop1 = boost::lexical_cast<uint32_t>(vstr[2]);
-//       uint32_t prop2 = boost::lexical_cast<uint32_t>(vstr[3]);
-//       int64_t amount1 = boost::lexical_cast<int64_t>(vstr[4]);
-//       int64_t amount2 = boost::lexical_cast<int64_t>(vstr[5]);
-//       int blockNum = atoi(vstr[6]);
-//       int64_t tradingFee = boost::lexical_cast<int64_t>(vstr[7]);
-//
-//       std::string strAmount1 = FormatMP(prop1, amount1);
-//       std::string strAmount2 = FormatMP(prop2, amount2);
-//       std::string strTradingFee = FormatMP(prop2, tradingFee);
-//       std::string strAmount2PlusFee = FormatMP(prop2, amount2+tradingFee);
-//
-//       // populate trade object and add to the trade array, correcting for orientation of trade
-//       UniValue trade(UniValue::VOBJ);
-//       trade.push_back(Pair("txid", matchTxid));
-//       trade.push_back(Pair("block", blockNum));
-//       if (prop1 == propertyId) {
-//           trade.push_back(Pair("address", address1));
-//           trade.push_back(Pair("amountsold", strAmount1));
-//           trade.push_back(Pair("amountreceived", strAmount2));
-//           trade.push_back(Pair("tradingfee", strTradingFee));
-//           totalReceived += amount2;
-//           totalSold += amount1;
-//       } else {
-//           trade.push_back(Pair("address", address2));
-//           trade.push_back(Pair("amountsold", strAmount2PlusFee));
-//           trade.push_back(Pair("amountreceived", strAmount1));
-//           trade.push_back(Pair("tradingfee", FormatMP(prop1, 0))); // not the liquidity taker so no fee for this participant - include attribute for standardness
-//           totalReceived += amount1;
-//           totalSold += amount2;
-//       }
-//       tradeArray.push_back(trade);
-//       ++count;
-//   }
-//
-//   // clean up
-//   delete it;
-//   if (count) { return true; } else { return false; }
-// }
-//
-// bool CompareTradePair(const std::pair<int64_t, UniValue>& firstJSONObj, const std::pair<int64_t, UniValue>& secondJSONObj)
-// {
-//     return firstJSONObj.first > secondJSONObj.first;
-// }
-//
-// // obtains an array of matching trades with pricing and volume details for a pair sorted by blocknumber
-// void CMPTradeList::getTradesForPair(uint32_t propertyIdSideA, uint32_t propertyIdSideB, UniValue& responseArray, uint64_t count)
-// {
-//   if (!pdb) return;
-//   leveldb::Iterator* it = NewIterator();
-//   std::vector<std::pair<int64_t, UniValue> > vecResponse;
-//   bool propertyIdSideAIsDivisible = isPropertyDivisible(propertyIdSideA);
-//   bool propertyIdSideBIsDivisible = isPropertyDivisible(propertyIdSideB);
-//   for(it->SeekToFirst(); it->Valid(); it->Next()) {
-//       std::string strKey = it->key().ToString();
-//       std::string strValue = it->value().ToString();
-//       std::vector<std::string> vecKeys;
-//       std::vector<std::string> vecValues;
-//       uint256 sellerTxid, matchingTxid;
-//       std::string sellerAddress, matchingAddress;
-//       int64_t amountReceived = 0, amountSold = 0;
-//       if (strKey.size() != 129) continue; // only interested in matches
-//       boost::split(vecKeys, strKey, boost::is_any_of("+"), boost::token_compress_on);
-//       boost::split(vecValues, strValue, boost::is_any_of(":"), boost::token_compress_on);
-//       if (vecKeys.size() != 2 || vecValues.size() != 8) {
-//           PrintToLog("TRADEDB error - unexpected number of tokens (%s:%s)\n", strKey, strValue);
-//           continue;
-//       }
-//       uint32_t tradePropertyIdSideA = boost::lexical_cast<uint32_t>(vecValues[2]);
-//       uint32_t tradePropertyIdSideB = boost::lexical_cast<uint32_t>(vecValues[3]);
-//       if (tradePropertyIdSideA == propertyIdSideA && tradePropertyIdSideB == propertyIdSideB) {
-//           sellerTxid.SetHex(vecKeys[1]);
-//           sellerAddress = vecValues[1];
-//           amountSold = boost::lexical_cast<int64_t>(vecValues[4]);
-//           matchingTxid.SetHex(vecKeys[0]);
-//           matchingAddress = vecValues[0];
-//           amountReceived = boost::lexical_cast<int64_t>(vecValues[5]);
-//       } else if (tradePropertyIdSideB == propertyIdSideA && tradePropertyIdSideA == propertyIdSideB) {
-//           sellerTxid.SetHex(vecKeys[0]);
-//           sellerAddress = vecValues[0];
-//           amountSold = boost::lexical_cast<int64_t>(vecValues[5]);
-//           matchingTxid.SetHex(vecKeys[1]);
-//           matchingAddress = vecValues[1];
-//           amountReceived = boost::lexical_cast<int64_t>(vecValues[4]);
-//       } else {
-//           continue;
-//       }
-//
-//       rational_t unitPrice(amountReceived, amountSold);
-//       rational_t inversePrice(amountSold, amountReceived);
-//       if (!propertyIdSideAIsDivisible) unitPrice = unitPrice / COIN;
-//       if (!propertyIdSideBIsDivisible) inversePrice = inversePrice / COIN;
-//       std::string unitPriceStr = xToString(unitPrice); // TODO: not here!
-//       std::string inversePriceStr = xToString(inversePrice);
-//
-//       int64_t blockNum = boost::lexical_cast<int64_t>(vecValues[6]);
-//
-//       UniValue trade(UniValue::VOBJ);
-//       trade.push_back(Pair("block", blockNum));
-//       trade.push_back(Pair("unitprice", unitPriceStr));
-//       trade.push_back(Pair("inverseprice", inversePriceStr));
-//       trade.push_back(Pair("sellertxid", sellerTxid.GetHex()));
-//       trade.push_back(Pair("selleraddress", sellerAddress));
-//       if (propertyIdSideAIsDivisible) {
-//           trade.push_back(Pair("amountsold", FormatDivisibleMP(amountSold)));
-//       } else {
-//           trade.push_back(Pair("amountsold", FormatIndivisibleMP(amountSold)));
-//       }
-//       if (propertyIdSideBIsDivisible) {
-//           trade.push_back(Pair("amountreceived", FormatDivisibleMP(amountReceived)));
-//       } else {
-//           trade.push_back(Pair("amountreceived", FormatIndivisibleMP(amountReceived)));
-//       }
-//       trade.push_back(Pair("matchingtxid", matchingTxid.GetHex()));
-//       trade.push_back(Pair("matchingaddress", matchingAddress));
-//       vecResponse.push_back(make_pair(blockNum, trade));
-//   }
-//
-//   // sort the response most recent first before adding to the array
-//   std::sort(vecResponse.begin(), vecResponse.end(), CompareTradePair);
-//   uint64_t processed = 0;
-//   for (std::vector<std::pair<int64_t, UniValue> >::iterator it = vecResponse.begin(); it != vecResponse.end(); ++it) {
-//       responseArray.push_back(it->second);
-//       processed++;
-//       if (processed >= count) break;
-//   }
-//
-//   std::vector<UniValue> responseArrayValues = responseArray.getValues();
-//   std::reverse(responseArrayValues.begin(), responseArrayValues.end());
-//   responseArray.clear();
-//   for (std::vector<UniValue>::iterator it = responseArrayValues.begin(); it != responseArrayValues.end(); ++it) {
-//       responseArray.push_back(*it);
-//   }
-//
-//   delete it;
-// }
-//
-// // obtains a vector of txids where the supplied address participated in a trade (needed for gettradehistory_MP)
-// // optional property ID parameter will filter on propertyId transacted if supplied
-// // sorted by block then index
-// void CMPTradeList::getTradesForAddress(std::string address, std::vector<uint256>& vecTransactions, uint32_t propertyIdFilter)
-// {
-//   if (!pdb) return;
-//   std::map<std::string,uint256> mapTrades;
-//   leveldb::Iterator* it = NewIterator();
-//   for(it->SeekToFirst(); it->Valid(); it->Next()) {
-//       std::string strKey = it->key().ToString();
-//       std::string strValue = it->value().ToString();
-//       std::vector<std::string> vecValues;
-//       if (strKey.size() != 64) continue; // only interested in trades
-//       uint256 txid = uint256S(strKey);
-//       size_t addressMatch = strValue.find(address);
-//       if (addressMatch == std::string::npos) continue;
-//       boost::split(vecValues, strValue, boost::is_any_of(":"), token_compress_on);
-//       if (vecValues.size() != 5) {
-//           PrintToLog("TRADEDB error - unexpected number of tokens in value (%s)\n", strValue);
-//           continue;
-//       }
-//       uint32_t propertyIdForSale = boost::lexical_cast<uint32_t>(vecValues[1]);
-//       uint32_t propertyIdDesired = boost::lexical_cast<uint32_t>(vecValues[2]);
-//       int64_t blockNum = boost::lexical_cast<uint32_t>(vecValues[3]);
-//       int64_t txIndex = boost::lexical_cast<uint32_t>(vecValues[4]);
-//       if (propertyIdFilter != 0 && propertyIdFilter != propertyIdForSale && propertyIdFilter != propertyIdDesired) continue;
-//       std::string sortKey = strprintf("%06d%010d", blockNum, txIndex);
-//       mapTrades.insert(std::make_pair(sortKey, txid));
-//   }
-//   delete it;
-//   for (std::map<std::string,uint256>::iterator it = mapTrades.begin(); it != mapTrades.end(); it++) {
-//       vecTransactions.push_back(it->second);
-//   }
-// }
-//
-// void CMPTradeList::recordNewTrade(const uint256& txid, const std::string& address, uint32_t propertyIdForSale, uint32_t propertyIdDesired, int blockNum, int blockIndex)
-// {
-//   if (!pdb) return;
-//   std::string strValue = strprintf("%s:%d:%d:%d:%d", address, propertyIdForSale, propertyIdDesired, blockNum, blockIndex);
-//   Status status = pdb->Put(writeoptions, txid.ToString(), strValue);
-//   ++nWritten;
-//   if (msc_debug_tradedb) PrintToLog("%s(): %s\n", __FUNCTION__, status.ToString());
-// }
-//
-// void CMPTradeList::recordMatchedTrade(const uint256 txid1, const uint256 txid2, string address1, string address2, unsigned int prop1, unsigned int prop2, uint64_t amount1, uint64_t amount2, int blockNum, int64_t fee)
-// {
-//   if (!pdb) return;
-//   const string key = txid1.ToString() + "+" + txid2.ToString();
-//   const string value = strprintf("%s:%s:%u:%u:%lu:%lu:%d:%d", address1, address2, prop1, prop2, amount1, amount2, blockNum, fee);
-//   Status status;
-//   if (pdb)
-//   {
-//     status = pdb->Put(writeoptions, key, value);
-//     ++nWritten;
-//     if (msc_debug_tradedb) PrintToLog("%s(): %s\n", __FUNCTION__, status.ToString());
-//   }
-// }
-//
-// /**
-//  * This function deletes records of trades above/equal to a specific block from the trade database.
-//  *
-//  * Returns the number of records changed.
-//  */
-// int CMPTradeList::deleteAboveBlock(int blockNum)
-// {
-//   leveldb::Slice skey, svalue;
-//   unsigned int count = 0;
-//   std::vector<std::string> vstr;
-//   int block = 0;
-//   unsigned int n_found = 0;
-//   leveldb::Iterator* it = NewIterator();
-//   for(it->SeekToFirst(); it->Valid(); it->Next())
-//   {
-//     skey = it->key();
-//     svalue = it->value();
-//     ++count;
-//     string strvalue = it->value().ToString();
-//     boost::split(vstr, strvalue, boost::is_any_of(":"), token_compress_on);
-//     if (7 == vstr.size()) block = atoi(vstr[6]); // trade matches have 7 tokens, key is txid+txid, only care about block
-//     if (5 == vstr.size()) block = atoi(vstr[3]); // trades have 5 tokens, key is txid, only care about block
-//     if (block >= blockNum) {
-//         ++n_found;
-//         PrintToLog("%s() DELETING FROM TRADEDB: %s=%s\n", __FUNCTION__, skey.ToString(), svalue.ToString());
-//         pdb->Delete(writeoptions, skey);
-//     }
-//   }
-//
-//   PrintToLog("%s(%d); tradedb n_found= %d\n", __FUNCTION__, blockNum, n_found);
-//
-//   delete it;
-//
-//   return (n_found);
-// }
-//
-// void CMPTradeList::printStats()
-// {
-//   PrintToLog("CMPTradeList stats: tWritten= %d , tRead= %d\n", nWritten, nRead);
-// }
-//
-// int CMPTradeList::getMPTradeCountTotal()
-// {
-//     int count = 0;
-//     Slice skey, svalue;
-//     Iterator* it = NewIterator();
-//     for(it->SeekToFirst(); it->Valid(); it->Next())
-//     {
-//         ++count;
-//     }
-//     delete it;
-//     return count;
-// }
-//
-// void CMPTradeList::printAll()
-// {
-//   int count = 0;
-//   Slice skey, svalue;
-//   Iterator* it = NewIterator();
-//
-//   for(it->SeekToFirst(); it->Valid(); it->Next())
-//   {
-//     skey = it->key();
-//     svalue = it->value();
-//     ++count;
-//     PrintToConsole("entry #%8d= %s:%s\n", count, skey.ToString(), svalue.ToString());
-//   }
-//
-//   delete it;
-// }
-//
-// // global wrapper, block numbers are inclusive, if ending_block is 0 top of the chain will be used
-// bool mastercore::isMPinBlockRange(int starting_block, int ending_block, bool bDeleteFound)
-// {
-//   if (!p_txlistdb) return false;
-//
-//   if (0 == ending_block) ending_block = GetHeight(); // will scan 'til the end
-//
-//   return p_txlistdb->isMPinBlockRange(starting_block, ending_block, bDeleteFound);
-// }
-//
-// // call it like so (variable # of parameters):
-// // int block = 0;
-// // ...
-// // uint64_t nNew = 0;
-// //
-// // if (getValidMPTX(txid, &block, &type, &nNew)) // if true -- the TX is a valid MP TX
-// //
-// bool mastercore::getValidMPTX(const uint256 &txid, int *block, unsigned int *type, uint64_t *nAmended)
-// {
-// string result;
-// int validity = 0;
-//
-//   if (msc_debug_txdb) PrintToLog("%s()\n", __FUNCTION__);
-//
-//   if (!p_txlistdb) return false;
-//
-//   if (!p_txlistdb->getTX(txid, result)) return false;
-//
-//   // parse the string returned, find the validity flag/bit & other parameters
-//   std::vector<std::string> vstr;
-//   boost::split(vstr, result, boost::is_any_of(":"), token_compress_on);
-//
-//   if (msc_debug_txdb) PrintToLog("%s() size=%lu : %s\n", __FUNCTION__, vstr.size(), result);
-//
-//   if (1 <= vstr.size()) validity = atoi(vstr[0]);
-//
-//   if (block)
-//   {
-//     if (2 <= vstr.size()) *block = atoi(vstr[1]);
-//     else *block = 0;
-//   }
-//
-//   if (type)
-//   {
-//     if (3 <= vstr.size()) *type = atoi(vstr[2]);
-//     else *type = 0;
-//   }
-//
-//   if (nAmended)
-//   {
-//     if (4 <= vstr.size()) *nAmended = boost::lexical_cast<boost::uint64_t>(vstr[3]);
-//     else nAmended = 0;
-//   }
-//
-//   if (msc_debug_txdb) p_txlistdb->printStats();
-//
-//   if ((int)0 == validity) return false;
-//
-//   return true;
-// }
-//
+
+// MPSTOList here
+std::string CMPSTOList::getMySTOReceipts(string filterAddress)
+{
+  if (!pdb) return "";
+  string mySTOReceipts = "";
+  Slice skey, svalue;
+  Iterator* it = NewIterator();
+  for(it->SeekToFirst(); it->Valid(); it->Next()) {
+      skey = it->key();
+      string recipientAddress = skey.ToString();
+      if(!IsMyAddress(recipientAddress)) continue; // not ours, not interested
+      if((!filterAddress.empty()) && (filterAddress != recipientAddress)) continue; // not the filtered address
+      // ours, get info
+      svalue = it->value();
+      string strValue = svalue.ToString();
+      // break into individual receipts
+      std::vector<std::string> vstr;
+      boost::split(vstr, strValue, boost::is_any_of(","), token_compress_on);
+      for(uint32_t i = 0; i<vstr.size(); i++) {
+          // add to array
+          std::vector<std::string> svstr;
+          boost::split(svstr, vstr[i], boost::is_any_of(":"), token_compress_on);
+          if(4 == svstr.size()) {
+              size_t txidMatch = mySTOReceipts.find(svstr[0]);
+              if(txidMatch==std::string::npos) mySTOReceipts += svstr[0]+":"+svstr[1]+":"+recipientAddress+":"+svstr[2]+",";
+          }
+      }
+  }
+  delete it;
+  // above code will leave a trailing comma - strip it
+  if (mySTOReceipts.size() > 0) mySTOReceipts.resize(mySTOReceipts.size()-1);
+  return mySTOReceipts;
+}
+
+void CMPSTOList::getRecipients(const uint256 txid, string filterAddress, UniValue *recipientArray, uint64_t *total, uint64_t *numRecipients)
+{
+  if (!pdb) return;
+
+  bool filter = true; //default
+  bool filterByWallet = true; //default
+  bool filterByAddress = false; //default
+
+  if (filterAddress == "*") filter = false;
+  if ((filterAddress != "") && (filterAddress != "*")) { filterByWallet = false; filterByAddress = true; }
+
+  // iterate through SDB, dropping all records where key is not filterAddress (if filtering)
+  int count = 0;
+
+  // the fee is variable based on version of STO - provide number of recipients and allow calling function to work out fee
+  *numRecipients = 0;
+
+  Slice skey, svalue;
+  Iterator* it = NewIterator();
+  for(it->SeekToFirst(); it->Valid(); it->Next())
+  {
+      skey = it->key();
+      string recipientAddress = skey.ToString();
+      svalue = it->value();
+      string strValue = svalue.ToString();
+      // see if txid is in the data
+      size_t txidMatch = strValue.find(txid.ToString());
+      if(txidMatch!=std::string::npos)
+      {
+          ++*numRecipients;
+          // the txid exists inside the data, this address was a recipient of this STO, check filter and add the details
+          if(filter)
+          {
+              if( ( (filterByAddress) && (filterAddress == recipientAddress) ) || ( (filterByWallet) && (IsMyAddress(recipientAddress)) ) )
+              { } else { continue; } // move on if no filter match (but counter still increased for fee)
+          }
+          std::vector<std::string> vstr;
+          boost::split(vstr, strValue, boost::is_any_of(","), token_compress_on);
+          for(uint32_t i = 0; i<vstr.size(); i++)
+          {
+              std::vector<std::string> svstr;
+              boost::split(svstr, vstr[i], boost::is_any_of(":"), token_compress_on);
+              if(4 == svstr.size())
+              {
+                  if(svstr[0] == txid.ToString())
+                  {
+                      //add data to array
+                      uint64_t amount = 0;
+                      uint64_t propertyId = 0;
+                      try
+                      {
+                          amount = boost::lexical_cast<uint64_t>(svstr[3]);
+                          propertyId = boost::lexical_cast<uint64_t>(svstr[2]);
+                      } catch (const boost::bad_lexical_cast &e)
+                      {
+                          PrintToLog("DEBUG STO - error in converting values from leveldb\n");
+                          delete it;
+                          return; //(something went wrong)
+                      }
+                      UniValue recipient(UniValue::VOBJ);
+                      recipient.push_back(Pair("address", recipientAddress));
+                      if(isPropertyDivisible(propertyId))
+                      {
+                         recipient.push_back(Pair("amount", FormatDivisibleMP(amount)));
+                      }
+                      else
+                      {
+                         recipient.push_back(Pair("amount", FormatIndivisibleMP(amount)));
+                      }
+                      *total += amount;
+                      recipientArray->push_back(recipient);
+                      ++count;
+                  }
+              }
+          }
+      }
+  }
+
+  delete it;
+  return;
+}
+
+bool CMPSTOList::exists(string address)
+{
+  if (!pdb) return false;
+
+  string strValue;
+  Status status = pdb->Get(readoptions, address, &strValue);
+
+  if (!status.ok())
+  {
+    if (status.IsNotFound()) return false;
+  }
+
+  return true;
+}
+
+void CMPSTOList::recordSTOReceive(string address, const uint256 &txid, int nBlock, unsigned int propertyId, uint64_t amount)
+{
+  if (!pdb) return;
+
+  bool addressExists = s_stolistdb->exists(address);
+  if (addressExists)
+  {
+      //retrieve existing record
+      std::vector<std::string> vstr;
+      string strValue;
+      Status status = pdb->Get(readoptions, address, &strValue);
+      if (status.ok())
+      {
+          // add details to record
+          // see if we are overwriting (check)
+          size_t txidMatch = strValue.find(txid.ToString());
+          if(txidMatch!=std::string::npos) PrintToLog("STODEBUG : Duplicating entry for %s : %s\n",address,txid.ToString());
+
+          const string key = address;
+          const string newValue = strprintf("%s:%d:%u:%lu,", txid.ToString(), nBlock, propertyId, amount);
+          strValue += newValue;
+          // write updated record
+          Status status;
+          if (pdb)
+          {
+              status = pdb->Put(writeoptions, key, strValue);
+              PrintToLog("STODBDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, status.ToString(), __LINE__, __FILE__);
+          }
+      }
+  }
+  else
+  {
+      const string key = address;
+      const string value = strprintf("%s:%d:%u:%lu,", txid.ToString(), nBlock, propertyId, amount);
+      Status status;
+      if (pdb)
+      {
+          status = pdb->Put(writeoptions, key, value);
+          PrintToLog("STODBDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, status.ToString(), __LINE__, __FILE__);
+      }
+  }
+}
+
+void CMPSTOList::printAll()
+{
+  int count = 0;
+  Slice skey, svalue;
+  Iterator* it = NewIterator();
+
+  for(it->SeekToFirst(); it->Valid(); it->Next())
+  {
+    skey = it->key();
+    svalue = it->value();
+    ++count;
+    PrintToConsole("entry #%8d= %s:%s\n", count, skey.ToString(), svalue.ToString());
+  }
+
+  delete it;
+}
+
+void CMPSTOList::printStats()
+{
+  PrintToLog("CMPSTOList stats: tWritten= %d , tRead= %d\n", nWritten, nRead);
+}
+
+/**
+ * This function deletes records of STO receivers above/equal to a specific block from the STO database.
+ *
+ * Returns the number of records changed.
+ */
+int CMPSTOList::deleteAboveBlock(int blockNum)
+{
+  unsigned int n_found = 0;
+  std::vector<std::string> vecSTORecords;
+  leveldb::Iterator* it = NewIterator();
+  for (it->SeekToFirst(); it->Valid(); it->Next()) {
+      std::string newValue;
+      std::string oldValue = it->value().ToString();
+      bool needsUpdate = false;
+      boost::split(vecSTORecords, oldValue, boost::is_any_of(","), boost::token_compress_on);
+      for (uint32_t i = 0; i<vecSTORecords.size(); i++) {
+          std::vector<std::string> vecSTORecordFields;
+          boost::split(vecSTORecordFields, vecSTORecords[i], boost::is_any_of(":"), boost::token_compress_on);
+          if (4 != vecSTORecordFields.size()) continue;
+          if (atoi(vecSTORecordFields[1]) < blockNum) {
+              newValue += vecSTORecords[i].append(","); // STO before the reorg, add data back to new value string
+          } else {
+              needsUpdate = true;
+          }
+      }
+      if (needsUpdate) { // rewrite record with existing key and new value
+          ++n_found;
+          leveldb::Status status = pdb->Put(writeoptions, it->key().ToString(), newValue);
+          PrintToLog("DEBUG STO - rewriting STO data after reorg\n");
+          PrintToLog("STODBDEBUG : %s(): %s, line %d, file: %s\n", __FUNCTION__, status.ToString(), __LINE__, __FILE__);
+      }
+  }
+
+  PrintToLog("%s(%d); stodb updated records= %d\n", __FUNCTION__, blockNum, n_found);
+
+  delete it;
+
+  return (n_found);
+}
+
+// MPTradeList here
+bool CMPTradeList::getMatchingTrades(const uint256& txid, uint32_t propertyId, UniValue& tradeArray, int64_t& totalSold, int64_t& totalReceived)
+{
+  if (!pdb) return false;
+
+  int count = 0;
+  totalReceived = 0;
+  totalSold = 0;
+
+  std::vector<std::string> vstr;
+  string txidStr = txid.ToString();
+  leveldb::Iterator* it = NewIterator();
+  for(it->SeekToFirst(); it->Valid(); it->Next()) {
+      // search key to see if this is a matching trade
+      std::string strKey = it->key().ToString();
+      std::string strValue = it->value().ToString();
+      std::string matchTxid;
+      size_t txidMatch = strKey.find(txidStr);
+      if (txidMatch == std::string::npos) continue; // no match
+
+      // sanity check key is the correct length for a matched trade
+      if (strKey.length() != 129) continue;
+
+      // obtain the txid of the match
+      if (txidMatch==0) { matchTxid = strKey.substr(65,64); } else { matchTxid = strKey.substr(0,64); }
+
+      // ensure correct amount of tokens in value string
+      boost::split(vstr, strValue, boost::is_any_of(":"), token_compress_on);
+      if (vstr.size() != 8) {
+          PrintToLog("TRADEDB error - unexpected number of tokens in value (%s)\n", strValue);
+          continue;
+      }
+
+      // decode the details from the value string
+      std::string address1 = vstr[0];
+      std::string address2 = vstr[1];
+      uint32_t prop1 = boost::lexical_cast<uint32_t>(vstr[2]);
+      uint32_t prop2 = boost::lexical_cast<uint32_t>(vstr[3]);
+      int64_t amount1 = boost::lexical_cast<int64_t>(vstr[4]);
+      int64_t amount2 = boost::lexical_cast<int64_t>(vstr[5]);
+      int blockNum = atoi(vstr[6]);
+      int64_t tradingFee = boost::lexical_cast<int64_t>(vstr[7]);
+
+      std::string strAmount1 = FormatMP(prop1, amount1);
+      std::string strAmount2 = FormatMP(prop2, amount2);
+      std::string strTradingFee = FormatMP(prop2, tradingFee);
+      std::string strAmount2PlusFee = FormatMP(prop2, amount2+tradingFee);
+
+      // populate trade object and add to the trade array, correcting for orientation of trade
+      UniValue trade(UniValue::VOBJ);
+      trade.push_back(Pair("txid", matchTxid));
+      trade.push_back(Pair("block", blockNum));
+      if (prop1 == propertyId) {
+          trade.push_back(Pair("address", address1));
+          trade.push_back(Pair("amountsold", strAmount1));
+          trade.push_back(Pair("amountreceived", strAmount2));
+          trade.push_back(Pair("tradingfee", strTradingFee));
+          totalReceived += amount2;
+          totalSold += amount1;
+      } else {
+          trade.push_back(Pair("address", address2));
+          trade.push_back(Pair("amountsold", strAmount2PlusFee));
+          trade.push_back(Pair("amountreceived", strAmount1));
+          trade.push_back(Pair("tradingfee", FormatMP(prop1, 0))); // not the liquidity taker so no fee for this participant - include attribute for standardness
+          totalReceived += amount1;
+          totalSold += amount2;
+      }
+      tradeArray.push_back(trade);
+      ++count;
+  }
+
+  // clean up
+  delete it;
+  if (count) { return true; } else { return false; }
+}
+
+bool CompareTradePair(const std::pair<int64_t, UniValue>& firstJSONObj, const std::pair<int64_t, UniValue>& secondJSONObj)
+{
+    return firstJSONObj.first > secondJSONObj.first;
+}
+
+// obtains an array of matching trades with pricing and volume details for a pair sorted by blocknumber
+void CMPTradeList::getTradesForPair(uint32_t propertyIdSideA, uint32_t propertyIdSideB, UniValue& responseArray, uint64_t count)
+{
+  if (!pdb) return;
+  leveldb::Iterator* it = NewIterator();
+  std::vector<std::pair<int64_t, UniValue> > vecResponse;
+  bool propertyIdSideAIsDivisible = isPropertyDivisible(propertyIdSideA);
+  bool propertyIdSideBIsDivisible = isPropertyDivisible(propertyIdSideB);
+  for(it->SeekToFirst(); it->Valid(); it->Next()) {
+      std::string strKey = it->key().ToString();
+      std::string strValue = it->value().ToString();
+      std::vector<std::string> vecKeys;
+      std::vector<std::string> vecValues;
+      uint256 sellerTxid, matchingTxid;
+      std::string sellerAddress, matchingAddress;
+      int64_t amountReceived = 0, amountSold = 0;
+      if (strKey.size() != 129) continue; // only interested in matches
+      boost::split(vecKeys, strKey, boost::is_any_of("+"), boost::token_compress_on);
+      boost::split(vecValues, strValue, boost::is_any_of(":"), boost::token_compress_on);
+      if (vecKeys.size() != 2 || vecValues.size() != 8) {
+          PrintToLog("TRADEDB error - unexpected number of tokens (%s:%s)\n", strKey, strValue);
+          continue;
+      }
+      uint32_t tradePropertyIdSideA = boost::lexical_cast<uint32_t>(vecValues[2]);
+      uint32_t tradePropertyIdSideB = boost::lexical_cast<uint32_t>(vecValues[3]);
+      if (tradePropertyIdSideA == propertyIdSideA && tradePropertyIdSideB == propertyIdSideB) {
+          sellerTxid.SetHex(vecKeys[1]);
+          sellerAddress = vecValues[1];
+          amountSold = boost::lexical_cast<int64_t>(vecValues[4]);
+          matchingTxid.SetHex(vecKeys[0]);
+          matchingAddress = vecValues[0];
+          amountReceived = boost::lexical_cast<int64_t>(vecValues[5]);
+      } else if (tradePropertyIdSideB == propertyIdSideA && tradePropertyIdSideA == propertyIdSideB) {
+          sellerTxid.SetHex(vecKeys[0]);
+          sellerAddress = vecValues[0];
+          amountSold = boost::lexical_cast<int64_t>(vecValues[5]);
+          matchingTxid.SetHex(vecKeys[1]);
+          matchingAddress = vecValues[1];
+          amountReceived = boost::lexical_cast<int64_t>(vecValues[4]);
+      } else {
+          continue;
+      }
+
+      rational_t unitPrice(amountReceived, amountSold);
+      rational_t inversePrice(amountSold, amountReceived);
+      if (!propertyIdSideAIsDivisible) unitPrice = unitPrice / COIN;
+      if (!propertyIdSideBIsDivisible) inversePrice = inversePrice / COIN;
+      std::string unitPriceStr = xToString(unitPrice); // TODO: not here!
+      std::string inversePriceStr = xToString(inversePrice);
+
+      int64_t blockNum = boost::lexical_cast<int64_t>(vecValues[6]);
+
+      UniValue trade(UniValue::VOBJ);
+      trade.push_back(Pair("block", blockNum));
+      trade.push_back(Pair("unitprice", unitPriceStr));
+      trade.push_back(Pair("inverseprice", inversePriceStr));
+      trade.push_back(Pair("sellertxid", sellerTxid.GetHex()));
+      trade.push_back(Pair("selleraddress", sellerAddress));
+      if (propertyIdSideAIsDivisible) {
+          trade.push_back(Pair("amountsold", FormatDivisibleMP(amountSold)));
+      } else {
+          trade.push_back(Pair("amountsold", FormatIndivisibleMP(amountSold)));
+      }
+      if (propertyIdSideBIsDivisible) {
+          trade.push_back(Pair("amountreceived", FormatDivisibleMP(amountReceived)));
+      } else {
+          trade.push_back(Pair("amountreceived", FormatIndivisibleMP(amountReceived)));
+      }
+      trade.push_back(Pair("matchingtxid", matchingTxid.GetHex()));
+      trade.push_back(Pair("matchingaddress", matchingAddress));
+      vecResponse.push_back(make_pair(blockNum, trade));
+  }
+
+  // sort the response most recent first before adding to the array
+  std::sort(vecResponse.begin(), vecResponse.end(), CompareTradePair);
+  uint64_t processed = 0;
+  for (std::vector<std::pair<int64_t, UniValue> >::iterator it = vecResponse.begin(); it != vecResponse.end(); ++it) {
+      responseArray.push_back(it->second);
+      processed++;
+      if (processed >= count) break;
+  }
+
+  std::vector<UniValue> responseArrayValues = responseArray.getValues();
+  std::reverse(responseArrayValues.begin(), responseArrayValues.end());
+  responseArray.clear();
+  for (std::vector<UniValue>::iterator it = responseArrayValues.begin(); it != responseArrayValues.end(); ++it) {
+      responseArray.push_back(*it);
+  }
+
+  delete it;
+}
+
+// obtains a vector of txids where the supplied address participated in a trade (needed for gettradehistory_MP)
+// optional property ID parameter will filter on propertyId transacted if supplied
+// sorted by block then index
+void CMPTradeList::getTradesForAddress(std::string address, std::vector<uint256>& vecTransactions, uint32_t propertyIdFilter)
+{
+  if (!pdb) return;
+  std::map<std::string,uint256> mapTrades;
+  leveldb::Iterator* it = NewIterator();
+  for(it->SeekToFirst(); it->Valid(); it->Next()) {
+      std::string strKey = it->key().ToString();
+      std::string strValue = it->value().ToString();
+      std::vector<std::string> vecValues;
+      if (strKey.size() != 64) continue; // only interested in trades
+      uint256 txid = uint256S(strKey);
+      size_t addressMatch = strValue.find(address);
+      if (addressMatch == std::string::npos) continue;
+      boost::split(vecValues, strValue, boost::is_any_of(":"), token_compress_on);
+      if (vecValues.size() != 5) {
+          PrintToLog("TRADEDB error - unexpected number of tokens in value (%s)\n", strValue);
+          continue;
+      }
+      uint32_t propertyIdForSale = boost::lexical_cast<uint32_t>(vecValues[1]);
+      uint32_t propertyIdDesired = boost::lexical_cast<uint32_t>(vecValues[2]);
+      int64_t blockNum = boost::lexical_cast<uint32_t>(vecValues[3]);
+      int64_t txIndex = boost::lexical_cast<uint32_t>(vecValues[4]);
+      if (propertyIdFilter != 0 && propertyIdFilter != propertyIdForSale && propertyIdFilter != propertyIdDesired) continue;
+      std::string sortKey = strprintf("%06d%010d", blockNum, txIndex);
+      mapTrades.insert(std::make_pair(sortKey, txid));
+  }
+  delete it;
+  for (std::map<std::string,uint256>::iterator it = mapTrades.begin(); it != mapTrades.end(); it++) {
+      vecTransactions.push_back(it->second);
+  }
+}
+
+void CMPTradeList::recordNewTrade(const uint256& txid, const std::string& address, uint32_t propertyIdForSale, uint32_t propertyIdDesired, int blockNum, int blockIndex)
+{
+  if (!pdb) return;
+  std::string strValue = strprintf("%s:%d:%d:%d:%d", address, propertyIdForSale, propertyIdDesired, blockNum, blockIndex);
+  Status status = pdb->Put(writeoptions, txid.ToString(), strValue);
+  ++nWritten;
+  if (msc_debug_tradedb) PrintToLog("%s(): %s\n", __FUNCTION__, status.ToString());
+}
+
+void CMPTradeList::recordMatchedTrade(const uint256 txid1, const uint256 txid2, string address1, string address2, unsigned int prop1, unsigned int prop2, uint64_t amount1, uint64_t amount2, int blockNum, int64_t fee)
+{
+  if (!pdb) return;
+  const string key = txid1.ToString() + "+" + txid2.ToString();
+  const string value = strprintf("%s:%s:%u:%u:%lu:%lu:%d:%d", address1, address2, prop1, prop2, amount1, amount2, blockNum, fee);
+  Status status;
+  if (pdb)
+  {
+    status = pdb->Put(writeoptions, key, value);
+    ++nWritten;
+    if (msc_debug_tradedb) PrintToLog("%s(): %s\n", __FUNCTION__, status.ToString());
+  }
+}
+
+/**
+ * This function deletes records of trades above/equal to a specific block from the trade database.
+ *
+ * Returns the number of records changed.
+ */
+int CMPTradeList::deleteAboveBlock(int blockNum)
+{
+  leveldb::Slice skey, svalue;
+  unsigned int count = 0;
+  std::vector<std::string> vstr;
+  int block = 0;
+  unsigned int n_found = 0;
+  leveldb::Iterator* it = NewIterator();
+  for(it->SeekToFirst(); it->Valid(); it->Next())
+  {
+    skey = it->key();
+    svalue = it->value();
+    ++count;
+    string strvalue = it->value().ToString();
+    boost::split(vstr, strvalue, boost::is_any_of(":"), token_compress_on);
+    if (7 == vstr.size()) block = atoi(vstr[6]); // trade matches have 7 tokens, key is txid+txid, only care about block
+    if (5 == vstr.size()) block = atoi(vstr[3]); // trades have 5 tokens, key is txid, only care about block
+    if (block >= blockNum) {
+        ++n_found;
+        PrintToLog("%s() DELETING FROM TRADEDB: %s=%s\n", __FUNCTION__, skey.ToString(), svalue.ToString());
+        pdb->Delete(writeoptions, skey);
+    }
+  }
+
+  PrintToLog("%s(%d); tradedb n_found= %d\n", __FUNCTION__, blockNum, n_found);
+
+  delete it;
+
+  return (n_found);
+}
+
+void CMPTradeList::printStats()
+{
+  PrintToLog("CMPTradeList stats: tWritten= %d , tRead= %d\n", nWritten, nRead);
+}
+
+int CMPTradeList::getMPTradeCountTotal()
+{
+    int count = 0;
+    Slice skey, svalue;
+    Iterator* it = NewIterator();
+    for(it->SeekToFirst(); it->Valid(); it->Next())
+    {
+        ++count;
+    }
+    delete it;
+    return count;
+}
+
+void CMPTradeList::printAll()
+{
+  int count = 0;
+  Slice skey, svalue;
+  Iterator* it = NewIterator();
+
+  for(it->SeekToFirst(); it->Valid(); it->Next())
+  {
+    skey = it->key();
+    svalue = it->value();
+    ++count;
+    PrintToConsole("entry #%8d= %s:%s\n", count, skey.ToString(), svalue.ToString());
+  }
+
+  delete it;
+}
+
+// global wrapper, block numbers are inclusive, if ending_block is 0 top of the chain will be used
+bool mastercore::isMPinBlockRange(int starting_block, int ending_block, bool bDeleteFound)
+{
+  if (!p_txlistdb) return false;
+
+  if (0 == ending_block) ending_block = GetHeight(); // will scan 'til the end
+
+  return p_txlistdb->isMPinBlockRange(starting_block, ending_block, bDeleteFound);
+}
+
+// call it like so (variable # of parameters):
+// int block = 0;
+// ...
+// uint64_t nNew = 0;
+//
+// if (getValidMPTX(txid, &block, &type, &nNew)) // if true -- the TX is a valid MP TX
+//
+bool mastercore::getValidMPTX(const uint256 &txid, int *block, unsigned int *type, uint64_t *nAmended)
+{
+string result;
+int validity = 0;
+
+  if (msc_debug_txdb) PrintToLog("%s()\n", __FUNCTION__);
+
+  if (!p_txlistdb) return false;
+
+  if (!p_txlistdb->getTX(txid, result)) return false;
+
+  // parse the string returned, find the validity flag/bit & other parameters
+  std::vector<std::string> vstr;
+  boost::split(vstr, result, boost::is_any_of(":"), token_compress_on);
+
+  if (msc_debug_txdb) PrintToLog("%s() size=%lu : %s\n", __FUNCTION__, vstr.size(), result);
+
+  if (1 <= vstr.size()) validity = atoi(vstr[0]);
+
+  if (block)
+  {
+    if (2 <= vstr.size()) *block = atoi(vstr[1]);
+    else *block = 0;
+  }
+
+  if (type)
+  {
+    if (3 <= vstr.size()) *type = atoi(vstr[2]);
+    else *type = 0;
+  }
+
+  if (nAmended)
+  {
+    if (4 <= vstr.size()) *nAmended = boost::lexical_cast<boost::uint64_t>(vstr[3]);
+    else nAmended = 0;
+  }
+
+  if (msc_debug_txdb) p_txlistdb->printStats();
+
+  if ((int)0 == validity) return false;
+
+  return true;
+}
+
 int mastercore_handler_block_begin(int nBlockPrev, CBlockIndex const * pBlockIndex)
 {
     LOCK(cs_tally);
@@ -3827,11 +3730,11 @@ int mastercore_handler_block_begin(int nBlockPrev, CBlockIndex const * pBlockInd
 
         // NOTE: The blockNum parameter is inclusive, so deleteAboveBlock(1000) will delete records in block 1000 and above.
         p_txlistdb->isMPinBlockRange(pBlockIndex->nHeight, reorgRecoveryMaxHeight, true);
-        // t_tradelistdb->deleteAboveBlock(pBlockIndex->nHeight);
-        // s_stolistdb->deleteAboveBlock(pBlockIndex->nHeight);
+        t_tradelistdb->deleteAboveBlock(pBlockIndex->nHeight);
+        s_stolistdb->deleteAboveBlock(pBlockIndex->nHeight);
         // p_feecache->RollBackCache(pBlockIndex->nHeight);
         // p_feehistory->RollBackHistory(pBlockIndex->nHeight);
-        // reorgRecoveryMaxHeight = 0;
+        reorgRecoveryMaxHeight = 0;
 
         nWaterlineBlock = ConsensusParams().GENESIS_BLOCK - 1;
 
@@ -3920,7 +3823,6 @@ int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex,
     if (!checkpointValid) {
         // failed checkpoint, can't be trusted to provide valid data - shutdown client
         const std::string& msg = strprintf("Shutting down due to failed checkpoint for block %d (hash %s)\n", nBlockNow, pBlockIndex->GetBlockHash().GetHex());
-        saveToLog(msg);
         PrintToLog(msg);
         if (!gArgs.GetBoolArg("-overrideforcedshutdown", false)) {
             boost::filesystem::path persistPath = GetDataDir() / "MP_persist";
@@ -4002,15 +3904,7 @@ const CBitcoinAddress ExodusCrowdsaleAddress(int nBlock)
     return ExodusAddress();
 }
 
-void saveToLog(std::string lineOut)
-{
-    std::fstream fileFirst;
-    fileFirst.open ("omnilog.txt", std::fstream::in | std::fstream::out | std::fstream::app);
-    fileFirst << lineOut<< std::endl;
-    fileFirst.close();
-}
 
-//
 // /**
 //  * @return The marker for class C transactions.
 //  */

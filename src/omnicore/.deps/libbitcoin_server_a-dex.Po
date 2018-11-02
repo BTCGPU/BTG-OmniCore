@@ -1086,40 +1086,22 @@ omnicore/libbitcoin_server_a-dex.o: omnicore/dex.cpp \
  univalue/include/univalue.h primitives/transaction.h amount.h \
  script/script.h crypto/common.h prevector.h serialize.h compat/endian.h \
  /usr/include/c++/7/set /usr/include/c++/7/bits/stl_set.h \
- /usr/include/c++/7/bits/stl_multiset.h prevector.h \
- /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
+ /usr/include/c++/7/bits/stl_multiset.h prevector.h policy/feerate.h \
+ consensus/consensus.h /usr/include/c++/7/unordered_map \
+ /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
  /usr/include/c++/7/bits/unordered_map.h omnicore/tx.h utilstrencodings.h \
  /usr/include/openssl/sha.h /usr/include/openssl/e_os2.h \
- /usr/include/x86_64-linux-gnu/openssl/opensslconf.h omnicore/convert.h \
- omnicore/errors.h omnicore/rules.h omnicore/uint256_extensions.h \
- arith_uint256.h validation.h amount.h coins.h primitives/transaction.h \
- compressor.h script/script.h serialize.h core_memusage.h \
- primitives/block.h version.h memusage.h indirectmap.h \
- /usr/include/c++/7/unordered_set /usr/include/c++/7/bits/unordered_set.h \
- hash.h crypto/ripemd160.h crypto/sha256.h uint256.h version.h protocol.h \
- netaddress.h policy/feerate.h script/script_error.h versionbits.h \
- chain.h arith_uint256.h pow.h consensus/params.h \
- /usr/include/boost/algorithm/string.hpp \
- /usr/include/boost/algorithm/string/std_containers_traits.hpp \
- /usr/include/boost/algorithm/string/std/string_traits.hpp \
- /usr/include/boost/algorithm/string/yes_no_type.hpp \
- /usr/include/boost/algorithm/string/sequence_traits.hpp \
- /usr/include/boost/algorithm/string/std/list_traits.hpp \
- /usr/include/boost/algorithm/string/std/slist_traits.hpp \
- /usr/include/boost/algorithm/string/config.hpp \
- /usr/include/c++/7/ext/slist \
- /usr/include/boost/algorithm/string/trim.hpp \
+ /usr/include/x86_64-linux-gnu/openssl/opensslconf.h omnicore/mdex.h \
+ /usr/include/boost/lexical_cast.hpp \
+ /usr/include/boost/range/iterator_range_core.hpp \
+ /usr/include/boost/range/functions.hpp \
  /usr/include/boost/range/begin.hpp /usr/include/boost/range/iterator.hpp \
  /usr/include/boost/range/end.hpp \
  /usr/include/boost/range/detail/implementation_help.hpp \
  /usr/include/boost/range/detail/common.hpp \
  /usr/include/boost/range/detail/sfinae.hpp \
- /usr/include/boost/range/as_literal.hpp \
- /usr/include/boost/range/iterator_range.hpp \
- /usr/include/boost/range/iterator_range_core.hpp \
- /usr/include/boost/range/functions.hpp /usr/include/boost/range/size.hpp \
- /usr/include/boost/range/size_type.hpp \
+ /usr/include/boost/range/size.hpp /usr/include/boost/range/size_type.hpp \
  /usr/include/boost/range/difference_type.hpp \
  /usr/include/boost/range/has_range_iterator.hpp \
  /usr/include/boost/range/concepts.hpp \
@@ -1174,6 +1156,216 @@ omnicore/libbitcoin_server_a-dex.o: omnicore/dex.cpp \
  /usr/include/boost/range/rend.hpp \
  /usr/include/boost/range/algorithm/equal.hpp \
  /usr/include/boost/range/detail/safe_bool.hpp \
+ /usr/include/boost/lexical_cast/bad_lexical_cast.hpp \
+ /usr/include/boost/lexical_cast/try_lexical_convert.hpp \
+ /usr/include/boost/lexical_cast/detail/is_character.hpp \
+ /usr/include/boost/lexical_cast/detail/converter_numeric.hpp \
+ /usr/include/boost/type_traits/is_float.hpp \
+ /usr/include/boost/numeric/conversion/cast.hpp \
+ /usr/include/boost/numeric/conversion/converter.hpp \
+ /usr/include/boost/numeric/conversion/conversion_traits.hpp \
+ /usr/include/boost/numeric/conversion/detail/conversion_traits.hpp \
+ /usr/include/boost/numeric/conversion/detail/meta.hpp \
+ /usr/include/boost/mpl/equal_to.hpp \
+ /usr/include/boost/mpl/aux_/preprocessed/gcc/equal_to.hpp \
+ /usr/include/boost/numeric/conversion/detail/int_float_mixture.hpp \
+ /usr/include/boost/numeric/conversion/int_float_mixture_enum.hpp \
+ /usr/include/boost/numeric/conversion/detail/sign_mixture.hpp \
+ /usr/include/boost/numeric/conversion/sign_mixture_enum.hpp \
+ /usr/include/boost/numeric/conversion/detail/udt_builtin_mixture.hpp \
+ /usr/include/boost/numeric/conversion/udt_builtin_mixture_enum.hpp \
+ /usr/include/boost/numeric/conversion/detail/is_subranged.hpp \
+ /usr/include/boost/mpl/multiplies.hpp /usr/include/boost/mpl/times.hpp \
+ /usr/include/boost/mpl/aux_/preprocessed/gcc/times.hpp \
+ /usr/include/boost/numeric/conversion/converter_policies.hpp \
+ /usr/include/boost/numeric/conversion/detail/converter.hpp \
+ /usr/include/boost/numeric/conversion/bounds.hpp \
+ /usr/include/boost/numeric/conversion/detail/bounds.hpp \
+ /usr/include/boost/numeric/conversion/numeric_cast_traits.hpp \
+ /usr/include/boost/numeric/conversion/detail/numeric_cast_traits.hpp \
+ /usr/include/boost/numeric/conversion/detail/preprocessed/numeric_cast_traits_common.hpp \
+ /usr/include/boost/numeric/conversion/detail/preprocessed/numeric_cast_traits_long_long.hpp \
+ /usr/include/boost/lexical_cast/detail/converter_lexical.hpp \
+ /usr/include/boost/type_traits/has_left_shift.hpp \
+ /usr/include/boost/type_traits/has_right_shift.hpp \
+ /usr/include/boost/detail/lcast_precision.hpp \
+ /usr/include/boost/lexical_cast/detail/widest_char.hpp \
+ /usr/include/boost/array.hpp \
+ /usr/include/boost/container/container_fwd.hpp \
+ /usr/include/boost/container/detail/std_fwd.hpp \
+ /usr/include/boost/lexical_cast/detail/converter_lexical_streams.hpp \
+ /usr/include/boost/lexical_cast/detail/lcast_char_constants.hpp \
+ /usr/include/boost/lexical_cast/detail/lcast_unsigned_converters.hpp \
+ /usr/include/boost/lexical_cast/detail/inf_nan.hpp \
+ /usr/include/boost/math/special_functions/sign.hpp \
+ /usr/include/boost/math/tools/config.hpp /usr/include/c++/7/cfloat \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/float.h \
+ /usr/include/boost/math/tools/user.hpp \
+ /usr/include/boost/math/special_functions/math_fwd.hpp \
+ /usr/include/boost/math/special_functions/detail/round_fwd.hpp \
+ /usr/include/boost/math/tools/promotion.hpp \
+ /usr/include/boost/math/policies/policy.hpp \
+ /usr/include/boost/mpl/contains.hpp \
+ /usr/include/boost/mpl/contains_fwd.hpp \
+ /usr/include/boost/mpl/aux_/contains_impl.hpp \
+ /usr/include/boost/mpl/find.hpp /usr/include/boost/mpl/remove_if.hpp \
+ /usr/include/boost/mpl/vector.hpp \
+ /usr/include/boost/mpl/limits/vector.hpp \
+ /usr/include/boost/mpl/vector/vector20.hpp \
+ /usr/include/boost/mpl/vector/vector10.hpp \
+ /usr/include/boost/mpl/vector/vector0.hpp \
+ /usr/include/boost/mpl/vector/aux_/at.hpp \
+ /usr/include/boost/mpl/at_fwd.hpp \
+ /usr/include/boost/mpl/vector/aux_/tag.hpp \
+ /usr/include/boost/mpl/aux_/config/typeof.hpp \
+ /usr/include/boost/mpl/vector/aux_/front.hpp \
+ /usr/include/boost/mpl/vector/aux_/push_front.hpp \
+ /usr/include/boost/mpl/vector/aux_/item.hpp \
+ /usr/include/boost/mpl/vector/aux_/pop_front.hpp \
+ /usr/include/boost/mpl/vector/aux_/push_back.hpp \
+ /usr/include/boost/mpl/vector/aux_/pop_back.hpp \
+ /usr/include/boost/mpl/pop_back_fwd.hpp \
+ /usr/include/boost/mpl/vector/aux_/back.hpp \
+ /usr/include/boost/mpl/back_fwd.hpp \
+ /usr/include/boost/mpl/vector/aux_/clear.hpp \
+ /usr/include/boost/mpl/vector/aux_/vector0.hpp \
+ /usr/include/boost/mpl/vector/aux_/iterator.hpp \
+ /usr/include/boost/mpl/minus.hpp \
+ /usr/include/boost/mpl/aux_/preprocessed/gcc/minus.hpp \
+ /usr/include/boost/mpl/vector/aux_/O1_size.hpp \
+ /usr/include/boost/mpl/vector/aux_/size.hpp \
+ /usr/include/boost/mpl/vector/aux_/empty.hpp \
+ /usr/include/boost/mpl/vector/aux_/begin_end.hpp \
+ /usr/include/boost/mpl/vector/aux_/include_preprocessed.hpp \
+ /usr/include/boost/mpl/vector/aux_/preprocessed/typeof_based/vector10.hpp \
+ /usr/include/boost/mpl/vector/aux_/preprocessed/typeof_based/vector20.hpp \
+ /usr/include/boost/mpl/aux_/preprocessed/gcc/vector.hpp \
+ /usr/include/boost/mpl/at.hpp /usr/include/boost/mpl/aux_/at_impl.hpp \
+ /usr/include/boost/mpl/size.hpp \
+ /usr/include/boost/mpl/aux_/size_impl.hpp \
+ /usr/include/boost/mpl/comparison.hpp \
+ /usr/include/boost/mpl/not_equal_to.hpp \
+ /usr/include/boost/mpl/aux_/preprocessed/gcc/not_equal_to.hpp \
+ /usr/include/boost/mpl/greater.hpp \
+ /usr/include/boost/mpl/aux_/preprocessed/gcc/greater.hpp \
+ /usr/include/boost/mpl/less_equal.hpp \
+ /usr/include/boost/mpl/aux_/preprocessed/gcc/less_equal.hpp \
+ /usr/include/boost/mpl/greater_equal.hpp \
+ /usr/include/boost/mpl/aux_/preprocessed/gcc/greater_equal.hpp \
+ /usr/include/c++/7/math.h /usr/include/boost/config/no_tr1/complex.hpp \
+ /usr/include/c++/7/complex \
+ /usr/include/boost/math/special_functions/detail/fp_traits.hpp \
+ /usr/include/boost/detail/endian.hpp \
+ /usr/include/boost/predef/detail/endian_compat.h \
+ /usr/include/boost/math/special_functions/fpclassify.hpp \
+ /usr/include/boost/math/tools/real_cast.hpp \
+ /usr/include/boost/detail/basic_pointerbuf.hpp \
+ /usr/include/boost/multiprecision/cpp_dec_float.hpp \
+ /usr/include/boost/multiprecision/number.hpp \
+ /usr/include/boost/mpl/max.hpp \
+ /usr/include/boost/multiprecision/detail/generic_interconvert.hpp \
+ /usr/include/boost/multiprecision/detail/default_ops.hpp \
+ /usr/include/boost/math/policies/error_handling.hpp \
+ /usr/include/c++/7/iomanip /usr/include/boost/math/tools/precision.hpp \
+ /usr/include/boost/multiprecision/detail/number_base.hpp \
+ /usr/include/boost/math/special_functions/next.hpp \
+ /usr/include/boost/math/special_functions/trunc.hpp \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/xmmintrin.h \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/mmintrin.h \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/mm_malloc.h \
+ /usr/lib/gcc/x86_64-linux-gnu/7/include/emmintrin.h \
+ /usr/include/boost/multiprecision/detail/functions/constants.hpp \
+ /usr/include/boost/multiprecision/detail/functions/pow.hpp \
+ /usr/include/boost/multiprecision/detail/functions/trig.hpp \
+ /usr/include/boost/multiprecision/detail/no_et_ops.hpp \
+ /usr/include/boost/multiprecision/detail/et_ops.hpp \
+ /usr/include/boost/multiprecision/detail/min_max.hpp \
+ /usr/include/boost/multiprecision/traits/is_backend.hpp \
+ /usr/include/boost/multiprecision/detail/number_compare.hpp \
+ /usr/include/boost/multiprecision/traits/is_restricted_conversion.hpp \
+ /usr/include/boost/multiprecision/traits/explicit_conversion.hpp \
+ /usr/include/boost/multiprecision/detail/ublas_interop.hpp \
+ /usr/include/boost/multiprecision/detail/big_lanczos.hpp \
+ /usr/include/boost/math/bindings/detail/big_lanczos.hpp \
+ /usr/include/boost/math/special_functions/lanczos.hpp \
+ /usr/include/boost/math/tools/big_constant.hpp \
+ /usr/include/boost/math/tools/rational.hpp \
+ /usr/include/boost/math/tools/detail/polynomial_horner3_20.hpp \
+ /usr/include/boost/math/tools/detail/rational_horner1_20.hpp \
+ /usr/include/boost/math/special_functions/detail/lanczos_sse2.hpp \
+ /usr/include/boost/multiprecision/detail/dynamic_array.hpp \
+ /usr/include/boost/multiprecision/detail/rebind.hpp \
+ /usr/include/boost/math/special_functions/asinh.hpp \
+ /usr/include/boost/math/special_functions/sqrt1pm1.hpp \
+ /usr/include/boost/math/special_functions/log1p.hpp \
+ /usr/include/boost/math/tools/series.hpp \
+ /usr/include/boost/math/special_functions/expm1.hpp \
+ /usr/include/boost/math/constants/constants.hpp \
+ /usr/include/boost/math/tools/convert_from_string.hpp \
+ /usr/include/boost/math/constants/calculate_constants.hpp \
+ /usr/include/boost/math/special_functions/acosh.hpp \
+ /usr/include/boost/math/special_functions/atanh.hpp \
+ /usr/include/boost/math/special_functions/cbrt.hpp \
+ /usr/include/boost/mpl/divides.hpp \
+ /usr/include/boost/mpl/aux_/preprocessed/gcc/divides.hpp \
+ /usr/include/boost/math/special_functions/gamma.hpp \
+ /usr/include/boost/math/tools/fraction.hpp \
+ /usr/include/boost/math/special_functions/powm1.hpp \
+ /usr/include/boost/math/special_functions/detail/igamma_large.hpp \
+ /usr/include/boost/math/special_functions/detail/unchecked_factorial.hpp \
+ /usr/include/boost/math/special_functions/detail/lgamma_small.hpp \
+ /usr/include/boost/math/special_functions/bernoulli.hpp \
+ /usr/include/boost/math/special_functions/detail/unchecked_bernoulli.hpp \
+ /usr/include/boost/math/special_functions/detail/bernoulli_details.hpp \
+ /usr/include/boost/detail/lightweight_mutex.hpp \
+ /usr/include/boost/smart_ptr/detail/lightweight_mutex.hpp \
+ /usr/include/boost/smart_ptr/detail/lwm_pthreads.hpp \
+ /usr/include/boost/math/tools/toms748_solve.hpp \
+ /usr/include/boost/math/special_functions/zeta.hpp \
+ /usr/include/boost/math/special_functions/factorials.hpp \
+ /usr/include/boost/math/special_functions/sin_pi.hpp \
+ /usr/include/boost/math/special_functions/detail/igamma_inverse.hpp \
+ /usr/include/boost/math/tools/tuple.hpp \
+ /usr/include/boost/math/tools/roots.hpp \
+ /usr/include/boost/math/special_functions/detail/gamma_inva.hpp \
+ /usr/include/boost/math/special_functions/erf.hpp \
+ /usr/include/boost/math/special_functions/detail/erf_inv.hpp \
+ /usr/include/boost/multiprecision/cpp_int.hpp \
+ /usr/include/boost/multiprecision/detail/integer_ops.hpp \
+ /usr/include/boost/multiprecision/cpp_int/cpp_int_config.hpp \
+ /usr/include/boost/multiprecision/rational_adaptor.hpp \
+ /usr/include/boost/rational.hpp \
+ /usr/include/boost/integer/common_factor_rt.hpp \
+ /usr/include/boost/multiprecision/traits/is_byte_container.hpp \
+ /usr/include/boost/integer/static_min_max.hpp \
+ /usr/include/boost/type_traits/make_signed.hpp \
+ /usr/include/boost/multiprecision/cpp_int/checked.hpp \
+ /usr/include/boost/multiprecision/cpp_int/value_pack.hpp \
+ /usr/include/boost/multiprecision/cpp_int/comparison.hpp \
+ /usr/include/boost/multiprecision/cpp_int/add.hpp \
+ /usr/include/boost/multiprecision/cpp_int/multiply.hpp \
+ /usr/include/boost/multiprecision/cpp_int/divide.hpp \
+ /usr/include/boost/multiprecision/cpp_int/bitwise.hpp \
+ /usr/include/boost/multiprecision/cpp_int/misc.hpp \
+ /usr/include/boost/multiprecision/detail/bitscan.hpp \
+ /usr/include/boost/multiprecision/cpp_int/limits.hpp \
+ /usr/include/boost/multiprecision/cpp_int/literals.hpp \
+ /usr/include/boost/multiprecision/cpp_int/serialize.hpp \
+ /usr/include/boost/multiprecision/cpp_int/import_export.hpp \
+ omnicore/convert.h omnicore/errors.h omnicore/rules.h omnicore/sp.h \
+ omnicore/uint256_extensions.h arith_uint256.h \
+ /usr/include/boost/algorithm/string.hpp \
+ /usr/include/boost/algorithm/string/std_containers_traits.hpp \
+ /usr/include/boost/algorithm/string/std/string_traits.hpp \
+ /usr/include/boost/algorithm/string/yes_no_type.hpp \
+ /usr/include/boost/algorithm/string/sequence_traits.hpp \
+ /usr/include/boost/algorithm/string/std/list_traits.hpp \
+ /usr/include/boost/algorithm/string/std/slist_traits.hpp \
+ /usr/include/boost/algorithm/string/config.hpp \
+ /usr/include/c++/7/ext/slist \
+ /usr/include/boost/algorithm/string/trim.hpp \
+ /usr/include/boost/range/as_literal.hpp \
+ /usr/include/boost/range/iterator_range.hpp \
  /usr/include/boost/range/iterator_range_io.hpp \
  /usr/include/boost/range/detail/str_types.hpp \
  /usr/include/boost/algorithm/string/detail/trim.hpp \
@@ -3710,6 +3902,10 @@ compat/endian.h:
 
 prevector.h:
 
+policy/feerate.h:
+
+consensus/consensus.h:
+
 /usr/include/c++/7/unordered_map:
 
 /usr/include/c++/7/bits/hashtable.h:
@@ -3728,91 +3924,13 @@ utilstrencodings.h:
 
 /usr/include/x86_64-linux-gnu/openssl/opensslconf.h:
 
-omnicore/convert.h:
+omnicore/mdex.h:
 
-omnicore/errors.h:
+/usr/include/boost/lexical_cast.hpp:
 
-omnicore/rules.h:
+/usr/include/boost/range/iterator_range_core.hpp:
 
-omnicore/uint256_extensions.h:
-
-arith_uint256.h:
-
-validation.h:
-
-amount.h:
-
-coins.h:
-
-primitives/transaction.h:
-
-compressor.h:
-
-script/script.h:
-
-serialize.h:
-
-core_memusage.h:
-
-primitives/block.h:
-
-version.h:
-
-memusage.h:
-
-indirectmap.h:
-
-/usr/include/c++/7/unordered_set:
-
-/usr/include/c++/7/bits/unordered_set.h:
-
-hash.h:
-
-crypto/ripemd160.h:
-
-crypto/sha256.h:
-
-uint256.h:
-
-version.h:
-
-protocol.h:
-
-netaddress.h:
-
-policy/feerate.h:
-
-script/script_error.h:
-
-versionbits.h:
-
-chain.h:
-
-arith_uint256.h:
-
-pow.h:
-
-consensus/params.h:
-
-/usr/include/boost/algorithm/string.hpp:
-
-/usr/include/boost/algorithm/string/std_containers_traits.hpp:
-
-/usr/include/boost/algorithm/string/std/string_traits.hpp:
-
-/usr/include/boost/algorithm/string/yes_no_type.hpp:
-
-/usr/include/boost/algorithm/string/sequence_traits.hpp:
-
-/usr/include/boost/algorithm/string/std/list_traits.hpp:
-
-/usr/include/boost/algorithm/string/std/slist_traits.hpp:
-
-/usr/include/boost/algorithm/string/config.hpp:
-
-/usr/include/c++/7/ext/slist:
-
-/usr/include/boost/algorithm/string/trim.hpp:
+/usr/include/boost/range/functions.hpp:
 
 /usr/include/boost/range/begin.hpp:
 
@@ -3825,14 +3943,6 @@ consensus/params.h:
 /usr/include/boost/range/detail/common.hpp:
 
 /usr/include/boost/range/detail/sfinae.hpp:
-
-/usr/include/boost/range/as_literal.hpp:
-
-/usr/include/boost/range/iterator_range.hpp:
-
-/usr/include/boost/range/iterator_range_core.hpp:
-
-/usr/include/boost/range/functions.hpp:
 
 /usr/include/boost/range/size.hpp:
 
@@ -3947,6 +4057,446 @@ consensus/params.h:
 /usr/include/boost/range/algorithm/equal.hpp:
 
 /usr/include/boost/range/detail/safe_bool.hpp:
+
+/usr/include/boost/lexical_cast/bad_lexical_cast.hpp:
+
+/usr/include/boost/lexical_cast/try_lexical_convert.hpp:
+
+/usr/include/boost/lexical_cast/detail/is_character.hpp:
+
+/usr/include/boost/lexical_cast/detail/converter_numeric.hpp:
+
+/usr/include/boost/type_traits/is_float.hpp:
+
+/usr/include/boost/numeric/conversion/cast.hpp:
+
+/usr/include/boost/numeric/conversion/converter.hpp:
+
+/usr/include/boost/numeric/conversion/conversion_traits.hpp:
+
+/usr/include/boost/numeric/conversion/detail/conversion_traits.hpp:
+
+/usr/include/boost/numeric/conversion/detail/meta.hpp:
+
+/usr/include/boost/mpl/equal_to.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/equal_to.hpp:
+
+/usr/include/boost/numeric/conversion/detail/int_float_mixture.hpp:
+
+/usr/include/boost/numeric/conversion/int_float_mixture_enum.hpp:
+
+/usr/include/boost/numeric/conversion/detail/sign_mixture.hpp:
+
+/usr/include/boost/numeric/conversion/sign_mixture_enum.hpp:
+
+/usr/include/boost/numeric/conversion/detail/udt_builtin_mixture.hpp:
+
+/usr/include/boost/numeric/conversion/udt_builtin_mixture_enum.hpp:
+
+/usr/include/boost/numeric/conversion/detail/is_subranged.hpp:
+
+/usr/include/boost/mpl/multiplies.hpp:
+
+/usr/include/boost/mpl/times.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/times.hpp:
+
+/usr/include/boost/numeric/conversion/converter_policies.hpp:
+
+/usr/include/boost/numeric/conversion/detail/converter.hpp:
+
+/usr/include/boost/numeric/conversion/bounds.hpp:
+
+/usr/include/boost/numeric/conversion/detail/bounds.hpp:
+
+/usr/include/boost/numeric/conversion/numeric_cast_traits.hpp:
+
+/usr/include/boost/numeric/conversion/detail/numeric_cast_traits.hpp:
+
+/usr/include/boost/numeric/conversion/detail/preprocessed/numeric_cast_traits_common.hpp:
+
+/usr/include/boost/numeric/conversion/detail/preprocessed/numeric_cast_traits_long_long.hpp:
+
+/usr/include/boost/lexical_cast/detail/converter_lexical.hpp:
+
+/usr/include/boost/type_traits/has_left_shift.hpp:
+
+/usr/include/boost/type_traits/has_right_shift.hpp:
+
+/usr/include/boost/detail/lcast_precision.hpp:
+
+/usr/include/boost/lexical_cast/detail/widest_char.hpp:
+
+/usr/include/boost/array.hpp:
+
+/usr/include/boost/container/container_fwd.hpp:
+
+/usr/include/boost/container/detail/std_fwd.hpp:
+
+/usr/include/boost/lexical_cast/detail/converter_lexical_streams.hpp:
+
+/usr/include/boost/lexical_cast/detail/lcast_char_constants.hpp:
+
+/usr/include/boost/lexical_cast/detail/lcast_unsigned_converters.hpp:
+
+/usr/include/boost/lexical_cast/detail/inf_nan.hpp:
+
+/usr/include/boost/math/special_functions/sign.hpp:
+
+/usr/include/boost/math/tools/config.hpp:
+
+/usr/include/c++/7/cfloat:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include/float.h:
+
+/usr/include/boost/math/tools/user.hpp:
+
+/usr/include/boost/math/special_functions/math_fwd.hpp:
+
+/usr/include/boost/math/special_functions/detail/round_fwd.hpp:
+
+/usr/include/boost/math/tools/promotion.hpp:
+
+/usr/include/boost/math/policies/policy.hpp:
+
+/usr/include/boost/mpl/contains.hpp:
+
+/usr/include/boost/mpl/contains_fwd.hpp:
+
+/usr/include/boost/mpl/aux_/contains_impl.hpp:
+
+/usr/include/boost/mpl/find.hpp:
+
+/usr/include/boost/mpl/remove_if.hpp:
+
+/usr/include/boost/mpl/vector.hpp:
+
+/usr/include/boost/mpl/limits/vector.hpp:
+
+/usr/include/boost/mpl/vector/vector20.hpp:
+
+/usr/include/boost/mpl/vector/vector10.hpp:
+
+/usr/include/boost/mpl/vector/vector0.hpp:
+
+/usr/include/boost/mpl/vector/aux_/at.hpp:
+
+/usr/include/boost/mpl/at_fwd.hpp:
+
+/usr/include/boost/mpl/vector/aux_/tag.hpp:
+
+/usr/include/boost/mpl/aux_/config/typeof.hpp:
+
+/usr/include/boost/mpl/vector/aux_/front.hpp:
+
+/usr/include/boost/mpl/vector/aux_/push_front.hpp:
+
+/usr/include/boost/mpl/vector/aux_/item.hpp:
+
+/usr/include/boost/mpl/vector/aux_/pop_front.hpp:
+
+/usr/include/boost/mpl/vector/aux_/push_back.hpp:
+
+/usr/include/boost/mpl/vector/aux_/pop_back.hpp:
+
+/usr/include/boost/mpl/pop_back_fwd.hpp:
+
+/usr/include/boost/mpl/vector/aux_/back.hpp:
+
+/usr/include/boost/mpl/back_fwd.hpp:
+
+/usr/include/boost/mpl/vector/aux_/clear.hpp:
+
+/usr/include/boost/mpl/vector/aux_/vector0.hpp:
+
+/usr/include/boost/mpl/vector/aux_/iterator.hpp:
+
+/usr/include/boost/mpl/minus.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/minus.hpp:
+
+/usr/include/boost/mpl/vector/aux_/O1_size.hpp:
+
+/usr/include/boost/mpl/vector/aux_/size.hpp:
+
+/usr/include/boost/mpl/vector/aux_/empty.hpp:
+
+/usr/include/boost/mpl/vector/aux_/begin_end.hpp:
+
+/usr/include/boost/mpl/vector/aux_/include_preprocessed.hpp:
+
+/usr/include/boost/mpl/vector/aux_/preprocessed/typeof_based/vector10.hpp:
+
+/usr/include/boost/mpl/vector/aux_/preprocessed/typeof_based/vector20.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/vector.hpp:
+
+/usr/include/boost/mpl/at.hpp:
+
+/usr/include/boost/mpl/aux_/at_impl.hpp:
+
+/usr/include/boost/mpl/size.hpp:
+
+/usr/include/boost/mpl/aux_/size_impl.hpp:
+
+/usr/include/boost/mpl/comparison.hpp:
+
+/usr/include/boost/mpl/not_equal_to.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/not_equal_to.hpp:
+
+/usr/include/boost/mpl/greater.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/greater.hpp:
+
+/usr/include/boost/mpl/less_equal.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/less_equal.hpp:
+
+/usr/include/boost/mpl/greater_equal.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/greater_equal.hpp:
+
+/usr/include/c++/7/math.h:
+
+/usr/include/boost/config/no_tr1/complex.hpp:
+
+/usr/include/c++/7/complex:
+
+/usr/include/boost/math/special_functions/detail/fp_traits.hpp:
+
+/usr/include/boost/detail/endian.hpp:
+
+/usr/include/boost/predef/detail/endian_compat.h:
+
+/usr/include/boost/math/special_functions/fpclassify.hpp:
+
+/usr/include/boost/math/tools/real_cast.hpp:
+
+/usr/include/boost/detail/basic_pointerbuf.hpp:
+
+/usr/include/boost/multiprecision/cpp_dec_float.hpp:
+
+/usr/include/boost/multiprecision/number.hpp:
+
+/usr/include/boost/mpl/max.hpp:
+
+/usr/include/boost/multiprecision/detail/generic_interconvert.hpp:
+
+/usr/include/boost/multiprecision/detail/default_ops.hpp:
+
+/usr/include/boost/math/policies/error_handling.hpp:
+
+/usr/include/c++/7/iomanip:
+
+/usr/include/boost/math/tools/precision.hpp:
+
+/usr/include/boost/multiprecision/detail/number_base.hpp:
+
+/usr/include/boost/math/special_functions/next.hpp:
+
+/usr/include/boost/math/special_functions/trunc.hpp:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include/xmmintrin.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include/mmintrin.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include/mm_malloc.h:
+
+/usr/lib/gcc/x86_64-linux-gnu/7/include/emmintrin.h:
+
+/usr/include/boost/multiprecision/detail/functions/constants.hpp:
+
+/usr/include/boost/multiprecision/detail/functions/pow.hpp:
+
+/usr/include/boost/multiprecision/detail/functions/trig.hpp:
+
+/usr/include/boost/multiprecision/detail/no_et_ops.hpp:
+
+/usr/include/boost/multiprecision/detail/et_ops.hpp:
+
+/usr/include/boost/multiprecision/detail/min_max.hpp:
+
+/usr/include/boost/multiprecision/traits/is_backend.hpp:
+
+/usr/include/boost/multiprecision/detail/number_compare.hpp:
+
+/usr/include/boost/multiprecision/traits/is_restricted_conversion.hpp:
+
+/usr/include/boost/multiprecision/traits/explicit_conversion.hpp:
+
+/usr/include/boost/multiprecision/detail/ublas_interop.hpp:
+
+/usr/include/boost/multiprecision/detail/big_lanczos.hpp:
+
+/usr/include/boost/math/bindings/detail/big_lanczos.hpp:
+
+/usr/include/boost/math/special_functions/lanczos.hpp:
+
+/usr/include/boost/math/tools/big_constant.hpp:
+
+/usr/include/boost/math/tools/rational.hpp:
+
+/usr/include/boost/math/tools/detail/polynomial_horner3_20.hpp:
+
+/usr/include/boost/math/tools/detail/rational_horner1_20.hpp:
+
+/usr/include/boost/math/special_functions/detail/lanczos_sse2.hpp:
+
+/usr/include/boost/multiprecision/detail/dynamic_array.hpp:
+
+/usr/include/boost/multiprecision/detail/rebind.hpp:
+
+/usr/include/boost/math/special_functions/asinh.hpp:
+
+/usr/include/boost/math/special_functions/sqrt1pm1.hpp:
+
+/usr/include/boost/math/special_functions/log1p.hpp:
+
+/usr/include/boost/math/tools/series.hpp:
+
+/usr/include/boost/math/special_functions/expm1.hpp:
+
+/usr/include/boost/math/constants/constants.hpp:
+
+/usr/include/boost/math/tools/convert_from_string.hpp:
+
+/usr/include/boost/math/constants/calculate_constants.hpp:
+
+/usr/include/boost/math/special_functions/acosh.hpp:
+
+/usr/include/boost/math/special_functions/atanh.hpp:
+
+/usr/include/boost/math/special_functions/cbrt.hpp:
+
+/usr/include/boost/mpl/divides.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/divides.hpp:
+
+/usr/include/boost/math/special_functions/gamma.hpp:
+
+/usr/include/boost/math/tools/fraction.hpp:
+
+/usr/include/boost/math/special_functions/powm1.hpp:
+
+/usr/include/boost/math/special_functions/detail/igamma_large.hpp:
+
+/usr/include/boost/math/special_functions/detail/unchecked_factorial.hpp:
+
+/usr/include/boost/math/special_functions/detail/lgamma_small.hpp:
+
+/usr/include/boost/math/special_functions/bernoulli.hpp:
+
+/usr/include/boost/math/special_functions/detail/unchecked_bernoulli.hpp:
+
+/usr/include/boost/math/special_functions/detail/bernoulli_details.hpp:
+
+/usr/include/boost/detail/lightweight_mutex.hpp:
+
+/usr/include/boost/smart_ptr/detail/lightweight_mutex.hpp:
+
+/usr/include/boost/smart_ptr/detail/lwm_pthreads.hpp:
+
+/usr/include/boost/math/tools/toms748_solve.hpp:
+
+/usr/include/boost/math/special_functions/zeta.hpp:
+
+/usr/include/boost/math/special_functions/factorials.hpp:
+
+/usr/include/boost/math/special_functions/sin_pi.hpp:
+
+/usr/include/boost/math/special_functions/detail/igamma_inverse.hpp:
+
+/usr/include/boost/math/tools/tuple.hpp:
+
+/usr/include/boost/math/tools/roots.hpp:
+
+/usr/include/boost/math/special_functions/detail/gamma_inva.hpp:
+
+/usr/include/boost/math/special_functions/erf.hpp:
+
+/usr/include/boost/math/special_functions/detail/erf_inv.hpp:
+
+/usr/include/boost/multiprecision/cpp_int.hpp:
+
+/usr/include/boost/multiprecision/detail/integer_ops.hpp:
+
+/usr/include/boost/multiprecision/cpp_int/cpp_int_config.hpp:
+
+/usr/include/boost/multiprecision/rational_adaptor.hpp:
+
+/usr/include/boost/rational.hpp:
+
+/usr/include/boost/integer/common_factor_rt.hpp:
+
+/usr/include/boost/multiprecision/traits/is_byte_container.hpp:
+
+/usr/include/boost/integer/static_min_max.hpp:
+
+/usr/include/boost/type_traits/make_signed.hpp:
+
+/usr/include/boost/multiprecision/cpp_int/checked.hpp:
+
+/usr/include/boost/multiprecision/cpp_int/value_pack.hpp:
+
+/usr/include/boost/multiprecision/cpp_int/comparison.hpp:
+
+/usr/include/boost/multiprecision/cpp_int/add.hpp:
+
+/usr/include/boost/multiprecision/cpp_int/multiply.hpp:
+
+/usr/include/boost/multiprecision/cpp_int/divide.hpp:
+
+/usr/include/boost/multiprecision/cpp_int/bitwise.hpp:
+
+/usr/include/boost/multiprecision/cpp_int/misc.hpp:
+
+/usr/include/boost/multiprecision/detail/bitscan.hpp:
+
+/usr/include/boost/multiprecision/cpp_int/limits.hpp:
+
+/usr/include/boost/multiprecision/cpp_int/literals.hpp:
+
+/usr/include/boost/multiprecision/cpp_int/serialize.hpp:
+
+/usr/include/boost/multiprecision/cpp_int/import_export.hpp:
+
+omnicore/convert.h:
+
+omnicore/errors.h:
+
+omnicore/rules.h:
+
+omnicore/sp.h:
+
+omnicore/uint256_extensions.h:
+
+arith_uint256.h:
+
+/usr/include/boost/algorithm/string.hpp:
+
+/usr/include/boost/algorithm/string/std_containers_traits.hpp:
+
+/usr/include/boost/algorithm/string/std/string_traits.hpp:
+
+/usr/include/boost/algorithm/string/yes_no_type.hpp:
+
+/usr/include/boost/algorithm/string/sequence_traits.hpp:
+
+/usr/include/boost/algorithm/string/std/list_traits.hpp:
+
+/usr/include/boost/algorithm/string/std/slist_traits.hpp:
+
+/usr/include/boost/algorithm/string/config.hpp:
+
+/usr/include/c++/7/ext/slist:
+
+/usr/include/boost/algorithm/string/trim.hpp:
+
+/usr/include/boost/range/as_literal.hpp:
+
+/usr/include/boost/range/iterator_range.hpp:
 
 /usr/include/boost/range/iterator_range_io.hpp:
 

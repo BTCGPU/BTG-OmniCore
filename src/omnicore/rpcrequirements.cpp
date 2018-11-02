@@ -1,6 +1,6 @@
 #include "omnicore/rpcrequirements.h"
-
-// #include "omnicore/dex.h"
+#include "omnicore/mdex.h"
+#include "omnicore/dex.h"
 #include "omnicore/omnicore.h"
 #include "omnicore/sp.h"
 #include "omnicore/utilsbitcoin.h"
@@ -55,57 +55,57 @@ void RequireSameEcosystem(uint32_t propertyId, uint32_t otherId)
     }
 }
 
-// void RequireDifferentIds(uint32_t propertyId, uint32_t otherId)
-// {
-//     if (propertyId == otherId) {
-//         throw JSONRPCError(RPC_INVALID_PARAMETER, "Property identifiers must not be the same");
-//     }
-// }
-//
-// void RequireCrowdsale(uint32_t propertyId)
-// {
-//     LOCK(cs_tally);
-//     CMPSPInfo::Entry sp;
-//     if (!mastercore::_my_sps->getSP(propertyId, sp)) {
-//         throw JSONRPCError(RPC_DATABASE_ERROR, "Failed to retrieve property");
-//     }
-//     if (sp.fixed || sp.manual) {
-//         throw JSONRPCError(RPC_INVALID_PARAMETER, "Property identifier does not refer to a crowdsale");
-//     }
-// }
-//
-// void RequireActiveCrowdsale(uint32_t propertyId)
-// {
-//     LOCK(cs_tally);
-//     if (!mastercore::isCrowdsaleActive(propertyId)) {
-//         throw JSONRPCError(RPC_TYPE_ERROR, "Property identifier does not refer to an active crowdsale");
-//     }
-// }
-//
-// void RequireManagedProperty(uint32_t propertyId)
-// {
-//     LOCK(cs_tally);
-//     CMPSPInfo::Entry sp;
-//     if (!mastercore::_my_sps->getSP(propertyId, sp)) {
-//         throw JSONRPCError(RPC_DATABASE_ERROR, "Failed to retrieve property");
-//     }
-//     if (sp.fixed || !sp.manual) {
-//         throw JSONRPCError(RPC_INVALID_PARAMETER, "Property identifier does not refer to a managed property");
-//     }
-// }
-//
-// void RequireTokenIssuer(const std::string& address, uint32_t propertyId)
-// {
-//     LOCK(cs_tally);
-//     CMPSPInfo::Entry sp;
-//     if (!mastercore::_my_sps->getSP(propertyId, sp)) {
-//         throw JSONRPCError(RPC_DATABASE_ERROR, "Failed to retrieve property");
-//     }
-//     if (address != sp.issuer) {
-//         throw JSONRPCError(RPC_TYPE_ERROR, "Sender is not authorized to manage the property");
-//     }
-// }
-//
+void RequireDifferentIds(uint32_t propertyId, uint32_t otherId)
+{
+    if (propertyId == otherId) {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Property identifiers must not be the same");
+    }
+}
+
+void RequireCrowdsale(uint32_t propertyId)
+{
+    LOCK(cs_tally);
+    CMPSPInfo::Entry sp;
+    if (!mastercore::_my_sps->getSP(propertyId, sp)) {
+        throw JSONRPCError(RPC_DATABASE_ERROR, "Failed to retrieve property");
+    }
+    if (sp.fixed || sp.manual) {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Property identifier does not refer to a crowdsale");
+    }
+}
+
+void RequireActiveCrowdsale(uint32_t propertyId)
+{
+    LOCK(cs_tally);
+    if (!mastercore::isCrowdsaleActive(propertyId)) {
+        throw JSONRPCError(RPC_TYPE_ERROR, "Property identifier does not refer to an active crowdsale");
+    }
+}
+
+void RequireManagedProperty(uint32_t propertyId)
+{
+    LOCK(cs_tally);
+    CMPSPInfo::Entry sp;
+    if (!mastercore::_my_sps->getSP(propertyId, sp)) {
+        throw JSONRPCError(RPC_DATABASE_ERROR, "Failed to retrieve property");
+    }
+    if (sp.fixed || !sp.manual) {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Property identifier does not refer to a managed property");
+    }
+}
+
+void RequireTokenIssuer(const std::string& address, uint32_t propertyId)
+{
+    LOCK(cs_tally);
+    CMPSPInfo::Entry sp;
+    if (!mastercore::_my_sps->getSP(propertyId, sp)) {
+        throw JSONRPCError(RPC_DATABASE_ERROR, "Failed to retrieve property");
+    }
+    if (address != sp.issuer) {
+        throw JSONRPCError(RPC_TYPE_ERROR, "Sender is not authorized to manage the property");
+    }
+}
+// 
 // void RequireMatchingDExOffer(const std::string& address, uint32_t propertyId)
 // {
 //     LOCK(cs_tally);
@@ -121,14 +121,14 @@ void RequireSameEcosystem(uint32_t propertyId, uint32_t otherId)
 //         throw JSONRPCError(RPC_TYPE_ERROR, "Another active sell offer from the given address already exists on the distributed exchange");
 //     }
 // }
-//
-// void RequireSaneReferenceAmount(int64_t amount)
-// {
-//     if ((0.01 * COIN) < amount) {
-//         throw JSONRPCError(RPC_TYPE_ERROR, "Reference amount higher is than 0.01 BTC");
-//     }
-// }
-//
+
+void RequireSaneReferenceAmount(int64_t amount)
+{
+    if ((0.01 * COIN) < amount) {
+        throw JSONRPCError(RPC_TYPE_ERROR, "Reference amount higher is than 0.01 BTC");
+    }
+}
+
 // void RequireSaneDExPaymentWindow(const std::string& address, uint32_t propertyId)
 // {
 //     LOCK(cs_tally);
@@ -140,7 +140,7 @@ void RequireSameEcosystem(uint32_t propertyId, uint32_t otherId)
 //         throw JSONRPCError(RPC_TYPE_ERROR, "Payment window is less than 10 blocks (use override = true to continue)");
 //     }
 // }
-//
+
 // void RequireSaneDExFee(const std::string& address, uint32_t propertyId)
 // {
 //     LOCK(cs_tally);
@@ -152,10 +152,10 @@ void RequireSameEcosystem(uint32_t propertyId, uint32_t otherId)
 //         throw JSONRPCError(RPC_TYPE_ERROR, "Minimum accept fee is higher than 0.01 BTC (use override = true to continue)");
 //     }
 // }
-//
-// void RequireHeightInChain(int blockHeight)
-// {
-//     if (blockHeight < 0 || mastercore::GetHeight() < blockHeight) {
-//         throw JSONRPCError(RPC_INVALID_PARAMETER, "Block height is out of range");
-//     }
-// }
+
+void RequireHeightInChain(int blockHeight)
+{
+    if (blockHeight < 0 || mastercore::GetHeight() < blockHeight) {
+        throw JSONRPCError(RPC_INVALID_PARAMETER, "Block height is out of range");
+    }
+}

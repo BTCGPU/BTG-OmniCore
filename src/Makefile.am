@@ -202,11 +202,11 @@ BITCOIN_CORE_H = \
 	omnicore/createpayload.h \
 	omnicore/varint.h \
 	omnicore/sp.h \
-        omnicore/seedblocks.h \
+  omnicore/seedblocks.h \
 	omnicore/utils.h\
 	omnicore/rpcrawtx.h \
-        omnicore/createtx.h\
-	omnicore/globals.h
+  omnicore/createtx.h\
+	omnicore/mdex.h
 
 obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
@@ -277,6 +277,7 @@ libbitcoin_server_a_SOURCES = \
 	omnicore/fetchwallettx.cpp \
 	omnicore/rpcrequirements.cpp \
 	omnicore/rpctx.cpp \
+	omnicore/rpctxobject.cpp \
 	omnicore/rpc.cpp \
 	omnicore/rpcpayload.cpp\
 	omnicore/parse_string.cpp \
@@ -286,7 +287,8 @@ libbitcoin_server_a_SOURCES = \
 	omnicore/sp.cpp \
 	omnicore/rpcrawtx.cpp \
 	omnicore/createtx.cpp\
-        omnicore/seedblocks.cpp \
+  omnicore/seedblocks.cpp \
+	omnicore/mdex.cpp \
   $(BITCOIN_CORE_H)
 
 if ENABLE_ZMQ

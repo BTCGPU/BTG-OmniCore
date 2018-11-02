@@ -1,6 +1,5 @@
 
 #include "omnicore/log.h"
-#include "omnicore/omnicore.h"  //NOTE: just for testing
 
 #include "chainparamsbase.h"
 #include "tinyformat.h"
@@ -109,8 +108,6 @@ extern std::atomic<bool> fReopenOmniCoreLog;
      } else {
          pathLogFile = GetDataDir() / LOG_FILENAME;
      }
-     const string lineOut = strprintf("GetLogPath: %s\n",pathLogFile);
-     saveToLog(lineOut);
      return pathLogFile;
  }
 
@@ -127,12 +124,8 @@ static void DebugLogInit()
 
     if (fileout) {
         setbuf(fileout, nullptr); // Unbuffered
-        const string lineOut = strprintf("Debug log file: %s\n", pathDebug.string());
-        saveToLog(lineOut);
     } else {
         // PrintToConsole("Failed to open debug log file: %s\n", pathDebug.string());
-        const string lineOut = strprintf("Failed to open debug log file: %s\n", pathDebug.string());
-        saveToLog(lineOut);
 
     }
 
@@ -144,8 +137,6 @@ static void DebugLogInit()
  */
 static std::string GetTimestamp()
 {
-    // const string lineOut = strprintf(" GetTimestamp: %Y-%m-%d %H:%M:%S", GetTime());
-    // saveToLog(lineOut);
     return DateTimeStrFormat("%Y-%m-%d %H:%M:%S", GetTime());
 }
 
@@ -163,8 +154,6 @@ static std::string GetTimestamp()
  */
 int LogFilePrint(const std::string& str)
 {
-    const string lineOut = strprintf("inside LogFilePrint function\n");
-    saveToLog(lineOut);
     int ret = 0; // Number of characters written
     if (fPrintToConsole) {
         // Print to console
@@ -174,8 +163,6 @@ int LogFilePrint(const std::string& str)
         static bool fStartedNewLine = true;
         boost::call_once(&DebugLogInit, debugLogInitFlag);
         if (fileout == NULL) {
-            const string lineOut = strprintf("fileout == NULL\n");
-            saveToLog(lineOut);
             return ret;
         }
         boost::mutex::scoped_lock scoped_lock(*mutexDebugLog);
@@ -186,8 +173,6 @@ int LogFilePrint(const std::string& str)
             if (freopen(pathDebug.string().c_str(),"a",fileout) != nullptr) {
                 setbuf(fileout, nullptr); // unbuffered
             }
-            const string lineOut = strprintf("fReopenOmniCoreLog == true\n");
-            saveToLog(lineOut);
         }
 
         // Printing log timestamps can be useful for profiling
@@ -223,12 +208,8 @@ int ConsolePrint(const std::string& str)
     if (false) {
     // // if (fLogTimestamps && fStartedNewLine) {
         // ret = fprintf(stdout, "%s %s", GetTimestamp().c_str(), str.c_str());
-        // const string lineOut = strprintf("Using cout, str: %d\n",str);
-        // saveToLog(lineOut);
     } else {
         // ret = fwrite(str.data(), 1, str.size(), stdout);
-        const string lineOut = strprintf("Inside ConsolePrint function, data: %s, ret: %d\n",str,ret);
-        saveToLog(lineOut);
 
     }
     // if (!str.empty() && str[str.size()-1] == '\n') {

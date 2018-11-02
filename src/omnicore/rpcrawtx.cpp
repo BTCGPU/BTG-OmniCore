@@ -324,11 +324,11 @@ static const CRPCCommand commands[] =
 { //  category                         name                          actor (function)             okSafeMode
   //  -------------------------------- ----------------------------- ---------------------------- ----------
     // { "omni layer (raw transactions)", "omni_decodetransaction",     &omni_decodetransaction,     true },
-    { "omni layer (raw transactions)", "omni_createrawtx_opreturn",  &omni_createrawtx_opreturn,  true },
-    // { "omni layer (raw transactions)", "omni_createrawtx_multisig",  &omni_createrawtx_multisig,  true },
-    // { "omni layer (raw transactions)", "omni_createrawtx_input",     &omni_createrawtx_input,     true },
-    { "omni layer (raw transactions)", "omni_createrawtx_reference", &omni_createrawtx_reference, true },
-    { "omni layer (raw transactions)", "omni_createrawtx_change",    &omni_createrawtx_change,    true },
+    { "omni layer (raw transactions)", "omni_createrawtx_opreturn",  &omni_createrawtx_opreturn,  true, {} },
+    // { "omni layer (raw transactions)", "omni_createrawtx_multisig",  &omni_createrawtx_multisig,  true, {} },
+    // { "omni layer (raw transactions)", "omni_createrawtx_input",     &omni_createrawtx_input,     true. {} },
+    { "omni layer (raw transactions)", "omni_createrawtx_reference", &omni_createrawtx_reference, true, {} },
+    { "omni layer (raw transactions)", "omni_createrawtx_change",    &omni_createrawtx_change,    true, {} },
 
 };
 

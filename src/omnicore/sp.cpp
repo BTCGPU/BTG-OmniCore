@@ -208,12 +208,9 @@ uint32_t CMPSPInfo::putSP(uint8_t ecosystem, const Entry& info)
     if (!pdb->Get(readoptions, slSpKey, &existingEntry).IsNotFound() && slSpValue.compare(existingEntry) != 0) {
         std::string strError = strprintf("writing SP %d to DB, when a different SP already exists for that identifier", propertyId);
         PrintToLog("%s() ERROR: %s\n", __func__, strError);
-        const string lineOut = strprintf("%s() ERROR: %s\n", __func__, strError);
-        saveToLog(lineOut);
     } else if (!pdb->Get(readoptions, slTxIndexKey, &existingEntry).IsNotFound() && slTxValue.compare(existingEntry) != 0) {
         std::string strError = strprintf("writing index txid %s : SP %d is overwriting a different value", info.txid.ToString(), propertyId);
         PrintToLog("%s() ERROR: %s\n", __func__, strError);
-        saveToLog(strError);
     }
 
     // atomically write both the the SP and the index to the database
@@ -225,8 +222,6 @@ uint32_t CMPSPInfo::putSP(uint8_t ecosystem, const Entry& info)
 
     if (!status.ok()) {
         PrintToLog("%s(): ERROR for SP %d: %s\n", __func__, propertyId, status.ToString());
-        const string lineOut = strprintf("%s(): ERROR for SP %d: %s\n", __func__, propertyId, status.ToString());
-        saveToLog(lineOut);
     }
 
     return propertyId;
@@ -254,8 +249,6 @@ bool CMPSPInfo::getSP(uint32_t propertyId, Entry& info) const
     if (!status.ok()) {
         if (!status.IsNotFound()) {
             PrintToLog("%s(): ERROR for SP %d: %s\n", __func__, propertyId, status.ToString());
-            const string lineOut = strprintf("%s(): ERROR for SP %d: %s\n", __func__, propertyId, status.ToString());
-            saveToLog(lineOut);
         }
         return false;
     }
@@ -265,8 +258,6 @@ bool CMPSPInfo::getSP(uint32_t propertyId, Entry& info) const
         ssSpValue >> info;
     } catch (const std::exception& e) {
         PrintToLog("%s(): ERROR for SP %d: %s\n", __func__, propertyId, e.what());
-        const string lineOut = strprintf("%s(): ERROR for SP %d: %s\n", __func__, propertyId, e.what());
-        saveToLog(lineOut);
         return false;
     }
 
