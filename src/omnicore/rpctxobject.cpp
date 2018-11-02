@@ -47,13 +47,13 @@ using namespace mastercore;
 int populateRPCTransactionObject(const uint256& txid, UniValue& txobj, std::string filterAddress, bool extendedDetails, std::string extendedDetailsFilter)
 {
     // retrieve the transaction from the blockchain and obtain it's height/confs/time
-    CTransaction tx;
+    CTransactionRef tx;
     uint256 blockHash;
     if (!GetTransaction(txid, tx, Params().GetConsensus(), blockHash, true)) {
         return MP_TX_NOT_FOUND;
     }
 
-    return populateRPCTransactionObject(tx, blockHash, txobj, filterAddress, extendedDetails, extendedDetailsFilter);
+    return populateRPCTransactionObject((*tx), blockHash, txobj, filterAddress, extendedDetails, extendedDetailsFilter);
 }
 
 int populateRPCTransactionObject(const CTransaction& tx, const uint256& blockHash, UniValue& txobj, std::string filterAddress, bool extendedDetails, std::string extendedDetailsFilter, int blockHeight)
@@ -92,7 +92,7 @@ int populateRPCTransactionObject(const CTransaction& tx, const uint256& blockHas
         uint64_t tmpVout, tmpNValue, tmpPropertyId;
         {
             LOCK(cs_tally);
-            p_txlistdb->getPurchaseDetails(txid, 1, &tmpBuyer, &tmpSeller, &tmpVout, &tmpPropertyId, &tmpNValue);
+            // p_txlistdb->getPurchaseDetails(txid, 1, &tmpBuyer, &tmpSeller, &tmpVout, &tmpPropertyId, &tmpNValue);
         }
         UniValue purchases(UniValue::VARR);
         if (populateRPCDExPurchases(tx, purchases, filterAddress) <= 0) return -1;
@@ -174,7 +174,7 @@ void populateRPCTypeInfo(CMPTransaction& mp_obj, UniValue& txobj, uint32_t txTyp
             populateRPCTypeSendAll(mp_obj, txobj, confirmations);
             break;
         case MSC_TYPE_TRADE_OFFER:
-            populateRPCTypeTradeOffer(mp_obj, txobj);
+            // populateRPCTypeTradeOffer(mp_obj, txobj);
             break;
         case MSC_TYPE_METADEX_TRADE:
             populateRPCTypeMetaDExTrade(mp_obj, txobj, extendedDetails);
@@ -292,46 +292,46 @@ void populateRPCTypeSendAll(CMPTransaction& omniObj, UniValue& txobj, int confir
     }
 }
 
-void populateRPCTypeTradeOffer(CMPTransaction& omniObj, UniValue& txobj)
-{
-    CMPOffer temp_offer(omniObj);
-    uint32_t propertyId = omniObj.getProperty();
-    int64_t amountOffered = omniObj.getAmount();
-    int64_t amountDesired = temp_offer.getBTCDesiredOriginal();
-    uint8_t sellSubAction = temp_offer.getSubaction();
-
-    {
-        // NOTE: some manipulation of sell_subaction is needed here
-        // TODO: interpretPacket should provide reliable data, cleanup at RPC layer is not cool
-        if (sellSubAction > 3) sellSubAction = 0; // case where subaction byte >3, to have been allowed must be a v0 sell, flip byte to 0
-        if (sellSubAction == 0 && amountOffered > 0) sellSubAction = 1; // case where subaction byte=0, must be a v0 sell, amount > 0 means a new sell
-        if (sellSubAction == 0 && amountOffered == 0) sellSubAction = 3; // case where subaction byte=0. must be a v0 sell, amount of 0 means a cancel
-    }
-    {
-        // Check levelDB to see if the amount for sale has been amended due to a partial purchase
-        // TODO: DEx phase 1 really needs an overhaul to work like MetaDEx with original amounts for sale and amounts remaining etc
-        int tmpblock = 0;
-        unsigned int tmptype = 0;
-        uint64_t amountNew = 0;
-        LOCK(cs_tally);
-        bool tmpValid = getValidMPTX(omniObj.getHash(), &tmpblock, &tmptype, &amountNew);
-        if (tmpValid && amountNew > 0) {
-            amountDesired = calculateDesiredBTC(amountOffered, amountDesired, amountNew);
-            amountOffered = amountNew;
-        }
-    }
-
-    // Populate
-    txobj.push_back(Pair("propertyid", (uint64_t)propertyId));
-    txobj.push_back(Pair("divisible", isPropertyDivisible(propertyId)));
-    txobj.push_back(Pair("amount", FormatMP(propertyId, amountOffered)));
-    txobj.push_back(Pair("bitcoindesired", FormatDivisibleMP(amountDesired)));
-    txobj.push_back(Pair("timelimit",  temp_offer.getBlockTimeLimit()));
-    txobj.push_back(Pair("feerequired", FormatDivisibleMP(temp_offer.getMinFee())));
-    if (sellSubAction == 1) txobj.push_back(Pair("action", "new"));
-    if (sellSubAction == 2) txobj.push_back(Pair("action", "update"));
-    if (sellSubAction == 3) txobj.push_back(Pair("action", "cancel"));
-}
+// void populateRPCTypeTradeOffer(CMPTransaction& omniObj, UniValue& txobj)
+// {
+//     CMPOffer temp_offer(omniObj);
+//     uint32_t propertyId = omniObj.getProperty();
+//     int64_t amountOffered = omniObj.getAmount();
+//     int64_t amountDesired = temp_offer.getBTCDesiredOriginal();
+//     uint8_t sellSubAction = temp_offer.getSubaction();
+//
+//     {
+//         // NOTE: some manipulation of sell_subaction is needed here
+//         // TODO: interpretPacket should provide reliable data, cleanup at RPC layer is not cool
+//         if (sellSubAction > 3) sellSubAction = 0; // case where subaction byte >3, to have been allowed must be a v0 sell, flip byte to 0
+//         if (sellSubAction == 0 && amountOffered > 0) sellSubAction = 1; // case where subaction byte=0, must be a v0 sell, amount > 0 means a new sell
+//         if (sellSubAction == 0 && amountOffered == 0) sellSubAction = 3; // case where subaction byte=0. must be a v0 sell, amount of 0 means a cancel
+//     }
+//     {
+//         // Check levelDB to see if the amount for sale has been amended due to a partial purchase
+//         // TODO: DEx phase 1 really needs an overhaul to work like MetaDEx with original amounts for sale and amounts remaining etc
+//         int tmpblock = 0;
+//         unsigned int tmptype = 0;
+//         uint64_t amountNew = 0;
+//         LOCK(cs_tally);
+//         bool tmpValid = getValidMPTX(omniObj.getHash(), &tmpblock, &tmptype, &amountNew);
+//         if (tmpValid && amountNew > 0) {
+//             amountDesired = calculateDesiredBTC(amountOffered, amountDesired, amountNew);
+//             amountOffered = amountNew;
+//         }
+//     }
+//
+//     // Populate
+//     txobj.push_back(Pair("propertyid", (uint64_t)propertyId));
+//     txobj.push_back(Pair("divisible", isPropertyDivisible(propertyId)));
+//     txobj.push_back(Pair("amount", FormatMP(propertyId, amountOffered)));
+//     txobj.push_back(Pair("bitcoindesired", FormatDivisibleMP(amountDesired)));
+//     txobj.push_back(Pair("timelimit",  temp_offer.getBlockTimeLimit()));
+//     txobj.push_back(Pair("feerequired", FormatDivisibleMP(temp_offer.getMinFee())));
+//     if (sellSubAction == 1) txobj.push_back(Pair("action", "new"));
+//     if (sellSubAction == 2) txobj.push_back(Pair("action", "update"));
+//     if (sellSubAction == 3) txobj.push_back(Pair("action", "cancel"));
+// }
 
 void populateRPCTypeMetaDExTrade(CMPTransaction& omniObj, UniValue& txobj, bool extendedDetails)
 {

@@ -105,11 +105,11 @@ enum TransactionType {
 
 enum FILETYPES {
   FILETYPE_BALANCES = 0,
-  // FILETYPE_OFFERS,
-  // FILETYPE_ACCEPTS,
+  FILETYPE_OFFERS,
+  FILETYPE_ACCEPTS,
   FILETYPE_GLOBALS,
-  // FILETYPE_CROWDSALES,
-  // FILETYPE_MDEXORDERS,
+  FILETYPE_CROWDSALES,
+  FILETYPE_MDEXORDERS,
   NUM_FILETYPES
 };
 
@@ -324,7 +324,6 @@ int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex,
 bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const CBlockIndex* pBlockIndex);
 int mastercore_save_state( CBlockIndex const *pBlockIndex );
 
-void saveToLog(std::string lineOut);
 
 namespace mastercore
 {

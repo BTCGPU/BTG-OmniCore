@@ -499,47 +499,33 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
     AssertLockHeld(cs_main);
     if (pfMissingInputs) {
         *pfMissingInputs = false;
-        const string lineOut = strprintf("pfMissingInputs --> TRUE\n");
-        saveToLog(lineOut);
     }
     if (!CheckTransaction(tx, state)){
-        const string lineOut = strprintf("CheckTransaction(tx, state) --> FALSE\n");
-        saveToLog(lineOut);
         return false; // state filled in by CheckTransaction
     }
     // Coinbase is only valid in a block, not as a loose transaction
     if (tx.IsCoinBase()) {
-        const string lineOut = strprintf("tx.IsCoinBase() --> TRUE\n");
-        saveToLog(lineOut);
         return state.DoS(100, false, REJECT_INVALID, "coinbase");
     }
     // Reject transactions with witness before segregated witness activates (override with -prematurewitness)
     bool witnessEnabled = IsWitnessEnabled(chainActive.Tip(), chainparams.GetConsensus());
     if (!gArgs.GetBoolArg("-prematurewitness", false) && tx.HasWitness() && !witnessEnabled) {
-        const string lineOut = strprintf("Reject transactions with witness before segregated witness activates\n");
-        saveToLog(lineOut);
         return state.DoS(0, false, REJECT_NONSTANDARD, "no-witness-yet", true);
     }
 
     // Rather not work on nonstandard transactions (unless -testnet/-regtest)
     std::string reason;
     if (fRequireStandard && !IsStandardTx(tx, reason, witnessEnabled)){
-        const string lineOut = strprintf("Rather not work on nonstandard transactions (unless -testnet/-regtest)\n");
-        saveToLog(lineOut);
         return state.DoS(0, false, REJECT_NONSTANDARD, reason);
     }
     // Only accept nLockTime-using transactions that can be mined in the next
     // block; we don't want our mempool filled up with transactions that can't
     // be mined yet.
     if (!CheckFinalTx(tx, STANDARD_LOCKTIME_VERIFY_FLAGS)) {
-        const string lineOut = strprintf("CheckFinalTx(tx, STANDARD_LOCKTIME_VERIFY_FLAGS) --> FALSE\n");
-        saveToLog(lineOut);
         return state.DoS(0, false, REJECT_NONSTANDARD, "non-final");
     }
     // is it already in the memory pool?
     if (pool.exists(hash)) {
-        const string lineOut = strprintf("is it already in the memory pool? --> TRUE\n");
-        saveToLog(lineOut);
         return state.Invalid(false, REJECT_DUPLICATE, "txn-already-in-mempool");
     }
 
@@ -580,8 +566,6 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
                     }
                 }
                 if (fReplacementOptOut) {
-                    const string lineOut = strprintf("txn-mempool-conflict\n");
-                    saveToLog(lineOut);
                     return state.Invalid(false, REJECT_DUPLICATE, "txn-mempool-conflict");
                 }
 
@@ -612,8 +596,6 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
                 for (size_t out = 0; out < tx.vout.size(); out++) {
                     // Optimistically just do efficient check of cache for outputs
                     if (pcoinsTip->HaveCoinInCache(COutPoint(hash, out))) {
-                        const string lineOut = strprintf("txn-already-known\n");
-                        saveToLog(lineOut);
                         return state.Invalid(false, REJECT_DUPLICATE, "txn-already-known");
                     }
                 }
@@ -639,8 +621,6 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
         // Must keep pool.cs for this unless we change CheckSequenceLocks to take a
         // CoinsViewCache instead of create its own
         if (!CheckSequenceLocks(tx, STANDARD_LOCKTIME_VERIFY_FLAGS, &lp)) {
-            const string lineOut8 = strprintf("non-BIP68-final\n");
-            saveToLog(lineOut8);
             return state.DoS(0, false, REJECT_NONSTANDARD, "non-BIP68-final");
         }
       }
@@ -682,8 +662,6 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
         // MAX_BLOCK_SIGOPS; we still consider this an invalid rather than
         // merely non-standard transaction.
         if (nSigOpsCost > MAX_STANDARD_TX_SIGOPS_COST) {
-            const string lineOut = strprintf("bad-txns-too-many-sigops\n");
-            saveToLog(lineOut);
             return state.DoS(0, false, REJECT_NONSTANDARD, "bad-txns-too-many-sigops", false,
                 strprintf("%d", nSigOpsCost));
         }
@@ -694,14 +672,10 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
 
         // No transactions are allowed below minRelayTxFee except from disconnected blocks
         if (fLimitFree && nModifiedFees < ::minRelayTxFee.GetFee(nSize)) {
-            const string lineOut = strprintf("min relay fee not met\n");
-            saveToLog(lineOut);
             return state.DoS(0, false, REJECT_INSUFFICIENTFEE, "min relay fee not met");
         }
 
         if (nAbsurdFee && nFees > nAbsurdFee) {
-            const string lineOut = strprintf("absurdly-high-fee\n");
-            saveToLog(lineOut);
             return state.Invalid(false,
                 REJECT_HIGHFEE, "absurdly-high-fee",
                 strprintf("%d > %d", nFees, nAbsurdFee));
@@ -714,8 +688,6 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
         size_t nLimitDescendantSize = gArgs.GetArg("-limitdescendantsize", DEFAULT_DESCENDANT_SIZE_LIMIT)*1000;
         std::string errString;
         if (!pool.CalculateMemPoolAncestors(entry, setAncestors, nLimitAncestors, nLimitAncestorSize, nLimitDescendants, nLimitDescendantSize, errString)) {
-            const string lineOut = strprintf("too-long-mempool-chain\n");
-            saveToLog(lineOut);
             return state.DoS(0, false, REJECT_NONSTANDARD, "too-long-mempool-chain", false, errString);
         }
 
@@ -728,8 +700,6 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
             const uint256 &hashAncestor = ancestorIt->GetTx().GetHash();
             if (setConflicts.count(hashAncestor))
             {
-                const string lineOut = strprintf("bad-txns-spends-conflicting-tx\n");
-                saveToLog(lineOut);
                 return state.DoS(10, false,
                                  REJECT_INVALID, "bad-txns-spends-conflicting-tx", false,
                                  strprintf("%s spends conflicting transaction %s",
@@ -784,8 +754,6 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
                 CFeeRate oldFeeRate(mi->GetModifiedFee(), mi->GetTxSize());
                 if (newFeeRate <= oldFeeRate)
                 {
-                    const string lineOut = strprintf("INSUFFICIENT FEES 1\n");
-                    saveToLog(lineOut);
                     return state.DoS(0, false,
                             REJECT_INSUFFICIENTFEE, "insufficient fee", false,
                             strprintf("rejecting replacement %s; new feerate %s <= old feerate %s",
@@ -815,8 +783,6 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
                     nConflictingSize += it->GetTxSize();
                 }
             } else {
-              const string lineOut = strprintf("REJECT_NOSTANDARD ..\n");
-              saveToLog(lineOut);
                 return state.DoS(0, false,
                         REJECT_NONSTANDARD, "too many potential replacements", false,
                         strprintf("rejecting replacement %s; too many potential replacements (%d > %d)\n",
@@ -837,8 +803,6 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
                     // it's cheaper to just check if the new input refers to a
                     // tx that's in the mempool.
                     if (pool.mapTx.find(tx.vin[j].prevout.hash) != pool.mapTx.end()){
-                        const string lineOut = strprintf("REJECT_NOSTANDARD\n");
-                        saveToLog(lineOut);
                         return state.DoS(0, false,
                                          REJECT_NONSTANDARD, "replacement-adds-unconfirmed", false,
                                          strprintf("replacement %s adds unconfirmed input, idx %d",
@@ -852,8 +816,6 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
             // transactions would not be paid for.
             if (nModifiedFees < nConflictingFees)
             {
-              const string lineOut = strprintf("insufficient FEES\n");
-              saveToLog(lineOut);
                 return state.DoS(0, false,
                                  REJECT_INSUFFICIENTFEE, "insufficient fee", false,
                                  strprintf("rejecting replacement %s, less fees than conflicting txs; %s < %s",
@@ -865,8 +827,6 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
             CAmount nDeltaFees = nModifiedFees - nConflictingFees;
             if (nDeltaFees < ::incrementalRelayFee.GetFee(nSize))
             {
-              const string lineOut = strprintf("INSUFFICIENT FEES\n");
-              saveToLog(lineOut);
                 return state.DoS(0, false,
                         REJECT_INSUFFICIENTFEE, "insufficient fee", false,
                         strprintf("rejecting replacement %s, not enough additional fees to relay; %s < %s",
@@ -892,12 +852,8 @@ static bool AcceptToMemoryPoolWorker(const CChainParams& chainparams, CTxMemPool
             if (!tx.HasWitness() && CheckInputs(tx, stateDummy, view, false, scriptVerifyFlags & ~(SCRIPT_VERIFY_WITNESS | SCRIPT_VERIFY_CLEANSTACK), true, false, txdata) &&
                 !CheckInputs(tx, stateDummy, view, false, scriptVerifyFlags & ~SCRIPT_VERIFY_CLEANSTACK, true, false, txdata)) {
                 // Only the witness is missing, so the transaction itself may be fine.
-                const string lineOut= strprintf("Only the witness is missing, so the transaction itself may be fine\n");
-                saveToLog(lineOut);
                 state.SetCorruptionPossible();
             }
-            const string lineOut= strprintf("state filled in by CheckInputs\n");
-            saveToLog(lineOut);
             return false; // state filled in by CheckInputs
         }
 
@@ -985,8 +941,6 @@ static bool AcceptToMemoryPoolWithTime(const CChainParams& chainparams, CTxMemPo
     // After we've (potentially) uncached entries, ensure our coins cache is still within its size limits
     CValidationState stateDummy;
     FlushStateToDisk(chainparams, stateDummy, FLUSH_STATE_PERIODIC);
-    const string lineOut = strprintf("AcceptToMemoryPoolWithTime --> TRUE\n");
-    saveToLog(lineOut);
     return res;
 
 }
@@ -1724,8 +1678,6 @@ static unsigned int GetBlockScriptFlags(const CBlockIndex* pindex, const Consens
     } else {
         flags |= SCRIPT_ALLOW_NON_FORKID;
     }
-    const string lineOut= strprintf("Return Flags: %d\n",flags);
-    saveToLog(lineOut);
     return flags;
 }
 
