@@ -111,12 +111,12 @@ bool CMPTransaction::interpret_Transaction()
     switch (type) {
         case MSC_TYPE_SIMPLE_SEND:
             return interpret_SimpleSend();
-    //
-    //     case MSC_TYPE_SEND_TO_OWNERS:
-    //         return interpret_SendToOwners();
-    //
-    //     case MSC_TYPE_SEND_ALL:
-    //         return interpret_SendAll();
+
+        case MSC_TYPE_SEND_TO_OWNERS:
+            return interpret_SendToOwners();
+
+        case MSC_TYPE_SEND_ALL:
+            return interpret_SendAll();
     //
     //     case MSC_TYPE_TRADE_OFFER:
     //         return interpret_TradeOffer();
@@ -124,8 +124,8 @@ bool CMPTransaction::interpret_Transaction()
     //     case MSC_TYPE_ACCEPT_OFFER_BTC:
     //         return interpret_AcceptOfferBTC();
     //
-    //     case MSC_TYPE_METADEX_TRADE:
-    //         return interpret_MetaDExTrade();
+        case MSC_TYPE_METADEX_TRADE:
+            return interpret_MetaDExTrade();
     //
     //     case MSC_TYPE_METADEX_CANCEL_PRICE:
     //         return interpret_MetaDExCancelPrice();
@@ -136,20 +136,20 @@ bool CMPTransaction::interpret_Transaction()
     //     case MSC_TYPE_METADEX_CANCEL_ECOSYSTEM:
     //         return interpret_MetaDExCancelEcosystem();
     //
-    //     case MSC_TYPE_CREATE_PROPERTY_FIXED:
-    //         return interpret_CreatePropertyFixed();
-    //
-    //     case MSC_TYPE_CREATE_PROPERTY_VARIABLE:
-    //         return interpret_CreatePropertyVariable();
+        case MSC_TYPE_CREATE_PROPERTY_FIXED:
+            return interpret_CreatePropertyFixed();
+
+        case MSC_TYPE_CREATE_PROPERTY_VARIABLE:
+            return interpret_CreatePropertyVariable();
     //
     //     case MSC_TYPE_CLOSE_CROWDSALE:
     //         return interpret_CloseCrowdsale();
     //
-    //     case MSC_TYPE_CREATE_PROPERTY_MANUAL:
-    //         return interpret_CreatePropertyManaged();
-    //
-    //     case MSC_TYPE_GRANT_PROPERTY_TOKENS:
-    //         return interpret_GrantTokens();
+        case MSC_TYPE_CREATE_PROPERTY_MANUAL:
+            return interpret_CreatePropertyManaged();
+
+        case MSC_TYPE_GRANT_PROPERTY_TOKENS:
+            return interpret_GrantTokens();
     //
     //     case MSC_TYPE_REVOKE_PROPERTY_TOKENS:
     //         return interpret_RevokeTokens();
@@ -226,132 +226,132 @@ bool CMPTransaction::interpret_SimpleSend()
 }
 
 /** Tx 3 */
-// bool CMPTransaction::interpret_SendToOwners()
-// {
-//     int expectedSize = (version == MP_TX_PKT_V0) ? 16 : 20;
-//     if (pkt_size < expectedSize) {
-//         return false;
-//     }
-//     memcpy(&property, &pkt[4], 4);
-//     swapByteOrder32(property);
-//     memcpy(&nValue, &pkt[8], 8);
-//     swapByteOrder64(nValue);
-//     nNewValue = nValue;
-//     if (version > MP_TX_PKT_V0) {
-//         memcpy(&distribution_property, &pkt[16], 4);
-//         swapByteOrder32(distribution_property);
-//     }
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t             property: %d (%s)\n", property, strMPProperty(property));
-//         PrintToLog("\t                value: %s\n", FormatMP(property, nValue));
-//         if (version > MP_TX_PKT_V1) {
-//             PrintToLog("\t distributionproperty: %d (%s)\n", distribution_property, strMPProperty(distribution_property));
-//         }
-//     }
-//
-//     return true;
-// }
-//
-// /** Tx 4 */
-// bool CMPTransaction::interpret_SendAll()
-// {
-//     if (pkt_size < 5) {
-//         return false;
-//     }
-//     memcpy(&ecosystem, &pkt[4], 1);
-//
-//     property = ecosystem; // provide a hint for the UI, TODO: better handling!
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t       ecosystem: %d\n", (int)ecosystem);
-//     }
-//
-//     return true;
-// }
-//
-// /** Tx 20 */
-// bool CMPTransaction::interpret_TradeOffer()
-// {
-//     int expectedSize = (version == MP_TX_PKT_V0) ? 33 : 34;
-//     if (pkt_size < expectedSize) {
-//         return false;
-//     }
-//     memcpy(&property, &pkt[4], 4);
-//     swapByteOrder32(property);
-//     memcpy(&nValue, &pkt[8], 8);
-//     swapByteOrder64(nValue);
-//     nNewValue = nValue;
-//     memcpy(&amount_desired, &pkt[16], 8);
-//     memcpy(&blocktimelimit, &pkt[24], 1);
-//     memcpy(&min_fee, &pkt[25], 8);
-//     if (version > MP_TX_PKT_V0) {
-//         memcpy(&subaction, &pkt[33], 1);
-//     }
-//     swapByteOrder64(amount_desired);
-//     swapByteOrder64(min_fee);
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
-//         PrintToLog("\t           value: %s\n", FormatMP(property, nValue));
-//         PrintToLog("\t  amount desired: %s\n", FormatDivisibleMP(amount_desired));
-//         PrintToLog("\tblock time limit: %d\n", blocktimelimit);
-//         PrintToLog("\t         min fee: %s\n", FormatDivisibleMP(min_fee));
-//         if (version > MP_TX_PKT_V0) {
-//             PrintToLog("\t      sub-action: %d\n", subaction);
-//         }
-//     }
-//
-//     return true;
-// }
-//
-// /** Tx 22 */
-// bool CMPTransaction::interpret_AcceptOfferBTC()
-// {
-//     if (pkt_size < 16) {
-//         return false;
-//     }
-//     memcpy(&property, &pkt[4], 4);
-//     swapByteOrder32(property);
-//     memcpy(&nValue, &pkt[8], 8);
-//     swapByteOrder64(nValue);
-//     nNewValue = nValue;
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
-//         PrintToLog("\t           value: %s\n", FormatMP(property, nValue));
-//     }
-//
-//     return true;
-// }
-//
-// /** Tx 25 */
-// bool CMPTransaction::interpret_MetaDExTrade()
-// {
-//     if (pkt_size < 28) {
-//         return false;
-//     }
-//     memcpy(&property, &pkt[4], 4);
-//     swapByteOrder32(property);
-//     memcpy(&nValue, &pkt[8], 8);
-//     swapByteOrder64(nValue);
-//     nNewValue = nValue;
-//     memcpy(&desired_property, &pkt[16], 4);
-//     swapByteOrder32(desired_property);
-//     memcpy(&desired_value, &pkt[20], 8);
-//     swapByteOrder64(desired_value);
-//
-//     action = CMPTransaction::ADD; // depreciated
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
-//         PrintToLog("\t           value: %s\n", FormatMP(property, nValue));
-//         PrintToLog("\tdesired property: %d (%s)\n", desired_property, strMPProperty(desired_property));
-//         PrintToLog("\t   desired value: %s\n", FormatMP(desired_property, desired_value));
-//     }
-//
-//     return true;
-// }
+bool CMPTransaction::interpret_SendToOwners()
+{
+    int expectedSize = (version == MP_TX_PKT_V0) ? 16 : 20;
+    if (pkt_size < expectedSize) {
+        return false;
+    }
+    memcpy(&property, &pkt[4], 4);
+    swapByteOrder32(property);
+    memcpy(&nValue, &pkt[8], 8);
+    swapByteOrder64(nValue);
+    nNewValue = nValue;
+    if (version > MP_TX_PKT_V0) {
+        memcpy(&distribution_property, &pkt[16], 4);
+        swapByteOrder32(distribution_property);
+    }
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t             property: %d (%s)\n", property, strMPProperty(property));
+        PrintToLog("\t                value: %s\n", FormatMP(property, nValue));
+        if (version > MP_TX_PKT_V1) {
+            PrintToLog("\t distributionproperty: %d (%s)\n", distribution_property, strMPProperty(distribution_property));
+        }
+    }
+
+    return true;
+}
+
+/** Tx 4 */
+bool CMPTransaction::interpret_SendAll()
+{
+    if (pkt_size < 5) {
+        return false;
+    }
+    memcpy(&ecosystem, &pkt[4], 1);
+
+    property = ecosystem; // provide a hint for the UI, TODO: better handling!
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t       ecosystem: %d\n", (int)ecosystem);
+    }
+
+    return true;
+}
+
+/** Tx 20 */
+bool CMPTransaction::interpret_TradeOffer()
+{
+    int expectedSize = (version == MP_TX_PKT_V0) ? 33 : 34;
+    if (pkt_size < expectedSize) {
+        return false;
+    }
+    memcpy(&property, &pkt[4], 4);
+    swapByteOrder32(property);
+    memcpy(&nValue, &pkt[8], 8);
+    swapByteOrder64(nValue);
+    nNewValue = nValue;
+    memcpy(&amount_desired, &pkt[16], 8);
+    memcpy(&blocktimelimit, &pkt[24], 1);
+    memcpy(&min_fee, &pkt[25], 8);
+    if (version > MP_TX_PKT_V0) {
+        memcpy(&subaction, &pkt[33], 1);
+    }
+    swapByteOrder64(amount_desired);
+    swapByteOrder64(min_fee);
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
+        PrintToLog("\t           value: %s\n", FormatMP(property, nValue));
+        PrintToLog("\t  amount desired: %s\n", FormatDivisibleMP(amount_desired));
+        PrintToLog("\tblock time limit: %d\n", blocktimelimit);
+        PrintToLog("\t         min fee: %s\n", FormatDivisibleMP(min_fee));
+        if (version > MP_TX_PKT_V0) {
+            PrintToLog("\t      sub-action: %d\n", subaction);
+        }
+    }
+
+    return true;
+}
+
+/** Tx 22 */
+bool CMPTransaction::interpret_AcceptOfferBTC()
+{
+    if (pkt_size < 16) {
+        return false;
+    }
+    memcpy(&property, &pkt[4], 4);
+    swapByteOrder32(property);
+    memcpy(&nValue, &pkt[8], 8);
+    swapByteOrder64(nValue);
+    nNewValue = nValue;
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
+        PrintToLog("\t           value: %s\n", FormatMP(property, nValue));
+    }
+
+    return true;
+}
+
+/** Tx 25 */
+bool CMPTransaction::interpret_MetaDExTrade()
+{
+    if (pkt_size < 28) {
+        return false;
+    }
+    memcpy(&property, &pkt[4], 4);
+    swapByteOrder32(property);
+    memcpy(&nValue, &pkt[8], 8);
+    swapByteOrder64(nValue);
+    nNewValue = nValue;
+    memcpy(&desired_property, &pkt[16], 4);
+    swapByteOrder32(desired_property);
+    memcpy(&desired_value, &pkt[20], 8);
+    swapByteOrder64(desired_value);
+
+    action = CMPTransaction::ADD; // depreciated
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
+        PrintToLog("\t           value: %s\n", FormatMP(property, nValue));
+        PrintToLog("\tdesired property: %d (%s)\n", desired_property, strMPProperty(desired_property));
+        PrintToLog("\t   desired value: %s\n", FormatMP(desired_property, desired_value));
+    }
+
+    return true;
+}
 //
 // /** Tx 26 */
 // bool CMPTransaction::interpret_MetaDExCancelPrice()
@@ -427,113 +427,113 @@ bool CMPTransaction::interpret_SimpleSend()
 //     return true;
 // }
 //
-// /** Tx 50 */
-// bool CMPTransaction::interpret_CreatePropertyFixed()
-// {
-//     if (pkt_size < 25) {
-//         return false;
-//     }
-//     const char* p = 11 + (char*) &pkt;
-//     std::vector<std::string> spstr;
-//     memcpy(&ecosystem, &pkt[4], 1);
-//     memcpy(&prop_type, &pkt[5], 2);
-//     swapByteOrder16(prop_type);
-//     memcpy(&prev_prop_id, &pkt[7], 4);
-//     swapByteOrder32(prev_prop_id);
-//     for (int i = 0; i < 5; i++) {
-//         spstr.push_back(std::string(p));
-//         p += spstr.back().size() + 1;
-//     }
-//     int i = 0;
-//     memcpy(category, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(category)-1)); i++;
-//     memcpy(subcategory, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(subcategory)-1)); i++;
-//     memcpy(name, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(name)-1)); i++;
-//     memcpy(url, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(url)-1)); i++;
-//     memcpy(data, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(data)-1)); i++;
-//     memcpy(&nValue, p, 8);
-//     swapByteOrder64(nValue);
-//     p += 8;
-//     nNewValue = nValue;
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t       ecosystem: %d\n", ecosystem);
-//         PrintToLog("\t   property type: %d (%s)\n", prop_type, strPropertyType(prop_type));
-//         PrintToLog("\tprev property id: %d\n", prev_prop_id);
-//         PrintToLog("\t        category: %s\n", category);
-//         PrintToLog("\t     subcategory: %s\n", subcategory);
-//         PrintToLog("\t            name: %s\n", name);
-//         PrintToLog("\t             url: %s\n", url);
-//         PrintToLog("\t            data: %s\n", data);
-//         PrintToLog("\t           value: %s\n", FormatByType(nValue, prop_type));
-//     }
-//
-//     if (isOverrun(p)) {
-//         PrintToLog("%s(): rejected: malformed string value(s)\n", __func__);
-//         return false;
-//     }
-//
-//     return true;
-// }
-//
-// /** Tx 51 */
-// bool CMPTransaction::interpret_CreatePropertyVariable()
-// {
-//     if (pkt_size < 39) {
-//         return false;
-//     }
-//     const char* p = 11 + (char*) &pkt;
-//     std::vector<std::string> spstr;
-//     memcpy(&ecosystem, &pkt[4], 1);
-//     memcpy(&prop_type, &pkt[5], 2);
-//     swapByteOrder16(prop_type);
-//     memcpy(&prev_prop_id, &pkt[7], 4);
-//     swapByteOrder32(prev_prop_id);
-//     for (int i = 0; i < 5; i++) {
-//         spstr.push_back(std::string(p));
-//         p += spstr.back().size() + 1;
-//     }
-//     int i = 0;
-//     memcpy(category, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(category)-1)); i++;
-//     memcpy(subcategory, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(subcategory)-1)); i++;
-//     memcpy(name, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(name)-1)); i++;
-//     memcpy(url, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(url)-1)); i++;
-//     memcpy(data, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(data)-1)); i++;
-//     memcpy(&property, p, 4);
-//     swapByteOrder32(property);
-//     p += 4;
-//     memcpy(&nValue, p, 8);
-//     swapByteOrder64(nValue);
-//     p += 8;
-//     nNewValue = nValue;
-//     memcpy(&deadline, p, 8);
-//     swapByteOrder64(deadline);
-//     p += 8;
-//     memcpy(&early_bird, p++, 1);
-//     memcpy(&percentage, p++, 1);
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t       ecosystem: %d\n", ecosystem);
-//         PrintToLog("\t   property type: %d (%s)\n", prop_type, strPropertyType(prop_type));
-//         PrintToLog("\tprev property id: %d\n", prev_prop_id);
-//         PrintToLog("\t        category: %s\n", category);
-//         PrintToLog("\t     subcategory: %s\n", subcategory);
-//         PrintToLog("\t            name: %s\n", name);
-//         PrintToLog("\t             url: %s\n", url);
-//         PrintToLog("\t            data: %s\n", data);
-//         PrintToLog("\tproperty desired: %d (%s)\n", property, strMPProperty(property));
-//         PrintToLog("\t tokens per unit: %s\n", FormatByType(nValue, prop_type));
-//         PrintToLog("\t        deadline: %s (%x)\n", DateTimeStrFormat("%Y-%m-%d %H:%M:%S", deadline), deadline);
-//         PrintToLog("\tearly bird bonus: %d\n", early_bird);
-//         PrintToLog("\t    issuer bonus: %d\n", percentage);
-//     }
-//
-//     if (isOverrun(p)) {
-//         PrintToLog("%s(): rejected: malformed string value(s)\n", __func__);
-//         return false;
-//     }
-//
-//     return true;
-// }
+/** Tx 50 */
+bool CMPTransaction::interpret_CreatePropertyFixed()
+{
+    // if (pkt_size < 25) {
+    //     return false;
+    // }
+    const char* p = 11 + (char*) &pkt;
+    std::vector<std::string> spstr;
+    memcpy(&ecosystem, &pkt[4], 1);
+    memcpy(&prop_type, &pkt[5], 2);
+    swapByteOrder16(prop_type);
+    memcpy(&prev_prop_id, &pkt[7], 4);
+    swapByteOrder32(prev_prop_id);
+    for (int i = 0; i < 5; i++) {
+        spstr.push_back(std::string(p));
+        p += spstr.back().size() + 1;
+    }
+    int i = 0;
+    memcpy(category, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(category)-1)); i++;
+    memcpy(subcategory, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(subcategory)-1)); i++;
+    memcpy(name, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(name)-1)); i++;
+    memcpy(url, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(url)-1)); i++;
+    memcpy(data, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(data)-1)); i++;
+    memcpy(&nValue, p, 8);
+    swapByteOrder64(nValue);
+    p += 8;
+    nNewValue = nValue;
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t       ecosystem: %d\n", ecosystem);
+        PrintToLog("\t   property type: %d (%s)\n", prop_type, strPropertyType(prop_type));
+        PrintToLog("\tprev property id: %d\n", prev_prop_id);
+        PrintToLog("\t        category: %s\n", category);
+        PrintToLog("\t     subcategory: %s\n", subcategory);
+        PrintToLog("\t            name: %s\n", name);
+        PrintToLog("\t             url: %s\n", url);
+        PrintToLog("\t            data: %s\n", data);
+        PrintToLog("\t           value: %s\n", FormatByType(nValue, prop_type));
+    }
+
+    if (isOverrun(p)) {
+        PrintToLog("%s(): rejected: malformed string value(s)\n", __func__);
+        return false;
+    }
+
+    return true;
+}
+
+/** Tx 51 */
+bool CMPTransaction::interpret_CreatePropertyVariable()
+{
+    if (pkt_size < 39) {
+        return false;
+    }
+    const char* p = 11 + (char*) &pkt;
+    std::vector<std::string> spstr;
+    memcpy(&ecosystem, &pkt[4], 1);
+    memcpy(&prop_type, &pkt[5], 2);
+    swapByteOrder16(prop_type);
+    memcpy(&prev_prop_id, &pkt[7], 4);
+    swapByteOrder32(prev_prop_id);
+    for (int i = 0; i < 5; i++) {
+        spstr.push_back(std::string(p));
+        p += spstr.back().size() + 1;
+    }
+    int i = 0;
+    memcpy(category, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(category)-1)); i++;
+    memcpy(subcategory, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(subcategory)-1)); i++;
+    memcpy(name, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(name)-1)); i++;
+    memcpy(url, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(url)-1)); i++;
+    memcpy(data, spstr[i].c_str(), std::min(spstr[i].length(), sizeof(data)-1)); i++;
+    memcpy(&property, p, 4);
+    swapByteOrder32(property);
+    p += 4;
+    memcpy(&nValue, p, 8);
+    swapByteOrder64(nValue);
+    p += 8;
+    nNewValue = nValue;
+    memcpy(&deadline, p, 8);
+    swapByteOrder64(deadline);
+    p += 8;
+    memcpy(&early_bird, p++, 1);
+    memcpy(&percentage, p++, 1);
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t       ecosystem: %d\n", ecosystem);
+        PrintToLog("\t   property type: %d (%s)\n", prop_type, strPropertyType(prop_type));
+        PrintToLog("\tprev property id: %d\n", prev_prop_id);
+        PrintToLog("\t        category: %s\n", category);
+        PrintToLog("\t     subcategory: %s\n", subcategory);
+        PrintToLog("\t            name: %s\n", name);
+        PrintToLog("\t             url: %s\n", url);
+        PrintToLog("\t            data: %s\n", data);
+        PrintToLog("\tproperty desired: %d (%s)\n", property, strMPProperty(property));
+        PrintToLog("\t tokens per unit: %s\n", FormatByType(nValue, prop_type));
+        PrintToLog("\t        deadline: %s (%x)\n", DateTimeStrFormat("%Y-%m-%d %H:%M:%S", deadline), deadline);
+        PrintToLog("\tearly bird bonus: %d\n", early_bird);
+        PrintToLog("\t    issuer bonus: %d\n", percentage);
+    }
+
+    if (isOverrun(p)) {
+        PrintToLog("%s(): rejected: malformed string value(s)\n", __func__);
+        return false;
+    }
+
+    return true;
+}
 //
 // /** Tx 53 */
 // bool CMPTransaction::interpret_CloseCrowdsale()
@@ -870,9 +870,9 @@ int CMPTransaction::interpretPacket()
         // case MSC_TYPE_ACCEPT_OFFER_BTC:
         //     return logicMath_AcceptOffer_BTC();
         //
-        // case MSC_TYPE_METADEX_TRADE:
-        //     return logicMath_MetaDExTrade();
-        //
+        case MSC_TYPE_METADEX_TRADE:
+            return logicMath_MetaDExTrade();
+
         // case MSC_TYPE_METADEX_CANCEL_PRICE:
         //     return logicMath_MetaDExCancelPrice();
         //
@@ -1419,14 +1419,14 @@ int CMPTransaction::logicMath_MetaDExTrade()
         return (PKT_ERROR_METADEX -34);
     }
 
-    if (!IsFeatureActivated(FEATURE_TRADEALLPAIRS, block)) {
-        // Trading non-Omni pairs is not allowed before trading all pairs is activated
-        if ((property != OMNI_PROPERTY_MSC) && (desired_property != OMNI_PROPERTY_MSC) &&
-            (property != OMNI_PROPERTY_TMSC) && (desired_property != OMNI_PROPERTY_TMSC)) {
-            PrintToLog("%s(): rejected: one side of a trade [%d, %d] must be OMNI or TOMNI\n", __func__, property, desired_property);
-            return (PKT_ERROR_METADEX -35);
-        }
-    }
+    // if (!IsFeatureActivated(FEATURE_TRADEALLPAIRS, block)) {
+    //     // Trading non-Omni pairs is not allowed before trading all pairs is activated
+    //     if ((property != OMNI_PROPERTY_MSC) && (desired_property != OMNI_PROPERTY_MSC) &&
+    //         (property != OMNI_PROPERTY_TMSC) && (desired_property != OMNI_PROPERTY_TMSC)) {
+    //         PrintToLog("%s(): rejected: one side of a trade [%d, %d] must be OMNI or TOMNI\n", __func__, property, desired_property);
+    //         return (PKT_ERROR_METADEX -35);
+    //     }
+    // }
 
     int64_t nBalance = getMPbalance(sender, property, BALANCE);
     if (nBalance < (int64_t) nNewValue) {
@@ -1601,20 +1601,20 @@ int CMPTransaction::logicMath_CreatePropertyFixed()
     //     return (PKT_ERROR_SP -22);
     // }
 
-    if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
-        PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
-        return (PKT_ERROR_SP -23);
-    }
-
-    if (MSC_PROPERTY_TYPE_INDIVISIBLE != prop_type && MSC_PROPERTY_TYPE_DIVISIBLE != prop_type) {
-        PrintToLog("%s(): rejected: invalid property type: %d\n", __func__, prop_type);
-        return (PKT_ERROR_SP -36);
-    }
-
-    if ('\0' == name[0]) {
-        PrintToLog("%s(): rejected: property name must not be empty\n", __func__);
-        return (PKT_ERROR_SP -37);
-    }
+    // if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
+    //     PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
+    //     return (PKT_ERROR_SP -23);
+    // }
+    //
+    // if (MSC_PROPERTY_TYPE_INDIVISIBLE != prop_type && MSC_PROPERTY_TYPE_DIVISIBLE != prop_type) {
+    //     PrintToLog("%s(): rejected: invalid property type: %d\n", __func__, prop_type);
+    //     return (PKT_ERROR_SP -36);
+    // }
+    //
+    // if ('\0' == name[0]) {
+    //     PrintToLog("%s(): rejected: property name must not be empty\n", __func__);
+    //     return (PKT_ERROR_SP -37);
+    // }
 
     // ------------------------------------------
 

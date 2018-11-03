@@ -203,22 +203,22 @@ int LogFilePrint(const std::string& str)
 int ConsolePrint(const std::string& str)
 {
     int ret = 0; // Number of characters written
-    // static bool fStartedNewLine = true;
-    // static bool fLogTimestamps = false; // NOTE: Check this function
-    if (false) {
-    // // if (fLogTimestamps && fStartedNewLine) {
-        // ret = fprintf(stdout, "%s %s", GetTimestamp().c_str(), str.c_str());
-    } else {
-        // ret = fwrite(str.data(), 1, str.size(), stdout);
-
-    }
-    // if (!str.empty() && str[str.size()-1] == '\n') {
-    //     fStartedNewLine = true;
-    // } else {
-    //     fStartedNewLine = false;
-    // }
-    fflush(stdout);
-
+//     // static bool fStartedNewLine = true;
+//     // static bool fLogTimestamps = false; // NOTE: Check this function
+//     if (false) {
+//     // // if (fLogTimestamps && fStartedNewLine) {
+//         // ret = fprintf(stdout, "%s %s", GetTimestamp().c_str(), str.c_str());
+//     } else {
+//         // ret = fwrite(str.data(), 1, str.size(), stdout);
+//
+//     }
+//     // if (!str.empty() && str[str.size()-1] == '\n') {
+//     //     fStartedNewLine = true;
+//     // } else {
+//     //     fStartedNewLine = false;
+//     // }
+//     fflush(stdout);
+//
     return ret;
 }
 

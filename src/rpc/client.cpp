@@ -154,6 +154,8 @@ static const CRPCConvertParam vRPCConvertParams[] =
 
     /* Omni Core - transaction calls */
     { "omni_send", 2, "" },
+    { "omni_sendtrade", 1, "" },
+    { "omni_sendtrade", 3, "" },
     { "omni_createpayload_simplesend", 0, "" },
     { "omni_sendissuancemanaged", 1, "" },
     { "omni_sendissuancemanaged", 2, "" },
@@ -164,7 +166,12 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "omni_sendissuancefixed", 3, "" },
 
       /* Omni Core - retrieve data calls */
-    { "omni_getbalance", 1, "" },
+    { "omni_getbalance",   1, "" },
+    { "omni_getgrants",    0, "" },
+    { "omni_getbalance",   1, "" },
+    { "omni_getproperty",  0, "" },
+    { "omni_getorderbook", 0, "" },
+    { "omni_getorderbook", 1, "" },
 };
 
 class CRPCConvertTable

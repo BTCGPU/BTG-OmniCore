@@ -836,9 +836,6 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
 
     if (omniClass == NO_MARKER) {
         return -1; // No Exodus/Omni marker, thus not a valid Omni transaction
-    } else {
-      // const string lineOut = strprintf("OMNI MARKER DETECTED in parse transaction function\n");
-      // saveToLog(lineOut);
     }
 
     // if (!bRPConly || msc_debug_parser_readonly) {
@@ -1224,17 +1221,17 @@ static int msc_initial_scan(int nFirstBlock)
     PrintToConsole("Scanning for transactions in block %d to block %d..\n", nFirstBlock, nLastBlock);
 
     // used to print the progress to the console and notifies the UI
-    // ProgressReporter progressReporter(chainActive[nFirstBlock], chainActive[nLastBlock]);
+    ProgressReporter progressReporter(chainActive[nFirstBlock], chainActive[nLastBlock]);
 
     // check if using seed block filter should be disabled
     bool seedBlockFilterEnabled = gArgs.GetBoolArg("-omniseedblockfilter", true);
 
     for (nBlock = nFirstBlock; nBlock <= nLastBlock; ++nBlock)
     {
-        // if (ShutdownRequested()) {
-        //     PrintToLog("Shutdown requested, stop scan at block %d of %d\n", nBlock, nLastBlock);
-        //     break;
-        // }
+        if (ShutdownRequested()) {
+            PrintToLog("Shutdown requested, stop scan at block %d of %d\n", nBlock, nLastBlock);
+            break;
+        }
 
         CBlockIndex* pblockindex = chainActive[nBlock];
         if (NULL == pblockindex) break;
@@ -1243,10 +1240,10 @@ static int msc_initial_scan(int nFirstBlock)
         if (msc_debug_exo) PrintToLog("%s(%d; max=%d):%s, line %d, file: %s\n",
             __FUNCTION__, nBlock, nLastBlock, strBlockHash, __LINE__, __FILE__);
 
-        // if (GetTime() >= nNow + nTimeBetweenProgressReports) {
-        //     progressReporter.update(pblockindex);
-        //     nNow = GetTime();
-        // }
+        if (GetTime() >= nNow + nTimeBetweenProgressReports) {
+            progressReporter.update(pblockindex);
+            nNow = GetTime();
+        }
 
         unsigned int nTxNum = 0;
         unsigned int nTxsFoundInBlock = 0;
@@ -1256,7 +1253,7 @@ static int msc_initial_scan(int nFirstBlock)
             CBlock block;
             if (!ReadBlockFromDisk(block, pblockindex, Params().GetConsensus())) break;
 
-            for(CTransactionRef tx : block.vtx){
+            for(CTransactionRef& tx : block.vtx){
                if (mastercore_handler_tx(*(tx.get()), nBlock, nTxNum, pblockindex)) ++nTxsFoundInBlock;
             }
         }
@@ -1406,54 +1403,54 @@ int input_globals_state_string(const string &s)
   _my_sps->init(nextSPID, nextTestSPID);
   return 0;
 }
-//
-// // addr,propertyId,nValue,property_desired,deadline,early_bird,percentage,txid
-// int input_mp_crowdsale_string(const std::string& s)
-// {
-//     std::vector<std::string> vstr;
-//     boost::split(vstr, s, boost::is_any_of(" ,"), boost::token_compress_on);
-//
-//     if (9 > vstr.size()) return -1;
-//
-//     unsigned int i = 0;
-//
-//     std::string sellerAddr = vstr[i++];
-//     uint32_t propertyId = boost::lexical_cast<uint32_t>(vstr[i++]);
-//     int64_t nValue = boost::lexical_cast<int64_t>(vstr[i++]);
-//     uint32_t property_desired = boost::lexical_cast<uint32_t>(vstr[i++]);
-//     int64_t deadline = boost::lexical_cast<int64_t>(vstr[i++]);
-//     uint8_t early_bird = boost::lexical_cast<unsigned int>(vstr[i++]); // lexical_cast can't handle char!
-//     uint8_t percentage = boost::lexical_cast<unsigned int>(vstr[i++]); // lexical_cast can't handle char!
-//     int64_t u_created = boost::lexical_cast<int64_t>(vstr[i++]);
-//     int64_t i_created = boost::lexical_cast<int64_t>(vstr[i++]);
-//
-//     CMPCrowd newCrowdsale(propertyId, nValue, property_desired, deadline, early_bird, percentage, u_created, i_created);
-//
-//     // load the remaining as database pairs
-//     while (i < vstr.size()) {
-//         std::vector<std::string> entryData;
-//         boost::split(entryData, vstr[i++], boost::is_any_of("="), boost::token_compress_on);
-//         if (2 != entryData.size()) return -1;
-//
-//         std::vector<std::string> valueData;
-//         boost::split(valueData, entryData[1], boost::is_any_of(";"), boost::token_compress_on);
-//
-//         std::vector<int64_t> vals;
-//         for (std::vector<std::string>::const_iterator it = valueData.begin(); it != valueData.end(); ++it) {
-//             vals.push_back(boost::lexical_cast<int64_t>(*it));
-//         }
-//
-//         uint256 txHash = uint256S(entryData[0]);
-//         newCrowdsale.insertDatabase(txHash, vals);
-//     }
-//
-//     if (!my_crowds.insert(std::make_pair(sellerAddr, newCrowdsale)).second) {
-//         return -1;
-//     }
-//
-//     return 0;
-// }
-//
+
+// addr,propertyId,nValue,property_desired,deadline,early_bird,percentage,txid
+int input_mp_crowdsale_string(const std::string& s)
+{
+    std::vector<std::string> vstr;
+    boost::split(vstr, s, boost::is_any_of(" ,"), boost::token_compress_on);
+
+    if (9 > vstr.size()) return -1;
+
+    unsigned int i = 0;
+
+    std::string sellerAddr = vstr[i++];
+    uint32_t propertyId = boost::lexical_cast<uint32_t>(vstr[i++]);
+    int64_t nValue = boost::lexical_cast<int64_t>(vstr[i++]);
+    uint32_t property_desired = boost::lexical_cast<uint32_t>(vstr[i++]);
+    int64_t deadline = boost::lexical_cast<int64_t>(vstr[i++]);
+    uint8_t early_bird = boost::lexical_cast<unsigned int>(vstr[i++]); // lexical_cast can't handle char!
+    uint8_t percentage = boost::lexical_cast<unsigned int>(vstr[i++]); // lexical_cast can't handle char!
+    int64_t u_created = boost::lexical_cast<int64_t>(vstr[i++]);
+    int64_t i_created = boost::lexical_cast<int64_t>(vstr[i++]);
+
+    CMPCrowd newCrowdsale(propertyId, nValue, property_desired, deadline, early_bird, percentage, u_created, i_created);
+
+    // load the remaining as database pairs
+    while (i < vstr.size()) {
+        std::vector<std::string> entryData;
+        boost::split(entryData, vstr[i++], boost::is_any_of("="), boost::token_compress_on);
+        if (2 != entryData.size()) return -1;
+
+        std::vector<std::string> valueData;
+        boost::split(valueData, entryData[1], boost::is_any_of(";"), boost::token_compress_on);
+
+        std::vector<int64_t> vals;
+        for (std::vector<std::string>::const_iterator it = valueData.begin(); it != valueData.end(); ++it) {
+            vals.push_back(boost::lexical_cast<int64_t>(*it));
+        }
+
+        uint256 txHash = uint256S(entryData[0]);
+        newCrowdsale.insertDatabase(txHash, vals);
+    }
+
+    if (!my_crowds.insert(std::make_pair(sellerAddr, newCrowdsale)).second) {
+        return -1;
+    }
+
+    return 0;
+}
+
 // address, block, amount for sale, property, amount desired, property desired, subaction, idx, txid, amount remaining
 int input_mp_mdexorder_string(const std::string& s)
 {
@@ -1511,12 +1508,12 @@ static int msc_file_load(const string &filename, int what, bool verifyHash = fal
     case FILETYPE_GLOBALS:
       inputLineFunc = input_globals_state_string;
       break;
-    //
-    // case FILETYPE_CROWDSALES:
-    //   my_crowds.clear();
-    //   inputLineFunc = input_mp_crowdsale_string;
-    //   break;
-    //
+
+    case FILETYPE_CROWDSALES:
+      my_crowds.clear();
+      inputLineFunc = input_mp_crowdsale_string;
+      break;
+
     case FILETYPE_MDEXORDERS:
       // FIXME
       // memory leak ... gotta unallocate inner layers first....
@@ -1603,7 +1600,7 @@ static char const * const statePrefix[NUM_FILETYPES] = {
     // "offers",
     // "accepts",
     "globals",
-    // "crowdsales",
+    "crowdsales",
     "mdexorders",
 };
 //
@@ -1867,13 +1864,13 @@ static int write_state_file( CBlockIndex const *pBlockIndex, int what )
     result = write_globals_state(file, &shaCtx);
     break;
 
-  // case FILETYPE_CROWDSALES:
-  //     result = write_mp_crowdsales(file, &shaCtx);
-  //     break;
-  //
-  // case FILETYPE_MDEXORDERS:
-  //     result = write_mp_metadex(file, &shaCtx);
-  //     break;
+  case FILETYPE_CROWDSALES:
+      result = write_mp_crowdsales(file, &shaCtx);
+      break;
+
+  case FILETYPE_MDEXORDERS:
+      result = write_mp_metadex(file, &shaCtx);
+      break;
   }
 
   // generate and wite the double hash of all the contents written
@@ -1961,8 +1958,8 @@ int mastercore_save_state( CBlockIndex const *pBlockIndex )
     // write_state_file(pBlockIndex, FILETYPE_OFFERS);
     // write_state_file(pBlockIndex, FILETYPE_ACCEPTS);
     write_state_file(pBlockIndex, FILETYPE_GLOBALS);
-    // write_state_file(pBlockIndex, FILETYPE_CROWDSALES);
-    // write_state_file(pBlockIndex, FILETYPE_MDEXORDERS);
+    write_state_file(pBlockIndex, FILETYPE_CROWDSALES);
+    write_state_file(pBlockIndex, FILETYPE_MDEXORDERS);
 
     // clean-up the directory
     prune_state_files(pBlockIndex);
@@ -1983,8 +1980,8 @@ void clear_all_state()
     mp_tally_map.clear();
     // my_offers.clear();
     // my_accepts.clear();
-    // my_crowds.clear();
-    // metadex.clear();
+    my_crowds.clear();
+    metadex.clear();
     // my_pending.clear();
     ResetConsensusParams();
     // ClearActivations();
@@ -1994,9 +1991,9 @@ void clear_all_state()
     // LevelDB based storage
     _my_sps->Clear();
     p_txlistdb->Clear();
-    // s_stolistdb->Clear();
-    // t_tradelistdb->Clear();
-    // p_OmniTXDB->Clear();
+    s_stolistdb->Clear();
+    t_tradelistdb->Clear();
+    p_OmniTXDB->Clear();
     // p_feecache->Clear();
     // p_feehistory->Clear();
     assert(p_txlistdb->setDBVersion() == DB_VERSION); // new set of databases, set DB version
@@ -2022,7 +2019,7 @@ int mastercore_init()
     PrintToLog("\nInitializing Omni Core v%s [%s]\n", OmniCoreVersion(), Params().NetworkIDString());
     PrintToLog("Startup time: %s\n", DateTimeStrFormat("%Y-%m-%d %H:%M:%S", GetTime()));
 
-    // InitDebugLogLevels();
+    InitDebugLogLevels();
     ShrinkDebugLog();
 
     if (!isNonMainNet()) {
@@ -2038,23 +2035,23 @@ int mastercore_init()
 
     // check for --startclean option and delete MP_ folders if present
     bool startClean = false;
-    if (!gArgs.GetBoolArg("-startclean", false)) {
+    if (gArgs.GetBoolArg("-startclean", false)) {
         PrintToLog("Process was started with --startclean option, attempting to clear persistence files..\n");
         try {
             boost::filesystem::path persistPath = GetDataDir() / "MP_persist";
             boost::filesystem::path txlistPath = GetDataDir() / "MP_txlist";
-//             boost::filesystem::path tradePath = GetDataDir() / "MP_tradelist";
+            boost::filesystem::path tradePath = GetDataDir() / "MP_tradelist";
             boost::filesystem::path spPath = GetDataDir() / "MP_spinfo";
-//             boost::filesystem::path stoPath = GetDataDir() / "MP_stolist";
-//             boost::filesystem::path omniTXDBPath = GetDataDir() / "Omni_TXDB";
-//             boost::filesystem::path feesPath = GetDataDir() / "OMNI_feecache";
-//             boost::filesystem::path feeHistoryPath = GetDataDir() / "OMNI_feehistory";
-            // if (boost::filesystem::exists(persistPath)) boost::filesystem::remove_all(persistPath);
-            // if (boost::filesystem::exists(txlistPath)) boost::filesystem::remove_all(txlistPath);
-            // if (boost::filesystem::exists(tradePath)) boost::filesystem::remove_all(tradePath);
-            // if (boost::filesystem::exists(spPath)) boost::filesystem::remove_all(spPath);
-            // if (boost::filesystem::exists(stoPath)) boost::filesystem::remove_all(stoPath);
-            // if (boost::filesystem::exists(omniTXDBPath)) boost::filesystem::remove_all(omniTXDBPath);
+            boost::filesystem::path stoPath = GetDataDir() / "MP_stolist";
+            boost::filesystem::path omniTXDBPath = GetDataDir() / "Omni_TXDB";
+            // boost::filesystem::path feesPath = GetDataDir() / "OMNI_feecache";
+            // boost::filesystem::path feeHistoryPath = GetDataDir() / "OMNI_feehistory";
+            if (boost::filesystem::exists(persistPath)) boost::filesystem::remove_all(persistPath);
+            if (boost::filesystem::exists(txlistPath)) boost::filesystem::remove_all(txlistPath);
+            if (boost::filesystem::exists(tradePath)) boost::filesystem::remove_all(tradePath);
+            if (boost::filesystem::exists(spPath)) boost::filesystem::remove_all(spPath);
+            if (boost::filesystem::exists(stoPath)) boost::filesystem::remove_all(stoPath);
+            if (boost::filesystem::exists(omniTXDBPath)) boost::filesystem::remove_all(omniTXDBPath);
             // if (boost::filesystem::exists(feesPath)) boost::filesystem::remove_all(feesPath);
             // if (boost::filesystem::exists(feeHistoryPath)) boost::filesystem::remove_all(feeHistoryPath);
             PrintToLog("Success clearing persistence files in datadir %s\n", GetDataDir().string());
@@ -2063,15 +2060,15 @@ int mastercore_init()
             PrintToLog("Failed to delete persistence folders: %s\n", e.what());
         }
     }
-//
-//     t_tradelistdb = new CMPTradeList(GetDataDir() / "MP_tradelist", fReindex);
-//     s_stolistdb = new CMPSTOList(GetDataDir() / "MP_stolist", fReindex);
+
+    t_tradelistdb = new CMPTradeList(GetDataDir() / "MP_tradelist", fReindex);
+    s_stolistdb = new CMPSTOList(GetDataDir() / "MP_stolist", fReindex);
     p_txlistdb = new CMPTxList(GetDataDir() / "MP_txlist", fReindex);
     _my_sps = new CMPSPInfo(GetDataDir() / "MP_spinfo", fReindex);
-//     p_OmniTXDB = new COmniTransactionDB(GetDataDir() / "Omni_TXDB", fReindex);
-//     p_feecache = new COmniFeeCache(GetDataDir() / "OMNI_feecache", fReindex);
-//     p_feehistory = new COmniFeeHistory(GetDataDir() / "OMNI_feehistory", fReindex);
-//
+    p_OmniTXDB = new COmniTransactionDB(GetDataDir() / "Omni_TXDB", fReindex);
+    // p_feecache = new COmniFeeCache(GetDataDir() / "OMNI_feecache", fReindex);
+    // p_feehistory = new COmniFeeHistory(GetDataDir() / "OMNI_feehistory", fReindex);
+
     MPPersistencePath = GetDataDir() / "MP_persist";
     TryCreateDirectory(MPPersistencePath);
 
@@ -2158,28 +2155,28 @@ int mastercore_init()
 //  */
 int mastercore_shutdown()
 {
-    // LOCK(cs_tally);
-    //
-    // if (p_txlistdb) {
-    //     delete p_txlistdb;
-    //     p_txlistdb = NULL;
-    // }
-    // if (t_tradelistdb) {
-    //     delete t_tradelistdb;
-    //     t_tradelistdb = NULL;
-    // }
-    // if (s_stolistdb) {
-    //     delete s_stolistdb;
-    //     s_stolistdb = NULL;
-    // }
-    // if (_my_sps) {
-    //     delete _my_sps;
-    //     _my_sps = NULL;
-    // }
-    // if (p_OmniTXDB) {
-    //     delete p_OmniTXDB;
-    //     p_OmniTXDB = NULL;
-    // }
+    LOCK(cs_tally);
+
+    if (p_txlistdb) {
+        delete p_txlistdb;
+        p_txlistdb = NULL;
+    }
+    if (t_tradelistdb) {
+        delete t_tradelistdb;
+        t_tradelistdb = NULL;
+    }
+    if (s_stolistdb) {
+        delete s_stolistdb;
+        s_stolistdb = NULL;
+    }
+    if (_my_sps) {
+        delete _my_sps;
+        _my_sps = NULL;
+    }
+    if (p_OmniTXDB) {
+        delete p_OmniTXDB;
+        p_OmniTXDB = NULL;
+    }
     // if (p_feecache) {
     //     delete p_feecache;
     //     p_feecache = NULL;
@@ -2220,7 +2217,7 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
 //     PendingDelete(tx.GetHash());
 //
 //     // we do not care about parsing blocks prior to our waterline (empty blockchain defense)
-//     if (nBlock < nWaterlineBlock) return false;
+    if (nBlock < nWaterlineBlock) return false;
     int64_t nBlockTime = pBlockIndex->GetBlockTime();
 
     CMPTransaction mp_obj;
@@ -3818,8 +3815,8 @@ int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex,
     //     PrintToLog("Consensus hash for block %d: %s\n", nBlockNow, consensusHash.GetHex());
     // }
 
-    // request checkpoint verification
-    bool checkpointValid = VerifyCheckpoint(nBlockNow, pBlockIndex->GetBlockHash());
+    // request checkpoint verification  FIXME!!!
+    /*bool checkpointValid = VerifyCheckpoint(nBlockNow, pBlockIndex->GetBlockHash());
     if (!checkpointValid) {
         // failed checkpoint, can't be trusted to provide valid data - shutdown client
         const std::string& msg = strprintf("Shutting down due to failed checkpoint for block %d (hash %s)\n", nBlockNow, pBlockIndex->GetBlockHash().GetHex());
@@ -3834,14 +3831,13 @@ int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex,
         if (writePersistence(nBlockNow)) {
             mastercore_save_state(pBlockIndex);
         }
-    }
+    }*/
 
     return 0;
 }
-//
+
 int mastercore_handler_disc_begin(int nBlockNow, CBlockIndex const * pBlockIndex)
 {
-    strprintf("INSIDE MASTERCORE HANDLER DISC BEGIN FUNCTION \n");
     LOCK(cs_tally);
     reorgRecoveryMode = 1;
     reorgRecoveryMaxHeight = (pBlockIndex->nHeight > reorgRecoveryMaxHeight) ? pBlockIndex->nHeight: reorgRecoveryMaxHeight;
@@ -3850,7 +3846,6 @@ int mastercore_handler_disc_begin(int nBlockNow, CBlockIndex const * pBlockIndex
 
 int mastercore_handler_disc_end(int nBlockNow, CBlockIndex const * pBlockIndex)
 {
-    strprintf("INSIDE MASTERCORE HANDLER DISC END FUNCTION \n");
     LOCK(cs_tally);
 
     return 0;
