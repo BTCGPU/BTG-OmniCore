@@ -30,7 +30,6 @@
 #include "util.h"
 #include "ui_interface.h"
 #include "utilmoneystr.h"
-#include "omnicore/omnicore.h"
 
 #include <assert.h>
 
@@ -2747,16 +2746,14 @@ bool CWallet::CreateTransaction(const std::vector<CRecipient>& vecSend, CWalletT
                     {
                         if (recipient.fSubtractFeeFromAmount && nFeeRet > 0)
                         {
-                            if (txout.nValue < 0) {
+                            if (txout.nValue < 0)
                                 strFailReason = _("The transaction amount is too small to pay the fee");
-                            }else {
+                            else
                                 strFailReason = _("The transaction amount is too small to send after the fee has been deducted");
-                             }
                         }
-                        else {   //TODO: check this
+                        else
                             strFailReason = _("Transaction amount too small");
-                            return false;
-                        }
+                        return false;
                     }
                     txNew.vout.push_back(txout);
                 }
