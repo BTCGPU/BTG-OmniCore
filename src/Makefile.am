@@ -205,7 +205,9 @@ BITCOIN_CORE_H = \
   omnicore/seedblocks.h \
 	omnicore/utils.h\
 	omnicore/rpcrawtx.h \
-  omnicore/createtx.h\
+  omnicore/createtx.h \
+	omnicore/sto.h \
+	omnicore/fees.h \
 	omnicore/mdex.h
 
 obj/build.h: FORCE
@@ -289,6 +291,8 @@ libbitcoin_server_a_SOURCES = \
 	omnicore/createtx.cpp\
   omnicore/seedblocks.cpp \
 	omnicore/mdex.cpp \
+	omnicore/sto.cpp \
+	omnicore/fees.cpp \
   $(BITCOIN_CORE_H)
 
 if ENABLE_ZMQ

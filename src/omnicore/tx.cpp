@@ -126,25 +126,25 @@ bool CMPTransaction::interpret_Transaction()
     //
         case MSC_TYPE_METADEX_TRADE:
             return interpret_MetaDExTrade();
-    //
-    //     case MSC_TYPE_METADEX_CANCEL_PRICE:
-    //         return interpret_MetaDExCancelPrice();
-    //
-    //     case MSC_TYPE_METADEX_CANCEL_PAIR:
-    //         return interpret_MetaDExCancelPair();
-    //
-    //     case MSC_TYPE_METADEX_CANCEL_ECOSYSTEM:
-    //         return interpret_MetaDExCancelEcosystem();
-    //
+
+        case MSC_TYPE_METADEX_CANCEL_PRICE:
+            return interpret_MetaDExCancelPrice();
+
+        case MSC_TYPE_METADEX_CANCEL_PAIR:
+            return interpret_MetaDExCancelPair();
+
+        case MSC_TYPE_METADEX_CANCEL_ECOSYSTEM:
+            return interpret_MetaDExCancelEcosystem();
+
         case MSC_TYPE_CREATE_PROPERTY_FIXED:
             return interpret_CreatePropertyFixed();
 
         case MSC_TYPE_CREATE_PROPERTY_VARIABLE:
             return interpret_CreatePropertyVariable();
-    //
-    //     case MSC_TYPE_CLOSE_CROWDSALE:
-    //         return interpret_CloseCrowdsale();
-    //
+
+        case MSC_TYPE_CLOSE_CROWDSALE:
+            return interpret_CloseCrowdsale();
+
         case MSC_TYPE_CREATE_PROPERTY_MANUAL:
             return interpret_CreatePropertyManaged();
 
@@ -154,9 +154,9 @@ bool CMPTransaction::interpret_Transaction()
     //     case MSC_TYPE_REVOKE_PROPERTY_TOKENS:
     //         return interpret_RevokeTokens();
     //
-    //     case MSC_TYPE_CHANGE_ISSUER_ADDRESS:
-    //         return interpret_ChangeIssuer();
-    //
+        case MSC_TYPE_CHANGE_ISSUER_ADDRESS:
+            return interpret_ChangeIssuer();
+
     //     case MSC_TYPE_ENABLE_FREEZING:
     //         return interpret_EnableFreezing();
     //
@@ -352,81 +352,81 @@ bool CMPTransaction::interpret_MetaDExTrade()
 
     return true;
 }
-//
-// /** Tx 26 */
-// bool CMPTransaction::interpret_MetaDExCancelPrice()
-// {
-//     if (pkt_size < 28) {
-//         return false;
-//     }
-//     memcpy(&property, &pkt[4], 4);
-//     swapByteOrder32(property);
-//     memcpy(&nValue, &pkt[8], 8);
-//     swapByteOrder64(nValue);
-//     nNewValue = nValue;
-//     memcpy(&desired_property, &pkt[16], 4);
-//     swapByteOrder32(desired_property);
-//     memcpy(&desired_value, &pkt[20], 8);
-//     swapByteOrder64(desired_value);
-//
-//     action = CMPTransaction::CANCEL_AT_PRICE; // depreciated
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
-//         PrintToLog("\t           value: %s\n", FormatMP(property, nValue));
-//         PrintToLog("\tdesired property: %d (%s)\n", desired_property, strMPProperty(desired_property));
-//         PrintToLog("\t   desired value: %s\n", FormatMP(desired_property, desired_value));
-//     }
-//
-//     return true;
-// }
-//
-// /** Tx 27 */
-// bool CMPTransaction::interpret_MetaDExCancelPair()
-// {
-//     if (pkt_size < 12) {
-//         return false;
-//     }
-//     memcpy(&property, &pkt[4], 4);
-//     swapByteOrder32(property);
-//     memcpy(&desired_property, &pkt[8], 4);
-//     swapByteOrder32(desired_property);
-//
-//     nValue = 0; // depreciated
-//     nNewValue = nValue; // depreciated
-//     desired_value = 0; // depreciated
-//     action = CMPTransaction::CANCEL_ALL_FOR_PAIR; // depreciated
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
-//         PrintToLog("\tdesired property: %d (%s)\n", desired_property, strMPProperty(desired_property));
-//     }
-//
-//     return true;
-// }
-//
-// /** Tx 28 */
-// bool CMPTransaction::interpret_MetaDExCancelEcosystem()
-// {
-//     if (pkt_size < 5) {
-//         return false;
-//     }
-//     memcpy(&ecosystem, &pkt[4], 1);
-//
-//     property = ecosystem; // depreciated
-//     desired_property = ecosystem; // depreciated
-//     nValue = 0; // depreciated
-//     nNewValue = nValue; // depreciated
-//     desired_value = 0; // depreciated
-//     action = CMPTransaction::CANCEL_EVERYTHING; // depreciated
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t       ecosystem: %d\n", (int)ecosystem);
-//     }
-//
-//     return true;
-// }
-//
+
+/** Tx 26 */
+bool CMPTransaction::interpret_MetaDExCancelPrice()
+{
+    if (pkt_size < 28) {
+        return false;
+    }
+    memcpy(&property, &pkt[4], 4);
+    swapByteOrder32(property);
+    memcpy(&nValue, &pkt[8], 8);
+    swapByteOrder64(nValue);
+    nNewValue = nValue;
+    memcpy(&desired_property, &pkt[16], 4);
+    swapByteOrder32(desired_property);
+    memcpy(&desired_value, &pkt[20], 8);
+    swapByteOrder64(desired_value);
+
+    action = CMPTransaction::CANCEL_AT_PRICE; // depreciated
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
+        PrintToLog("\t           value: %s\n", FormatMP(property, nValue));
+        PrintToLog("\tdesired property: %d (%s)\n", desired_property, strMPProperty(desired_property));
+        PrintToLog("\t   desired value: %s\n", FormatMP(desired_property, desired_value));
+    }
+
+    return true;
+}
+
+/** Tx 27 */
+bool CMPTransaction::interpret_MetaDExCancelPair()
+{
+    if (pkt_size < 12) {
+        return false;
+    }
+    memcpy(&property, &pkt[4], 4);
+    swapByteOrder32(property);
+    memcpy(&desired_property, &pkt[8], 4);
+    swapByteOrder32(desired_property);
+
+    nValue = 0; // depreciated
+    nNewValue = nValue; // depreciated
+    desired_value = 0; // depreciated
+    action = CMPTransaction::CANCEL_ALL_FOR_PAIR; // depreciated
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
+        PrintToLog("\tdesired property: %d (%s)\n", desired_property, strMPProperty(desired_property));
+    }
+
+    return true;
+}
+
+/** Tx 28 */
+bool CMPTransaction::interpret_MetaDExCancelEcosystem()
+{
+    if (pkt_size < 5) {
+        return false;
+    }
+    memcpy(&ecosystem, &pkt[4], 1);
+
+    property = ecosystem; // depreciated
+    desired_property = ecosystem; // depreciated
+    nValue = 0; // depreciated
+    nNewValue = nValue; // depreciated
+    desired_value = 0; // depreciated
+    action = CMPTransaction::CANCEL_EVERYTHING; // depreciated
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t       ecosystem: %d\n", (int)ecosystem);
+    }
+
+    return true;
+}
+
 /** Tx 50 */
 bool CMPTransaction::interpret_CreatePropertyFixed()
 {
@@ -534,24 +534,24 @@ bool CMPTransaction::interpret_CreatePropertyVariable()
 
     return true;
 }
-//
-// /** Tx 53 */
-// bool CMPTransaction::interpret_CloseCrowdsale()
-// {
-//     if (pkt_size < 8) {
-//         return false;
-//     }
-//     memcpy(&property, &pkt[4], 4);
-//     swapByteOrder32(property);
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
-//     }
-//
-//     return true;
-// }
-//
-// /** Tx 54 */
+
+/** Tx 53 */
+bool CMPTransaction::interpret_CloseCrowdsale()
+{
+    if (pkt_size < 8) {
+        return false;
+    }
+    memcpy(&property, &pkt[4], 4);
+    swapByteOrder32(property);
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
+    }
+
+    return true;
+}
+
+/** Tx 54 */
 bool CMPTransaction::interpret_CreatePropertyManaged()
 {
     if (pkt_size < 17) {
@@ -634,22 +634,22 @@ bool CMPTransaction::interpret_GrantTokens()
 //     return true;
 // }
 //
-// /** Tx 70 */
-// bool CMPTransaction::interpret_ChangeIssuer()
-// {
-//     if (pkt_size < 8) {
-//         return false;
-//     }
-//     memcpy(&property, &pkt[4], 4);
-//     swapByteOrder32(property);
-//
-//     if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
-//         PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
-//     }
-//
-//     return true;
-// }
-//
+/** Tx 70 */
+bool CMPTransaction::interpret_ChangeIssuer()
+{
+    if (pkt_size < 8) {
+        return false;
+    }
+    memcpy(&property, &pkt[4], 4);
+    swapByteOrder32(property);
+
+    if ((!rpcOnly && msc_debug_packets) || msc_debug_packets_readonly) {
+        PrintToLog("\t        property: %d (%s)\n", property, strMPProperty(property));
+    }
+
+    return true;
+}
+
 // /** Tx 71 */
 // bool CMPTransaction::interpret_EnableFreezing()
 // {
@@ -858,9 +858,9 @@ int CMPTransaction::interpretPacket()
         case MSC_TYPE_SIMPLE_SEND:
             return logicMath_SimpleSend();
 
-        // case MSC_TYPE_SEND_TO_OWNERS:
-        //     return logicMath_SendToOwners();
-        //
+        case MSC_TYPE_SEND_TO_OWNERS:
+            return logicMath_SendToOwners();
+
         // case MSC_TYPE_SEND_ALL:
         //     return logicMath_SendAll();
         //
@@ -873,24 +873,24 @@ int CMPTransaction::interpretPacket()
         case MSC_TYPE_METADEX_TRADE:
             return logicMath_MetaDExTrade();
 
-        // case MSC_TYPE_METADEX_CANCEL_PRICE:
-        //     return logicMath_MetaDExCancelPrice();
-        //
-        // case MSC_TYPE_METADEX_CANCEL_PAIR:
-        //     return logicMath_MetaDExCancelPair();
-        //
-        // case MSC_TYPE_METADEX_CANCEL_ECOSYSTEM:
-        //     return logicMath_MetaDExCancelEcosystem();
-        //
+        case MSC_TYPE_METADEX_CANCEL_PRICE:
+            return logicMath_MetaDExCancelPrice();
+
+        case MSC_TYPE_METADEX_CANCEL_PAIR:
+            return logicMath_MetaDExCancelPair();
+
+        case MSC_TYPE_METADEX_CANCEL_ECOSYSTEM:
+            return logicMath_MetaDExCancelEcosystem();
+
         case MSC_TYPE_CREATE_PROPERTY_FIXED:
             return logicMath_CreatePropertyFixed();
-        //
-        // case MSC_TYPE_CREATE_PROPERTY_VARIABLE:
-        //     return logicMath_CreatePropertyVariable();
-        //
-        // case MSC_TYPE_CLOSE_CROWDSALE:
-        //     return logicMath_CloseCrowdsale();
-        //
+
+        case MSC_TYPE_CREATE_PROPERTY_VARIABLE:
+            return logicMath_CreatePropertyVariable();
+
+        case MSC_TYPE_CLOSE_CROWDSALE:
+            return logicMath_CloseCrowdsale();
+
         case MSC_TYPE_CREATE_PROPERTY_MANUAL:
             return logicMath_CreatePropertyManaged();
 
@@ -900,9 +900,9 @@ int CMPTransaction::interpretPacket()
         // case MSC_TYPE_REVOKE_PROPERTY_TOKENS:
         //     return logicMath_RevokeTokens();
         //
-        // case MSC_TYPE_CHANGE_ISSUER_ADDRESS:
-        //     return logicMath_ChangeIssuer();
-        //
+        case MSC_TYPE_CHANGE_ISSUER_ADDRESS:
+            return logicMath_ChangeIssuer();
+
         // case MSC_TYPE_ENABLE_FREEZING:
         //     return logicMath_EnableFreezing();
         //
@@ -1010,26 +1010,26 @@ int CMPTransaction::logicHelper_CrowdsaleParticipation()
 /** Tx 0 */
 int CMPTransaction::logicMath_SimpleSend()
 {
-    // if (!IsTransactionTypeAllowed(block, property, type, version)) {
-    //     PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
-    //             __func__,
-    //             type,
-    //             version,
-    //             property,
-    //             block);
-    //     return (PKT_ERROR_SEND -22);
-    // }
-    //
-    // if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
-    //     PrintToLog("%s(): rejected: value out of range or zero: %d", __func__, nValue);
-    //     return (PKT_ERROR_SEND -23);
-    // }
-    //
-    // if (!IsPropertyIdValid(property)) {
-    //     PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
-    //     return (PKT_ERROR_SEND -24);
-    // }
-    //
+    if (!IsTransactionTypeAllowed(block, property, type, version)) {
+        PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
+                __func__,
+                type,
+                version,
+                property,
+                block);
+        return (PKT_ERROR_SEND -22);
+    }
+
+    if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
+        PrintToLog("%s(): rejected: value out of range or zero: %d", __func__, nValue);
+        return (PKT_ERROR_SEND -23);
+    }
+
+    if (!IsPropertyIdValid(property)) {
+        PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
+        return (PKT_ERROR_SEND -24);
+    }
+
      int64_t nBalance = getMPbalance(sender, property, BALANCE);
      if (nBalance < (int64_t) nValue) {
          PrintToLog("%s(): rejected: sender %s has insufficient balance of property %d [%s < %s]\n",
@@ -1040,150 +1040,150 @@ int CMPTransaction::logicMath_SimpleSend()
                  FormatMP(property, nValue));
          return (PKT_ERROR_SEND -25);
      }
-    //
-    // // ------------------------------------------
-    //
-    // // Special case: if can't find the receiver -- assume send to self!
-    // if (receiver.empty()) {
-    //     receiver = sender;
-    // }
+
+    // ------------------------------------------
+
+    // Special case: if can't find the receiver -- assume send to self!
+    if (receiver.empty()) {
+        receiver = sender;
+    }
 
     // Move the tokens
     assert(update_tally_map(sender, property, -nValue, BALANCE));
     assert(update_tally_map(receiver, property, nValue, BALANCE));
 
     // Is there an active crowdsale running from this recepient?
-    // logicHelper_CrowdsaleParticipation();
+    logicHelper_CrowdsaleParticipation();
 
     return 0;
 }
 
 /** Tx 3 */
-// int CMPTransaction::logicMath_SendToOwners()
-// {
-//     if (!IsTransactionTypeAllowed(block, property, type, version)) {
-//         PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
-//                 __func__,
-//                 type,
-//                 version,
-//                 property,
-//                 block);
-//         return (PKT_ERROR_STO -22);
-//     }
-//
-//     if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
-//         PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
-//         return (PKT_ERROR_STO -23);
-//     }
-//
-//     if (!IsPropertyIdValid(property)) {
-//         PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
-//         return (PKT_ERROR_STO -24);
-//     }
-//
-//     if (version > MP_TX_PKT_V0) {
-//         if (!IsPropertyIdValid(distribution_property)) {
-//             PrintToLog("%s(): rejected: distribution property %d does not exist\n", __func__, distribution_property);
-//             return (PKT_ERROR_STO -24);
-//         }
-//     }
-//
-//     int64_t nBalance = getMPbalance(sender, property, BALANCE);
-//     if (nBalance < (int64_t) nValue) {
-//         PrintToLog("%s(): rejected: sender %s has insufficient balance of property %d [%s < %s]\n",
-//                 __func__,
-//                 sender,
-//                 FormatMP(property, nBalance),
-//                 FormatMP(property, nValue),
-//                 property);
-//         return (PKT_ERROR_STO -25);
-//     }
-//
-//     // ------------------------------------------
-//
-//     uint32_t distributeTo = (version == MP_TX_PKT_V0) ? property : distribution_property;
-//     OwnerAddrType receiversSet = STO_GetReceivers(sender, distributeTo, nValue);
-//     uint64_t numberOfReceivers = receiversSet.size();
-//
-//     // make sure we found some owners
-//     if (numberOfReceivers <= 0) {
-//         PrintToLog("%s(): rejected: no other owners of property %d [owners=%d <= 0]\n", __func__, distributeTo, numberOfReceivers);
-//         return (PKT_ERROR_STO -26);
-//     }
-//
-//     // determine which property the fee will be paid in
-//     uint32_t feeProperty = isTestEcosystemProperty(property) ? OMNI_PROPERTY_TMSC : OMNI_PROPERTY_MSC;
-//     int64_t feePerOwner = (version == MP_TX_PKT_V0) ? TRANSFER_FEE_PER_OWNER : TRANSFER_FEE_PER_OWNER_V1;
-//     int64_t transferFee = feePerOwner * numberOfReceivers;
-//     PrintToLog("\t    Transfer fee: %s %s\n", FormatDivisibleMP(transferFee), strMPProperty(feeProperty));
-//
-//     // enough coins to pay the fee?
-//     if (feeProperty != property) {
-//         int64_t nBalanceFee = getMPbalance(sender, feeProperty, BALANCE);
-//         if (nBalanceFee < transferFee) {
-//             PrintToLog("%s(): rejected: sender %s has insufficient balance of property %d to pay for fee [%s < %s]\n",
-//                     __func__,
-//                     sender,
-//                     feeProperty,
-//                     FormatMP(property, nBalanceFee),
-//                     FormatMP(property, transferFee));
-//             return (PKT_ERROR_STO -27);
-//         }
-//     } else {
-//         // special case check, only if distributing MSC or TMSC -- the property the fee will be paid in
-//         int64_t nBalanceFee = getMPbalance(sender, feeProperty, BALANCE);
-//         if (nBalanceFee < ((int64_t) nValue + transferFee)) {
-//             PrintToLog("%s(): rejected: sender %s has insufficient balance of %d to pay for amount + fee [%s < %s + %s]\n",
-//                     __func__,
-//                     sender,
-//                     feeProperty,
-//                     FormatMP(property, nBalanceFee),
-//                     FormatMP(property, nValue),
-//                     FormatMP(property, transferFee));
-//             return (PKT_ERROR_STO -28);
-//         }
-//     }
-//
-//     // ------------------------------------------
-//
-//     assert(update_tally_map(sender, feeProperty, -transferFee, BALANCE));
-//     if (version == MP_TX_PKT_V0) {
-//         // v0 - do not credit the subtracted fee to any tally (ie burn the tokens)
-//     } else {
-//         // v1 - credit the subtracted fee to the fee cache
-//         p_feecache->AddFee(feeProperty, block, transferFee);
-//     }
-//
-//     // split up what was taken and distribute between all holders
-//     int64_t sent_so_far = 0;
-//     for (OwnerAddrType::reverse_iterator it = receiversSet.rbegin(); it != receiversSet.rend(); ++it) {
-//         const std::string& address = it->second;
-//
-//         int64_t will_really_receive = it->first;
-//         sent_so_far += will_really_receive;
-//
-//         // real execution of the loop
-//         assert(update_tally_map(sender, property, -will_really_receive, BALANCE));
-//         assert(update_tally_map(address, property, will_really_receive, BALANCE));
-//
-//         // add to stodb
-//         s_stolistdb->recordSTOReceive(address, txid, block, property, will_really_receive);
-//
-//         if (sent_so_far != (int64_t)nValue) {
-//             PrintToLog("sent_so_far= %14d, nValue= %14d, n_owners= %d\n", sent_so_far, nValue, numberOfReceivers);
-//         } else {
-//             PrintToLog("SendToOwners: DONE HERE\n");
-//         }
-//     }
-//
-//     // sent_so_far must equal nValue here
-//     assert(sent_so_far == (int64_t)nValue);
-//
-//     // Number of tokens has changed, update fee distribution thresholds
-//     if (version == MP_TX_PKT_V0) NotifyTotalTokensChanged(OMNI_PROPERTY_MSC, block); // fee was burned
-//
-//     return 0;
-// }
+int CMPTransaction::logicMath_SendToOwners()
+{
+    if (!IsTransactionTypeAllowed(block, property, type, version)) {
+        PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
+                __func__,
+                type,
+                version,
+                property,
+                block);
+        return (PKT_ERROR_STO -22);
+    }
+
+    if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
+        PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
+        return (PKT_ERROR_STO -23);
+    }
+
+    if (!IsPropertyIdValid(property)) {
+        PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
+        return (PKT_ERROR_STO -24);
+    }
+
+    if (version > MP_TX_PKT_V0) {
+        if (!IsPropertyIdValid(distribution_property)) {
+            PrintToLog("%s(): rejected: distribution property %d does not exist\n", __func__, distribution_property);
+            return (PKT_ERROR_STO -24);
+        }
+    }
+
+    int64_t nBalance = getMPbalance(sender, property, BALANCE);
+    if (nBalance < (int64_t) nValue) {
+        PrintToLog("%s(): rejected: sender %s has insufficient balance of property %d [%s < %s]\n",
+                __func__,
+                sender,
+                FormatMP(property, nBalance),
+                FormatMP(property, nValue),
+                property);
+        return (PKT_ERROR_STO -25);
+    }
+
+    // ------------------------------------------
+
+    uint32_t distributeTo = (version == MP_TX_PKT_V0) ? property : distribution_property;
+    OwnerAddrType receiversSet = STO_GetReceivers(sender, distributeTo, nValue);
+    uint64_t numberOfReceivers = receiversSet.size();
+
+    // make sure we found some owners
+    if (numberOfReceivers <= 0) {
+        PrintToLog("%s(): rejected: no other owners of property %d [owners=%d <= 0]\n", __func__, distributeTo, numberOfReceivers);
+        return (PKT_ERROR_STO -26);
+    }
+
+    // determine which property the fee will be paid in
+    uint32_t feeProperty = isTestEcosystemProperty(property) ? OMNI_PROPERTY_TMSC : OMNI_PROPERTY_MSC;
+    int64_t feePerOwner = (version == MP_TX_PKT_V0) ? TRANSFER_FEE_PER_OWNER : TRANSFER_FEE_PER_OWNER_V1;
+    int64_t transferFee = feePerOwner * numberOfReceivers;
+    PrintToLog("\t    Transfer fee: %s %s\n", FormatDivisibleMP(transferFee), strMPProperty(feeProperty));
+
+    // enough coins to pay the fee?
+    if (feeProperty != property) {
+        int64_t nBalanceFee = getMPbalance(sender, feeProperty, BALANCE);
+        if (nBalanceFee < transferFee) {
+            PrintToLog("%s(): rejected: sender %s has insufficient balance of property %d to pay for fee [%s < %s]\n",
+                    __func__,
+                    sender,
+                    feeProperty,
+                    FormatMP(property, nBalanceFee),
+                    FormatMP(property, transferFee));
+            return (PKT_ERROR_STO -27);
+        }
+    } else {
+        // special case check, only if distributing MSC or TMSC -- the property the fee will be paid in
+        int64_t nBalanceFee = getMPbalance(sender, feeProperty, BALANCE);
+        if (nBalanceFee < ((int64_t) nValue + transferFee)) {
+            PrintToLog("%s(): rejected: sender %s has insufficient balance of %d to pay for amount + fee [%s < %s + %s]\n",
+                    __func__,
+                    sender,
+                    feeProperty,
+                    FormatMP(property, nBalanceFee),
+                    FormatMP(property, nValue),
+                    FormatMP(property, transferFee));
+            return (PKT_ERROR_STO -28);
+        }
+    }
+
+    // ------------------------------------------
+
+    assert(update_tally_map(sender, feeProperty, -transferFee, BALANCE));
+    if (version == MP_TX_PKT_V0) {
+        // v0 - do not credit the subtracted fee to any tally (ie burn the tokens)
+    } else {
+        // v1 - credit the subtracted fee to the fee cache
+        p_feecache->AddFee(feeProperty, block, transferFee);
+    }
+
+    // split up what was taken and distribute between all holders
+    int64_t sent_so_far = 0;
+    for (OwnerAddrType::reverse_iterator it = receiversSet.rbegin(); it != receiversSet.rend(); ++it) {
+        const std::string& address = it->second;
+
+        int64_t will_really_receive = it->first;
+        sent_so_far += will_really_receive;
+
+        // real execution of the loop
+        assert(update_tally_map(sender, property, -will_really_receive, BALANCE));
+        assert(update_tally_map(address, property, will_really_receive, BALANCE));
+
+        // add to stodb
+        s_stolistdb->recordSTOReceive(address, txid, block, property, will_really_receive);
+
+        if (sent_so_far != (int64_t)nValue) {
+            PrintToLog("sent_so_far= %14d, nValue= %14d, n_owners= %d\n", sent_so_far, nValue, numberOfReceivers);
+        } else {
+            PrintToLog("SendToOwners: DONE HERE\n");
+        }
+    }
+
+    // sent_so_far must equal nValue here
+    assert(sent_so_far == (int64_t)nValue);
+
+    // Number of tokens has changed, update fee distribution thresholds
+    if (version == MP_TX_PKT_V0) NotifyTotalTokensChanged(OMNI_PROPERTY_MSC, block); // fee was burned
+
+    return 0;
+}
 
 /** Tx 4 */
 int CMPTransaction::logicMath_SendAll()
@@ -1640,177 +1640,177 @@ int CMPTransaction::logicMath_CreatePropertyFixed()
 
     return 0;
 }
-//
-// /** Tx 51 */
-// int CMPTransaction::logicMath_CreatePropertyVariable()
-// {
-//     uint256 blockHash;
-//     {
-//         LOCK(cs_main);
-//
-//         CBlockIndex* pindex = chainActive[block];
-//         if (pindex == NULL) {
-//             PrintToLog("%s(): ERROR: block %d not in the active chain\n", __func__, block);
-//             return (PKT_ERROR_SP -20);
-//         }
-//         blockHash = pindex->GetBlockHash();
-//     }
-//
-//     if (OMNI_PROPERTY_MSC != ecosystem && OMNI_PROPERTY_TMSC != ecosystem) {
-//         PrintToLog("%s(): rejected: invalid ecosystem: %d\n", __func__, (uint32_t) ecosystem);
-//         return (PKT_ERROR_SP -21);
-//     }
-//
-//     if (IsFeatureActivated(FEATURE_SPCROWDCROSSOVER, block)) {
-//     /**
-//      * Ecosystem crossovers shall not be allowed after the feature was enabled.
-//      */
-//     if (isTestEcosystemProperty(ecosystem) != isTestEcosystemProperty(property)) {
-//         PrintToLog("%s(): rejected: ecosystem %d of tokens to issue and desired property %d not in same ecosystem\n",
-//                 __func__,
-//                 ecosystem,
-//                 property);
-//         return (PKT_ERROR_SP -50);
-//     }
-//     }
-//
-//     if (!IsTransactionTypeAllowed(block, ecosystem, type, version)) {
-//         PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
-//                 __func__,
-//                 type,
-//                 version,
-//                 property,
-//                 block);
-//         return (PKT_ERROR_SP -22);
-//     }
-//
-//     if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
-//         PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
-//         return (PKT_ERROR_SP -23);
-//     }
-//
-//     if (!IsPropertyIdValid(property)) {
-//         PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
-//         return (PKT_ERROR_SP -24);
-//     }
-//
-//     if (MSC_PROPERTY_TYPE_INDIVISIBLE != prop_type && MSC_PROPERTY_TYPE_DIVISIBLE != prop_type) {
-//         PrintToLog("%s(): rejected: invalid property type: %d\n", __func__, prop_type);
-//         return (PKT_ERROR_SP -36);
-//     }
-//
-//     if ('\0' == name[0]) {
-//         PrintToLog("%s(): rejected: property name must not be empty\n", __func__);
-//         return (PKT_ERROR_SP -37);
-//     }
-//
-//     if (!deadline || (int64_t) deadline < blockTime) {
-//         PrintToLog("%s(): rejected: deadline must not be in the past [%d < %d]\n", __func__, deadline, blockTime);
-//         return (PKT_ERROR_SP -38);
-//     }
-//
-//     if (NULL != getCrowd(sender)) {
-//         PrintToLog("%s(): rejected: sender %s has an active crowdsale\n", __func__, sender);
-//         return (PKT_ERROR_SP -39);
-//     }
-//
-//     // ------------------------------------------
-//
-//     CMPSPInfo::Entry newSP;
-//     newSP.issuer = sender;
-//     newSP.txid = txid;
-//     newSP.prop_type = prop_type;
-//     newSP.num_tokens = nValue;
-//     newSP.category.assign(category);
-//     newSP.subcategory.assign(subcategory);
-//     newSP.name.assign(name);
-//     newSP.url.assign(url);
-//     newSP.data.assign(data);
-//     newSP.fixed = false;
-//     newSP.property_desired = property;
-//     newSP.deadline = deadline;
-//     newSP.early_bird = early_bird;
-//     newSP.percentage = percentage;
-//     newSP.creation_block = blockHash;
-//     newSP.update_block = newSP.creation_block;
-//
-//     const uint32_t propertyId = _my_sps->putSP(ecosystem, newSP);
-//     assert(propertyId > 0);
-//     my_crowds.insert(std::make_pair(sender, CMPCrowd(propertyId, nValue, property, deadline, early_bird, percentage, 0, 0)));
-//
-//     PrintToLog("CREATED CROWDSALE id: %d value: %d property: %d\n", propertyId, nValue, property);
-//
-//     return 0;
-// }
-//
-// /** Tx 53 */
-// int CMPTransaction::logicMath_CloseCrowdsale()
-// {
-//     uint256 blockHash;
-//     {
-//         LOCK(cs_main);
-//
-//         CBlockIndex* pindex = chainActive[block];
-//         if (pindex == NULL) {
-//             PrintToLog("%s(): ERROR: block %d not in the active chain\n", __func__, block);
-//             return (PKT_ERROR_SP -20);
-//         }
-//         blockHash = pindex->GetBlockHash();
-//     }
-//
-//     if (!IsTransactionTypeAllowed(block, property, type, version)) {
-//         PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
-//                 __func__,
-//                 type,
-//                 version,
-//                 property,
-//                 block);
-//         return (PKT_ERROR_SP -22);
-//     }
-//
-//     if (!IsPropertyIdValid(property)) {
-//         PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
-//         return (PKT_ERROR_SP -24);
-//     }
-//
-//     CrowdMap::iterator it = my_crowds.find(sender);
-//     if (it == my_crowds.end()) {
-//         PrintToLog("%s(): rejected: sender %s has no active crowdsale\n", __func__, sender);
-//         return (PKT_ERROR_SP -40);
-//     }
-//
-//     const CMPCrowd& crowd = it->second;
-//     if (property != crowd.getPropertyId()) {
-//         PrintToLog("%s(): rejected: property identifier mismatch [%d != %d]\n", __func__, property, crowd.getPropertyId());
-//         return (PKT_ERROR_SP -41);
-//     }
-//
-//     // ------------------------------------------
-//
-//     CMPSPInfo::Entry sp;
-//     assert(_my_sps->getSP(property, sp));
-//
-//     int64_t missedTokens = GetMissedIssuerBonus(sp, crowd);
-//
-//     sp.historicalData = crowd.getDatabase();
-//     sp.update_block = blockHash;
-//     sp.close_early = true;
-//     sp.timeclosed = blockTime;
-//     sp.txid_close = txid;
-//     sp.missedTokens = missedTokens;
-//
-//     assert(_my_sps->updateSP(property, sp));
-//     if (missedTokens > 0) {
-//         assert(update_tally_map(sp.issuer, property, missedTokens, BALANCE));
-//     }
-//     my_crowds.erase(it);
-//
-//     if (msc_debug_sp) PrintToLog("CLOSED CROWDSALE id: %d=%X\n", property, property);
-//
-//     return 0;
-// }
-//
-// /** Tx 54 */
+
+/** Tx 51 */
+int CMPTransaction::logicMath_CreatePropertyVariable()
+{
+    uint256 blockHash;
+    {
+        LOCK(cs_main);
+
+        CBlockIndex* pindex = chainActive[block];
+        if (pindex == NULL) {
+            PrintToLog("%s(): ERROR: block %d not in the active chain\n", __func__, block);
+            return (PKT_ERROR_SP -20);
+        }
+        blockHash = pindex->GetBlockHash();
+    }
+
+    if (OMNI_PROPERTY_MSC != ecosystem && OMNI_PROPERTY_TMSC != ecosystem) {
+        PrintToLog("%s(): rejected: invalid ecosystem: %d\n", __func__, (uint32_t) ecosystem);
+        return (PKT_ERROR_SP -21);
+    }
+
+    if (IsFeatureActivated(FEATURE_SPCROWDCROSSOVER, block)) {
+    /**
+     * Ecosystem crossovers shall not be allowed after the feature was enabled.
+     */
+    if (isTestEcosystemProperty(ecosystem) != isTestEcosystemProperty(property)) {
+        PrintToLog("%s(): rejected: ecosystem %d of tokens to issue and desired property %d not in same ecosystem\n",
+                __func__,
+                ecosystem,
+                property);
+        return (PKT_ERROR_SP -50);
+    }
+    }
+
+    if (!IsTransactionTypeAllowed(block, ecosystem, type, version)) {
+        PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
+                __func__,
+                type,
+                version,
+                property,
+                block);
+        return (PKT_ERROR_SP -22);
+    }
+
+    if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
+        PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
+        return (PKT_ERROR_SP -23);
+    }
+
+    if (!IsPropertyIdValid(property)) {
+        PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
+        return (PKT_ERROR_SP -24);
+    }
+
+    if (MSC_PROPERTY_TYPE_INDIVISIBLE != prop_type && MSC_PROPERTY_TYPE_DIVISIBLE != prop_type) {
+        PrintToLog("%s(): rejected: invalid property type: %d\n", __func__, prop_type);
+        return (PKT_ERROR_SP -36);
+    }
+
+    if ('\0' == name[0]) {
+        PrintToLog("%s(): rejected: property name must not be empty\n", __func__);
+        return (PKT_ERROR_SP -37);
+    }
+
+    if (!deadline || (int64_t) deadline < blockTime) {
+        PrintToLog("%s(): rejected: deadline must not be in the past [%d < %d]\n", __func__, deadline, blockTime);
+        return (PKT_ERROR_SP -38);
+    }
+
+    if (NULL != getCrowd(sender)) {
+        PrintToLog("%s(): rejected: sender %s has an active crowdsale\n", __func__, sender);
+        return (PKT_ERROR_SP -39);
+    }
+
+    // ------------------------------------------
+
+    CMPSPInfo::Entry newSP;
+    newSP.issuer = sender;
+    newSP.txid = txid;
+    newSP.prop_type = prop_type;
+    newSP.num_tokens = nValue;
+    newSP.category.assign(category);
+    newSP.subcategory.assign(subcategory);
+    newSP.name.assign(name);
+    newSP.url.assign(url);
+    newSP.data.assign(data);
+    newSP.fixed = false;
+    newSP.property_desired = property;
+    newSP.deadline = deadline;
+    newSP.early_bird = early_bird;
+    newSP.percentage = percentage;
+    newSP.creation_block = blockHash;
+    newSP.update_block = newSP.creation_block;
+
+    const uint32_t propertyId = _my_sps->putSP(ecosystem, newSP);
+    assert(propertyId > 0);
+    my_crowds.insert(std::make_pair(sender, CMPCrowd(propertyId, nValue, property, deadline, early_bird, percentage, 0, 0)));
+
+    PrintToLog("CREATED CROWDSALE id: %d value: %d property: %d\n", propertyId, nValue, property);
+
+    return 0;
+}
+
+/** Tx 53 */
+int CMPTransaction::logicMath_CloseCrowdsale()
+{
+    uint256 blockHash;
+    {
+        LOCK(cs_main);
+
+        CBlockIndex* pindex = chainActive[block];
+        if (pindex == NULL) {
+            PrintToLog("%s(): ERROR: block %d not in the active chain\n", __func__, block);
+            return (PKT_ERROR_SP -20);
+        }
+        blockHash = pindex->GetBlockHash();
+    }
+
+    if (!IsTransactionTypeAllowed(block, property, type, version)) {
+        PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
+                __func__,
+                type,
+                version,
+                property,
+                block);
+        return (PKT_ERROR_SP -22);
+    }
+
+    if (!IsPropertyIdValid(property)) {
+        PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
+        return (PKT_ERROR_SP -24);
+    }
+
+    CrowdMap::iterator it = my_crowds.find(sender);
+    if (it == my_crowds.end()) {
+        PrintToLog("%s(): rejected: sender %s has no active crowdsale\n", __func__, sender);
+        return (PKT_ERROR_SP -40);
+    }
+
+    const CMPCrowd& crowd = it->second;
+    if (property != crowd.getPropertyId()) {
+        PrintToLog("%s(): rejected: property identifier mismatch [%d != %d]\n", __func__, property, crowd.getPropertyId());
+        return (PKT_ERROR_SP -41);
+    }
+
+    // ------------------------------------------
+
+    CMPSPInfo::Entry sp;
+    assert(_my_sps->getSP(property, sp));
+
+    int64_t missedTokens = GetMissedIssuerBonus(sp, crowd);
+
+    sp.historicalData = crowd.getDatabase();
+    sp.update_block = blockHash;
+    sp.close_early = true;
+    sp.timeclosed = blockTime;
+    sp.txid_close = txid;
+    sp.missedTokens = missedTokens;
+
+    assert(_my_sps->updateSP(property, sp));
+    if (missedTokens > 0) {
+        assert(update_tally_map(sp.issuer, property, missedTokens, BALANCE));
+    }
+    my_crowds.erase(it);
+
+    if (msc_debug_sp) PrintToLog("CLOSED CROWDSALE id: %d=%X\n", property, property);
+
+    return 0;
+}
+
+/** Tx 54 */
 int CMPTransaction::logicMath_CreatePropertyManaged()
 {
     uint256 blockHash;
@@ -1958,7 +1958,7 @@ int CMPTransaction::logicMath_GrantTokens()
      */
     if (!IsFeatureActivated(FEATURE_GRANTEFFECTS, block)) {
         // Is there an active crowdsale running from this recepient?
-        // logicHelper_CrowdsaleParticipation();
+        logicHelper_CrowdsaleParticipation();
     }
 
     NotifyTotalTokensChanged(property, block);
@@ -2036,69 +2036,69 @@ int CMPTransaction::logicMath_GrantTokens()
 //     return 0;
 // }
 //
-// /** Tx 70 */
-// int CMPTransaction::logicMath_ChangeIssuer()
-// {
-//     uint256 blockHash;
-//     {
-//         LOCK(cs_main);
-//
-//         CBlockIndex* pindex = chainActive[block];
-//         if (pindex == NULL) {
-//             PrintToLog("%s(): ERROR: block %d not in the active chain\n", __func__, block);
-//             return (PKT_ERROR_TOKENS -20);
-//         }
-//         blockHash = pindex->GetBlockHash();
-//     }
-//
-//     if (!IsTransactionTypeAllowed(block, property, type, version)) {
-//         PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
-//                 __func__,
-//                 type,
-//                 version,
-//                 property,
-//                 block);
-//         return (PKT_ERROR_TOKENS -22);
-//     }
-//
-//     if (!IsPropertyIdValid(property)) {
-//         PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
-//         return (PKT_ERROR_TOKENS -24);
-//     }
-//
-//     CMPSPInfo::Entry sp;
-//     assert(_my_sps->getSP(property, sp));
-//
-//     if (sender != sp.issuer) {
-//         PrintToLog("%s(): rejected: sender %s is not issuer of property %d [issuer=%s]\n", __func__, sender, property, sp.issuer);
-//         return (PKT_ERROR_TOKENS -43);
-//     }
-//
-//     if (NULL != getCrowd(sender)) {
-//         PrintToLog("%s(): rejected: sender %s has an active crowdsale\n", __func__, sender);
-//         return (PKT_ERROR_TOKENS -39);
-//     }
-//
-//     if (receiver.empty()) {
-//         PrintToLog("%s(): rejected: receiver is empty\n", __func__);
-//         return (PKT_ERROR_TOKENS -45);
-//     }
-//
-//     if (NULL != getCrowd(receiver)) {
-//         PrintToLog("%s(): rejected: receiver %s has an active crowdsale\n", __func__, receiver);
-//         return (PKT_ERROR_TOKENS -46);
-//     }
-//
-//     // ------------------------------------------
-//
-//     sp.issuer = receiver;
-//     sp.update_block = blockHash;
-//
-//     assert(_my_sps->updateSP(property, sp));
-//
-//     return 0;
-// }
-//
+/** Tx 70 */
+int CMPTransaction::logicMath_ChangeIssuer()
+{
+    uint256 blockHash;
+    {
+        LOCK(cs_main);
+
+        CBlockIndex* pindex = chainActive[block];
+        if (pindex == NULL) {
+            PrintToLog("%s(): ERROR: block %d not in the active chain\n", __func__, block);
+            return (PKT_ERROR_TOKENS -20);
+        }
+        blockHash = pindex->GetBlockHash();
+    }
+
+    if (!IsTransactionTypeAllowed(block, property, type, version)) {
+        PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
+                __func__,
+                type,
+                version,
+                property,
+                block);
+        return (PKT_ERROR_TOKENS -22);
+    }
+
+    if (!IsPropertyIdValid(property)) {
+        PrintToLog("%s(): rejected: property %d does not exist\n", __func__, property);
+        return (PKT_ERROR_TOKENS -24);
+    }
+
+    CMPSPInfo::Entry sp;
+    assert(_my_sps->getSP(property, sp));
+
+    if (sender != sp.issuer) {
+        PrintToLog("%s(): rejected: sender %s is not issuer of property %d [issuer=%s]\n", __func__, sender, property, sp.issuer);
+        return (PKT_ERROR_TOKENS -43);
+    }
+
+    if (NULL != getCrowd(sender)) {
+        PrintToLog("%s(): rejected: sender %s has an active crowdsale\n", __func__, sender);
+        return (PKT_ERROR_TOKENS -39);
+    }
+
+    if (receiver.empty()) {
+        PrintToLog("%s(): rejected: receiver is empty\n", __func__);
+        return (PKT_ERROR_TOKENS -45);
+    }
+
+    if (NULL != getCrowd(receiver)) {
+        PrintToLog("%s(): rejected: receiver %s has an active crowdsale\n", __func__, receiver);
+        return (PKT_ERROR_TOKENS -46);
+    }
+
+    // ------------------------------------------
+
+    sp.issuer = receiver;
+    sp.update_block = blockHash;
+
+    assert(_my_sps->updateSP(property, sp));
+
+    return 0;
+}
+
 // /** Tx 71 */
 // int CMPTransaction::logicMath_EnableFreezing()
 // {

@@ -154,6 +154,8 @@ static const CRPCConvertParam vRPCConvertParams[] =
 
     /* Omni Core - transaction calls */
     { "omni_send", 2, "" },
+    { "omni_sendsto", 1, "" },
+    { "omni_sendsto", 4, "" },
     { "omni_sendtrade", 1, "" },
     { "omni_sendtrade", 3, "" },
     { "omni_createpayload_simplesend", 0, "" },
@@ -164,6 +166,20 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "omni_sendissuancefixed", 1, "" },
     { "omni_sendissuancefixed", 2, "" },
     { "omni_sendissuancefixed", 3, "" },
+    { "omni_sendcancelalltrades", 1, "" },
+    { "omni_sendcanceltradesbyprice",1,"" },
+    { "omni_sendcanceltradesbyprice",3,"" },
+    { "omni_sendcanceltradesbypair",1,"" },
+    { "omni_sendcanceltradesbypair",2,"" },
+    { "omni_sendissuancecrowdsale", 1, "" },
+    { "omni_sendissuancecrowdsale", 2, "" },
+    { "omni_sendissuancecrowdsale", 3, "" },
+    { "omni_sendissuancecrowdsale", 9, "" },
+    { "omni_sendissuancecrowdsale", 11, "" },
+    { "omni_sendissuancecrowdsale", 12, "" },
+    { "omni_sendissuancecrowdsale", 13, "" },
+    { "omni_sendclosecrowdsale", 1, "" },
+    { "omni_sendchangeissuer", 2, "" },
 
       /* Omni Core - retrieve data calls */
     { "omni_getbalance",   1, "" },
@@ -172,6 +188,8 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "omni_getproperty",  0, "" },
     { "omni_getorderbook", 0, "" },
     { "omni_getorderbook", 1, "" },
+    { "omni_getcrowdsale", 0, "" },
+    { "omni_getcrowdsale", 1, "" },
 };
 
 class CRPCConvertTable
