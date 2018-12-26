@@ -152,44 +152,94 @@ static std::string GetTimestamp()
  * @param str[in]  The message to log
  * @return The total number of characters written
  */
+
+
+// int LogFilePrint(const std::string& str)
+// {
+//     int ret = 0; // Number of characters written
+//     // if (fPrintToConsole) {
+//     //     // Print to console
+//     //     ret = ConsolePrint(str);
+//     // }
+//       if (true) {
+//     // else if (fPrintToDebugLog && AreBaseParamsConfigured()) {
+//         static bool fStartedNewLine = true;
+//         boost::call_once(&DebugLogInit, debugLogInitFlag);
+//
+//         if (fileout == NULL) {
+//             return ret;
+//         }
+//         boost::mutex::scoped_lock scoped_lock(*mutexDebugLog);
+//
+//         // Reopen the log file, if requested
+//         //if (fReopenOmniCoreLiteLog) {
+//          if (false) {
+//             fReopenOmniCoreLiteLog = false;
+//             boost::filesystem::path pathDebug = GetLogPath();
+//             if (freopen(pathDebug.string().c_str(), "a", fileout) != NULL) {
+//                 setbuf(fileout, NULL); // Unbuffered
+//             }
+//         }
+//
+//         // Printing log timestamps can be useful for profiling
+//         if (fLogTimestamps && fStartedNewLine) {
+//            // ret += fprintf(fileout, "%s ", GetTimestamp().c_str());
+//         }
+//         if (!str.empty() && str[str.size()-1] == '\n') {
+//             //fStartedNewLine = true;
+//         } else {
+//             fStartedNewLine = false;
+//         }
+//         ret += fwrite(str.data(), 1, str.size(), fileout);
+//     }
+//
+//     return ret;
+// }
+
+
+
 int LogFilePrint(const std::string& str)
 {
-    int ret = 0; // Number of characters written
-    if (fPrintToConsole) {
-        // Print to console
-        // ret = ConsolePrint(str);
-    // } else if (fPrintToDebugLog && AreBaseParamsConfigured()) {
-    } else if (true) {
-        static bool fStartedNewLine = true;
-        boost::call_once(&DebugLogInit, debugLogInitFlag);
-        if (fileout == NULL) {
-            return ret;
-        }
-        boost::mutex::scoped_lock scoped_lock(*mutexDebugLog);
+   int ret = 0; // Number of characters written
+   // if (fPrintToConsole) {
+   //     // Print to console
+   //     ret = ConsolePrint(str);
+   // }
+     if (true) {
+   // else if (fPrintToDebugLog && AreBaseParamsConfigured()) {
+       static bool fStartedNewLine = true;
+       boost::call_once(&DebugLogInit, debugLogInitFlag);
 
-        // Reopen the log file, if requested
-        if (fReopenOmniCoreLog) {
-            boost::filesystem::path pathDebug = GetLogPath();
-            if (freopen(pathDebug.string().c_str(),"a",fileout) != nullptr) {
-                setbuf(fileout, nullptr); // unbuffered
-            }
-        }
+       if (fileout == NULL) {
+           return ret;
+       }
+       boost::mutex::scoped_lock scoped_lock(*mutexDebugLog);
 
-        // Printing log timestamps can be useful for profiling
-        if (fLogTimestamps && fStartedNewLine) {
-            ret += fwrite(GetTimestamp().data(), 1, GetTimestamp().size(), fileout);
-        }
-        if (!str.empty() && str[str.size()-1] == '\n') {
-            fStartedNewLine = true;
-        } else {
-            fStartedNewLine = false;
-        }
-        ret += fwrite(str.data(), 1, str.size(), fileout);
+       // Reopen the log file, if requested
+       //if (fReopenOmniCoreLiteLog) {
+        if (false) {
+           fReopenOmniCoreLog = false;
+           boost::filesystem::path pathDebug = GetLogPath();
+           if (freopen(pathDebug.string().c_str(), "a", fileout) != NULL) {
+               setbuf(fileout, NULL); // Unbuffered
+           }
+       }
 
-    }
+       // Printing log timestamps can be useful for profiling
+       if (fLogTimestamps && fStartedNewLine) {
+          // ret += fprintf(fileout, "%s ", GetTimestamp().c_str());
+       }
+       if (!str.empty() && str[str.size()-1] == '\n') {
+           //fStartedNewLine = true;
+       } else {
+           fStartedNewLine = false;
+       }
+       ret += fwrite(str.data(), 1, str.size(), fileout);
+   }
 
-    return ret;
+   return ret;
 }
+
 
 /**
  * Prints to the standard output, usually the console.

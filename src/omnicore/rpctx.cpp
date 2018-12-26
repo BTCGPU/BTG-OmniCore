@@ -478,7 +478,7 @@ UniValue omni_sendissuancefixed(const JSONRPCRequest& request)
     int64_t amount = ParseAmount(request.params[9], type);
 
     // perform checks
-    RequirePropertyName(name);
+    // RequirePropertyName(name);
 
     // create a payload for the transaction
     std::vector<unsigned char> payload = CreatePayload_IssuanceFixed(ecosystem, type, previousId, category, subcategory, name, url, data, amount);

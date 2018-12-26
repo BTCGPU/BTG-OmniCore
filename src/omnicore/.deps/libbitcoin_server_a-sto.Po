@@ -1086,8 +1086,8 @@ omnicore/libbitcoin_server_a-sto.o: omnicore/sto.cpp \
  config/bitcoin-config.h compat/byteswap.h /usr/include/byteswap.h \
  univalue/include/univalue.h primitives/transaction.h amount.h \
  script/script.h crypto/common.h prevector.h serialize.h compat/endian.h \
- prevector.h /usr/include/c++/7/unordered_map \
- /usr/include/c++/7/bits/hashtable.h \
+ prevector.h policy/feerate.h consensus/consensus.h \
+ /usr/include/c++/7/unordered_map /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
  /usr/include/c++/7/bits/unordered_map.h omnicore/uint256_extensions.h \
  arith_uint256.h
@@ -3571,6 +3571,10 @@ serialize.h:
 compat/endian.h:
 
 prevector.h:
+
+policy/feerate.h:
+
+consensus/consensus.h:
 
 /usr/include/c++/7/unordered_map:
 

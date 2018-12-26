@@ -2298,6 +2298,8 @@ int mastercore::WalletTxBuilder(const std::string& senderAddress, const std::str
     // Determine the class to send the transaction via - default is Class C
     int omniTxClass = OMNI_CLASS_C;
 
+    PrintToLog("data+OmMarker size : %d\n",data.size()+GetOmMarker().size());
+
     // Prepare the transaction - first setup some vars
     CCoinControl coinControl;
     CWalletTx wtxNew;
