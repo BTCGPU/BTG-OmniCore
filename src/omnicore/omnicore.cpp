@@ -877,13 +877,14 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
             if (!GetOutputType(txOut.scriptPubKey, whichType)) {
                 return -108;
             }     //TODO: Check this condition later!
-            // if (!IsAllowedInputType(whichType, nBlock)) {
+            // if (!IsAllowedInputType(whichType, nBlock)) { NOTE: !FIX ME
             //     return -109;
             // }
 
             CTxDestination source;
             if (ExtractDestination(txOut.scriptPubKey, source)) {
                 strSender = CBitcoinAddress(source).ToString();
+                PrintToLog("strSender: %s",strSender);
             }
             else {
               return -110;
@@ -917,9 +918,9 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
         if (!GetOutputType(wtx.vout[n].scriptPubKey, whichType)) {
             continue;
         }
-        if (!IsAllowedOutputType(whichType, nBlock)) {
-            continue;
-        }
+        // if (!IsAllowedOutputType(whichType, nBlock)) {
+        //     continue;
+        // }
         CTxDestination dest;
         if (ExtractDestination(wtx.vout[n].scriptPubKey, dest)) {
             CBitcoinAddress address(dest);
@@ -2245,6 +2246,7 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
     }
 
     if (0 == pop_ret) {
+        PrintToLog("omni transaction found !!!\n");
         int interp_ret = mp_obj.interpretPacket();
         if (interp_ret) PrintToLog("!!! interpretPacket() returned %d !!!\n", interp_ret);
       //  Only structurally valid transactions get recorded in levelDB
@@ -3764,7 +3766,7 @@ int mastercore_handler_block_begin(int nBlockPrev, CBlockIndex const * pBlockInd
     //handle any features that go live with this block
     // CheckLiveActivations(pBlockIndex->nHeight);
     //
-    // eraseExpiredCrowdsale(pBlockIndex);
+    eraseExpiredCrowdsale(pBlockIndex);
 
     return 0;
 }
@@ -3907,7 +3909,7 @@ const CBitcoinAddress ExodusCrowdsaleAddress(int nBlock)
 //  */
 const std::vector<unsigned char> GetOmMarker()
 {
-    static unsigned char pch[] = {0x6f, 0x6d, 0x6e, 0x69}; // TODO: change Hex-encoded to "btge"
+    static unsigned char pch[] = {0x6f, 0x6d, 0x6e, 0x6e}; // TODO: change Hex-encoded to "btge"
 
     return std::vector<unsigned char>(pch, pch + sizeof(pch) / sizeof(pch[0]));
 }

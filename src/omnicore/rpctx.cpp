@@ -108,8 +108,7 @@ UniValue omni_send(const JSONRPCRequest& request)  // TODO: add the fhelp bool
     std::string fromAddress = ParseAddress(request.params[0]);
     std::string toAddress = ParseAddress(request.params[1]);
     uint32_t propertyId = ParsePropertyId(request.params[2]);
-    // int64_t amount = ParseAmount(request.params[3], isPropertyDivisible(propertyId));
-    int64_t amount = ParseAmount(request.params[3], true);
+    int64_t amount = ParseAmount(request.params[3], isPropertyDivisible(propertyId));
     std::string redeemAddress = (request.params.size() > 4 && !ParseText(request.params[4]).empty()) ? ParseAddress(request.params[4]): "";
     int64_t referenceAmount = (request.params.size() > 5) ? ParseAmount(request.params[5], true): 0;
     // perform checks
