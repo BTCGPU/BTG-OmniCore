@@ -430,9 +430,9 @@ bool CMPTransaction::interpret_MetaDExCancelEcosystem()
 /** Tx 50 */
 bool CMPTransaction::interpret_CreatePropertyFixed()
 {
-    // if (pkt_size < 25) {
-    //     return false;
-    // }
+    if (pkt_size < 25) {
+        return false;
+    }
     const char* p = 11 + (char*) &pkt;
     std::vector<std::string> spstr;
     memcpy(&ecosystem, &pkt[4], 1);
@@ -1611,10 +1611,10 @@ int CMPTransaction::logicMath_CreatePropertyFixed()
     //     return (PKT_ERROR_SP -36);
     // }
     //
-    // if ('\0' == name[0]) {
-    //     PrintToLog("%s(): rejected: property name must not be empty\n", __func__);
-    //     return (PKT_ERROR_SP -37);
-    // }
+    if ('\0' == name[0]) {
+        PrintToLog("%s(): rejected: property name must not be empty\n", __func__);
+        return (PKT_ERROR_SP -37);
+    }
 
     // ------------------------------------------
 
