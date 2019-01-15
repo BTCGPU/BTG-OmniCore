@@ -105,22 +105,22 @@ void RequireTokenIssuer(const std::string& address, uint32_t propertyId)
         throw JSONRPCError(RPC_TYPE_ERROR, "Sender is not authorized to manage the property");
     }
 }
-// 
-// void RequireMatchingDExOffer(const std::string& address, uint32_t propertyId)
-// {
-//     LOCK(cs_tally);
-//     if (!mastercore::DEx_offerExists(address, propertyId)) {
-//         throw JSONRPCError(RPC_TYPE_ERROR, "No matching sell offer on the distributed exchange");
-//     }
-// }
-//
-// void RequireNoOtherDExOffer(const std::string& address, uint32_t propertyId)
-// {
-//     LOCK(cs_tally);
-//     if (mastercore::DEx_offerExists(address, propertyId)) {
-//         throw JSONRPCError(RPC_TYPE_ERROR, "Another active sell offer from the given address already exists on the distributed exchange");
-//     }
-// }
+
+void RequireMatchingDExOffer(const std::string& address, uint32_t propertyId)
+{
+    LOCK(cs_tally);
+    if (!mastercore::DEx_offerExists(address, propertyId)) {
+        throw JSONRPCError(RPC_TYPE_ERROR, "No matching sell offer on the distributed exchange");
+    }
+}
+
+void RequireNoOtherDExOffer(const std::string& address, uint32_t propertyId)
+{
+    LOCK(cs_tally);
+    if (mastercore::DEx_offerExists(address, propertyId)) {
+        throw JSONRPCError(RPC_TYPE_ERROR, "Another active sell offer from the given address already exists on the distributed exchange");
+    }
+}
 
 void RequireSaneReferenceAmount(int64_t amount)
 {
@@ -129,29 +129,29 @@ void RequireSaneReferenceAmount(int64_t amount)
     }
 }
 
-// void RequireSaneDExPaymentWindow(const std::string& address, uint32_t propertyId)
-// {
-//     LOCK(cs_tally);
-//     const CMPOffer* poffer = mastercore::DEx_getOffer(address, propertyId);
-//     if (poffer == NULL) {
-//         throw JSONRPCError(RPC_DATABASE_ERROR, "Unable to load sell offer from the distributed exchange");
-//     }
-//     if (poffer->getBlockTimeLimit() < 10) {
-//         throw JSONRPCError(RPC_TYPE_ERROR, "Payment window is less than 10 blocks (use override = true to continue)");
-//     }
-// }
+void RequireSaneDExPaymentWindow(const std::string& address, uint32_t propertyId)
+{
+    LOCK(cs_tally);
+    const CMPOffer* poffer = mastercore::DEx_getOffer(address, propertyId);
+    if (poffer == NULL) {
+        throw JSONRPCError(RPC_DATABASE_ERROR, "Unable to load sell offer from the distributed exchange");
+    }
+    if (poffer->getBlockTimeLimit() < 10) {
+        throw JSONRPCError(RPC_TYPE_ERROR, "Payment window is less than 10 blocks (use override = true to continue)");
+    }
+}
 
-// void RequireSaneDExFee(const std::string& address, uint32_t propertyId)
-// {
-//     LOCK(cs_tally);
-//     const CMPOffer* poffer = mastercore::DEx_getOffer(address, propertyId);
-//     if (poffer == NULL) {
-//         throw JSONRPCError(RPC_DATABASE_ERROR, "Unable to load sell offer from the distributed exchange");
-//     }
-//     if (poffer->getMinFee() > 1000000) {
-//         throw JSONRPCError(RPC_TYPE_ERROR, "Minimum accept fee is higher than 0.01 BTC (use override = true to continue)");
-//     }
-// }
+void RequireSaneDExFee(const std::string& address, uint32_t propertyId)
+{
+    LOCK(cs_tally);
+    const CMPOffer* poffer = mastercore::DEx_getOffer(address, propertyId);
+    if (poffer == NULL) {
+        throw JSONRPCError(RPC_DATABASE_ERROR, "Unable to load sell offer from the distributed exchange");
+    }
+    if (poffer->getMinFee() > 1000000) {
+        throw JSONRPCError(RPC_TYPE_ERROR, "Minimum accept fee is higher than 0.01 BTC (use override = true to continue)");
+    }
+}
 
 void RequireHeightInChain(int blockHeight)
 {

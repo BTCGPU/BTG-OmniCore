@@ -443,12 +443,12 @@ int64_t calculateDExPurchase(const int64_t amountOffered, const int64_t amountDe
  * Handles incoming BTC payment for the offer in omnicore.cpp
  * TODO: change nAmended: uint64_t -> int64_t
  */
-int DEx_payment(const uint256& txid, unsigned int vout, const std::string& addressSeller, const std::string& addressBuyer, int64_t amountPaid, int block, uint64_t* nAmended)
+int DEx_payment(const uint256& txid, unsigned int vout, const std::string& addressSeller, const std::string& addressBuyer, int64_t amountPaid, int block, uint32_t propertyId, uint64_t* nAmended)
 {
     // if (msc_debug_dex) PrintToLog("%s(%s, %s)\n", __func__, addressSeller, addressBuyer);
     PrintToConsole("Inside DEx_payment function <<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
     int rc = DEX_ERROR_PAYMENT;
-    uint32_t propertyId = OMNI_PROPERTY_MSC;
+    // uint32_t propertyId = OMNI_PROPERTY_MSC;
 
     // -------------------------------------------------------------------------
 

@@ -1091,8 +1091,10 @@ omnicore/libbitcoin_server_a-tx.o: omnicore/tx.cpp \
  /usr/include/c++/7/bits/hashtable.h \
  /usr/include/c++/7/bits/hashtable_policy.h \
  /usr/include/c++/7/bits/unordered_map.h utilstrencodings.h \
- omnicore/activation.h omnicore/convert.h omnicore/fees.h omnicore/mdex.h \
- /usr/include/boost/lexical_cast.hpp \
+ omnicore/activation.h omnicore/convert.h omnicore/dex.h \
+ /usr/include/openssl/sha.h /usr/include/openssl/e_os2.h \
+ /usr/include/x86_64-linux-gnu/openssl/opensslconf.h omnicore/fees.h \
+ omnicore/mdex.h /usr/include/boost/lexical_cast.hpp \
  /usr/include/boost/range/iterator_range_core.hpp \
  /usr/include/boost/range/functions.hpp \
  /usr/include/boost/range/begin.hpp /usr/include/boost/range/iterator.hpp \
@@ -1351,8 +1353,6 @@ omnicore/libbitcoin_server_a-tx.o: omnicore/tx.cpp \
  /usr/include/boost/multiprecision/cpp_int/literals.hpp \
  /usr/include/boost/multiprecision/cpp_int/serialize.hpp \
  /usr/include/boost/multiprecision/cpp_int/import_export.hpp \
- /usr/include/openssl/sha.h /usr/include/openssl/e_os2.h \
- /usr/include/x86_64-linux-gnu/openssl/opensslconf.h \
  omnicore/notifications.h omnicore/rules.h omnicore/sp.h omnicore/sto.h \
  omnicore/utils.h omnicore/utilsbitcoin.h omnicore/version.h base58.h \
  chainparams.h chainparamsbase.h consensus/params.h primitives/block.h \
@@ -3925,6 +3925,14 @@ omnicore/activation.h:
 
 omnicore/convert.h:
 
+omnicore/dex.h:
+
+/usr/include/openssl/sha.h:
+
+/usr/include/openssl/e_os2.h:
+
+/usr/include/x86_64-linux-gnu/openssl/opensslconf.h:
+
 omnicore/fees.h:
 
 omnicore/mdex.h:
@@ -4464,12 +4472,6 @@ omnicore/mdex.h:
 /usr/include/boost/multiprecision/cpp_int/serialize.hpp:
 
 /usr/include/boost/multiprecision/cpp_int/import_export.hpp:
-
-/usr/include/openssl/sha.h:
-
-/usr/include/openssl/e_os2.h:
-
-/usr/include/x86_64-linux-gnu/openssl/opensslconf.h:
 
 omnicore/notifications.h:
 

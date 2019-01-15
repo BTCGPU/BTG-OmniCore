@@ -180,6 +180,11 @@ static const CRPCConvertParam vRPCConvertParams[] =
     { "omni_sendissuancecrowdsale", 13, "" },
     { "omni_sendclosecrowdsale", 1, "" },
     { "omni_sendchangeissuer", 2, "" },
+    { "omni_senddexsell", 1, "" },
+    { "omni_senddexsell", 4, "" },
+    { "omni_senddexsell", 6, "" },
+    { "omni_senddexaccept", 2, "" },
+    { "omni_senddexaccept", 4, "" },
 
       /* Omni Core - retrieve data calls */
     { "omni_getbalance",   1, "" },
