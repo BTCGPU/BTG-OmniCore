@@ -4,7 +4,7 @@
 
 #include "omnicore/activation.h"
 #include "omnicore/convert.h"
-// #include "omnicore/dex.h"
+#include "omnicore/dex.h"
 #include "omnicore/fees.h"
 #include "omnicore/log.h"
 #include "omnicore/mdex.h"
@@ -117,13 +117,13 @@ bool CMPTransaction::interpret_Transaction()
 
         case MSC_TYPE_SEND_ALL:
             return interpret_SendAll();
-    //
-    //     case MSC_TYPE_TRADE_OFFER:
-    //         return interpret_TradeOffer();
-    //
-    //     case MSC_TYPE_ACCEPT_OFFER_BTC:
-    //         return interpret_AcceptOfferBTC();
-    //
+
+        case MSC_TYPE_TRADE_OFFER:
+            return interpret_TradeOffer();
+
+        case MSC_TYPE_ACCEPT_OFFER_BTC:
+            return interpret_AcceptOfferBTC();
+
         case MSC_TYPE_METADEX_TRADE:
             return interpret_MetaDExTrade();
 
@@ -864,12 +864,12 @@ int CMPTransaction::interpretPacket()
         // case MSC_TYPE_SEND_ALL:
         //     return logicMath_SendAll();
         //
-        // case MSC_TYPE_TRADE_OFFER:
-        //     return logicMath_TradeOffer();
-        //
-        // case MSC_TYPE_ACCEPT_OFFER_BTC:
-        //     return logicMath_AcceptOffer_BTC();
-        //
+        case MSC_TYPE_TRADE_OFFER:
+            return logicMath_TradeOffer();
+
+        case MSC_TYPE_ACCEPT_OFFER_BTC:
+            return logicMath_AcceptOffer_BTC();
+
         case MSC_TYPE_METADEX_TRADE:
             return logicMath_MetaDExTrade();
 
@@ -1249,126 +1249,126 @@ int CMPTransaction::logicMath_SendAll()
 }
 
 /** Tx 20 */
-// int CMPTransaction::logicMath_TradeOffer()
-// {
-//     if (!IsTransactionTypeAllowed(block, property, type, version)) {
-//         PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
-//                 __func__,
-//                 type,
-//                 version,
-//                 property,
-//                 block);
-//         return (PKT_ERROR_TRADEOFFER -22);
-//     }
-//
-//     if (MAX_INT_8_BYTES < nValue) {
-//         PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
-//         return (PKT_ERROR_TRADEOFFER -23);
-//     }
-//
-//     if (OMNI_PROPERTY_TMSC != property && OMNI_PROPERTY_MSC != property) {
-//         PrintToLog("%s(): rejected: property for sale %d must be OMNI or TOMNI\n", __func__, property);
-//         return (PKT_ERROR_TRADEOFFER -47);
-//     }
-//
-//     // ------------------------------------------
-//
-//     int rc = PKT_ERROR_TRADEOFFER;
-//
-//     // figure out which Action this is based on amount for sale, version & etc.
-//     switch (version)
-//     {
-//         case MP_TX_PKT_V0:
-//         {
-//             if (0 != nValue) {
-//                 if (!DEx_offerExists(sender, property)) {
-//                     rc = DEx_offerCreate(sender, property, nValue, block, amount_desired, min_fee, blocktimelimit, txid, &nNewValue);
-//                 } else {
-//                     rc = DEx_offerUpdate(sender, property, nValue, block, amount_desired, min_fee, blocktimelimit, txid, &nNewValue);
-//                 }
-//             } else {
-//                 // what happens if nValue is 0 for V0 ?  ANSWER: check if exists and it does -- cancel, otherwise invalid
-//                 if (DEx_offerExists(sender, property)) {
-//                     rc = DEx_offerDestroy(sender, property);
-//                 } else {
-//                     PrintToLog("%s(): rejected: sender %s has no active sell offer for property: %d\n", __func__, sender, property);
-//                     rc = (PKT_ERROR_TRADEOFFER -49);
-//                 }
-//             }
-//
-//             break;
-//         }
-//
-//         case MP_TX_PKT_V1:
-//         {
-//             if (DEx_offerExists(sender, property)) {
-//                 if (CANCEL != subaction && UPDATE != subaction) {
-//                     PrintToLog("%s(): rejected: sender %s has an active sell offer for property: %d\n", __func__, sender, property);
-//                     rc = (PKT_ERROR_TRADEOFFER -48);
-//                     break;
-//                 }
-//             } else {
-//                 // Offer does not exist
-//                 if (NEW != subaction) {
-//                     PrintToLog("%s(): rejected: sender %s has no active sell offer for property: %d\n", __func__, sender, property);
-//                     rc = (PKT_ERROR_TRADEOFFER -49);
-//                     break;
-//                 }
-//             }
-//
-//             switch (subaction) {
-//                 case NEW:
-//                     rc = DEx_offerCreate(sender, property, nValue, block, amount_desired, min_fee, blocktimelimit, txid, &nNewValue);
-//                     break;
-//
-//                 case UPDATE:
-//                     rc = DEx_offerUpdate(sender, property, nValue, block, amount_desired, min_fee, blocktimelimit, txid, &nNewValue);
-//                     break;
-//
-//                 case CANCEL:
-//                     rc = DEx_offerDestroy(sender, property);
-//                     break;
-//
-//                 default:
-//                     rc = (PKT_ERROR -999);
-//                     break;
-//             }
-//             break;
-//         }
-//
-//         default:
-//             rc = (PKT_ERROR -500); // neither V0 nor V1
-//             break;
-//     };
-//
-//     return rc;
-// }
+int CMPTransaction::logicMath_TradeOffer()
+{
+    if (!IsTransactionTypeAllowed(block, property, type, version)) {
+        PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
+                __func__,
+                type,
+                version,
+                property,
+                block);
+        return (PKT_ERROR_TRADEOFFER -22);
+    }
+
+    if (MAX_INT_8_BYTES < nValue) {
+        PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
+        return (PKT_ERROR_TRADEOFFER -23);
+    }
+
+    // if (OMNI_PROPERTY_TMSC != property && OMNI_PROPERTY_MSC != property) {
+    //     PrintToLog("%s(): rejected: property for sale %d must be OMNI or TOMNI\n", __func__, property);
+    //     return (PKT_ERROR_TRADEOFFER -47);
+    // }
+
+    // ------------------------------------------
+
+    int rc = PKT_ERROR_TRADEOFFER;
+
+    // figure out which Action this is based on amount for sale, version & etc.
+    switch (version)
+    {
+        case MP_TX_PKT_V0:
+        {
+            if (0 != nValue) {
+                if (!DEx_offerExists(sender, property)) {
+                    rc = DEx_offerCreate(sender, property, nValue, block, amount_desired, min_fee, blocktimelimit, txid, &nNewValue);
+                } else {
+                    rc = DEx_offerUpdate(sender, property, nValue, block, amount_desired, min_fee, blocktimelimit, txid, &nNewValue);
+                }
+            } else {
+                // what happens if nValue is 0 for V0 ?  ANSWER: check if exists and it does -- cancel, otherwise invalid
+                if (DEx_offerExists(sender, property)) {
+                    rc = DEx_offerDestroy(sender, property);
+                } else {
+                    PrintToLog("%s(): rejected: sender %s has no active sell offer for property: %d\n", __func__, sender, property);
+                    rc = (PKT_ERROR_TRADEOFFER -49);
+                }
+            }
+
+            break;
+        }
+
+        case MP_TX_PKT_V1:
+        {
+            if (DEx_offerExists(sender, property)) {
+                if (CANCEL != subaction && UPDATE != subaction) {
+                    PrintToLog("%s(): rejected: sender %s has an active sell offer for property: %d\n", __func__, sender, property);
+                    rc = (PKT_ERROR_TRADEOFFER -48);
+                    break;
+                }
+            } else {
+                // Offer does not exist
+                if (NEW != subaction) {
+                    PrintToLog("%s(): rejected: sender %s has no active sell offer for property: %d\n", __func__, sender, property);
+                    rc = (PKT_ERROR_TRADEOFFER -49);
+                    break;
+                }
+            }
+
+            switch (subaction) {
+                case NEW:
+                    rc = DEx_offerCreate(sender, property, nValue, block, amount_desired, min_fee, blocktimelimit, txid, &nNewValue);
+                    break;
+
+                case UPDATE:
+                    rc = DEx_offerUpdate(sender, property, nValue, block, amount_desired, min_fee, blocktimelimit, txid, &nNewValue);
+                    break;
+
+                case CANCEL:
+                    rc = DEx_offerDestroy(sender, property);
+                    break;
+
+                default:
+                    rc = (PKT_ERROR -999);
+                    break;
+            }
+            break;
+        }
+
+        default:
+            rc = (PKT_ERROR -500); // neither V0 nor V1
+            break;
+    };
+
+    return rc;
+}
 
 /** Tx 22 */
-// int CMPTransaction::logicMath_AcceptOffer_BTC()
-// {
-//     if (!IsTransactionTypeAllowed(block, property, type, version)) {
-//         PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
-//                 __func__,
-//                 type,
-//                 version,
-//                 property,
-//                 block);
-//         return (DEX_ERROR_ACCEPT -22);
-//     }
-//
-//     if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
-//         PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
-//         return (DEX_ERROR_ACCEPT -23);
-//     }
-//
-//     // ------------------------------------------
-//
-//     // the min fee spec requirement is checked in the following function
-//     int rc = DEx_acceptCreate(sender, receiver, property, nValue, block, tx_fee_paid, &nNewValue);
-//
-//     return rc;
-// }
+int CMPTransaction::logicMath_AcceptOffer_BTC()
+{
+    if (!IsTransactionTypeAllowed(block, property, type, version)) {
+        PrintToLog("%s(): rejected: type %d or version %d not permitted for property %d at block %d\n",
+                __func__,
+                type,
+                version,
+                property,
+                block);
+        return (DEX_ERROR_ACCEPT -22);
+    }
+
+    if (nValue <= 0 || MAX_INT_8_BYTES < nValue) {
+        PrintToLog("%s(): rejected: value out of range or zero: %d\n", __func__, nValue);
+        return (DEX_ERROR_ACCEPT -23);
+    }
+
+    // ------------------------------------------
+
+    // the min fee spec requirement is checked in the following function
+    int rc = DEx_acceptCreate(sender, receiver, property, nValue, block, tx_fee_paid, &nNewValue);
+
+    return rc;
+}
 
 /** Tx 25 */
 int CMPTransaction::logicMath_MetaDExTrade()

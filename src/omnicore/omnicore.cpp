@@ -18,7 +18,7 @@
 #include "omnicore/rules.h"
 #include "omnicore/script.h"
 #include "omnicore/mdex.h"
-// #include "omnicore/dex.h"
+#include "omnicore/dex.h"
 #include "omnicore/seedblocks.h"
 #include "omnicore/sp.h"
 #include "omnicore/tally.h"
@@ -240,8 +240,8 @@ std::string FormatByType(int64_t amount, uint16_t propertyType)
     }
 }
 
-// OfferMap mastercore::my_offers;
-// AcceptMap mastercore::my_accepts;
+OfferMap mastercore::my_offers;
+AcceptMap mastercore::my_accepts;
 
 CMPSPInfo *mastercore::_my_sps;
 CrowdMap mastercore::my_crowds;
@@ -1063,27 +1063,57 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
 //  *
 //  * @return True, if valid
 //  */
-// static bool HandleDExPayments(const CTransaction& tx, int nBlock, const std::string& strSender)
-// {
-//     int count = 0;
-//
-//     for (unsigned int n = 0; n < tx.vout.size(); ++n) {
-//         CTxDestination dest;
-//         if (ExtractDestination(tx.vout[n].scriptPubKey, dest)) {
-//             CBitcoinAddress address(dest);
-//             if (address == ExodusAddress()) {
-//                 continue;
-//             }
-//             std::string strAddress = address.ToString();
-//             if (msc_debug_parser_dex) PrintToLog("payment #%d %s %s\n", count, strAddress, FormatIndivisibleMP(tx.vout[n].nValue));
-//
-//             // check everything and pay BTC for the property we are buying here...
-//             if (0 == DEx_payment(tx.GetHash(), n, strAddress, strSender, tx.vout[n].nValue, nBlock)) ++count;
-//         }
-//     }
-//
-//     return (count > 0);
-// }
+static bool HandleDExPayments(const CTransaction& tx, int nBlock, const std::string& strSender)
+{
+    int count = 0;
+
+    for (unsigned int n = 0; n < tx.vout.size(); ++n) {
+        CTxDestination dest;
+        uint32_t propertyId;
+        std::string strPropertyId;
+        if (ExtractDestination(tx.vout[n].scriptPubKey, dest)) {
+            CBitcoinAddress address(dest);
+            if (address == ExodusAddress()) {
+                continue;
+            }
+
+            txnouttype whichType;
+            if (!GetOutputType(tx.vout[n].scriptPubKey, whichType)) {
+                continue;
+            }
+            if (!IsAllowedOutputType(whichType, nBlock)) {
+                continue;
+            }
+
+            if (whichType == TX_NULL_DATA)
+            {
+                // only consider outputs, which are explicitly tagged
+                std::vector<std::string> vstrPushes;
+                if (!GetScriptPushes(tx.vout[n].scriptPubKey, vstrPushes)) {
+                    continue;
+                }
+
+                if (!vstrPushes.empty()) {
+                    std::vector<unsigned char> vchPushed = ParseHex(vstrPushes[0]);
+                    unsigned int payload_size = vchPushed.size();
+                    if (payload_size > 0) {
+                        memcpy(&strPropertyId, &vstrPushes[0], payload_size); // the idea is recovery propertyId from null data OP_RETURN
+                        PrintToLog("string propertyId: %s\n",strPropertyId);
+                    } else
+                        continue;
+                }
+             }
+
+             std::string strAddress = address.ToString();
+             if (msc_debug_parser_dex) PrintToLog("payment #%d %s %s\n", count, strAddress, FormatIndivisibleMP(tx.vout[n].nValue));
+
+            // check everything and pay BTC for the property we are buying here...
+            if (0 == DEx_payment(tx.GetHash(), n, strAddress, strSender, tx.vout[n].nValue, nBlock, propertyId)) ++count;
+        }
+    }
+
+    return (count > 0);
+}
 //
 // /**
 //  * Handles potential Exodus crowdsale purchases.
@@ -1317,76 +1347,76 @@ int input_msc_balances_string(const std::string& s)
 
     return 0;
 }
-//
-// // seller-address, offer_block, amount, property, desired BTC , property_desired, fee, blocktimelimit
-// // 13z1JFtDMGTYQvtMq5gs4LmCztK3rmEZga,299076,76375000,1,6415500,0,10000,6
-// int input_mp_offers_string(const std::string& s)
-// {
-//     std::vector<std::string> vstr;
-//     boost::split(vstr, s, boost::is_any_of(" ,="), boost::token_compress_on);
-//
-//     if (9 != vstr.size()) return -1;
-//
-//     int i = 0;
-//
-//     std::string sellerAddr = vstr[i++];
-//     int offerBlock = boost::lexical_cast<int>(vstr[i++]);
-//     int64_t amountOriginal = boost::lexical_cast<int64_t>(vstr[i++]);
-//     uint32_t prop = boost::lexical_cast<uint32_t>(vstr[i++]);
-//     int64_t btcDesired = boost::lexical_cast<int64_t>(vstr[i++]);
-//     uint32_t prop_desired = boost::lexical_cast<uint32_t>(vstr[i++]);
-//     int64_t minFee = boost::lexical_cast<int64_t>(vstr[i++]);
-//     uint8_t blocktimelimit = boost::lexical_cast<unsigned int>(vstr[i++]); // lexical_cast can't handle char!
-//     uint256 txid = uint256S(vstr[i++]);
-//
-//     // TODO: should this be here? There are usually no sanity checks..
-//     if (OMNI_PROPERTY_BTC != prop_desired) return -1;
-//
-//     const std::string combo = STR_SELLOFFER_ADDR_PROP_COMBO(sellerAddr, prop);
-//     CMPOffer newOffer(offerBlock, amountOriginal, prop, btcDesired, minFee, blocktimelimit, txid);
-//
-//     if (!my_offers.insert(std::make_pair(combo, newOffer)).second) return -1;
-//
-//     return 0;
-// }
-//
-// // seller-address, property, buyer-address, amount, fee, block
-// // 13z1JFtDMGTYQvtMq5gs4LmCztK3rmEZga,1, 148EFCFXbk2LrUhEHDfs9y3A5dJ4tttKVd,100000,11000,299126
-// // 13z1JFtDMGTYQvtMq5gs4LmCztK3rmEZga,1,1Md8GwMtWpiobRnjRabMT98EW6Jh4rEUNy,50000000,11000,299132
-// int input_mp_accepts_string(const string &s)
-// {
-//   int nBlock;
-//   unsigned char blocktimelimit;
-//   std::vector<std::string> vstr;
-//   boost::split(vstr, s, boost::is_any_of(" ,="), token_compress_on);
-//   uint64_t amountRemaining, amountOriginal, offerOriginal, btcDesired;
-//   unsigned int prop;
-//   string sellerAddr, buyerAddr, txidStr;
-//   int i = 0;
-//
-//   if (10 != vstr.size()) return -1;
-//
-//   sellerAddr = vstr[i++];
-//   prop = boost::lexical_cast<unsigned int>(vstr[i++]);
-//   buyerAddr = vstr[i++];
-//   nBlock = atoi(vstr[i++]);
-//   amountRemaining = boost::lexical_cast<uint64_t>(vstr[i++]);
-//   amountOriginal = boost::lexical_cast<uint64_t>(vstr[i++]);
-//   blocktimelimit = atoi(vstr[i++]);
-//   offerOriginal = boost::lexical_cast<uint64_t>(vstr[i++]);
-//   btcDesired = boost::lexical_cast<uint64_t>(vstr[i++]);
-//   txidStr = vstr[i++];
-//
-//   const string combo = STR_ACCEPT_ADDR_PROP_ADDR_COMBO(sellerAddr, buyerAddr, prop);
-//   CMPAccept newAccept(amountOriginal, amountRemaining, nBlock, blocktimelimit, prop, offerOriginal, btcDesired, uint256S(txidStr));
-//   if (my_accepts.insert(std::make_pair(combo, newAccept)).second) {
-//     return 0;
-//   } else {
-//     return -1;
-//   }
-// }
-//
-// // exodus_prev
+
+// seller-address, offer_block, amount, property, desired BTC , property_desired, fee, blocktimelimit
+// 13z1JFtDMGTYQvtMq5gs4LmCztK3rmEZga,299076,76375000,1,6415500,0,10000,6
+int input_mp_offers_string(const std::string& s)
+{
+    std::vector<std::string> vstr;
+    boost::split(vstr, s, boost::is_any_of(" ,="), boost::token_compress_on);
+
+    if (9 != vstr.size()) return -1;
+
+    int i = 0;
+
+    std::string sellerAddr = vstr[i++];
+    int offerBlock = boost::lexical_cast<int>(vstr[i++]);
+    int64_t amountOriginal = boost::lexical_cast<int64_t>(vstr[i++]);
+    uint32_t prop = boost::lexical_cast<uint32_t>(vstr[i++]);
+    int64_t btcDesired = boost::lexical_cast<int64_t>(vstr[i++]);
+    uint32_t prop_desired = boost::lexical_cast<uint32_t>(vstr[i++]);
+    int64_t minFee = boost::lexical_cast<int64_t>(vstr[i++]);
+    uint8_t blocktimelimit = boost::lexical_cast<unsigned int>(vstr[i++]); // lexical_cast can't handle char!
+    uint256 txid = uint256S(vstr[i++]);
+
+    // TODO: should this be here? There are usually no sanity checks..
+    if (OMNI_PROPERTY_BTC != prop_desired) return -1;
+
+    const std::string combo = STR_SELLOFFER_ADDR_PROP_COMBO(sellerAddr, prop);
+    CMPOffer newOffer(offerBlock, amountOriginal, prop, btcDesired, minFee, blocktimelimit, txid);
+
+    if (!my_offers.insert(std::make_pair(combo, newOffer)).second) return -1;
+
+    return 0;
+}
+
+// seller-address, property, buyer-address, amount, fee, block
+// 13z1JFtDMGTYQvtMq5gs4LmCztK3rmEZga,1, 148EFCFXbk2LrUhEHDfs9y3A5dJ4tttKVd,100000,11000,299126
+// 13z1JFtDMGTYQvtMq5gs4LmCztK3rmEZga,1,1Md8GwMtWpiobRnjRabMT98EW6Jh4rEUNy,50000000,11000,299132
+int input_mp_accepts_string(const string &s)
+{
+  int nBlock;
+  unsigned char blocktimelimit;
+  std::vector<std::string> vstr;
+  boost::split(vstr, s, boost::is_any_of(" ,="), token_compress_on);
+  uint64_t amountRemaining, amountOriginal, offerOriginal, btcDesired;
+  unsigned int prop;
+  string sellerAddr, buyerAddr, txidStr;
+  int i = 0;
+
+  if (10 != vstr.size()) return -1;
+
+  sellerAddr = vstr[i++];
+  prop = boost::lexical_cast<unsigned int>(vstr[i++]);
+  buyerAddr = vstr[i++];
+  nBlock = atoi(vstr[i++]);
+  amountRemaining = boost::lexical_cast<uint64_t>(vstr[i++]);
+  amountOriginal = boost::lexical_cast<uint64_t>(vstr[i++]);
+  blocktimelimit = atoi(vstr[i++]);
+  offerOriginal = boost::lexical_cast<uint64_t>(vstr[i++]);
+  btcDesired = boost::lexical_cast<uint64_t>(vstr[i++]);
+  txidStr = vstr[i++];
+
+  const string combo = STR_ACCEPT_ADDR_PROP_ADDR_COMBO(sellerAddr, buyerAddr, prop);
+  CMPAccept newAccept(amountOriginal, amountRemaining, nBlock, blocktimelimit, prop, offerOriginal, btcDesired, uint256S(txidStr));
+  if (my_accepts.insert(std::make_pair(combo, newAccept)).second) {
+    return 0;
+  } else {
+    return -1;
+  }
+}
+
+// exodus_prev
 int input_globals_state_string(const string &s)
 {
   uint64_t exodusPrev;
@@ -1496,16 +1526,16 @@ static int msc_file_load(const string &filename, int what, bool verifyHash = fal
       inputLineFunc = input_msc_balances_string;
       break;
 
-    // case FILETYPE_OFFERS:
-    //   my_offers.clear();
-    //   inputLineFunc = input_mp_offers_string;
-    //   break;
-    //
-    // case FILETYPE_ACCEPTS:
-    //   my_accepts.clear();
-    //   inputLineFunc = input_mp_accepts_string;
-    //   break;
-    //
+    case FILETYPE_OFFERS:
+      my_offers.clear();
+      inputLineFunc = input_mp_offers_string;
+      break;
+
+    case FILETYPE_ACCEPTS:
+      my_accepts.clear();
+      inputLineFunc = input_mp_accepts_string;
+      break;
+
     case FILETYPE_GLOBALS:
       inputLineFunc = input_globals_state_string;
       break;
@@ -1598,8 +1628,8 @@ static int msc_file_load(const string &filename, int what, bool verifyHash = fal
 
 static char const * const statePrefix[NUM_FILETYPES] = {
     "balances",
-    // "offers",
-    // "accepts",
+    "offers",
+    "accepts",
     "globals",
     "crowdsales",
     "mdexorders",
@@ -1757,21 +1787,21 @@ static int write_msc_balances(std::ofstream& file, SHA256_CTX* shaCtx)
 
     return 0;
 }
-//
-// static int write_mp_offers(ofstream &file, SHA256_CTX *shaCtx)
-// {
-//   OfferMap::const_iterator iter;
-//   for (iter = my_offers.begin(); iter != my_offers.end(); ++iter) {
-//     // decompose the key for address
-//     std::vector<std::string> vstr;
-//     boost::split(vstr, (*iter).first, boost::is_any_of("-"), token_compress_on);
-//     CMPOffer const &offer = (*iter).second;
-//     offer.saveOffer(file, shaCtx, vstr[0]);
-//   }
-//
-//
-//   return 0;
-// }
+
+static int write_mp_offers(ofstream &file, SHA256_CTX *shaCtx)
+{
+  OfferMap::const_iterator iter;
+  for (iter = my_offers.begin(); iter != my_offers.end(); ++iter) {
+    // decompose the key for address
+    std::vector<std::string> vstr;
+    boost::split(vstr, (*iter).first, boost::is_any_of("-"), token_compress_on);
+    CMPOffer const &offer = (*iter).second;
+    offer.saveOffer(file, shaCtx, vstr[0]);
+  }
+
+
+  return 0;
+}
 
 static int write_mp_metadex(ofstream &file, SHA256_CTX *shaCtx)
 {
@@ -1792,20 +1822,20 @@ static int write_mp_metadex(ofstream &file, SHA256_CTX *shaCtx)
   return 0;
 }
 
-// static int write_mp_accepts(ofstream &file, SHA256_CTX *shaCtx)
-// {
-//   AcceptMap::const_iterator iter;
-//   for (iter = my_accepts.begin(); iter != my_accepts.end(); ++iter) {
-//     // decompose the key for address
-//     std::vector<std::string> vstr;
-//     boost::split(vstr, (*iter).first, boost::is_any_of("-+"), token_compress_on);
-//     CMPAccept const &accept = (*iter).second;
-//     accept.saveAccept(file, shaCtx, vstr[0], vstr[1]);
-//   }
-//
-//   return 0;
-// }
-//
+static int write_mp_accepts(ofstream &file, SHA256_CTX *shaCtx)
+{
+  AcceptMap::const_iterator iter;
+  for (iter = my_accepts.begin(); iter != my_accepts.end(); ++iter) {
+    // decompose the key for address
+    std::vector<std::string> vstr;
+    boost::split(vstr, (*iter).first, boost::is_any_of("-+"), token_compress_on);
+    CMPAccept const &accept = (*iter).second;
+    accept.saveAccept(file, shaCtx, vstr[0], vstr[1]);
+  }
+
+  return 0;
+}
+
 static int write_globals_state(ofstream &file, SHA256_CTX *shaCtx)
 {
   unsigned int nextSPID = _my_sps->peekNextSPID(OMNI_PROPERTY_MSC);
@@ -1853,13 +1883,13 @@ static int write_state_file( CBlockIndex const *pBlockIndex, int what )
     result = write_msc_balances(file, &shaCtx);
     break;
 
-  // case FILETYPE_OFFERS:
-  //   result = write_mp_offers(file, &shaCtx);
-  //   break;
-  //
-  // case FILETYPE_ACCEPTS:
-  //   result = write_mp_accepts(file, &shaCtx);
-  //   break;
+  case FILETYPE_OFFERS:
+    result = write_mp_offers(file, &shaCtx);
+    break;
+
+  case FILETYPE_ACCEPTS:
+    result = write_mp_accepts(file, &shaCtx);
+    break;
 
   case FILETYPE_GLOBALS:
     result = write_globals_state(file, &shaCtx);
@@ -1956,8 +1986,8 @@ int mastercore_save_state( CBlockIndex const *pBlockIndex )
 {
     // write the new state as of the given block
     write_state_file(pBlockIndex, FILETYPE_BALANCES);
-    // write_state_file(pBlockIndex, FILETYPE_OFFERS);
-    // write_state_file(pBlockIndex, FILETYPE_ACCEPTS);
+    write_state_file(pBlockIndex, FILETYPE_OFFERS);
+    write_state_file(pBlockIndex, FILETYPE_ACCEPTS);
     write_state_file(pBlockIndex, FILETYPE_GLOBALS);
     write_state_file(pBlockIndex, FILETYPE_CROWDSALES);
     write_state_file(pBlockIndex, FILETYPE_MDEXORDERS);
@@ -1979,8 +2009,8 @@ void clear_all_state()
 
     // Memory based storage
     mp_tally_map.clear();
-    // my_offers.clear();
-    // my_accepts.clear();
+    my_offers.clear();
+    my_accepts.clear();
     my_crowds.clear();
     metadex.clear();
     // my_pending.clear();
