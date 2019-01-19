@@ -1054,66 +1054,39 @@ int ParseTransaction(const CTransaction& tx, int nBlock, unsigned int idx, CMPTr
 {
     return parseTransaction(true, tx, nBlock, idx, mptx, nTime);
 }
-//
-// /**
-//  * Handles potential DEx payments.
-//  *
-//  * Note: must *not* be called outside of the transaction handler, and it does not
-//  * check, if a transaction marker exists.
-//  *
-//  * @return True, if valid
-//  */
+
+/**
+ * Handles potential DEx payments.
+ *
+ * Note: must *not* be called outside of the transaction handler, and it does not
+ * check, if a transaction marker exists.
+ *
+ * @return True, if valid
+ */
 static bool HandleDExPayments(const CTransaction& tx, int nBlock, const std::string& strSender)
 {
     int count = 0;
 
     for (unsigned int n = 0; n < tx.vout.size(); ++n) {
         CTxDestination dest;
-        uint32_t propertyId;
-        std::string strPropertyId;
         if (ExtractDestination(tx.vout[n].scriptPubKey, dest)) {
             CBitcoinAddress address(dest);
-            if (address == ExodusAddress()) {
+            std::string strAddress = address.ToString();
+
+            if (address == ExodusAddress() || strAddress == strSender) {
                 continue;
             }
 
-            txnouttype whichType;
-            if (!GetOutputType(tx.vout[n].scriptPubKey, whichType)) {
-                continue;
-            }
-            if (!IsAllowedOutputType(whichType, nBlock)) {
-                continue;
-            }
-
-            if (whichType == TX_NULL_DATA)
-            {
-                // only consider outputs, which are explicitly tagged
-                std::vector<std::string> vstrPushes;
-                if (!GetScriptPushes(tx.vout[n].scriptPubKey, vstrPushes)) {
-                    continue;
-                }
-
-                if (!vstrPushes.empty()) {
-                    std::vector<unsigned char> vchPushed = ParseHex(vstrPushes[0]);
-                    unsigned int payload_size = vchPushed.size();
-                    if (payload_size > 0) {
-                        memcpy(&strPropertyId, &vstrPushes[0], payload_size); // the idea is recovery propertyId from null data OP_RETURN
-                        PrintToLog("string propertyId: %s\n",strPropertyId);
-                    } else
-                        continue;
-                }
-             }
-
-             std::string strAddress = address.ToString();
-             if (msc_debug_parser_dex) PrintToLog("payment #%d %s %s\n", count, strAddress, FormatIndivisibleMP(tx.vout[n].nValue));
+            // if (msc_debug_parser_dex) PrintToLog("payment #%d %s %s\n", count, strAddress, FormatIndivisibleMP(tx.vout[n].nValue));
 
             // check everything and pay BTC for the property we are buying here...
-            if (0 == DEx_payment(tx.GetHash(), n, strAddress, strSender, tx.vout[n].nValue, nBlock, propertyId)) ++count;
+            if (0 == DEx_payment(tx.GetHash(), n, strAddress, strSender, tx.vout[n].nValue, nBlock)) ++count;
         }
     }
 
     return (count > 0);
 }
+
 //
 // /**
 //  * Handles potential Exodus crowdsale purchases.

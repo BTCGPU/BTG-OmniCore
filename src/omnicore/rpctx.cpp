@@ -229,7 +229,7 @@ UniValue omni_senddexsell(const JSONRPCRequest& request)
 
     // perform conversions
     if (action <= CMPTransaction::UPDATE) { // actions 3 permit zero values, skip check
-        amountForSale = ParseAmount(request.params[2], true); // TMSC/MSC is divisible
+        amountForSale = ParseAmount(request.params[2], isPropertyDivisible(propertyIdForSale)); // TMSC/MSC is divisible
         amountDesired = ParseAmount(request.params[3], true); // BTC is divisible
         paymentWindow = ParseDExPaymentWindow(request.params[4]);
         minAcceptFee = ParseDExFee(request.params[5]);
