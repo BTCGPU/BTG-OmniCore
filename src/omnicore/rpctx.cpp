@@ -274,8 +274,8 @@ UniValue omni_senddexsell(const JSONRPCRequest& request)
         if (!autoCommit) {
             return rawHex;
         } else {
-            bool fSubtract = (action <= CMPTransaction::UPDATE); // no pending balances for cancels
-            PendingAdd(txid, fromAddress, MSC_TYPE_TRADE_OFFER, propertyIdForSale, amountForSale, fSubtract);
+            // bool fSubtract = (action <= CMPTransaction::UPDATE); // no pending balances for cancels
+            // PendingAdd(txid, fromAddress, MSC_TYPE_TRADE_OFFER, propertyIdForSale, amountForSale, fSubtract);
             return txid.GetHex();
         }
     }
@@ -1442,6 +1442,8 @@ UniValue omni_sendalert(const JSONRPCRequest& request)
         }
     }
 }
+
+
 
 static const CRPCCommand commands[] =
 { //  category                             name                            actor (function)               okSafeMode
