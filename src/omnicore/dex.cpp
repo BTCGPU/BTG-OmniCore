@@ -198,7 +198,6 @@ int DEx_offerCreate(const std::string& addressSeller, uint32_t propertyId, int64
     if (amountOffered > 0) {
         assert(update_tally_map(addressSeller, propertyId, -amountOffered, BALANCE));
         assert(update_tally_map(addressSeller, propertyId, amountOffered, SELLOFFER_RESERVE));
-        uint8_t option = 2;
         CMPOffer sellOffer(block, amountOffered, propertyId, amountDesired, minAcceptFee, paymentWindow, txid);
         my_offers.insert(std::make_pair(key, sellOffer));
 
@@ -446,17 +445,30 @@ int64_t calculateDExPurchase(const int64_t amountOffered, const int64_t amountDe
 int DEx_payment(const uint256& txid, unsigned int vout, const std::string& addressSeller, const std::string& addressBuyer, int64_t amountPaid, int block, uint64_t* nAmended)
 {
     // if (msc_debug_dex) PrintToLog("%s(%s, %s)\n", __func__, addressSeller, addressBuyer);
+    bool found = false;
     int rc = DEX_ERROR_PAYMENT;
-    uint32_t propertyId = OMNI_PROPERTY_MSC;
+    uint32_t propertyId;
+    CMPAccept* p_accept;
 
-    // -------------------------------------------------------------------------
 
-    CMPAccept* p_accept = DEx_getAccept(addressSeller, propertyId, addressBuyer);
+    // logic here: we look only into main properties if there's some match
+    for (propertyId = 1; propertyId < _my_sps->peekNextSPID(1); propertyId++) {
+        CMPSPInfo::Entry sp;
+        if (!_my_sps->getSP(propertyId, sp)) continue;
+        p_accept = DEx_getAccept(addressSeller, propertyId, addressBuyer);
+        if (p_accept)
+        {
+            found = true;
+            break;
+        }
 
-    if (!p_accept) {
-        // there must be an active accept order for this payment
-        return (DEX_ERROR_PAYMENT -1);
-    }
+     }
+
+     if (!found) {
+         // there must be an active accept order for this payment
+         PrintToLog("%s: ERROR: there must be an active accept order for this payment", __func__);
+         return (DEX_ERROR_PAYMENT -1);
+     }
 
     // -------------------------------------------------------------------------
     const int64_t amountDesired = p_accept->getBTCDesiredOriginal();
@@ -464,7 +476,8 @@ int DEx_payment(const uint256& txid, unsigned int vout, const std::string& addre
 
     // divide by 0 protection
     if (0 == amountDesired) {
-        // if (msc_debug_dex) PrintToLog("%s: ERROR: desired amount of accept order is zero", __func__);
+        // if (msc_debug_dex)
+        PrintToLog("%s: ERROR: desired amount of accept order is zero", __func__);
 
         return (DEX_ERROR_PAYMENT -2);
     }
@@ -482,6 +495,7 @@ int DEx_payment(const uint256& txid, unsigned int vout, const std::string& addre
      * This is not exploitable due to transaction fees.
      */
     if (IsFeatureActivated(FEATURE_DEXMATH, block)) {
+        PrintToLog("IsFeatureActivated\n");
         amountPurchased = calculateDExPurchase(amountOffered, amountDesired, amountPaid);
     } else {
         // Fallback to original calculation:
@@ -499,6 +513,7 @@ int DEx_payment(const uint256& txid, unsigned int vout, const std::string& addre
 
     // if units_purchased is greater than what's in the Accept, the buyer gets only what's in the Accept
     if (amountRemaining < amountPurchased) {
+        PrintToLog("amountRemaining < amountPurchased\n");
         amountPurchased = amountRemaining;
 
         if (nAmended) *nAmended = amountPurchased;
@@ -512,7 +527,7 @@ int DEx_payment(const uint256& txid, unsigned int vout, const std::string& addre
 
         assert(update_tally_map(addressSeller, propertyId, -amountPurchased, ACCEPT_RESERVE));
         assert(update_tally_map(addressBuyer, propertyId, amountPurchased, BALANCE));
-        PrintToConsole("AmountPurchased : %d\n",amountPurchased);
+        PrintToLog("AmountPurchased : %d\n",amountPurchased);
         bool valid = true;
         p_txlistdb->recordPaymentTX(txid, valid, block, vout, propertyId, amountPurchased, addressBuyer, addressSeller);
 
@@ -522,6 +537,7 @@ int DEx_payment(const uint256& txid, unsigned int vout, const std::string& addre
 
     // reduce the amount of units still desired by the buyer and if 0 destroy the Accept order
     if (p_accept->reduceAcceptAmountRemaining_andIsZero(amountPurchased)) {
+        PrintToLog("p_accept->reduceAcceptAmountRemaining_andIsZero(amountPurchased)\n");
         const int64_t reserveSell = getMPbalance(addressSeller, propertyId, SELLOFFER_RESERVE);
         const int64_t reserveAccept = getMPbalance(addressSeller, propertyId, ACCEPT_RESERVE);
 
