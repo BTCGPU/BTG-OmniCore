@@ -99,9 +99,8 @@ CCriticalSection cs_tally;
 static string exodus_address = "1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P";
 
 static const string exodus_mainnet = "1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P";
-static const string exodus_testnet = "mpexoDuSkGGqvqrkrjiFng38QPkJQVFyqv";
-static const string getmoney_testnet = "moneyqMan7uh8FqdCA2BV5yZ8qVrc9ikLP";
-static const string exodus_regtest = "mrySc5jCDbs9zHdUrp9792c9k9inCuaGh3";
+static const string exodus_testnet = "moP7s9ih6QJvisjPkX6tmM7fpTnHmKhCX8";
+// static const string exodus_regtest = "mrySc5jCDbs9zHdUrp9792c9k9inCuaGh3";
 
 static int nWaterlineBlock = 0;
 
@@ -426,38 +425,38 @@ int64_t mastercore::getTotalTokens(uint32_t propertyId, int64_t* n_owners_total)
     int64_t prev = 0;
     int64_t owners = 0;
     int64_t totalTokens = 0;
-    //
-    // LOCK(cs_tally);
-    //
-    // CMPSPInfo::Entry property;
-    // if (false == _my_sps->getSP(propertyId, property)) {
-    //     return 0; // property ID does not exist
-    // }
-    //
-    // if (!property.fixed || n_owners_total) {
-    //     for (std::unordered_map<std::string, CMPTally>::const_iterator it = mp_tally_map.begin(); it != mp_tally_map.end(); ++it) {
-    //         const CMPTally& tally = it->second;
-    //
-    //         totalTokens += tally.getMoney(propertyId, BALANCE);
-    //         totalTokens += tally.getMoney(propertyId, SELLOFFER_RESERVE);
-    //         totalTokens += tally.getMoney(propertyId, ACCEPT_RESERVE);
-    //         totalTokens += tally.getMoney(propertyId, METADEX_RESERVE);
-    //
-    //         if (prev != totalTokens) {
-    //             prev = totalTokens;
-    //             owners++;
-    //         }
-    //     }
-    //     int64_t cachedFee = p_feecache->GetCachedAmount(propertyId);
-    //     totalTokens += cachedFee;
-    // }
-    //
-    // if (property.fixed) {
-    //     totalTokens = property.num_tokens; // only valid for TX50
-    // }
-    //
-    // if (n_owners_total) *n_owners_total = owners;
-    //
+
+    LOCK(cs_tally);
+
+    CMPSPInfo::Entry property;
+    if (false == _my_sps->getSP(propertyId, property)) {
+        return 0; // property ID does not exist
+    }
+
+    if (!property.fixed || n_owners_total) {
+        for (std::unordered_map<std::string, CMPTally>::const_iterator it = mp_tally_map.begin(); it != mp_tally_map.end(); ++it) {
+            const CMPTally& tally = it->second;
+
+            totalTokens += tally.getMoney(propertyId, BALANCE);
+            totalTokens += tally.getMoney(propertyId, SELLOFFER_RESERVE);
+            totalTokens += tally.getMoney(propertyId, ACCEPT_RESERVE);
+            totalTokens += tally.getMoney(propertyId, METADEX_RESERVE);
+
+            if (prev != totalTokens) {
+                prev = totalTokens;
+                owners++;
+            }
+        }
+        int64_t cachedFee = p_feecache->GetCachedAmount(propertyId);
+        totalTokens += cachedFee;
+    }
+
+    if (property.fixed) {
+        totalTokens = property.num_tokens; // only valid for TX50
+    }
+
+    if (n_owners_total) *n_owners_total = owners;
+
     return totalTokens;
 }
 
@@ -581,8 +580,8 @@ uint32_t mastercore::GetNextPropertyId(bool maineco)
 // Perform any actions that need to be taken when the total number of tokens for a property ID changes
 void NotifyTotalTokensChanged(uint32_t propertyId, int block)
 {
-    // p_feecache->UpdateDistributionThresholds(propertyId);
-    // p_feecache->EvalCache(propertyId, block);
+    p_feecache->UpdateDistributionThresholds(propertyId);
+    p_feecache->EvalCache(propertyId, block);
 }
 
 void CheckWalletUpdate(bool forceUpdate)
@@ -626,36 +625,36 @@ void CheckWalletUpdate(bool forceUpdate)
     uiInterface.OmniBalanceChanged();
 #endif
 }
-//
-// /**
-//  * Executes Exodus crowdsale purchases.
-//  *
-//  * @return True, if it was a valid purchase
-//  */
-// static bool TXExodusFundraiser(const CTransaction& tx, const std::string& sender, int64_t amountInvested, int nBlock, unsigned int nTime)
-// {
-//     const int secondsPerWeek = 60 * 60 * 24 * 7;
-//     const CConsensusParams& params = ConsensusParams();
-//
-//     if (nBlock >= params.GENESIS_BLOCK && nBlock <= params.LAST_EXODUS_BLOCK) {
-//         int deadlineTimeleft = params.exodusDeadline - nTime;
-//         double bonusPercentage = params.exodusBonusPerWeek * deadlineTimeleft / secondsPerWeek;
-//         double bonus = 1.0 + std::max(bonusPercentage, 0.0);
-//
-//         int64_t amountGenerated = round(params.exodusReward * amountInvested * bonus);
-//         if (amountGenerated > 0) {
-//             PrintToLog("Exodus Fundraiser tx detected, tx %s generated %s\n", tx.GetHash().ToString(), FormatDivisibleMP(amountGenerated));
-//
-//             assert(update_tally_map(sender, OMNI_PROPERTY_MSC, amountGenerated, BALANCE));
-//             assert(update_tally_map(sender, OMNI_PROPERTY_TMSC, amountGenerated, BALANCE));
-//
-//             return true;
-//         }
-//     }
-//
-//     return false;
-// }
-//
+
+/**
+ * Executes Exodus crowdsale purchases.
+ *
+ * @return True, if it was a valid purchase
+ */
+static bool TXExodusFundraiser(const CTransaction& tx, const std::string& sender, int64_t amountInvested, int nBlock, unsigned int nTime)
+{
+    const int secondsPerWeek = 60 * 60 * 24 * 7;
+    const CConsensusParams& params = ConsensusParams();
+
+    if (nBlock >= params.GENESIS_BLOCK && nBlock <= params.LAST_EXODUS_BLOCK) {
+        int deadlineTimeleft = params.exodusDeadline - nTime;
+        double bonusPercentage = params.exodusBonusPerWeek * deadlineTimeleft / secondsPerWeek;
+        double bonus = 1.0 + std::max(bonusPercentage, 0.0);
+
+        int64_t amountGenerated = round(params.exodusReward * amountInvested * bonus);
+        if (amountGenerated > 0) {
+            PrintToLog("Exodus Fundraiser tx detected, tx %s generated %s\n", tx.GetHash().ToString(), FormatDivisibleMP(amountGenerated));
+
+            assert(update_tally_map(sender, OMNI_PROPERTY_MSC, amountGenerated, BALANCE));
+            assert(update_tally_map(sender, OMNI_PROPERTY_TMSC, amountGenerated, BALANCE));
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
 // /**
 //  * Returns the encoding class, used to embed a payload.
 //  *
@@ -1216,35 +1215,35 @@ static bool HandleDExPayments(const CTransaction& tx, int nBlock, const std::str
     return (count > 0);
 }
 
-//
-// /**
-//  * Handles potential Exodus crowdsale purchases.
-//  *
-//  * Note: must *not* be called outside of the transaction handler, and it does not
-//  * check, if a transaction marker exists.
-//  *
-//  * @return True, if it was a valid purchase
-//  */
-// static bool HandleExodusPurchase(const CTransaction& tx, int nBlock, const std::string& strSender, unsigned int nTime)
-// {
-//     int64_t amountInvested = 0;
-//
-//     for (unsigned int n = 0; n < tx.vout.size(); ++n) {
-//         CTxDestination dest;
-//         if (ExtractDestination(tx.vout[n].scriptPubKey, dest)) {
-//             if (CBitcoinAddress(dest) == ExodusCrowdsaleAddress(nBlock)) {
-//                 amountInvested = tx.vout[n].nValue;
-//                 break; // TODO: maybe sum all values
-//             }
-//         }
-//     }
-//
-//     if (0 < amountInvested) {
-//         return TXExodusFundraiser(tx, strSender, amountInvested, nBlock, nTime);
-//     }
-//
-//     return false;
-// }
+
+/**
+ * Handles potential Exodus crowdsale purchases.
+ *
+ * Note: must *not* be called outside of the transaction handler, and it does not
+ * check, if a transaction marker exists.
+ *
+ * @return True, if it was a valid purchase
+ */
+static bool HandleExodusPurchase(const CTransaction& tx, int nBlock, const std::string& strSender, unsigned int nTime)
+{
+    int64_t amountInvested = 0;
+
+    for (unsigned int n = 0; n < tx.vout.size(); ++n) {
+        CTxDestination dest;
+        if (ExtractDestination(tx.vout[n].scriptPubKey, dest)) {
+            if (CBitcoinAddress(dest) == ExodusCrowdsaleAddress(nBlock)) {
+                amountInvested = tx.vout[n].nValue;
+                break; // TODO: maybe sum all values
+            }
+        }
+    }
+
+    if (0 < amountInvested) {
+        return TXExodusFundraiser(tx, strSender, amountInvested, nBlock, nTime);
+    }
+
+    return false;
+}
 
 /**
  * Reports the progress of the initial transaction scanning.
@@ -2127,7 +2126,7 @@ void clear_all_state()
     s_stolistdb->Clear();
     t_tradelistdb->Clear();
     p_OmniTXDB->Clear();
-    // p_feecache->Clear();
+    p_feecache->Clear();
     // p_feehistory->Clear();
     assert(p_txlistdb->setDBVersion() == DB_VERSION); // new set of databases, set DB version
     exodus_prev = 0;
@@ -2199,7 +2198,7 @@ int mastercore_init()
     p_txlistdb = new CMPTxList(GetDataDir() / "MP_txlist", fReindex);
     _my_sps = new CMPSPInfo(GetDataDir() / "MP_spinfo", fReindex);
     p_OmniTXDB = new COmniTransactionDB(GetDataDir() / "Omni_TXDB", fReindex);
-    // p_feecache = new COmniFeeCache(GetDataDir() / "OMNI_feecache", fReindex);
+    p_feecache = new COmniFeeCache(GetDataDir() / "OMNI_feecache", fReindex);
     // p_feehistory = new COmniFeeHistory(GetDataDir() / "OMNI_feehistory", fReindex);
 
     MPPersistencePath = GetDataDir() / "MP_persist";
@@ -2310,10 +2309,10 @@ int mastercore_shutdown()
         delete p_OmniTXDB;
         p_OmniTXDB = NULL;
     }
-    // if (p_feecache) {
-    //     delete p_feecache;
-    //     p_feecache = NULL;
-    // }
+    if (p_feecache) {
+        delete p_feecache;
+        p_feecache = NULL;
+    }
     // if (p_feehistory) {
     //     delete p_feehistory;
     //     p_feehistory = NULL;
@@ -3865,7 +3864,7 @@ int mastercore_handler_block_begin(int nBlockPrev, CBlockIndex const * pBlockInd
         p_txlistdb->isMPinBlockRange(pBlockIndex->nHeight, reorgRecoveryMaxHeight, true);
         t_tradelistdb->deleteAboveBlock(pBlockIndex->nHeight);
         s_stolistdb->deleteAboveBlock(pBlockIndex->nHeight);
-        // p_feecache->RollBackCache(pBlockIndex->nHeight);
+        p_feecache->RollBackCache(pBlockIndex->nHeight);
         // p_feehistory->RollBackHistory(pBlockIndex->nHeight);
         reorgRecoveryMaxHeight = 0;
 
@@ -4000,40 +3999,36 @@ int mastercore_handler_disc_end(int nBlockNow, CBlockIndex const * pBlockIndex)
 //  */
 const CBitcoinAddress ExodusAddress()
 {
-    // if (isNonMainNet()) {
-    //     static CBitcoinAddress testAddress(exodus_testnet);
-    //     return testAddress;
-    //
-    // }
-    if (RegTest()) {
-        static CBitcoinAddress regAddress(exodus_regtest);
-        return regAddress;
+    if (isNonMainNet()) {
+        static CBitcoinAddress testAddress(exodus_testnet);
+        return testAddress;
+
     } else {
         static CBitcoinAddress mainAddress(exodus_mainnet);
         return mainAddress;
     }
 }
-//
-// /**
-//  * Returns the Exodus crowdsale address.
-//  *
-//  * Main network:
-//  *   1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P
-//  *
-//  * Test network:
-//  *   mpexoDuSkGGqvqrkrjiFng38QPkJQVFyqv (for blocks <  270775)
-//  *   moneyqMan7uh8FqdCA2BV5yZ8qVrc9ikLP (for blocks >= 270775)
-//  *
-//  * @return The Exodus fundraiser address
-//  */
+
+/**
+ * Returns the Exodus crowdsale address.
+ *
+ * Main network:
+ *   1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P
+ *
+ * Test network:
+ *   mpexoDuSkGGqvqrkrjiFng38QPkJQVFyqv (for blocks <  270775)
+ *   moneyqMan7uh8FqdCA2BV5yZ8qVrc9ikLP (for blocks >= 270775)
+ *
+ * @return The Exodus fundraiser address
+ */
 const CBitcoinAddress ExodusCrowdsaleAddress(int nBlock)
 {
     if (MONEYMAN_TESTNET_BLOCK <= nBlock && isNonMainNet()) {
-        static CBitcoinAddress moneyAddress(getmoney_testnet);
+        static CBitcoinAddress moneyAddress(exodus_testnet);
         return moneyAddress;
     }
-    else if (MONEYMAN_REGTEST_BLOCK <= nBlock && RegTest()) {
-        static CBitcoinAddress moneyAddress(getmoney_testnet);
+    else {
+        static CBitcoinAddress moneyAddress(exodus_mainnet);
         return moneyAddress;
     }
 
@@ -4046,7 +4041,7 @@ const CBitcoinAddress ExodusCrowdsaleAddress(int nBlock)
 //  */
 const std::vector<unsigned char> GetOmMarker()
 {
-    static unsigned char pch[] = {0x6f, 0x6d, 0x6e, 0x6e}; // TODO: change Hex-encoded to "btge"
+    static unsigned char pch[] = {0x6f, 0x6d, 0x6e, 0x6e}; // TODO: change Hex-encoded to "btge"  ({0x62, 0x74, 0x67, 0x65})
 
     return std::vector<unsigned char>(pch, pch + sizeof(pch) / sizeof(pch[0]));
 }

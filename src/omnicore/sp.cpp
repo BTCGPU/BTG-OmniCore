@@ -68,7 +68,7 @@ CMPSPInfo::CMPSPInfo(const boost::filesystem::path& path, bool fWipe)
     // special cases for constant SPs OMNI and TOMNI
     implied_omni.issuer = ExodusAddress().ToString();
     implied_omni.prop_type = MSC_PROPERTY_TYPE_DIVISIBLE;
-    implied_omni.num_tokens = 700000;
+    implied_omni.num_tokens = 1000000;
     implied_omni.category = "N/A";
     implied_omni.subcategory = "N/A";
     implied_omni.name = "Betelgeuse";
@@ -76,7 +76,7 @@ CMPSPInfo::CMPSPInfo(const boost::filesystem::path& path, bool fWipe)
     implied_omni.data = "The native and first token of OmniLayer Protocol, builded on top of Bitcoin Gold.";
     implied_tomni.issuer = ExodusAddress().ToString();
     implied_tomni.prop_type = MSC_PROPERTY_TYPE_DIVISIBLE;
-    implied_tomni.num_tokens = 700000;
+    implied_tomni.num_tokens = 1000000;
     implied_tomni.category = "N/A";
     implied_tomni.subcategory = "N/A";
     implied_tomni.name = "Test Betelgeuse";

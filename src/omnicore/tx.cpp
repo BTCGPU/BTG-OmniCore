@@ -1787,11 +1787,15 @@ int CMPTransaction::logicMath_CloseCrowdsale()
 
     // ------------------------------------------
 
+    PrintToLog("%s: first checkpoint\n",__func__);
     CMPSPInfo::Entry sp;
     assert(_my_sps->getSP(property, sp));
 
+    PrintToLog("%s: second checkpoint\n",__func__);
+
     int64_t missedTokens = GetMissedIssuerBonus(sp, crowd);
 
+    PrintToLog("%s: third checkpoint\n",__func__);
     sp.historicalData = crowd.getDatabase();
     sp.update_block = blockHash;
     sp.close_early = true;
@@ -1799,10 +1803,13 @@ int CMPTransaction::logicMath_CloseCrowdsale()
     sp.txid_close = txid;
     sp.missedTokens = missedTokens;
 
+    PrintToLog("%s: fourth checkpoint\n",__func__);
+
     assert(_my_sps->updateSP(property, sp));
     if (missedTokens > 0) {
         assert(update_tally_map(sp.issuer, property, missedTokens, BALANCE));
     }
+
     my_crowds.erase(it);
 
     if (msc_debug_sp) PrintToLog("CLOSED CROWDSALE id: %d=%X\n", property, property);
@@ -1844,11 +1851,11 @@ int CMPTransaction::logicMath_CreatePropertyManaged()
     //     PrintToLog("%s(): rejected: invalid property type: %d\n", __func__, prop_type);
     //     return (PKT_ERROR_SP -36);
     // }
-    //
-    // if ('\0' == name[0]) {
-    //     PrintToLog("%s(): rejected: property name must not be empty\n", __func__);
-    //     return (PKT_ERROR_SP -37);
-    // }
+    
+    if ('\0' == name[0]) {
+        PrintToLog("%s(): rejected: property name must not be empty\n", __func__);
+        return (PKT_ERROR_SP -37);
+    }
 
     // ------------------------------------------
 
