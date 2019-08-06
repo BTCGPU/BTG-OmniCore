@@ -162,8 +162,8 @@ CMainConsensusParams::CMainConsensusParams()
     exodusBonusPerWeek = 0.10;
     exodusDeadline = 1377993600;
     exodusReward = 100;
-    GENESIS_BLOCK = 249498;
-    LAST_EXODUS_BLOCK = 255365;
+    GENESIS_BLOCK = 580398;
+    LAST_EXODUS_BLOCK = 580398;
     // Notice range for feature activations:
     MIN_ACTIVATION_BLOCKS = 2048;  // ~2 weeks
     MAX_ACTIVATION_BLOCKS = 12288; // ~12 weeks

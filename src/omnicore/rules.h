@@ -12,7 +12,7 @@ namespace mastercore
 //! Block to enable the Exodus fundraiser address in regtest mode
 const int MONEYMAN_REGTEST_BLOCK = 101;
 //! Block to enable the Exodus fundraiser address on testnet
-const int MONEYMAN_TESTNET_BLOCK = 270775;
+const int MONEYMAN_TESTNET_BLOCK = 40000;
 
 //! Feature identifier to enable Class C transaction parsing and processing
 const uint16_t FEATURE_CLASS_C = 1;
