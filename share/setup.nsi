@@ -10,11 +10,11 @@ SetCompressor /SOLID lzma
 !define URL https://bitcoingold.org/
 
 # MUI Symbol Definitions
-!define MUI_ICON "/home/ale/Escritorio/OmniG/share/pixmaps/bitcoin.ico"
-!define MUI_WELCOMEFINISHPAGE_BITMAP "/home/ale/Escritorio/OmniG/share/pixmaps/nsis-wizard.bmp"
+!define MUI_ICON "/home/ale/Escritorio/AWork/omnibtg/share/pixmaps/bitcoin.ico"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "/home/ale/Escritorio/AWork/omnibtg/share/pixmaps/nsis-wizard.bmp"
 !define MUI_HEADERIMAGE
 !define MUI_HEADERIMAGE_RIGHT
-!define MUI_HEADERIMAGE_BITMAP "/home/ale/Escritorio/OmniG/share/pixmaps/nsis-header.bmp"
+!define MUI_HEADERIMAGE_BITMAP "/home/ale/Escritorio/AWork/omnibtg/share/pixmaps/nsis-header.bmp"
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_REGISTRY_KEY ${REGKEY}
@@ -22,7 +22,7 @@ SetCompressor /SOLID lzma
 !define MUI_STARTMENUPAGE_DEFAULTFOLDER "Bitcoin Gold"
 !define MUI_FINISHPAGE_RUN $INSTDIR\bitcoin-qt
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
-!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/home/ale/Escritorio/OmniG/share/pixmaps/nsis-wizard.bmp"
+!define MUI_UNWELCOMEFINISHPAGE_BITMAP "/home/ale/Escritorio/AWork/omnibtg/share/pixmaps/nsis-wizard.bmp"
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
 # Included files
@@ -48,7 +48,7 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE English
 
 # Installer attributes
-OutFile /home/ale/Escritorio/OmniG/bitcoin-gold-${VERSION}-win-setup.exe
+OutFile /home/ale/Escritorio/AWork/omnibtg/bitcoin-gold-${VERSION}-win-setup.exe
 !if "" == "64"
 InstallDir $PROGRAMFILES64\BitcoinGold
 !else
@@ -73,14 +73,14 @@ ShowUninstDetails show
 Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
-    File /home/ale/Escritorio/OmniG/release/bitcoin-qt
-    File /oname=COPYING.txt /home/ale/Escritorio/OmniG/COPYING
-    File /oname=readme.txt /home/ale/Escritorio/OmniG/doc/README_windows.txt
+    File /home/ale/Escritorio/AWork/omnibtg/release/bitcoin-qt
+    File /oname=COPYING.txt /home/ale/Escritorio/AWork/omnibtg/COPYING
+    File /oname=readme.txt /home/ale/Escritorio/AWork/omnibtg/doc/README_windows.txt
     SetOutPath $INSTDIR\daemon
-    File /home/ale/Escritorio/OmniG/release/bgoldd
-    File /home/ale/Escritorio/OmniG/release/bgold-cli
+    File /home/ale/Escritorio/AWork/omnibtg/release/bgoldd
+    File /home/ale/Escritorio/AWork/omnibtg/release/bgold-cli
     SetOutPath $INSTDIR\doc
-    File /r /home/ale/Escritorio/OmniG/doc\*.*
+    File /r /home/ale/Escritorio/AWork/omnibtg/doc\*.*
     SetOutPath $INSTDIR
     WriteRegStr HKCU "${REGKEY}\Components" Main 1
 SectionEnd

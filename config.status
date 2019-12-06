@@ -442,11 +442,11 @@ Copyright (C) 2012 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/home/ale/Escritorio/OmniG'
+ac_pwd='/home/ale/Escritorio/AWork/omnibtg'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='/bin/mkdir -p'
-AWK='mawk'
+AWK='gawk'
 test -n "$AWK" || AWK=awk
 # The default lists apply if the user does not specify any file.
 ac_need_defaults=:
@@ -684,7 +684,7 @@ finish_cmds='PATH="\$PATH:/sbin" ldconfig -n $libdir'
 finish_eval=''
 hardcode_into_libs='yes'
 sys_lib_search_path_spec='/usr/lib/gcc/x86_64-linux-gnu/7 /usr/lib/x86_64-linux-gnu /usr/lib /lib/x86_64-linux-gnu /lib '
-configure_time_dlsearch_path='/lib /usr/lib /usr/lib/x86_64-linux-gnu/libfakeroot /usr/local/lib /usr/local/lib/x86_64-linux-gnu /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu /lib32 /usr/lib32 '
+configure_time_dlsearch_path='/lib /usr/lib /usr/local/cuda-8.0/targets/x86_64-linux/lib /usr/lib/x86_64-linux-gnu/libfakeroot /usr/local/lib/i386-linux-gnu /lib/i386-linux-gnu /usr/lib/i386-linux-gnu /usr/local/lib/i686-linux-gnu /lib/i686-linux-gnu /usr/lib/i686-linux-gnu /usr/local/lib /usr/local/lib/x86_64-linux-gnu /lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu /lib32 /usr/lib32 '
 configure_time_lt_sys_library_path=''
 hardcode_action='immediate'
 enable_dlopen='unknown'
@@ -1122,17 +1122,17 @@ S["am__tar"]="$${TAR-tar} chof - \"$$tardir\""
 S["AMTAR"]="$${TAR-tar}"
 S["am__leading_dot"]="."
 S["SET_MAKE"]=""
-S["AWK"]="mawk"
+S["AWK"]="gawk"
 S["mkdir_p"]="$(MKDIR_P)"
 S["MKDIR_P"]="/bin/mkdir -p"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]="/usr/bin/strip"
-S["install_sh"]="${SHELL} /home/ale/Escritorio/OmniG/build-aux/install-sh"
-S["MAKEINFO"]="${SHELL} /home/ale/Escritorio/OmniG/build-aux/missing makeinfo"
-S["AUTOHEADER"]="${SHELL} /home/ale/Escritorio/OmniG/build-aux/missing autoheader"
-S["AUTOMAKE"]="${SHELL} /home/ale/Escritorio/OmniG/build-aux/missing automake-1.15"
-S["AUTOCONF"]="${SHELL} /home/ale/Escritorio/OmniG/build-aux/missing autoconf"
-S["ACLOCAL"]="${SHELL} /home/ale/Escritorio/OmniG/build-aux/missing aclocal-1.15"
+S["install_sh"]="${SHELL} /home/ale/Escritorio/AWork/omnibtg/build-aux/install-sh"
+S["MAKEINFO"]="${SHELL} /home/ale/Escritorio/AWork/omnibtg/build-aux/missing makeinfo"
+S["AUTOHEADER"]="${SHELL} /home/ale/Escritorio/AWork/omnibtg/build-aux/missing autoheader"
+S["AUTOMAKE"]="${SHELL} /home/ale/Escritorio/AWork/omnibtg/build-aux/missing automake-1.15"
+S["AUTOCONF"]="${SHELL} /home/ale/Escritorio/AWork/omnibtg/build-aux/missing autoconf"
+S["ACLOCAL"]="${SHELL} /home/ale/Escritorio/AWork/omnibtg/build-aux/missing aclocal-1.15"
 S["VERSION"]="0.15.1"
 S["PACKAGE"]="bitcoin-gold"
 S["CYGPATH_W"]="echo"
@@ -1306,7 +1306,7 @@ D["HAVE_BOOST_CHRONO"]=" /**/"
 D["HAVE_BOOST_UNIT_TEST_FRAMEWORK"]=" /**/"
 D["HAVE_WORKING_BOOST_SLEEP_FOR"]=" 1"
 D["ENABLE_ZMQ"]=" 1"
-D["HAVE_DECL_EVP_MD_CTX_NEW"]=" 1"
+D["HAVE_DECL_EVP_MD_CTX_NEW"]=" 0"
 D["ENABLE_WALLET"]=" 1"
 D["USE_UPNP"]=" 0"
 D["CLIENT_VERSION_MAJOR"]=" 0"

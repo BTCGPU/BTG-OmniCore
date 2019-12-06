@@ -1443,6 +1443,51 @@ UniValue omni_sendalert(const JSONRPCRequest& request)
     }
 }
 
+UniValue omni_send_dexpayment(const JSONRPCRequest& request)
+{
+    if (request.params.size() != 3)
+        throw runtime_error(
+            "omni_send_dexpayment \"fromaddress\" \"toaddress\"amount\" \n"
+
+            "\nCreate and broadcast a dex payment.\n"
+
+            "\nArguments:\n"
+            "1. fromaddress          (string, required) the address to send from\n"
+            "2. toaddress            (string, required) the address of the receiver\n"
+            "3. amount               (string, required) the amount of Litecoins to send\n"
+
+            "\nResult:\n"
+            "\"hash\"                  (string) the hex-encoded transaction hash\n"
+
+            "\nExamples:\n"
+            + HelpExampleCli("omni_send_dexpayment", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\" \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\"100.0\"")
+            + HelpExampleRpc("omni_send_dexpayment", "\"3M9qvHKtgARhqcMtM5cRT9VaiDJ5PSfQGY\", \"37FaKponF7zqoMLUjEiko25pDiuVH5YLEa\",\"100.0\"")
+        );
+
+    // obtain parameters & info
+    std::string fromAddress = ParseAddress(request.params[0]);
+    std::string toAddress = ParseAddress(request.params[1]);
+    int64_t amount = ParseAmount(request.params[2], true);
+
+    // create a payload for the transaction
+    std::vector<unsigned char> payload = CreatePayload_DEx_Payment();
+
+    // request the wallet build the transaction (and if needed commit it)
+    uint256 txid;
+    std::string rawHex;
+    int result = WalletTxBuilder(fromAddress, toAddress, "", amount, payload, txid, rawHex, autoCommit);
+
+    // check error and return the txid (or raw hex depending on autocommit)
+    if (result != 0) {
+        throw JSONRPCError(result, error_str(result));
+    } else {
+        if (!autoCommit) {
+            return rawHex;
+        } else {
+            return txid.GetHex();
+        }
+    }
+}
 
 
 static const CRPCCommand commands[] =
@@ -1470,6 +1515,7 @@ static const CRPCCommand commands[] =
     { "omni layer (transaction creation)", "omni_senddisablefreezing",     &omni_senddisablefreezing,     false, {} },
     { "omni layer (transaction creation)", "omni_sendfreeze",              &omni_sendfreeze,              false, {} },
     { "omni layer (transaction creation)", "omni_sendunfreeze",            &omni_sendunfreeze,            false, {} },
+    { "omni layer (transaction creation)", "omni_send_dexpayment",         &omni_send_dexpayment,         false, {} },
     { "hidden",                            "omni_senddeactivation",        &omni_senddeactivation,        true,  {} },
     { "hidden",                            "omni_sendactivation",          &omni_sendactivation,          false, {} },
     { "hidden",                            "omni_sendalert",               &omni_sendalert,               true,  {} },

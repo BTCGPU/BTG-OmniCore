@@ -126,6 +126,7 @@ private:
     bool interpret_Activation();
     bool interpret_Deactivation();
     bool interpret_Alert();
+    bool interpret_DEx_Payment();
 
     /**
      * Logic and "effects"
@@ -153,6 +154,7 @@ private:
     int logicMath_Activation();
     int logicMath_Deactivation();
     int logicMath_Alert();
+    int logicMath_DEx_Payment();
 
     /**
      * Logic helpers
