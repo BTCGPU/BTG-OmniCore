@@ -2216,33 +2216,35 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
     bool fFoundTx = false;
     int pop_ret = parseTransaction(false, tx, nBlock, idx, mp_obj, nBlockTime);
 
-    if (pop_ret >= 0) {
+    if (pop_ret >= 0)
+    {
 
         assert(mp_obj.getEncodingClass() != NO_MARKER);
         assert(mp_obj.getSender().empty() == false);
+
         // extra iteration of the outputs for every transaction, not needed on mainnet after Exodus closed
         const CConsensusParams& params = ConsensusParams();
 
     }
 
-    if (pop_ret > 0) {
-        assert(mp_obj.getEncodingClass() == OMNI_CLASS_A);
-        assert(mp_obj.getPayload().empty() == true);
 
-        fFoundTx |= HandleDExPayments(tx, nBlock, mp_obj.getSender());
-    }
-
-    if (0 == pop_ret) {
-        PrintToLog("omni transaction found !!!\n");
+    if (0 == pop_ret)
+    {
         int interp_ret = mp_obj.interpretPacket();
         if (interp_ret) PrintToLog("!!! interpretPacket() returned %d !!!\n", interp_ret);
-      //  Only structurally valid transactions get recorded in levelDB
-      //  PKT_ERROR - 2 = interpret_Transaction failed, structurally invalid payload
+
+        //NOTE: we need to return this number 1 from mp_obj.interpretPacket() (tx.cpp)
+        if (interp_ret == 1)
+            HandleDExPayments(tx, nBlock, mp_obj.getSender());
+
+        //  Only structurally valid transactions get recorded in levelDB
+        //  PKT_ERROR - 2 = interpret_Transaction failed, structurally invalid payload
         if (interp_ret != PKT_ERROR - 2) {
             bool bValid = (0 <= interp_ret);
             p_txlistdb->recordTX(tx.GetHash(), bValid, nBlock, mp_obj.getType(), mp_obj.getNewAmount());
             p_OmniTXDB->RecordTransaction(tx.GetHash(), idx, interp_ret);
         }
+        
         fFoundTx |= (interp_ret == 0);
     }
 
