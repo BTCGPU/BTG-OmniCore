@@ -72,6 +72,7 @@ std::vector<TransactionRestriction> CConsensusParams::GetRestrictions() const
         { MSC_TYPE_SEND_ALL,                  MP_TX_PKT_V0,  false,   MSC_SEND_ALL_BLOCK },
 
         { MSC_TYPE_OFFER_ACCEPT_A_BET,        MP_TX_PKT_V0,  false,   MSC_BET_BLOCK      },
+        { MSC_TYPE_DEX_PAYMENT,               MP_TX_PKT_V0,  true,    MSC_METADEX_BLOCK }
     };
 
     const size_t nSize = sizeof(vTxRestrictions) / sizeof(vTxRestrictions[0]);
@@ -612,17 +613,22 @@ bool IsTransactionTypeAllowed(int txBlock, uint32_t txProperty, uint16_t txType,
     {
         const TransactionRestriction& entry = *it;
         if (entry.txType != txType || entry.txVersion != version) {
+            PrintToLog("%s(): first continue\n",__func__);
             continue;
         }
         // a property identifier of 0 (= BTC) may be used as wildcard
         if (OMNI_PROPERTY_BTC == txProperty && !entry.allowWildcard) {
+            PrintToLog("%s(): second continue\n",__func__);
             continue;
         }
         // transactions are not restricted in the test ecosystem
         if (isTestEcosystemProperty(txProperty)) {
+            PrintToLog("%s(): isTestEcosystemProperty\n",__func__);
             return true;
         }
         if (txBlock >= entry.activationBlock) {
+            PrintToLog("%s(): txBlock: %d; entry.activationBlock: %d\n",__func__,txBlock, entry.activationBlock);
+            PrintToLog("%s(): txBlock >= entry.activationBlock\n",__func__);
             return true;
         }
     }
