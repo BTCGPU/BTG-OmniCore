@@ -155,16 +155,16 @@ OmniTxBuilder& OmniTxBuilder::addOpReturn(const std::vector<unsigned char>& data
 }
 
 /** Embeds a payload with class B (bare-multisig) encoding. */
-OmniTxBuilder& OmniTxBuilder::addMultisig(const std::vector<unsigned char>& data, const std::string& seed, const CPubKey& pubKey)
-{
-    std::vector<std::pair<CScript, int64_t> > outputs;
-
-    if (!OmniCore_Encode_ClassB(seed, pubKey, data, outputs)) {
-        return *this;
-    }
-
-    return (OmniTxBuilder&) TxBuilder::addOutputs(outputs);
-}
+// OmniTxBuilder& OmniTxBuilder::addMultisig(const std::vector<unsigned char>& data, const std::string& seed, const CPubKey& pubKey)
+// {
+//     std::vector<std::pair<CScript, int64_t> > outputs;
+//
+//     if (!OmniCore_Encode_ClassB(seed, pubKey, data, outputs)) {
+//         return *this;
+//     }
+//
+//     return (OmniTxBuilder&) TxBuilder::addOutputs(outputs);
+// }
 
 /** Adds an output for change. */
 OmniTxBuilder& OmniTxBuilder::addChange(const std::string& destination, const CCoinsViewCache& view, int64_t txFee, uint32_t position)
