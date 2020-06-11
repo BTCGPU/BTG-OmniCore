@@ -61,7 +61,7 @@ CMPOffer* DEx_getOffer(const std::string& addressSeller, uint32_t propertyId)
 
     if (it != my_offers.end()) return &(it->second);
 
-    return NULL;
+    return static_cast<CMPOffer*>(nullptr);
 }
 
 /**
@@ -88,7 +88,7 @@ CMPAccept* DEx_getAccept(const std::string& addressSeller, uint32_t propertyId, 
 
     if (it != my_accepts.end()) return &(it->second);
 
-    return NULL;
+    return static_cast<CMPAccept*>(nullptr);
 }
 
 
@@ -106,9 +106,7 @@ static int64_t calculateDesiredBTC(const int64_t amountOffered, const int64_t am
     uint64_t amount_des = static_cast<uint64_t>(amountDesired);
     uint64_t balanceReallyAvailable = static_cast<uint64_t>(amountAvailable);
 
-    double BTC;
-
-    BTC = amount_des * balanceReallyAvailable;
+    double BTC = amount_des * balanceReallyAvailable;
     BTC /= (double) nValue;
     amount_des = rounduint64(BTC);
 
@@ -299,16 +297,10 @@ int DEx_acceptCreate(const std::string& addressTaker, const std::string& address
         return DEX_ERROR_ACCEPT -105;
     }
 
-    int64_t amountReserved = 0;
     int64_t amountRemainingForSale = getMPbalance(addressMaker, propertyId, SELLOFFER_RESERVE);
 
     // ensure the buyer only can reserve the amount that is still available
-    if (amountRemainingForSale >= amountAccepted) {
-        amountReserved = amountAccepted;
-    } else {
-        amountReserved = amountRemainingForSale;
-        PrintToLog("%s: buyer wants to reserve %d tokens, but only %d tokens are available\n", __func__, amountAccepted, amountRemainingForSale);
-    }
+    int64_t amountReserved = (amountRemainingForSale >= amountAccepted) ? amountAccepted : amountRemainingForSale;
 
     if (amountReserved > 0) {
         assert(update_tally_map(addressMaker, propertyId, -amountReserved, SELLOFFER_RESERVE));
@@ -339,38 +331,27 @@ int DEx_acceptDestroy(const std::string& addressBuyer, const std::string& addres
     int rc = DEX_ERROR_ACCEPT -20;
     CMPOffer* p_offer = DEx_getOffer(addressSeller, propertyid);
     CMPAccept* p_accept = DEx_getAccept(addressSeller, propertyid, addressBuyer);
-    bool fReturnToMoney = true;
+    bool fReturnToMoney;
 
     if (!p_accept) return rc; // sanity check
 
+
     // if the offer is gone, ACCEPT_RESERVE should go back to seller's BALANCE
     // otherwise move the previously accepted amount back to SELLOFFER_RESERVE
-    if (!p_offer) {
-        fReturnToMoney = true;
-    } else {
-        PrintToLog("%s: finalize trade [offer=%s, accept=%s]\n", __func__,
-                        p_offer->getHash().GetHex(), p_accept->getHash().GetHex());
+    if (!p_offer) fReturnToMoney = true;
 
-        // offer exists, determine whether it's the original offer or some random new one
-        if (p_offer->getHash() == p_accept->getHash()) {
-            // same offer, return to SELLOFFER_RESERVE
-            fReturnToMoney = false;
-        } else {
-            // old offer is gone !
-            fReturnToMoney = true;
-        }
-    }
+    PrintToLog("%s: finalize trade [offer=%s, accept=%s]\n", __func__, p_offer->getHash().GetHex(), p_accept->getHash().GetHex());
+
+    // offer exists, determine whether it's the original offer or some random new one
+    fReturnToMoney = (p_offer->getHash() == p_accept->getHash()) ? false : true;
 
     const int64_t amountRemaining = p_accept->getAcceptAmountRemaining();
 
     if (amountRemaining > 0) {
-        if (fReturnToMoney) {
-            assert(update_tally_map(addressSeller, propertyid, -amountRemaining, ACCEPT_RESERVE));
-            assert(update_tally_map(addressSeller, propertyid, amountRemaining, BALANCE));
-        } else {
-            assert(update_tally_map(addressSeller, propertyid, -amountRemaining, ACCEPT_RESERVE));
-            assert(update_tally_map(addressSeller, propertyid, amountRemaining, SELLOFFER_RESERVE));
-        }
+        TallyType typ = (fReturnToMoney) ? BALANCE : SELLOFFER_RESERVE;
+        assert(update_tally_map(addressSeller, propertyid, -amountRemaining, ACCEPT_RESERVE));
+        assert(update_tally_map(addressSeller, propertyid, amountRemaining, typ));
+
     }
 
     // can only erase when is NOT called from an iterator loop
@@ -383,8 +364,7 @@ int DEx_acceptDestroy(const std::string& addressBuyer, const std::string& addres
         }
     }
 
-    rc = 0;
-    return rc;
+    return 0;
 }
 
 namespace legacy
@@ -507,7 +487,7 @@ int DEx_payment(const uint256& txid, unsigned int vout, const std::string& addre
     const int64_t amountRemaining = p_accept->getAcceptAmountRemaining(); // actual amount desired, in the Accept
 
     // if (msc_debug_dex) PrintToLog(
-            // "%s: LTC desired: %s, offered amount: %s, amount to purchase: %s, amount remaining: %s\n", __func__,
+            // "%s: BTG desired: %s, offered amount: %s, amount to purchase: %s, amount remaining: %s\n", __func__,
             // FormatDivisibleMP(amountDesired), FormatDivisibleMP(amountOffered),
             // FormatDivisibleMP(amountPurchased), FormatDivisibleMP(amountRemaining));
 
@@ -557,19 +537,21 @@ unsigned int eraseExpiredAccepts(int blockNow)
     unsigned int how_many_erased = 0;
     AcceptMap::iterator it = my_accepts.begin();
 
-    while (my_accepts.end() != it) {
+    while (my_accepts.end() != it)
+    {
         const CMPAccept& acceptOrder = it->second;
 
         int blocksSinceAccept = blockNow - acceptOrder.getAcceptBlock();
         int blocksPaymentWindow = static_cast<int>(acceptOrder.getBlockTimeLimit());
 
-        if (blocksSinceAccept >= blocksPaymentWindow) {
+        if (blocksSinceAccept >= blocksPaymentWindow)
+        {
             PrintToLog("%s: sell offer: %s\n", __func__, acceptOrder.getHash().GetHex());
             PrintToLog("%s: erasing at block: %d, order confirmed at block: %d, payment window: %d\n",
                     __func__, blockNow, acceptOrder.getAcceptBlock(), acceptOrder.getBlockTimeLimit());
 
             // extract the seller, buyer and property from the key
-            std::vector<std::string> vstr;
+            std::vector<std::string> vstr(3);
             boost::split(vstr, it->first, boost::is_any_of("-+"), boost::token_compress_on);
             std::string addressSeller = vstr[0];
             uint32_t propertyId = atoi(vstr[1]);

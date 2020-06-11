@@ -51,7 +51,7 @@ std::string ParseAddressOrWildcard(const UniValue& value)
 uint32_t ParsePropertyId(const UniValue& value)
 {
     int64_t propertyId = value.get_int64();
-    if (propertyId < 1 || 4294967295LL < propertyId) {
+    if (propertyId < 1 || std::numeric_limits<uint32_t>::max() < propertyId) {
         throw JSONRPCError(RPC_INVALID_PARAMETER, "Property identifier is out of range");
     }
     return static_cast<uint32_t>(propertyId);
@@ -173,14 +173,16 @@ uint8_t ParseMetaDExAction(const UniValue& value)
 
 CTransaction ParseTransaction(const UniValue& value)
 {
-    CTransaction tx;
-    if (value.isNull() || value.get_str().empty()) {
-        return tx;
-    }
-//     if (!DecodeHexTx(tx, value.get_str())) {
-//         throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Transaction deserialization failed");
-//     }
-    return tx;
+  CMutableTransaction tx;
+  if (value.isNull() || value.get_str().empty()) {
+      return CTransaction(tx);
+  }
+
+  if (!DecodeHexTx(tx, value.get_str())) {
+      throw JSONRPCError(RPC_DESERIALIZATION_ERROR, "Transaction deserialization failed");
+  }
+
+  return tx;
 }
 
 CMutableTransaction ParseMutableTransaction(const UniValue& value)
@@ -223,7 +225,7 @@ std::vector<PrevTxsEntry> ParsePrevTxs(const UniValue& value)
 
     std::vector<PrevTxsEntry> prevTxsParsed;
     prevTxsParsed.reserve(prevTxs.size());
-    
+
     for (size_t i = 0; i < prevTxs.size(); ++i) {
         const UniValue& p = prevTxs[i];
         if (p.type() != UniValue::VOBJ) {

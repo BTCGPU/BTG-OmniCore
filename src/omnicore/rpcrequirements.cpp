@@ -133,7 +133,7 @@ void RequireSaneDExPaymentWindow(const std::string& address, uint32_t propertyId
 {
     LOCK(cs_tally);
     const CMPOffer* poffer = mastercore::DEx_getOffer(address, propertyId);
-    if (poffer == NULL) {
+    if (poffer == nullptr) {
         throw JSONRPCError(RPC_DATABASE_ERROR, "Unable to load sell offer from the distributed exchange");
     }
     if (poffer->getBlockTimeLimit() < 10) {
@@ -145,7 +145,7 @@ void RequireSaneDExFee(const std::string& address, uint32_t propertyId)
 {
     LOCK(cs_tally);
     const CMPOffer* poffer = mastercore::DEx_getOffer(address, propertyId);
-    if (poffer == NULL) {
+    if (poffer == nullptr) {
         throw JSONRPCError(RPC_DATABASE_ERROR, "Unable to load sell offer from the distributed exchange");
     }
     if (poffer->getMinFee() > 1000000) {

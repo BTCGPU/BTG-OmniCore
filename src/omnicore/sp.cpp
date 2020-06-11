@@ -288,26 +288,26 @@ uint32_t CMPSPInfo::findSPByTX(const uint256& txid) const
 {
     uint32_t propertyId = 0;
 
-    // // DB key for identifier lookup entry
-    // CDataStream ssTxIndexKey(SER_DISK, CLIENT_VERSION);
-    // ssTxIndexKey << std::make_pair('t', txid);
-    // leveldb::Slice slTxIndexKey(&ssTxIndexKey[0], ssTxIndexKey.size());
-    //
-    // // DB value for identifier
-    // std::string strTxIndexValue;
-    // if (!pdb->Get(readoptions, slTxIndexKey, &strTxIndexValue).ok()) {
-    //     std::string strError = strprintf("failed to find property created with %s", txid.GetHex());
-    //     PrintToLog("%s(): ERROR: %s", __func__, strError);
-    //     return 0;
-    // }
-    //
-    // try {
-    //     CDataStream ssValue(strTxIndexValue.data(), strTxIndexValue.data() + strTxIndexValue.size(), SER_DISK, CLIENT_VERSION);
-    //     ssValue >> propertyId;
-    // } catch (const std::exception& e) {
-    //     PrintToLog("%s(): ERROR: %s\n", __func__, e.what());
-    //     return 0;
-    // }
+    // DB key for identifier lookup entry
+    CDataStream ssTxIndexKey(SER_DISK, CLIENT_VERSION);
+    ssTxIndexKey << std::make_pair('t', txid);
+    leveldb::Slice slTxIndexKey(&ssTxIndexKey[0], ssTxIndexKey.size());
+
+    // DB value for identifier
+    std::string strTxIndexValue;
+    if (!pdb->Get(readoptions, slTxIndexKey, &strTxIndexValue).ok()) {
+        std::string strError = strprintf("failed to find property created with %s", txid.GetHex());
+        PrintToLog("%s(): ERROR: %s", __func__, strError);
+        return 0;
+    }
+
+    try {
+        CDataStream ssValue(strTxIndexValue.data(), strTxIndexValue.data() + strTxIndexValue.size(), SER_DISK, CLIENT_VERSION);
+        ssValue >> propertyId;
+    } catch (const std::exception& e) {
+        PrintToLog("%s(): ERROR: %s\n", __func__, e.what());
+        return 0;
+    }
 
     return propertyId;
 }
@@ -561,7 +561,8 @@ CMPCrowd* mastercore::getCrowd(const std::string& address)
 
     if (my_it != my_crowds.end()) return &(my_it->second);
 
-    return (CMPCrowd *)NULL;
+    return static_cast<CMPCrowd*>(nullptr);
+
 }
 
 bool mastercore::IsPropertyIdValid(uint32_t propertyId)
@@ -587,7 +588,6 @@ bool mastercore::isPropertyDivisible(uint32_t propertyId)
 {
     // TODO: is a lock here needed
     CMPSPInfo::Entry sp;
-
     if (_my_sps->getSP(propertyId, sp)) return sp.isDivisible();
 
     return true;
@@ -829,7 +829,7 @@ void mastercore::eraseMaxedCrowdsale(const std::string& address, int64_t blockTi
 
 unsigned int mastercore::eraseExpiredCrowdsale(const CBlockIndex* pBlockIndex)
 {
-    if (pBlockIndex == NULL) return 0;
+    if (pBlockIndex == nullptr) return 0;
 
     const int64_t blockTime = pBlockIndex->GetBlockTime();
     const int blockHeight = pBlockIndex->nHeight;

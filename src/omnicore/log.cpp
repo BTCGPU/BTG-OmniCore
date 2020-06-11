@@ -166,7 +166,7 @@ static std::string GetTimestamp()
 //         static bool fStartedNewLine = true;
 //         boost::call_once(&DebugLogInit, debugLogInitFlag);
 //
-//         if (fileout == NULL) {
+//         if (fileout == nullptr) {
 //             return ret;
 //         }
 //         boost::mutex::scoped_lock scoped_lock(*mutexDebugLog);
@@ -176,8 +176,8 @@ static std::string GetTimestamp()
 //          if (false) {
 //             fReopenOmniCoreLiteLog = false;
 //             boost::filesystem::path pathDebug = GetLogPath();
-//             if (freopen(pathDebug.string().c_str(), "a", fileout) != NULL) {
-//                 setbuf(fileout, NULL); // Unbuffered
+//             if (freopen(pathDebug.string().c_str(), "a", fileout) != nullptr) {
+//                 setbuf(fileout, nullptr); // Unbuffered
 //             }
 //         }
 //
@@ -210,7 +210,7 @@ int LogFilePrint(const std::string& str)
        static bool fStartedNewLine = true;
        boost::call_once(&DebugLogInit, debugLogInitFlag);
 
-       if (fileout == NULL) {
+       if (fileout == nullptr) {
            return ret;
        }
        boost::mutex::scoped_lock scoped_lock(*mutexDebugLog);
@@ -220,8 +220,8 @@ int LogFilePrint(const std::string& str)
         if (false) {
            fReopenOmniCoreLog = false;
            boost::filesystem::path pathDebug = GetLogPath();
-           if (freopen(pathDebug.string().c_str(), "a", fileout) != NULL) {
-               setbuf(fileout, NULL); // Unbuffered
+           if (freopen(pathDebug.string().c_str(), "a", fileout) != nullptr) {
+               setbuf(fileout, nullptr); // Unbuffered
            }
        }
 
@@ -373,22 +373,22 @@ void ShrinkDebugLog()
   if (file && boost::filesystem::file_size(pathLog) > LOG_SHRINKSIZE) {
       // Restart the file with some of the end
       char* pch = new char[LOG_BUFFERSIZE];
-      if (NULL != pch) {
+      if (nullptr != pch) {
           fseek(file, -LOG_BUFFERSIZE, SEEK_END);
           int nBytes = fread(pch, 1, LOG_BUFFERSIZE, file);
           fclose(file);
-          file = NULL;
+          file = nullptr;
 
           file = fopen(pathLog.string().c_str(), "w");
           if (file) {
               fwrite(pch, 1, nBytes, file);
               fclose(file);
-              file = NULL;
+              file = nullptr;
           }
           delete[] pch;
       }
-  } else if (NULL != file) {
+  } else if (nullptr != file) {
       fclose(file);
-      file = NULL;
+      file = nullptr;
   }
 }
