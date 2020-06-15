@@ -739,7 +739,7 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
 
         assert(view.HaveInputs(wtx));
 
-        if (omniClass != OMNI_CLASS_C)
+        if (omniClass == OMNI_CLASS_C)
         {
             // NEW LOGIC - the sender is chosen based on the first vin
             // determine the sender, but invalidate transaction, if the input is not accepted
@@ -755,9 +755,9 @@ static int parseTransaction(bool bRPConly, const CTransaction& wtx, int nBlock, 
                 return -108;
             }
 
-            if (!IsAllowedInputType(whichType, nBlock)) {
-                return -109;
-            }
+            // if (!IsAllowedInputType(whichType, nBlock)) {
+            //     return -109;
+            // }
 
             CTxDestination source;
             if (ExtractDestination(txOut.scriptPubKey, source)) {
@@ -1075,7 +1075,7 @@ static int msc_initial_scan(int nFirstBlock)
 
     // this function is useless if there are not enough blocks in the blockchain yet!
     if (nFirstBlock < 0 || nLastBlock < nFirstBlock) return -1;
-    PrintToConsole("Scanning for transactions in block %d to block %d..\n", nFirstBlock, nLastBlock);
+    PrintToLog("Scanning for transactions in block %d to block %d..\n", nFirstBlock, nLastBlock);
 
     // used to print the progress to the console and notifies the UI
     ProgressReporter progressReporter(chainActive[nFirstBlock], chainActive[nLastBlock]);
@@ -1108,10 +1108,11 @@ static int msc_initial_scan(int nFirstBlock)
 
         if (!seedBlockFilterEnabled || !SkipBlock(nBlock)) {
             CBlock block;
+
             if (!ReadBlockFromDisk(block, pblockindex, Params().GetConsensus())) break;
 
-            for(CTransactionRef& tx : block.vtx){
-               if (mastercore_handler_tx(*(tx.get()), nBlock, nTxNum, pblockindex)) ++nTxsFoundInBlock;
+            for(const CTransactionRef& tx : block.vtx){
+               if (mastercore_handler_tx(*tx, nBlock, nTxNum, pblockindex)) ++nTxsFoundInBlock;
             }
         }
 
@@ -1121,10 +1122,10 @@ static int msc_initial_scan(int nFirstBlock)
     }
 
     if (nBlock < nLastBlock) {
-        PrintToConsole("Scan stopped early at block %d of block %d\n", nBlock, nLastBlock);
+        PrintToLog("Scan stopped early at block %d of block %d\n", nBlock, nLastBlock);
     }
 
-    PrintToConsole("%d transactions processed, %d meta transactions found\n", nTxsTotal, nTxsFoundTotal);
+    PrintToLog("%d transactions processed, %d meta transactions found\n", nTxsTotal, nTxsFoundTotal);
 
     return 0;
 }
