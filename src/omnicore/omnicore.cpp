@@ -260,10 +260,6 @@ int64_t getMPbalance(const std::string& address, uint32_t propertyId, TallyType 
     if (TALLY_TYPE_COUNT <= ttype) {
         return 0;
     }
-    if (ttype == ACCEPT_RESERVE && propertyId > OMNI_PROPERTY_TMSC) {
-        // ACCEPT_RESERVE is always empty, except for MSC and TMSC
-        return 0;
-    }
 
     LOCK(cs_tally);
     const std::unordered_map<std::string, CMPTally>::iterator my_it = mp_tally_map.find(address);
@@ -2084,7 +2080,7 @@ bool mastercore_handler_tx(CTransaction tx, int nBlock, unsigned int idx, const 
         assert(mp_obj.getSender().empty() == false);
 
         // extra iteration of the outputs for every transaction, not needed on mainnet after Exodus closed
-        const CConsensusParams& params = ConsensusParams();
+        // const CConsensusParams& params = ConsensusParams();
 
     }
 
@@ -3613,7 +3609,7 @@ int mastercore_handler_block_end(int nBlockNow, CBlockIndex const * pBlockIndex,
     //    valid until their blocklimit expiration; because the customer can keep
     //    paying BTC for the offer in several installments)
     // 2) update the amount in the Exodus address
-    int64_t devmsc = 0;
+    // int64_t devmsc = 0;
     unsigned int how_many_erased = eraseExpiredAccepts(nBlockNow);
 
     if (how_many_erased) {

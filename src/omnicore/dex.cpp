@@ -194,6 +194,7 @@ int DEx_offerCreate(const std::string& addressSeller, uint32_t propertyId, int64
     // -------------------------------------------------------------------------
 
     if (amountOffered > 0) {
+        PrintToLog("%s(): addressSeller: %s, amountOffered : %d\n",__func__,addressSeller, amountOffered);
         assert(update_tally_map(addressSeller, propertyId, -amountOffered, BALANCE));
         assert(update_tally_map(addressSeller, propertyId, amountOffered, SELLOFFER_RESERVE));
         CMPOffer sellOffer(block, amountOffered, propertyId, amountDesired, minAcceptFee, paymentWindow, txid);
@@ -302,10 +303,12 @@ int DEx_acceptCreate(const std::string& addressTaker, const std::string& address
     // ensure the buyer only can reserve the amount that is still available
     int64_t amountReserved = (amountRemainingForSale >= amountAccepted) ? amountAccepted : amountRemainingForSale;
 
+    PrintToLog("%s(): amountReserved = %d, amountRemainingForSale : %d, addressMaker: %s\n",__func__,amountReserved, amountRemainingForSale, addressMaker);
+
     if (amountReserved > 0) {
+
         assert(update_tally_map(addressMaker, propertyId, -amountReserved, SELLOFFER_RESERVE));
         assert(update_tally_map(addressMaker, propertyId, amountReserved, ACCEPT_RESERVE));
-
         CMPAccept acceptOffer(amountReserved, block, offer.getBlockTimeLimit(), offer.getProperty(), offer.getOfferAmountOriginal(), offer.getBTCDesiredOriginal(), offer.getHash());
         my_accepts.insert(std::make_pair(keyAcceptOrder, acceptOffer));
 

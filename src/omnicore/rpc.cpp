@@ -1391,17 +1391,17 @@ UniValue omni_getactivedexsells(const JSONRPCRequest& request)
         int64_t amountAccepted = getMPbalance(seller, propertyId, ACCEPT_RESERVE);
 
         // TODO: no math, and especially no rounding here (!)
-        // TODO: no math, and especially no rounding here (!)
-        // TODO: no math, and especially no rounding here (!)
 
         // calculate unit price and updated amount of bitcoin desired
         double unitPriceFloat = 0.0;
+
         if ((sellOfferAmount > 0) && (sellBitcoinDesired > 0)) {
             unitPriceFloat = (double) sellBitcoinDesired / (double) sellOfferAmount; // divide by zero protection
         }
 
         PrintToLog("unitPriceFloat %d\n",unitPriceFloat);
-        int64_t unitPrice = rounduint64(unitPriceFloat);
+        int64_t unitPrice = unitPriceFloat * COIN;
+
         int64_t bitcoinDesired = calculateDesiredBTC(sellOfferAmount, sellBitcoinDesired, amountAvailable);
 
 
