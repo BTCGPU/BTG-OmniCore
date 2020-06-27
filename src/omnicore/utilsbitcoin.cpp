@@ -29,10 +29,7 @@ int GetHeight()
 uint32_t GetLatestBlockTime()
 {
     LOCK(cs_main);
-    if (chainActive.Tip())
-        return chainActive.Tip()->GetBlockTime();
-    else
-        return Params().GenesisBlock().nTime;
+    return ((chainActive.Tip()) ? chainActive.Tip()->GetBlockTime() : Params().GenesisBlock().nTime);
 }
 
 /**
@@ -40,7 +37,7 @@ uint32_t GetLatestBlockTime()
  */
 CBlockIndex* GetBlockIndex(const uint256& hash)
 {
-    CBlockIndex* pBlockIndex = NULL;
+    CBlockIndex* pBlockIndex = nullptr;
     LOCK(cs_main);
     BlockMap::const_iterator it = mapBlockIndex.find(hash);
     if (it != mapBlockIndex.end()) {

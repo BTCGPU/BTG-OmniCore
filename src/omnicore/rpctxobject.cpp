@@ -68,7 +68,7 @@ int populateRPCTransactionObject(const CTransaction& tx, const uint256& blockHas
 
     if (!blockHash.IsNull()) {
         CBlockIndex* pBlockIndex = GetBlockIndex(blockHash);
-        if (NULL != pBlockIndex) {
+        if (nullptr != pBlockIndex) {
             confirmations = 1 + blockHeight - pBlockIndex->nHeight;
             blockTime = pBlockIndex->nTime;
             blockHeight = pBlockIndex->nHeight;
@@ -537,7 +537,7 @@ void populateRPCExtendedTypeMetaDExTrade(const uint256& txid, uint32_t propertyI
     int tradeStatus = MetaDEx_getStatus(txid, propertyIdForSale, amountForSale, totalSold);
     if (tradeStatus == TRADE_OPEN || tradeStatus == TRADE_OPEN_PART_FILLED) {
         const CMPMetaDEx* tradeObj = MetaDEx_RetrieveTrade(txid);
-        if (tradeObj != NULL) {
+        if (tradeObj != nullptr) {
             txobj.push_back(Pair("amountremaining", FormatMP(tradeObj->getProperty(), tradeObj->getAmountRemaining())));
             txobj.push_back(Pair("amounttofill", FormatMP(tradeObj->getDesProperty(), tradeObj->getAmountToFill())));
         }

@@ -61,7 +61,7 @@ void WalletTXIDCacheInit()
 //     std::list<CAccountingEntry> acentries;
 //     CWallet::TxItems txOrdered = vpwallets->wtxOrdered;
 //
-//     Iterate through the wallet, checking if each transaction is Omni (via levelDB)
+//     //Iterate through the wallet, checking if each transaction is Omni (via levelDB)
 //     for (CWallet::TxItems::reverse_iterator it = txOrdered.rbegin(); it != txOrdered.rend(); ++it) {
 //         const CWalletTx* pwtx = it->second.first;
 //         if (pwtx != NULL) {

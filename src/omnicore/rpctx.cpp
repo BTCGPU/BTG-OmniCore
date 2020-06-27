@@ -326,7 +326,7 @@ UniValue omni_senddexaccept(const JSONRPCRequest& request)
     {
         LOCK(cs_tally);
         const CMPOffer* sellOffer = DEx_getOffer(toAddress, propertyId);
-        if (sellOffer == NULL) throw JSONRPCError(RPC_TYPE_ERROR, "Unable to load sell offer from the distributed exchange");
+        if (sellOffer == nullptr) throw JSONRPCError(RPC_TYPE_ERROR, "Unable to load sell offer from the distributed exchange");
         nMinimumAcceptFee = sellOffer->getMinFee();
     }
 

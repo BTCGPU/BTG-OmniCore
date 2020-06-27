@@ -501,3 +501,42 @@ def mine_large_block(node, utxos=None):
     fee = 100 * node.getnetworkinfo()["relayfee"]
     create_lots_of_big_transactions(node, txouts, utxos, num, fee=fee)
     node.generate(1)
+
+# Omnilayer http functions
+##########################
+
+def omnilayer_HTTP(conn, headers, flag, method, params=None):
+    conn.connect()
+    if params == None:
+        payload = '{"method": "'+method+'"}'
+    else:
+        payload = '{"method": "'+method+'", "params":'+params+'}'
+    conn.request('POST', '/', payload, headers)
+    resp = conn.getresponse()
+    input = (resp.read().decode('utf-8'))
+    out = json.loads(input)
+    if flag:
+        assert_equal(resp.status, 200)
+    return out
+
+def omnilayer_createAddresses(accounts, conn, headers):
+    addresses = []
+    for i in accounts:
+        address = str(i)
+        params = str([address]).replace("'",'"')
+        out = omnilayer_HTTP(conn, headers, True, "getnewaddress", params)
+        addresses.append(out['result'])
+    return addresses
+
+def omnilayer_fundingAddresses(addresses, amount, conn, headers):
+    for addr in addresses:
+        params = str([addr, amount]).replace("'",'"')
+        omnilayer_HTTP(conn, headers, True, "sendtoaddress", params)
+    omnilayer_HTTP(conn, headers, True, "generate", str([1]))
+
+def omnilayer_checkingBalance(accounts, amount, conn, headers):
+    for ac in accounts:
+        params = str([ac]).replace("'",'"')
+        out = omnilayer_HTTP(conn, headers, True, "getbalance", params)
+        assert_equal(out['error'], None)
+        assert_equal(out['result'], amount)

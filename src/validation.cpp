@@ -2160,14 +2160,14 @@ bool static DisconnectTip(CValidationState& state, const CChainParams& chainpara
         }
     }
 /*-------------------------- Omnicore G Port ---------------------------------*/
-    mastercore_handler_disc_begin(GetHeight(), pindexDelete);
+    mastercore_handler_disc_begin(pindexDelete->nHeight, pindexDelete);
     // Update chainActive and related variables.
     UpdateTip(pindexDelete->pprev, chainparams);
     // Let wallets know transactions went from 1-confirmed to
     // 0-confirmed or conflicted:
     GetMainSignals().BlockDisconnected(pblock);
 
-    mastercore_handler_disc_end(GetHeight(), pindexDelete);
+    mastercore_handler_disc_end(pindexDelete->nHeight, pindexDelete);
 /*----------------------------------------------------------------------------*/
     return true;
 }
@@ -2298,9 +2298,11 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
     unsigned int nNumMetaTxs = 0;
 
     //! Omni Core: begin block connect notification
-    // LogPrint("Omni Core handler: block connect begin [height: %d]\n", GetHeight);
-
-    mastercore_handler_block_begin(GetHeight(), pindexNew);
+    {
+           LOCK(cs_main);
+           LogPrint(BCLog::BENCH, "Omni Core handler: block connect begin [height: %d]\n", chainActive.Height());
+           mastercore_handler_block_begin(GetHeight(), pindexNew);
+    }
 
     list<CTransaction> txConflicted;
     // Remove conflicting transactions from the mempool.;
@@ -2316,13 +2318,14 @@ bool static ConnectTip(CValidationState& state, const CChainParams& chainparams,
     // }
     // ... and about transactions that got confirmed:
     // TODO: shared_ptr  pointers!!!
-    for(CTransactionRef tx : blockConnecting.vtx){
+    for(const CTransactionRef& tx : blockConnecting.vtx){
           //! Omni Core: new confirmed transaction notification
-    // LogPrint(BCLog::BENCH, "Omni Core handler: new confirmed transaction [height: %d, idx: %u]\n", GetHeight(), nTxIdx);
-    // LogPrint(BCLog::OMNICORE, "Omni Core handler: new confirmed transaction [height: %d, idx: %u]\n", currentHeight, nTxIdx);
-    if (mastercore_handler_tx(*(tx.get()), GetHeight(), nTxIdx++, pindexNew)) ++nNumMetaTxs;
+          LogPrint(BCLog::BENCH, "Omni Core handler: new confirmed transaction [height: %d, idx: %u]\n", GetHeight(), nTxIdx);
+         // LogPrint(BCLog::OMNICORE, "Omni Core handler: new confirmed transaction [height: %d, idx: %u]\n", currentHeight, nTxIdx);
+         if (mastercore_handler_tx(*tx, pindexNew->nHeight, nTxIdx++, pindexNew)) ++nNumMetaTxs;
     }
-    mastercore_handler_block_end(GetHeight(), pindexNew, nNumMetaTxs);
+
+    mastercore_handler_block_end(pindexNew->nHeight, pindexNew, nNumMetaTxs);
 
     /*------------------------------------------------------------------------*/
 

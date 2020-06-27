@@ -38,7 +38,7 @@ bool AddressToPubKey(const std::string& key, CPubKey& pubKey)
 #ifdef ENABLE_WALLET
     // Case 1: Bitcoin address and the key is in the wallet
     CBitcoinAddress address(key);
-    CWalletRef pwalletMain = NULL;
+    CWalletRef pwalletMain = nullptr;
 	  if (vpwallets.size() > 0){
 		   pwalletMain = vpwallets[0];
     }
@@ -135,7 +135,7 @@ std::string GetAddressLabel(const std::string& address)
 {
     std::string addressLabel;
 #ifdef ENABLE_WALLET
-    CWalletRef pwalletMain = NULL;
+    CWalletRef pwalletMain = nullptr;
     if (vpwallets.size() > 0){
         pwalletMain = vpwallets[0];
 
@@ -159,7 +159,7 @@ std::string GetAddressLabel(const std::string& address)
 int IsMyAddress(const std::string& address)
 {
 #ifdef ENABLE_WALLET
-    CWalletRef pwalletMain = NULL;
+    CWalletRef pwalletMain = nullptr;
     if (vpwallets.size() > 0){
        pwalletMain = vpwallets[0];
     }
@@ -185,7 +185,7 @@ static int64_t GetEstimatedFeePerKb()
     int64_t nFee = 50000; // 0.0005 BTC;
 
 #ifdef ENABLE_WALLET
-    CWalletRef pwalletMain = NULL;
+    CWalletRef pwalletMain = nullptr;
     if (vpwallets.size() > 0){
         pwalletMain = vpwallets[0];
     }
@@ -231,11 +231,11 @@ int64_t SelectCoins(const std::string& fromAddress, CCoinControl& coinControl, i
     int64_t nTotal = 0;
 
     #ifdef ENABLE_WALLET
-    CWalletRef pwalletMain = NULL;
+    CWalletRef pwalletMain = nullptr;
     if (vpwallets.size() > 0){
         pwalletMain = vpwallets[0];
     }
-    if (NULL == pwalletMain) {
+    if (nullptr == pwalletMain) {
       return 0;
     }
 
